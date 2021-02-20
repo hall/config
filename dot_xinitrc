@@ -1,7 +1,0 @@
-setxkbmap dvorak -option ctrl:nocaps
-xcape -e 'Control_L=Escape'
-xset r rate 200 30
-xmodmap -e "pointer = 1 2 3 5 4" # natural scrolling
-
-exec gnome-session --session gnome-wayland
-
