@@ -1,6 +1,6 @@
 # configuration
 
-Managed with [cheznoi](https://github.com/twpayne/chezmoi).
+Managed with [chezmoi](https://github.com/twpayne/chezmoi).
 
     chezmoi init https://gitlab.com/hall/conf
 
