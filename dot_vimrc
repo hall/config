@@ -1,0 +1,10 @@
+syntax on
+set tabstop=4 shiftwidth=4 expandtab
+retab
+set hlsearch
+
+call plug#begin('~/.vim/plugged')
+
+Plug 'google/vim-jsonnet'
+
+call plug#end()
