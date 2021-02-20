@@ -1,0 +1,20 @@
+export EDITOR=vim
+export BROWSER=firefox
+
+export GOPATH=$HOME
+#export PLAN9=$HOME/src/github.com/9fans/plan9port
+export PATH=$HOME/bin:$PATH #$PLAN9/bin
+export QMK_HOME=$GOPATH/src/github.com/qmk/qmk_firmware
+#export PATH=$PATH:$HOME/src/inferno-os/Linux/386/bin
+
+alias ls='ls --color=always'
+alias grep='grep --color=auto'
+#alias vim='vis'
+
+alias k='kubectl'
+alias r='rancher'
+alias o='osctl'
+alias p='pachctl'
+
+alias kdebug='kubectl run -it --generator=run-pod/v1 --image=busybox --rm debug'
+
