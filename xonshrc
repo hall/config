@@ -1,0 +1,9 @@
+$PROMPT = '[{localtime}] {YELLOW}{env_name} {BOLD_BLUE}{user}@{hostname} {BOLD_GREEN}{cwd} {gitstatus}{RESET}\n> '
+$THREAD_SUBPROCS=False
+$BASH_COMPLETIONS="$HOME/.nix-profile/share/bash-completion/bash_completion"
+
+$PATH.append("$HOME/bin")
+
+aliases |= {
+    "k": ["kubectl"],
+}

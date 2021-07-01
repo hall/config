@@ -1,14 +1,9 @@
 # configuration
 
-Managed with [chezmoi](https://github.com/twpayne/chezmoi).
+Initial setup:
 
-    chezmoi init https://gitlab.com/hall/conf
+    sudo ln -s $PWD /etc/nixos
 
-View changes with
+Build with either `ctrl-shift-b` or
 
-    chezmoi diff
-
-Sync changes with
-
-    chezmoi update
-
+    sudo nixos-rebuild switch

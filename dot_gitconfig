@@ -1,9 +1,0 @@
-[user]
-  name = Bryton Hall
-  email = email@bryton.io
-[color]
-	ui = auto
-[pull]
-	rebase = false
-[diff "sopsdiffer"]
-	textconv = sops -d
