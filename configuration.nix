@@ -299,6 +299,8 @@ in
           "files.associations" = {
             "**.yaml.gotmpl" = "helm";
           };
+          "explorer.confirmDelete" = false;
+          "git.confirmSync" = false;
           "todo-tree.regex.regex" = "(//|#|<!--|;|/\\*|^|^\\s*(-|\\d+.))\\s*($TAGS)";
           "todo-tree.general.tags" = [
             "BUG"
