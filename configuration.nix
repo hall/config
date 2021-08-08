@@ -89,6 +89,7 @@ in
     extraGroups = [
       "audio"
       "adbusers"
+      "dialout"
       "docker"
       "input"
       "wheel"
