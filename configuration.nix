@@ -74,7 +74,10 @@ in
   };
 
   virtualisation = {
-    docker.enable = true;
+    docker = {
+      enable = true;
+      enableOnBoot = false;
+    };
   };
 
   users.users.bryton = {
