@@ -261,10 +261,12 @@ in
             name = "default";
             settings = {
               "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+              "browser.tabs.drawInTitlebar" = false;
               "browser.search.defaultenginename" = "duckduckgo";
               "extensions.activeThemeID" = "firefox-compact-dark@mozilla.org";
               "signon.rememberSignons" = false;
               "devtools.theme" = "dark";
+              "svg.context-properties.content.enabled" = true;
             };
             userChrome = builtins.readFile ./userChrome.css;
             userContent = builtins.readFile ./userContent.css;
