@@ -233,9 +233,15 @@ in
         "org/gnome/settings-daemon/plugins/color" = {
           night-light-enabled = true;
          };
+        "org/gnome/settings-daemon/plugins/power" = {
+          sleep-inactive-ac-timeout = 2400;
+        };
          "org/gnome/mutter" = {
            workspaces-only-on-primary = false;
          };
+        "org/gnome/desktop/interface" = {
+          enable-hot-corners = false;
+        };
       };
     };
 
