@@ -1,9 +1,22 @@
 $PROMPT = '[{localtime}] {YELLOW}{env_name} {BOLD_BLUE}{user}@{hostname} {BOLD_GREEN}{cwd} {gitstatus}{RESET}\n> '
-$THREAD_SUBPROCS=False
-$BASH_COMPLETIONS="$HOME/.nix-profile/share/bash-completion/bash_completion"
+$PROMPT_FIELDS["ctx"] = lambda: $(kubectx -c)
+$PROMPT_FIELDS["ns"] = lambda: $(kubens -c)
+$RIGHT_PROMPT = '{ns}{ctx}'
+
+$THREAD_SUBPROCS = False
+
+$BASH_COMPLETIONS = f"{$HOME}/.nix-profile/share/bash-completion/bash_completion"
+$SOPS_PGP_FP = "807AC607FA0C8AFB8847AB4350B0D8F7B4392CE2"
 
 $PATH.append("$HOME/bin")
 
 aliases |= {
     "k": ["kubectl"],
+    "t": ["talosctl"],
+    "cd": ["z"]
 }
+execx($(zoxide init xonsh), 'exec', __xonsh__.ctx, filename='zoxide')
+
+#def pass(item: str):
+#    wl-copy $(bw get password item)
+

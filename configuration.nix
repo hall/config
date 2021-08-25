@@ -7,19 +7,36 @@ let
     ref = "release-21.05";
   };
 
-  py-packages = pkgs.python3.withPackages (python-packages: with python-packages; [
+  py-packages = python-packages: with python-packages; [
     pandas
     pip
+    pylint
+    black
+    #poetry
+    grpcio
     setuptools
-  ]);
+    tabulate
+    pyyaml
+    kubernetes
+  ];
+  python-packages = pkgs.python3.withPackages py-packages;
 
 in
 {
+  #nix = {
+  #  package = pkgs.nixUnstable;
+  #  extraOptions = ''
+  #    experimental-features = nix-command flakes
+  #  '';
+  # };
+
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       (import "${home-manager}/nixos")
     ];
+
+  hardware.pulseaudio.enable = false;
 
 
   # Use the systemd-boot EFI boot loader.
@@ -41,6 +58,9 @@ in
       allowedTCPPorts = [
         1716 # gsconnect
         ];
+    };
+    wireguard = {
+      enable = true;
     };
   };
 
@@ -97,12 +117,22 @@ in
     ];
   };
 
-  security.sudo.extraRules = [
-    {
-      users = [ "bryton" ];
-      commands = [ { command = "ALL"; options = [ "NOPASSWD" ]; } ];
-    }
-  ];
+  security = {
+    sudo.extraRules = [
+      {
+        users = [ "bryton" ];
+        commands = [ { command = "ALL"; options = [ "NOPASSWD" ]; } ];
+      }
+    ];
+    pam = {
+      services = {
+        login = {
+          fprintAuth = true;
+        };
+      };
+    };
+    rtkit.enable = true;
+  };
 
   environment = {
     variables = {
@@ -129,6 +159,10 @@ in
     dconf.enable = true;
     wireshark.enable = true;
     adb.enable = true;
+    gnupg.agent = {
+      enable = true;
+      pinentryFlavor = "gnome3";
+    };
     xonsh = {
       enable = true;
       config = builtins.readFile ./xonshrc;
@@ -137,37 +171,99 @@ in
   };
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "vscode-extension-ms-toolsai-jupyter"
     "zoom"
+    "slack"
+    "teams"
   ];
 
   home-manager.users.bryton = {
     home.packages = with pkgs; [
       #fprintd-tod
       #libfprint-tod
-      bitwarden-cli
-      rsync
+      appimage-run
+      calibre
+      direnv
+      dnsutils
+      esphome
       etcher
+      file
+      flameshot
+      libguestfs-with-appliance
+      scrcpy
+      qemu-utils
       gnupg
+      iperf
+      istioctl
+      libreoffice
+      ncurses
       nextcloud-client
-      ripgrep
+      openconnect
+      openssl
+      pinentry_gnome
+      pkg-config
+      postgresql
+      pre-commit
+      shellcheck
+      transmission-gtk
       usbutils
+      rpi-imager
+      open-sans
+      wget
       wireshark
+      wl-clipboard
       xonsh
+      xorg.xprop
+
+      # math / science
+      jupyter
+      sagemath
+      stellarium
+
+      # cli
+      velero
+      azure-cli
+      #terraform
+      #pulumi-bin
+      bash-completion
+      bitwarden-cli
+      fzf
+      google-cloud-sdk
       inotify-tools
+      jq
+      jsonnet
+      sops
+      lsof
+      pdsh
+      ripgrep
+      s3cmd
+      speedtest-cli
+      telnet
+      gparted
+      unzip
+      yq
+      zoxide
       
       # comms
-      #slack-dark
       ferdi
+      slack
       tdesktop
+      teams
       zoom-us
+      element-desktop
 
       # gnome
       gnome.dconf-editor
       gnome.gnome-todo
+      gnome.gnome-boxes
       gnome3.gnome-tweaks
-      gnomeExtensions.gnome-shell-extension-bluetooth-quick-connect
-      gnomeExtensions.gnome-shell-extension-nasa-apod
-      gnomeExtensions.gnome-shell-extension-night-light-slider
+      gnomeExtensions.bluetooth-quick-connect
+      gnomeExtensions.nasa-apod
+      gnomeExtensions.night-light-slider
+      gnomeExtensions.unite
+      gnomeExtensions.brightness-control-using-ddcutil
+      gnomeExtensions.wireguard-indicator
+      ddcutil
 
       # dev
       gcc
@@ -185,19 +281,24 @@ in
       goreleaser
       ## python
       poetry
-      py-packages
+      python-packages
       ## node
       yarn
 
       # containers
+      lens
       docker
       docker-compose
       helmfile
       k3s
+      krew
+      #kube3d TODO: too old?
       kubectl
+      kubectx
       kubernetes-helm
+      kubetail
       kubie
-      lens
+      #skaffold TODO: too old
 
       # tmux
       tmuxPlugins.nord
@@ -206,11 +307,46 @@ in
 
       # design
       ardour
+      freecad
+      blender
+      gimp
+      guitarix
+      inkscape
       openscad
       prusa-slicer
+      siril
       xournalpp
-
     ];
+
+    accounts = {
+      email = {
+        accounts = {
+          personal = {
+            address = "email@bryton.io";
+            realName = "Bryton Hall";
+            primary = true;
+            userName = "email@bryton.io";
+            passwordCommand = "bw get password protonmail";
+            imap = {
+              host = "imap.bryton.io";
+              port = 1143;
+              tls = {
+                enable = true;
+                useStartTls = true;
+               };
+             };
+             smtp = {
+              host = "smtp.bryton.io";
+               port = 1120;
+               tls = {
+                enable = true;
+                 useStartTls = true;
+              };
+             };
+          };
+        };
+      };
+    };
 
     gtk = {
       enable = true;
@@ -232,15 +368,18 @@ in
       settings = {
         "org/gnome/settings-daemon/plugins/color" = {
           night-light-enabled = true;
-         };
+        };
         "org/gnome/settings-daemon/plugins/power" = {
           sleep-inactive-ac-timeout = 2400;
         };
-         "org/gnome/mutter" = {
-           workspaces-only-on-primary = false;
-         };
+        "org/gnome/mutter" = {
+          workspaces-only-on-primary = false;
+        };
         "org/gnome/desktop/interface" = {
           enable-hot-corners = false;
+        };
+        "org.gnome.desktop.screensaver" = {
+          lock-delay = 3600;
         };
       };
     };
@@ -282,7 +421,7 @@ in
           anchors-reveal
           auto-tab-discard
           #buster
-          bypass-paywalls
+          #bypass-paywalls
           darkreader
           i-dont-care-about-cookies
           # gsconnect
@@ -317,6 +456,7 @@ in
             "helmfile.yaml" = "helm";
           };
           "explorer.confirmDelete" = false;
+          "editor.formatOnSave" = true;
           "git.confirmSync" = false;
           "todo-tree.regex.regex" = "(//|#|<!--|;|/\\*|^|^\\s*(-|\\d+.))\\s*($TAGS)";
           "todo-tree.general.tags" = [
@@ -328,11 +468,13 @@ in
             "[ ]"
             "[x]"
           ];
+          "terminal.integrated.commandsToSkipShell" = [
+
+          ];
         };
         extensions = with pkgs.vscode-extensions; [
           # dendron
-          # ms-python.python
-          # ms-toolsai.jupyter
+          ms-python.python
           # rest-client
           # xonsh
           bbenoist.Nix
@@ -342,6 +484,7 @@ in
           ms-kubernetes-tools.vscode-kubernetes-tools
           redhat.vscode-yaml
           vscodevim.vim
+          hashicorp.terraform
         ];
       };
 
