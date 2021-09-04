@@ -138,6 +138,9 @@ in
     variables = {
       EDITOR = "nvim";
     };
+    sessionVariables = {
+      CALIBRE_USE_DARK_PALETTE = "1";
+    };
     systemPackages = with pkgs; [
       curl
       gnomeExtensions.gsconnect
