@@ -6,61 +6,30 @@
   background: url("data:image/x-icon; charset=UTF-8;base64,AAABAAEAEBAAAAAAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAAAAAAAAAAAAAAAAAAAAAAAD///8B////Af///wH///8B////Af///wEjfPNRI3vz6SBf6eEgX+lR////Af///wH///8B////Af///wH///8B////Af///wH///8B////ASN88zEjfPPBI3zz/yN88/8gX+n/IF/p/yBf6cEgX+kx////Af///wH///8B////Af///wH///8BI3zzESN886EjfPP/I3zz/yN88/8jfPP/IF/p/yBf6f8gX+n/IF/p/yBf6aEgX+kR////Af///wH///8BI3zzgSN88/EjfPP/I3zz/yN88/8jfPP/I3zz/yBf6f8gX+n/IF/p/yBf6f8gX+n/IF/p8SBf6YH///8BI3zzQSN88/8jfPP/I3zz/yN88/8jfPP/I3zz/yN88/8gX+n/IF/p/yBf6f8gX+n/IF/p/yBf6f8gX+n/IF/pQSN880EjfPP/I3zz/yN88/8jfPP/I3zz/yN88/8jfPP/IF/p/yBf6f8gX+n/IF/p/yBf6f8gX+n/IF/p/yBf6UEjfPNBI3zz/yN88/8jfPP/I3zz/yN88/8jfPP/I3zz/yBf6f8gX+n/IF/p/yBf6f8gX+n/IF/p/yBf6f8gX+lBI3zzQSN88/8jfPP/I3zz/yN88/8jfPP/I3zz/yN88/8gX+n/IF/p/yBf6f8gX+n/IF/p/yBf6f8gX+n/IF/pQSN880EjfPP/I3zz/yN88/8jfPP/I3zz/yN98/clifjxI3ry8SBg6fcgX+n/IF/p/yBf6f8gX+n/IF/p/yBf6UEjfPNBI3zz/yN88/8jfPP/I3zz/ySF9uknlvz/J5j9/yeY/f8nlPz/InHv6SBf6f8gX+n/IF/p/yBf6f8gX+lBI3zzQSN88/8jfPP/JIH16SaT+/8nmP3/J5j9/yeY/f8nmP3/J5j9/yeY/f8mjfn/IWns6SBf6f8gX+n/IF/pQSN880EjfvTxJo/69SeY/f8nmP3/J5j9/yeY/f8nmP3/J5j9/yeY/f8nmP3/J5j9/yeY/f8lhfb1IGPq8SFo7E3///8BJ5j9gSeY/fEnmP3/J5j9/yeY/f8nmP3/J5j9/yeY/f8nmP3/J5j9/yeY/f8nmP3/J5j98SeY/YH///8B////Af///wEnmP0RJ5j9oSeY/f8nmP3/J5j9/yeY/f8nmP3/J5j9/yeY/f8nmP3/J5j9oSeY/RH///8B////Af///wH///8B////Af///wEnmP0xJ5j9wSeY/f8nmP3/J5j9/yeY/f8nmP3BJ5j9Mf///wH///8B////Af///wH///8B////Af///wH///8B////Af///wEnmP1RJ5j94SeY/eEnmP1R////Af///wH///8B////Af///wH///8BAAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//w==") !important;
 }
 
-
-#tabbrowser-tabpanels {
-    background: var(--toolbar-bgcolor) !important;
+/* hide native tabs */
+#TabsToolbar {
+  display: none;
 }
 
-@-moz-document url("about:newtab") {  
-    body {
-        background-color:#2b2b2b!important;
-    }
+/* hide sidebar header */
+#sidebar-header {
+  display: none;
 }
 
-#titlebar {
-    position: absolute;
-}
-#nav-bar {
-    padding-left: 90px;
-}
-
-#main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #TabsToolbar > .toolbar-items {
-    opacity: 0;
-    pointer-events: none;
-}
-#main-window:not([tabsintitlebar="true"]) #TabsToolbar {
-    visibility: collapse !important;
-}
-
-.titlebar-buttonbox-container {
-    position: fixed;
-    top: 0;
-    left: 10px;
-    height: 0px;
+/* hide spacing b/w sidebar and page content */
+#sidebar-splitter {
+    width: 0 !important;
 }
 
 /*
  * Collapsable sidebar
  */
-
-#sidebar-header {
-    display: none;
-}
-
-#sidebar-splitter {
-    width: 0 !important;
-}
-
-#main-window #appcontent {
-    margin-left: 30px
-}
-
 #main-window #sidebar-box {
     position: fixed;
     display: block;
     min-width: 0px !important;
     max-width: none !important;
-    width: 33px !important;
+    width: 30px !important;
     height: 100%;
 
     overflow: hidden;
@@ -73,26 +42,21 @@
     position: absolute;
     min-width: 0px !important;
     max-width: none !important;
-    left: 0;
-    top: 0;
-    right: auto;
-    bottom: auto;
-    width: 28px;
-    height: 95%;
+    height: 96%;
 }
 
-#sidebar {
-    margin-left: -12px;
-}
-
-/* Show on hover */
+/* show on hover */
 #main-window #sidebar-box:hover,
 #main-window #sidebar-box:hover #sidebar {
     width: 250px !important;
 }
 
-/*
-#main-window #sidebar-box:hover #sidebar:before {
-    transform: translateX(-100%);
+/* don't hide page content behind sidebar */
+#main-window #appcontent {
+    margin-left: 30px;
 }
-*/
+
+/* hide sideberry panels */
+#sidebar:not(:hover) {
+    margin-left: -22px;
+}
