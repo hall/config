@@ -191,7 +191,6 @@ in
       esphome
       etcher
       file
-      flameshot
       libguestfs-with-appliance
       scrcpy
       qemu-utils
@@ -211,6 +210,7 @@ in
       transmission-gtk
       usbutils
       rpi-imager
+      binutils
       open-sans
       wget
       wireshark
@@ -238,6 +238,8 @@ in
       sops
       lsof
       pdsh
+      packer
+      gitlab-runner
       ripgrep
       s3cmd
       speedtest-cli
@@ -287,6 +289,9 @@ in
       python-packages
       ## node
       yarn
+      nodejs
+      ## rust
+      cargo
 
       # containers
       lens
@@ -297,7 +302,6 @@ in
       krew
       #kube3d TODO: too old?
       kubectl
-      kubectx
       kubernetes-helm
       kubetail
       kubie
@@ -318,6 +322,7 @@ in
       openscad
       prusa-slicer
       siril
+      flameshot
       xournalpp
     ];
 
@@ -478,6 +483,7 @@ in
         extensions = with pkgs.vscode-extensions; [
           # dendron
           ms-python.python
+	        eamodio.gitlens
           # rest-client
           # xonsh
           bbenoist.Nix
