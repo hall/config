@@ -10,7 +10,7 @@
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-intel" "i2c-dev" ];
+  boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
@@ -25,6 +25,13 @@
       fsType = "vfat";
     };
 
+  fileSystems."/home/bryton" =
+    { device = "/dev/disk/by-uuid/9eedfa85-17d1-49c7-bf69-92464cb3ed8d";
+      fsType = "ext4";
+    };
+
+  boot.initrd.luks.devices."luks-6a437026-df40-452f-b1d2-caa230a8a746".device = "/dev/disk/by-uuid/6a437026-df40-452f-b1d2-caa230a8a746";
+
   swapDevices =
     [ { device = "/dev/disk/by-uuid/13194f0e-4628-4ecf-b0d6-a504567ec212"; }
     ];
@@ -32,6 +39,4 @@
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   # high-resolution display
   hardware.video.hidpi.enable = lib.mkDefault true;
-  
-  hardware.i2c.enable = true;
 }
