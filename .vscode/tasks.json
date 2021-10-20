@@ -7,7 +7,10 @@
             "label": "Build System",
             "type": "shell",
             "command": "sudo",
-            "args": ["nixos-rebuild", "switch"],
+            "args": [
+                "nixos-rebuild",
+                "switch"
+            ],
             "problemMatcher": [],
             "group": {
                 "kind": "build",
