@@ -213,32 +213,53 @@ in
       dnsutils
       esphome
       etcher
+      hunspell
+      hunspellDicts.en_US-large
+      google-drive-ocamlfuse
+      dbeaver
       file
       libguestfs-with-appliance
       scrcpy
+      spice
+      go-task
+      hadolint
+      goss
       qemu-utils
+      libsForQt5.full
+      freetype
+      hunspell
+      podofo
       gnupg
       iperf
+      youtube-dl
       istioctl
       libreoffice
       ncurses
+      fdupes
       nextcloud-client
       openconnect
-      openssl
       pinentry_gnome
       pkg-config
+      newsflash
       postgresql
       pre-commit
       shellcheck
+      koreader
+      syncthing-gtk
+      moreutils
+      zotero
       transmission-gtk
       usbutils
       rpi-imager
       binutils
       open-sans
+      flutter
       wget
+      anki
+      jellyfin-media-player
+      pprof
       wireshark
       wl-clipboard
-      xonsh
       xorg.xprop
 
       # math / science
@@ -249,12 +270,14 @@ in
       # cli
       velero
       azure-cli
+      fio
       #terraform
       #pulumi-bin
       bash-completion
       bitwarden-cli
       fzf
       google-cloud-sdk
+      awscli2
       inotify-tools
       jq
       jsonnet
@@ -273,10 +296,11 @@ in
       zoxide
       
       # comms
-      ferdi
+      #ferdi
+      discord
       slack
       tdesktop
-      teams
+      #teams
       zoom-us
       element-desktop
 
@@ -299,6 +323,8 @@ in
       gnumake
       ## go
       air
+      plan9port
+      delve
       go
       go-outline
       gocode
@@ -309,12 +335,26 @@ in
       goreleaser
       ## python
       poetry
-      python-packages
+      conda
+      R
+      (python38.withPackages(p: with p; [
+        black
+        docker
+        grpcio
+        kubernetes
+        pandas
+        pip
+        pylint
+        pyyaml
+        setuptools
+        tabulate
+	requests
+      ]))
       ## node
       yarn
       nodejs
       ## rust
-      cargo
+      rustup
 
       # containers
       lens
@@ -327,7 +367,8 @@ in
       kubectl
       kubernetes-helm
       kubetail
-      kubie
+      #kubie
+      krew
       #skaffold TODO: too old
 
       # tmux
@@ -337,13 +378,19 @@ in
 
       # design
       ardour
+      avldrums-lv2
       freecad
       blender
       gimp
+      pianobooster
+      imagemagick
+      faust
+      faustlive
       guitarix
       inkscape
       openscad
       prusa-slicer
+      surge
       siril
       flameshot
       xournalpp
