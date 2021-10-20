@@ -34,8 +34,10 @@ in
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       (import "${home-manager}/nixos")
+      <musnix>
     ];
 
+  musnix.enable = true;
   hardware.pulseaudio.enable = false;
 
 
