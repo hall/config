@@ -3,17 +3,23 @@ $PROMPT = '[{localtime}] {YELLOW}{env_name} {BOLD_BLUE}{user}@{hostname} {BOLD_G
 $THREAD_SUBPROCS = False
 
 $BASH_COMPLETIONS = f"{$HOME}/.nix-profile/share/bash-completion/bash_completion"
-$SOPS_PGP_FP = "807AC607FA0C8AFB8847AB4350B0D8F7B4392CE2"
 
-$PATH = ["$HOME/bin","$HOME/.cargo/bin"] + $PATH
+$LS_COLORS='rs=0:di=01;36:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:'
+
+$PATH = [
+  "$HOME/bin",
+  "$HOME/.cargo/bin",
+  "$HOME/.krew/bin",
+  ] + $PATH
+
+$GOPATH = $HOME
+
 
 aliases |= {
     "k": ["kubectl"],
     "t": ["talosctl"],
     "cd": ["z"]
 }
-execx($(zoxide init xonsh), 'exec', __xonsh__.ctx, filename='zoxide')
 
-#def pass(item: str):
-#    wl-copy $(bw get password item)
+execx($(zoxide init xonsh), 'exec', __xonsh__.ctx, filename='zoxide')
 
