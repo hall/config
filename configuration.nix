@@ -85,7 +85,13 @@ in
   services = {
     xserver = {
       enable = true; 
-      displayManager.gdm.enable = true;
+      displayManager = {
+        gdm.enable = true;
+	      autoLogin = {
+	        enable = true;
+	        user = "bryton";
+	      };
+      };
       desktopManager.gnome.enable = true;
       layout = "us";
       xkbVariant = "dvorak";
