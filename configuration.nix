@@ -64,6 +64,18 @@ in
     wireguard = {
       enable = true;
     };
+    networkmanager = {
+      dispatcherScripts = [{
+        type = "basic";
+	source = pkgs.writeText "upHook" ''
+	  export PATH=$PATH:/run/current-system/sw/bin
+          if [[ "$(nmcli -t -f NAME connection show --active)" == "hall" ]]; then
+            setting=false
+          fi
+          su -l bryton -c "dbus-launch dconf write /org/gnome/desktop/screensaver/lock-enabled ''${setting:-true}"
+	'';
+      }];
+    };
   };
 
   console = {
