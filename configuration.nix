@@ -172,12 +172,6 @@ in
   system.stateVersion = "21.05";
 
 
-  nixpkgs.config.packageOverrides = pkgs: {
-    nur = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz") {
-      inherit pkgs;
-    };
-  };
-
   programs = {
     dconf.enable = true;
     wireshark.enable = true;
@@ -193,12 +187,21 @@ in
 
   };
 
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+  nixpkgs.config = {
+    allowBroken = true; # syncthing
+    packageOverrides = pkgs: {
+      nur = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz") {
+        inherit pkgs;
+      };
+    };
+    allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "vscode-extension-ms-toolsai-jupyter"
     "zoom"
     "slack"
+      "discord"
     "teams"
   ];
+  };
 
   home-manager.users.bryton = {
     home.packages = with pkgs; [
