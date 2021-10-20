@@ -409,9 +409,12 @@ in
         "org/gnome/desktop/interface" = {
           enable-hot-corners = false;
         };
-        "org.gnome.desktop.screensaver" = {
+        "org/gnome/desktop/screensaver" = {
           lock-delay = 3600;
         };
+      	"org/gnome/desktop/wm/preferences" = {
+      	  focus-mode = "sloppy";
+      	};
       };
     };
 
