@@ -487,6 +487,7 @@ in
             "helmfile.yaml" = "helm";
           };
           "explorer.confirmDelete" = false;
+	        "explorer.confirmDragAndDrop" = false;
           "editor.formatOnSave" = true;
           "git.confirmSync" = false;
           "todo-tree.regex.regex" = "(//|#|<!--|;|/\\*|^|^\\s*(-|\\d+.))\\s*($TAGS)";
@@ -500,7 +501,7 @@ in
             "[x]"
           ];
           "terminal.integrated.commandsToSkipShell" = [
-
+	          "-workbench.action.quickOpen" # ctrl-p
           ];
         };
         extensions = with pkgs.vscode-extensions; [
@@ -510,6 +511,8 @@ in
           # rest-client
           # xonsh
           bbenoist.Nix
+	        formulahendry.code-runner
+	        haskell.haskell
           golang.Go
           gruntfuggly.todo-tree
           james-yu.latex-workshop
@@ -517,6 +520,45 @@ in
           redhat.vscode-yaml
           vscodevim.vim
           hashicorp.terraform
+        ];
+        keybindings = [
+          {
+            key = "ctrl+a c";
+            command = "workbench.action.terminal.newInActiveWorkspace";
+          }
+          { key = "ctrl+a o";
+            command = "workbench.action.terminal.focus";
+          }
+          { 
+            key = "ctrl+a o";
+            command = "workbench.action.focusActiveEditorGroup";
+            when = "terminalFocus";
+          }
+          {
+            key = "ctrl+a z";
+            command = "workbench.action.toggleMaximizedPanel";
+            when = "terminalFocus";
+          }
+          {
+            key = "ctrl+a n";
+            command = "workbench.action.terminal.focusNext";
+            when = "terminalFocus";
+          }
+          {
+            key = "ctrl+a p";
+            command = "workbench.action.terminal.focusPrevious";
+            when = "terminalFocus";
+          }
+          {
+            key = "ctrl+a shift+'";
+            command = "workbench.action.terminal.split";
+            when = "terminalFocus && panelPosition != 'bottom'";
+          }
+          {
+            key = "ctrl+a shift+5";
+            command = "workbench.action.terminal.split";
+            when = "terminalFocus && panelPosition == 'bottom'";
+          }
         ];
       };
 
