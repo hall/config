@@ -1,4 +1,6 @@
-$PROMPT = '[{localtime}] {YELLOW}{env_name} {BOLD_BLUE}{user}@{hostname} {BOLD_GREEN}{cwd} {gitstatus}{RESET}\n> '
+from xonsh.xontribs import xontribs_load
+
+#$PROMPT = '[{localtime}] {YELLOW}{env_name} {BOLD_BLUE}{user}@{hostname} {BOLD_GREEN}{cwd} {gitstatus}{RESET}\n> '
 
 $THREAD_SUBPROCS = False
 
@@ -14,12 +16,17 @@ $PATH = [
 
 $GOPATH = $HOME
 
-
 aliases |= {
     "k": ["kubectl"],
     "t": ["talosctl"],
     "cd": ["z"]
 }
 
+xontribs_load([
+  "mpl",
+  "sh"
+])
+
 execx($(zoxide init xonsh), 'exec', __xonsh__.ctx, filename='zoxide')
+execx($(starship init xonsh))
 

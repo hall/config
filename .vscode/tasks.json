@@ -9,7 +9,9 @@
             "command": "sudo",
             "args": [
                 "nixos-rebuild",
-                "switch"
+                "switch",
+                // "--flake",
+                // ".#"
             ],
             "problemMatcher": [],
             "group": {

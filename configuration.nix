@@ -1,25 +1,46 @@
 { lib, config, pkgs, ... }:
 
 let
+  unstable = import
+    (builtins.fetchTarball https://github.com/nixos/nixpkgs/tarball/master)
+    { config = config.nixpkgs.config; };
+
   home-manager = builtins.fetchGit {
     url = "https://github.com/rycee/home-manager.git";
     rev = "35a24648d155843a4d162de98c17b1afd5db51e4";
     ref = "release-21.05";
   };
 
-  py-packages = python-packages: with python-packages; [
-    pandas
-    pip
-    pylint
-    black
-    #poetry
-    grpcio
-    setuptools
-    tabulate
-    pyyaml
-    kubernetes
+  mach-nix = import (builtins.fetchGit {
+    url = "https://github.com/DavHau/mach-nix/";
+    ref = "refs/tags/3.3.0";
+  }) {
+    pkgs = pkgs;
+  };
+
+  xontribs = [
+  #  "argcomplete" # tab completion of python and xonsh scripts
+  #  "sh"          # prefix (ba)sh commands with "!"
+  #  "autojump" or "z"   # autojump support(or zoxide?)
+  #  "autoxsh" or "direnv"     # execute .autoxsh when entering directory
+  #  "onepath"     # act on file/dir by only using its name
+  #  "prompt_starship"
+  #  "pipeliner"   # use "pl" to pipe a python expression
   ];
-  python-packages = pkgs.python3.withPackages py-packages;
+
+  pyenv = mach-nix.mkPython {
+    requirements = ''
+      black
+      pylint
+      numpy
+      pip
+      xxh-xxh
+    '' + builtins.toString (map (x: "xontrib-" + x) xontribs);
+  };
+
+  #xonshPkgs = pkgs.xonsh.overrideAttrs (old: {
+  #  propagatedBuildInputs = old.propagatedBuildInputs ++ pyenv.python.pkgs.selectPkgs pyenv.python.pkgs;
+  #});
 
 in
 {
@@ -28,18 +49,24 @@ in
   #  extraOptions = ''
   #    experimental-features = nix-command flakes
   #  '';
-  # };
+  #};
+
+  # Before changing this value read the documentation for this option
+  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+  system.stateVersion = "21.05";
 
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+      ./nix/hardware.nix
       (import "${home-manager}/nixos")
       <musnix>
     ];
 
   musnix.enable = true;
-  hardware.pulseaudio.enable = false;
-
+  hardware = {
+    pulseaudio.enable = false;
+    i2c.enable = true;
+  };
 
   # Use the systemd-boot EFI boot loader.
   boot.loader = {
@@ -49,11 +76,24 @@ in
 
   time.timeZone = "America/New_York";
 
+  systemd.user.services = {
+    gotify-desktop = {
+      unitConfig = {
+        Description = "Gotify Desktop";
+        After = "network.target";
+      };
+      serviceConfig = {
+        ExecStart = "${config.users.users.bryton.home}/.cargo/bin/gotify-desktop";
+      };
+    };
+  };
+
   networking = {
     hostName = "thinkpad";
     interfaces = {
-      enp0s31f6.useDHCP = true;
-      wlp0s20f3.useDHCP = true;
+      #enp0s31f6.useDHCP = true;   # docker
+      #enp58s0u2u2.useDHCP = true; # ethernet
+      wlp0s20f3.useDHCP = true;   # wifi
     };
     firewall = {
       enable = true;
@@ -87,10 +127,10 @@ in
       enable = true; 
       displayManager = {
         gdm.enable = true;
-	      autoLogin = {
-	        enable = true;
-	        user = "bryton";
-	      };
+	autoLogin = {
+	  enable = true;
+	  user = "bryton";
+	};
       };
       desktopManager.gnome.enable = true;
       layout = "us";
@@ -127,10 +167,11 @@ in
     isNormalUser = true;
     shell = pkgs.xonsh;
     extraGroups = [
-      "audio"
       "adbusers"
+      "audio"
       "dialout"
       "docker"
+      "i2c"
       "input"
       "wheel"
       "wireshark"
@@ -163,14 +204,15 @@ in
     };
     systemPackages = with pkgs; [
       curl
-      gnomeExtensions.gsconnect
+    ];
+    gnome.excludePackages = with pkgs; [
+      gnome.cheese
+      gnome.gnome-music
+      gnome.gedit
+      epiphany
+      gnome.gnome-characters
     ];
   };
-
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "21.05";
-
 
   programs = {
     dconf.enable = true;
@@ -182,7 +224,7 @@ in
     };
     xonsh = {
       enable = true;
-      config = builtins.readFile ./xonshrc;
+      config = builtins.readFile ./xonshrc.xsh;
     };
 
   };
@@ -195,16 +237,26 @@ in
       };
     };
     allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "vscode-extension-ms-toolsai-jupyter"
-    "zoom"
-    "slack"
+      "vscode-extension-ms-toolsai-jupyter"
+      "zoom"
+      "slack"
       "discord"
-    "teams"
-  ];
+    ];
   };
 
   home-manager.users.bryton = {
-    home.packages = with pkgs; [
+    home = {
+      file = {
+        kubie = {
+      	  source = ./kubie.yaml;
+      	  target = ".kube/kubie.yaml";
+      	};
+        starship = {
+      	  source = ./starship.toml;
+      	  target = ".config/starship.toml";
+      	};
+      };
+    packages = with pkgs; [ 
       #fprintd-tod
       #libfprint-tod
       appimage-run
@@ -212,65 +264,69 @@ in
       direnv
       dnsutils
       esphome
-      etcher
       hunspell
       hunspellDicts.en_US-large
-      google-drive-ocamlfuse
-      dbeaver
-      file
-      libguestfs-with-appliance
-      scrcpy
-      spice
-      go-task
-      hadolint
-      goss
-      qemu-utils
-      libsForQt5.full
+      #google-drive-ocamlfuse
+      #dbeaver
+      #file
+      #libguestfs-with-appliance
+      gnome.gdm
+      #scrcpy
+      #spice
+      barrier
+      #go-task
+      #hadolint
+      #goss
+      #qemu-utils
+      #libsForQt5.full
       freetype
-      hunspell
-      podofo
+      #podofo
+      unstable.lighttpd
       gnupg
       iperf
       youtube-dl
-      istioctl
+      #istioctl
       libreoffice
       ncurses
-      fdupes
+      #fdupes
       nextcloud-client
       openconnect
       pinentry_gnome
-      pkg-config
+      #pkg-config
       newsflash
-      postgresql
+      #postgresql
       pre-commit
-      shellcheck
+      #shellcheck
       koreader
       syncthing-gtk
       moreutils
-      zotero
-      transmission-gtk
-      usbutils
+      #zotero
+      unstable.starship
+      #transmission-gtk
+      #usbutils
       rpi-imager
-      binutils
+      #binutils
       open-sans
-      flutter
-      wget
-      anki
+      #flutter
+      #wget
+      #anki
       jellyfin-media-player
-      pprof
+      #pprof
+      zip
+      #mitmproxy
       wireshark
       wl-clipboard
       xorg.xprop
-
+      
       # math / science
-      jupyter
-      sagemath
-      stellarium
-
+      #jupyter
+      #sagemath
+      #stellarium
+      
       # cli
-      velero
-      azure-cli
-      fio
+      #velero
+      #azure-cli
+      #fio
       #terraform
       #pulumi-bin
       bash-completion
@@ -280,15 +336,16 @@ in
       awscli2
       inotify-tools
       jq
-      jsonnet
-      sops
+      #jsonnet
+      #sops
       lsof
-      pdsh
-      packer
-      gitlab-runner
+      #pdsh
+      #packer
+      #gitlab-runner
+      plan9port
       ripgrep
-      s3cmd
-      speedtest-cli
+      #s3cmd
+      #speedtest-cli
       telnet
       gparted
       unzip
@@ -297,102 +354,94 @@ in
       
       # comms
       #ferdi
-      discord
+      #discord
       slack
       tdesktop
-      #teams
       zoom-us
-      element-desktop
-
+      #element-desktop
+      
       # gnome
       gnome.dconf-editor
       gnome.gnome-todo
       gnome.gnome-boxes
       gnome3.gnome-tweaks
       gnomeExtensions.bluetooth-quick-connect
+      unstable.gnomeExtensions.brightness-control-using-ddcutil
+      gnomeExtensions.gsconnect
+      gnomeExtensions.material-shell
       gnomeExtensions.nasa-apod
       gnomeExtensions.night-light-slider
       gnomeExtensions.unite
-      gnomeExtensions.brightness-control-using-ddcutil
       gnomeExtensions.wireguard-indicator
       ddcutil
-
+      
       # dev
-      gcc
-      gh
-      gnumake
+      #gcc
+      #gh
+      #gnumake
       ## go
-      air
-      plan9port
-      delve
-      go
-      go-outline
-      gocode
-      gocode-gomod
-      godef
-      golint
-      gopkgs
-      goreleaser
+      #air
+      #delve
+      #go
+      #go-outline
+      #gocode
+      #gocode-gomod
+      #godef
+      #golint
+      #gopkgs
+      #goreleaser
       ## python
-      poetry
-      conda
-      R
-      (python38.withPackages(p: with p; [
-        black
-        docker
-        grpcio
-        kubernetes
-        pandas
-        pip
-        pylint
-        pyyaml
-        setuptools
-        tabulate
-	requests
-      ]))
+      #poetry
+      #conda
+      #R
+      #pyenv
       ## node
-      yarn
+      #yarn
       nodejs
       ## rust
-      rustup
-
+      #rustup
+      ## java
+      #openjdk
+      #maven
+      
       # containers
-      lens
+      unstable.lens
       docker
-      docker-compose
+      #docker-compose
       helmfile
       k3s
       krew
       #kube3d TODO: too old?
       kubectl
       kubernetes-helm
-      kubetail
-      #kubie
+      #kubetail
+      kustomize
+      #kubie # TODO: merge xonsh support
       krew
-      #skaffold TODO: too old
-
+      unstable.skaffold
+      
       # tmux
       tmuxPlugins.nord
       tmuxPlugins.sensible
       tmuxPlugins.vim-tmux-navigator
-
+      
       # design
       ardour
-      avldrums-lv2
-      freecad
-      blender
-      gimp
-      pianobooster
+      #avldrums-lv2
+      #freecad
+      #blender
+      #gimp
+      #pianobooster
       imagemagick
-      faust
-      faustlive
+      #faust
+      #faustlive
       guitarix
       inkscape
-      openscad
+      #openscad
       prusa-slicer
-      surge
-      siril
-      flameshot
+      #surge
+      #siril
+      #flameshot
       xournalpp
     ];
 
@@ -503,6 +552,7 @@ in
               "signon.rememberSignons" = false;
               "devtools.theme" = "dark";
               "svg.context-properties.content.enabled" = true;
+              "projectManager.git.baseFolders" = "~/src";
             };
             userChrome = builtins.readFile ./userChrome.css;
             userContent = builtins.readFile ./userContent.css;
@@ -517,6 +567,7 @@ in
           i-dont-care-about-cookies
           # gsconnect
           # ipfs-companion
+	        # sidebery # TODO: doesn't exist
           refined-github
           floccus
           link-cleaner
@@ -524,7 +575,6 @@ in
           temporary-containers
           ublock-origin
           bitwarden
-          tree-style-tab
           vim-vixen
           https-everywhere
         ];
@@ -544,6 +594,7 @@ in
           "update.mode" = "none";
           "files.associations" = {
             "**.yaml.gotmpl" = "helm";
+            "**.yaml.jinja" = "helm";
             "helmfile.yaml" = "helm";
           };
           "explorer.confirmDelete" = false;
@@ -567,13 +618,13 @@ in
         extensions = with pkgs.vscode-extensions; [
           # dendron
           ms-python.python
-	        eamodio.gitlens
+	  eamodio.gitlens
           # rest-client
           # xonsh
-          bbenoist.Nix
-	        formulahendry.code-runner
-	        haskell.haskell
-          golang.Go
+          # bbenoist.Nix
+	  formulahendry.code-runner
+	  haskell.haskell
+          # golang.Go
           gruntfuggly.todo-tree
           james-yu.latex-workshop
           ms-kubernetes-tools.vscode-kubernetes-tools
@@ -618,6 +669,21 @@ in
             key = "ctrl+a shift+5";
             command = "workbench.action.terminal.split";
             when = "terminalFocus && panelPosition == 'bottom'";
+          }
+          {
+            key = "ctrl+a a";
+            command = "cursorHome";
+            when = "terminalFocus";
+          }
+          {
+            key = "ctrl+e";
+            command = "cursorEnd";
+            when = "terminalFocus";
+          }
+          {
+            key = "ctrl+l";
+            command = "workbench.action.terminal.clear";
+            when = "terminalFocus";
           }
         ];
       };

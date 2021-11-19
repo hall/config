@@ -57,6 +57,6 @@
 }
 
 /* hide sideberry panels */
-#sidebar:not(:hover) {
+/*#sidebar:not(:hover) {
     margin-left: -22px;
-}
+}*/
