@@ -2,7 +2,7 @@
 
 Initial setup:
 
-    sudo ln -s $PWD /etc/nixos
+    sudo ./bootstrap.sh
 
 Build with either `ctrl-shift-b` or
 
