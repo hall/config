@@ -10,8 +10,9 @@
             "args": [
                 "nixos-rebuild",
                 "switch",
-                // "--flake",
-                // ".#"
+                "--flake",
+                ".",
+                // "--impure"
             ],
             "problemMatcher": [],
             "group": {
