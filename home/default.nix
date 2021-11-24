@@ -169,7 +169,7 @@
       # #maven
 
       # # containers
-      #unstable.lens
+      unstable.lens
       # docker
       # #docker-compose
       # helmfile
