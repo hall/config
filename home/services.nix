@@ -3,4 +3,9 @@
     enable = true;
     startInBackground = true;
   };
+
+  syncthing = {
+    enable = true;
+    tray.enable = true;
+  };
 }
