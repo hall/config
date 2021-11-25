@@ -1,10 +1,10 @@
 {
   description = "config";
   inputs = {
-    nixpkgs.url = github:NixOS/nixpkgs/nixos-21.05;
+    nixpkgs.url = github:NixOS/nixpkgs/21.11-pre;
     unstable.url = github:NixOS/nixpkgs/nixos-unstable;
     nur.url = github:nix-community/NUR;
-    hm.url = github:nix-community/home-manager/release-21.05;
+    hm.url = github:nix-community/home-manager/release-21.11;
     musnix.url = github:musnix/musnix;
     fup.url = "github:gytis-ivaskevicius/flake-utils-plus";
   };
@@ -19,10 +19,10 @@
         in
         [
           {
-            nixpkgs.overlays = [ 
+            nixpkgs.overlays = [
               inputs.nur.overlay
               overlay-unstable
-              ];
+            ];
           }
           ./hardware.nix
           ./configuration.nix
