@@ -1,4 +1,16 @@
 { lib, config, pkgs, ... }:
+let
+  # get ssh key from bitwarden
+  ssh-key = x: builtins.toFile "${x}-ssh-key" (
+    builtins.exec [
+      "su"
+      "-c"
+      "echo \"''\" && rbw get --folder ssh ${x} && echo \"''\""
+      "-"
+      "bryton"
+    ]
+  );
+in
 {
   git = {
     enable = true;
@@ -14,6 +26,70 @@
         };
       };
     };
+  };
+
+  rbw = {
+    enable = true;
+    settings = {
+      base_url = "https://bitwarden.bryton.io";
+      email = "email@bryton.io";
+      pinentry = "gnome3";
+    };
+  };
+
+  # direnv = {};
+  fzf = {
+    enable = true;
+  };
+  gh = { enable = true; };
+  htop = { enable = true; };
+  jq = { enable = true; };
+  # obs-studio = { enable = true; };
+  # font
+  # keychain
+
+  ssh = {
+    enable = true;
+    matchBlocks = {
+      gitlab = {
+        host = "gitlab.com";
+        user = "git";
+        identityFile = ssh-key "gitlab";
+      };
+      github = {
+        host = "github.com";
+        user = "git";
+        identityFile = ssh-key "github";
+      };
+      devices = {
+        host = "router switch ap1 ap2";
+        user = "root";
+        identityFile = ssh-key "router";
+      };
+      pinephone = {
+        host = "pinephone";
+        identityFile = ssh-key "pinephone";
+      };
+      osmc = {
+        host = "osmc";
+        user = "osmc";
+        identityFile = ssh-key "github";
+      };
+    };
+  };
+
+  starship = {
+    enable = true;
+    package = pkgs.unstable.starship; # for xonsh support
+    settings = {
+      kubernetes = {
+        disabled = false;
+      };
+    };
+  };
+
+  zoxide = {
+    enable = true;
   };
 
   firefox = {

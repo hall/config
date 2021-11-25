@@ -1,28 +1,28 @@
- { lib, config, pkgs, ... }:
- #let
+{ lib, config, pkgs, ... }:
+#let
 #  xontribs = [
-    #  "argcomplete" # tab completion of python and xonsh scripts
-    #  "sh"          # prefix (ba)sh commands with "!"
-    #  "autojump" or "z"   # autojump support(or zoxide?)
-    #  "autoxsh" or "direnv"     # execute .autoxsh when entering directory
-    #  "onepath"     # act on file/dir by only using its name
-    #  "prompt_starship"
-    #  "pipeliner"   # use "pl" to pipe a python expression
+#  "argcomplete" # tab completion of python and xonsh scripts
+#  "sh"          # prefix (ba)sh commands with "!"
+#  "autojump" or "z"   # autojump support(or zoxide?)
+#  "autoxsh" or "direnv"     # execute .autoxsh when entering directory
+#  "onepath"     # act on file/dir by only using its name
+#  "prompt_starship"
+#  "pipeliner"   # use "pl" to pipe a python expression
 #  ];
 
-  # pyenv = mach-nix.mkPython {
-  #   requirements = ''
-  #     black
-  #     pylint
-  #     numpy
-  #     pip
-  #     xxh-xxh
-  #   '' + builtins.toString (map (x: "xontrib-" + x) xontribs);
-  # };
+# pyenv = mach-nix.mkPython {
+#   requirements = ''
+#     black
+#     pylint
+#     numpy
+#     pip
+#     xxh-xxh
+#   '' + builtins.toString (map (x: "xontrib-" + x) xontribs);
+# };
 
-  #xonshPkgs = pkgs.xonsh.overrideAttrs (old: {
-  #  propagatedBuildInputs = old.propagatedBuildInputs ++ pyenv.python.pkgs.selectPkgs pyenv.python.pkgs;
-  #});
+#xonshPkgs = pkgs.xonsh.overrideAttrs (old: {
+#  propagatedBuildInputs = old.propagatedBuildInputs ++ pyenv.python.pkgs.selectPkgs pyenv.python.pkgs;
+#});
 #in
 {
   # Before changing this value read the documentation for this option
@@ -33,6 +33,7 @@
     package = pkgs.nixUnstable;
     extraOptions = ''
       experimental-features = nix-command flakes
+      allow-unsafe-native-code-during-evaluation = true
     '';
   };
 
@@ -97,7 +98,7 @@
       xkbVariant = "dvorak";
       libinput.touchpad.tapping = true;
     };
-    ddccontrol.enable = true;
+    # ddccontrol.enable = true;
     interception-tools = {
       enable = true;
       plugins = with pkgs.interception-tools-plugins; [
