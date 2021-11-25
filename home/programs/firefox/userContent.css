@@ -1,0 +1,52 @@
+/* supress flash of white when showing sidebar */
+@-moz-document regexp("moz-extension://.+/sidebar/sidebar.html.*") {
+  :root,
+  #background {
+    background-color: rgb(40, 42, 48); /* https://github.com/piroor/treestyletab/blob/0eede581d763f92344fe64b1c042839f3b8ca955/webextensions/resources/ui-color.css#L198 */
+  }
+}
+
+
+@-moz-document url-prefix("moz-extension://3bd43e16-f2e8-478b-9f3c-7f1023b3b893") {
+
+  .vimvixen-console-command-wrapper {
+    border-top: 1px solid!important
+  }
+  .vimvixen-console-completion-title {
+    background-color: #212026 !important;
+    color: #686868!important;
+    padding-left: 10px !important;
+  }
+  .vimvixen-console-completion {
+    background-color: #292b2e !important;
+    color: #b2b2b2!important;
+    font-family: Hack,monospace!important;
+  }
+  .vimvixen-console-command,
+  .vimvixen-console-command-input {
+    background-color: #212026!important;
+    color: #686868!important;
+  }
+  .vimvixen-console-completion-item-url {
+    color: #4f97d7 !important;
+  }
+  .vimvixen-console-completion-item.vimvixen-completion-selected {
+    background-color: #5d4d7a!important;
+  }
+  .vimvixen-console-error {
+    background-color: #4b3137!important;
+    color: #ce537a!important;
+  }
+  .vimvixen-settings-form,
+  .vimvixen-settings-form textarea[name=json] {
+    background-color: #292b2e!important;
+    -moz-appearance: none!important;
+    color: #b2b2b2!important;
+  }
+  ::-moz-selection {
+    color: #b2b2b2;
+    background: #292b2e; 
+  }
+}
+
+
