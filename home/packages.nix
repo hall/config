@@ -1,90 +1,76 @@
 { pkgs, ... }:
 with pkgs; [
   # talosctl
+
   nixpkgs-fmt
   python-language-server
   niv
+  #unstable.newsflash
+  wl-clipboard
+  # syncthing-gtk
+  unstable.gotify-desktop
+  #bitwarden-cli
+  nextcloud-client
+  unstable.barrier
+  libreoffice
+  # chromium
+  networkmanager-openconnect
+  openconnect
+  globalprotect-openconnect
+  shellcheck
 
 
   # appimage-run
   # calibre
   # direnv
   # dnsutils
-  # esphome
   # hunspell
   # hunspellDicts.en_US-large
   # #google-drive-ocamlfuse
   # #dbeaver
   # #file
-  # #libguestfs-with-appliance
-  # gnome.gdm
   # #scrcpy
-  # #spice
   # barrier
   # #go-task
   # #hadolint
   # #goss
   # #qemu-utils
   # #libsForQt5.full
-  # freetype
-  # #podofo
   # unstable.lighttpd
   # gnupg
   # iperf
   # youtube-dl
   # #istioctl
-  # libreoffice
-  # ncurses
-  # #fdupes
-  # nextcloud-client
-  # openconnect
-  # pinentry_gnome
-  # #pkg-config
-  # newsflash
-  # #postgresql
   # pre-commit
   # #shellcheck
   # koreader
-  syncthing-gtk
   # moreutils
   # #zotero
-  # unstable.starship
   # #transmission-gtk
   # #usbutils
-  # rpi-imager
   # #binutils
-  # open-sans
-  # #flutter
-  # #wget
   # #anki
   # jellyfin-media-player
   # #pprof
   # zip
-  # #mitmproxy
   # wireshark
-  # wl-clipboard
-  # xorg.xprop
 
-  # # math / science
-  # #jupyter
-  # #sagemath
-  # #stellarium
+  # math / science
+  #jupyter
+  #sagemath
+  #stellarium
 
   # # cli
   # #velero
   # #azure-cli
-  # #fio
   # #terraform
   # #pulumi-bin
-  # bash-completion
+  bash-completion
   # bitwarden-cli
   # fzf
   # google-cloud-sdk
-  # awscli2
+  awscli2
   # inotify-tools
-  # jq
-  # #jsonnet
-  # #sops
   # lsof
   # #pdsh
   # #packer
@@ -92,20 +78,18 @@ with pkgs; [
   # plan9port
   # ripgrep
   # #s3cmd
-  # #speedtest-cli
   # telnet
   # gparted
   # unzip
   # yq
-  # zoxide
 
-  # # comms
-  # #ferdi
-  discord
-  # slack
+  # comms
+  #ferdi
+  # unstable.discord
+  slack
   tdesktop
   # zoom-us
-  # #element-desktop
+  #element-desktop
 
   # # gnome
   gnome.dconf-editor
@@ -118,6 +102,7 @@ with pkgs; [
   gnomeExtensions.gsconnect
   # gnomeExtensions.material-shell
   gnomeExtensions.nasa-apod
+  gnomeExtensions.syncthing-icon
   gnomeExtensions.night-light-slider
   gnomeExtensions.unite
   gnomeExtensions.wireguard-indicator
@@ -152,7 +137,7 @@ with pkgs; [
   # #openjdk
   # #maven
 
-  # # containers
+  # containers
   unstable.lens
   # docker
   # #docker-compose
@@ -164,33 +149,31 @@ with pkgs; [
   # kubernetes-helm
   # #kubetail
   # kustomize
-  # #kubie # TODO: merge xonsh support
+  kubie # TODO: merge xonsh support
   # krew
   # unstable.skaffold
 
-  # # tmux
-  # tmuxPlugins.nord
-  # tmuxPlugins.sensible
-  # tmuxPlugins.vim-tmux-navigator
+  # tmux
+  tmuxPlugins.nord
+  tmuxPlugins.sensible
+  tmuxPlugins.vim-tmux-navigator
 
-  # # design
-  # ardour
-  # #avldrums-lv2
-  # #freecad
-  # #blender
-  # #gimp
-  # #pianobooster
-  # imagemagick
-  # #faust
-  # #faustlive
-  # guitarix
-  # inkscape
-  # #openscad
-  # prusa-slicer
-  # #surge
-  # #siril
-  # #flameshot
-  # xournalpp
-
+  # design
+  ardour
+  #avldrums-lv2
+  #freecad
+  #blender
+  #gimp
+  #pianobooster
+  #imagemagick
+  #faust
+  #faustlive
+  #guitarix
+  #inkscape
+  #openscad
+  unstable.prusa-slicer
+  #surge
+  #siril
+  #flameshot
+  #xournalpp
 ]
-

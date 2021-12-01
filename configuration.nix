@@ -1,29 +1,26 @@
-{ lib, config, pkgs, ... }:
-#let
-#  xontribs = [
-#  "argcomplete" # tab completion of python and xonsh scripts
-#  "sh"          # prefix (ba)sh commands with "!"
-#  "autojump" or "z"   # autojump support(or zoxide?)
-#  "autoxsh" or "direnv"     # execute .autoxsh when entering directory
-#  "onepath"     # act on file/dir by only using its name
-#  "prompt_starship"
-#  "pipeliner"   # use "pl" to pipe a python expression
-#  ];
+{ pkgs, mach-nix, ... }:
+let
+  # xontribs = [
+  #   # "argcomplete" # tab completion of python and xonsh scripts
+  #   # "sh" # prefix (ba)sh commands with "!"
+  #   # "autojump" or "z"   # autojump support(or zoxide?)
+  #   # "autoxsh" or "direnv"     # execute .autoxsh when entering directory
+  #   # "onepath" # act on file/dir by only using its name
+  #   # "prompt_starship"
+  #   # "pipeliner" # use "pl" to pipe a python expression
+  # ];
 
-# pyenv = mach-nix.mkPython {
-#   requirements = ''
-#     black
-#     pylint
-#     numpy
-#     pip
-#     xxh-xxh
-#   '' + builtins.toString (map (x: "xontrib-" + x) xontribs);
-# };
+  # pyenv = mach-nix.mkPython {
+  #   requirements = ''
+  #     black
+  #   ''; #+ builtins.toString (map (x: "xontrib-" + x) xontribs);
+  #     # pylint
+  #     # numpy
+  #     # pip
+  #     # xxh-xxh
+  # };
 
-#xonshPkgs = pkgs.xonsh.overrideAttrs (old: {
-#  propagatedBuildInputs = old.propagatedBuildInputs ++ pyenv.python.pkgs.selectPkgs pyenv.python.pkgs;
-#});
-#in
+in
 {
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
@@ -40,7 +37,7 @@
   musnix.enable = true;
   hardware = {
     pulseaudio.enable = false;
-    #i2c.enable = true;
+    i2c.enable = true;
   };
 
   boot.loader.systemd-boot.enable = true;
@@ -59,6 +56,8 @@
       enable = true;
       allowedTCPPorts = [
         1716 # gsconnect
+        24800 # barrier
+        # 5900 # vnc
       ];
     };
     wireguard = {
@@ -100,11 +99,24 @@
     };
     # ddccontrol.enable = true;
     interception-tools = {
-      enable = true;
+      enable = true; # TODO: device-specific activation
       plugins = with pkgs.interception-tools-plugins; [
         caps2esc
       ];
+      # https://github.com/NixOS/nixpkgs/issues/126681
+      udevmonConfig = with pkgs; ''
+        - JOB: "${interception-tools}/bin/intercept -g $DEVNODE | ${interception-tools-plugins.caps2esc}/bin/caps2esc | ${interception-tools}/bin/uinput -d $DEVNODE"
+          DEVICE:
+            EVENTS:
+              EV_KEY: [KEY_CAPSLOCK, KEY_ESC]
+      '';
     };
+    printing.enable = true;
+    # avahi = {
+    #   enable = true;
+    #   nssmdns = true;
+    # };
+
     fprintd = {
       enable = true;
     };
@@ -114,6 +126,7 @@
       pulse.enable = true;
       jack.enable = true;
     };
+    # globalprotect.enable = true;
   };
 
   virtualisation = {
@@ -130,7 +143,7 @@
       "audio"
       "dialout"
       "docker"
-      #"i2c"
+      "i2c"
       "input"
       "wheel"
       #"wireshark"
@@ -139,15 +152,8 @@
 
   sound.enable = true;
 
-
   environment = {
-    variables = {
-      EDITOR = "nvim";
-    };
-    sessionVariables = {
-      CALIBRE_USE_DARK_PALETTE = "1";
-    };
-    systemPackages = with pkgs; [ ];
+    # systemPackages = with pkgs; [ ];
     gnome.excludePackages = with pkgs; [
       gnome.cheese
       gnome.gnome-music
@@ -156,6 +162,7 @@
       gnome.gnome-characters
     ];
   };
+
   security = {
     sudo.extraRules = [
       {
@@ -173,34 +180,13 @@
     rtkit.enable = true;
   };
 
-
   programs = {
+    bash.enableCompletion = true;
     dconf.enable = true;
     wireshark.enable = true;
     gnupg.agent = {
       enable = true;
       pinentryFlavor = "gnome3";
     };
-    xonsh = {
-      enable = true;
-      config = builtins.readFile ./xonshrc.xsh;
-    };
-
   };
-  # systemd.user.services = {
-  #   gotify-desktop = {
-  #     unitConfig = {
-  #       Description = "Gotify Desktop";
-  #       After = "network.target";
-  #     };
-  #     serviceConfig = {
-  #       ExecStart = "${config.users.users.bryton.home}/.cargo/bin/gotify-desktop";
-  #     };
-  #   };
-  # };
-
-
-
-
 }
-

@@ -4,6 +4,7 @@
   firefox = import ./firefox pkgs;
   ssh = import ./ssh.nix pkgs;
   git = import ./git.nix;
+  # grm = import ./grm.nix;
 
 
   rbw = {
@@ -12,6 +13,8 @@
       base_url = "https://bitwarden.bryton.io";
       email = "email@bryton.io";
       pinentry = "gnome3";
+      # https://github.com/nix-community/home-manager/issues/2476
+      device_id = "9c538100-b0e0-4d3e-b9ed-7b24f331a65a";
     };
   };
 

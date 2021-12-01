@@ -24,7 +24,7 @@ aliases |= {
 
 xontribs_load([
   "mpl",
-  "sh"
+  # "sh"
 ])
 
 execx($(zoxide init xonsh), 'exec', __xonsh__.ctx, filename='zoxide')

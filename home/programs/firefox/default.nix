@@ -1,6 +1,7 @@
 { pkgs, ... }:
 {
   enable = true;
+  package = pkgs.unstable.firefox;
   profiles = {
     default = {
       id = 0;
@@ -21,15 +22,19 @@
     };
   };
   extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+    # TODO: don't exist
+    # gsconnect
+    # sidebery
+    # cast-kodi
+
+    # buster
+    # bypass-paywalls
+    # ipfs-companion
+    onepassword-password-manager
     anchors-reveal
     auto-tab-discard
-    #buster
-    #bypass-paywalls
     darkreader
     i-dont-care-about-cookies
-    # gsconnect # TODO: doesn't exist
-    # ipfs-companion
-    # sidebery # TODO: doesn't exist
     refined-github
     floccus
     link-cleaner

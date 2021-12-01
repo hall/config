@@ -6,7 +6,7 @@
         realName = "Bryton Hall";
         primary = true;
         userName = "email@bryton.io";
-        passwordCommand = "bw get password protonmail";
+        passwordCommand = "rbw get protonmail";
         imap = {
           host = "imap.bryton.io";
           port = 1143;
@@ -17,7 +17,7 @@
         };
         smtp = {
           host = "smtp.bryton.io";
-          port = 1120;
+          port = 1025;
           tls = {
             enable = true;
             useStartTls = true;

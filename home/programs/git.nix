@@ -11,5 +11,8 @@
         insteadOf = "https://gitlab.com/";
       };
     };
+    pull = {
+      rebase = true;
+    };
   };
 }
