@@ -14,14 +14,25 @@
     packages = import ./packages.nix pkgs;
     sessionVariables = {
       CALIBRE_USE_DARK_PALETTE = "1";
+      MOZ_USE_XINPUT2 = "1";
       EDITOR = "nvim";
     };
     file = {
-      # config = {
-      #   recursive = true;
-      #   source = ./stage/.config;
-      #   target = ".config";
-      # };
+      config = {
+        recursive = true;
+        source = ../stage/.config/xonsh;
+        target = ".config/xonsh";
+      };
+      bin = {
+        recursive = true;
+        source = ../stage/bin;
+        target = "bin/";
+      };
+      kube = {
+        recursive = true;
+        source = ../stage/.kube;
+        target = ".kube/";
+      };
       gotify = {
         text = ''
           [gotify]
@@ -31,12 +42,7 @@
         '';
         target = ".config/gotify-desktop/config.toml";
       };
-
-      xonsh = {
-        source = ./stage/.config/xonsh/rc.xsh;
-        target = ".config/xonsh/rc.xsh";
-      };
     };
   };
 }
-  
+ 
