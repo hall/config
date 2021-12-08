@@ -1,5 +1,6 @@
 { pkgs, ... }:
 {
+  # TODO: how to enable?
   user.services = {
     gotify-desktop = {
       Unit = {
@@ -7,10 +8,10 @@
         After = "network.target";
       };
       Service = {
-        ExecStart = "${pkgs.unstable.gotify-desktop}/bin/gotify-desktop";
+        ExecStart = "${pkgs.gotify-desktop}/bin/gotify-desktop";
       };
       Install = {
-        WantedBy = ["graphical.target"];
+        WantedBy = [ "graphical.target" ];
       };
     };
   };

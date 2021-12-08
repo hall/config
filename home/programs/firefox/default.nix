@@ -1,7 +1,6 @@
 { pkgs, ... }:
 {
   enable = true;
-  package = pkgs.unstable.firefox;
   profiles = {
     default = {
       id = 0;

@@ -28,7 +28,7 @@
     ];
     "projectManager.git.baseFolders" = [ "~/src" ];
   };
-  extensions = with pkgs.unstable.vscode-extensions; [
+  extensions = with pkgs.vscode-extensions; [
     # dendron
     # rest-client
     # jnoortheen.xonsh

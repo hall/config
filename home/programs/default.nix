@@ -23,7 +23,7 @@
     enable = true;
   };
   gh = { enable = true; };
-  htop = { enable = true; };
+  # htop = { enable = true; };
   jq = { enable = true; };
   # obs-studio = { enable = true; };
   # font
@@ -32,7 +32,6 @@
 
   starship = {
     enable = true;
-    package = pkgs.unstable.starship; # for xonsh support
     settings = {
       kubernetes = {
         disabled = false;

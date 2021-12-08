@@ -27,7 +27,7 @@ in
   system.stateVersion = "21.05"; # Did you read the comment?
 
   nix = {
-    package = pkgs.nixUnstable;
+    # package = pkgs.nixUnstable;
     extraOptions = ''
       experimental-features = nix-command flakes
       allow-unsafe-native-code-during-evaluation = true
@@ -38,18 +38,18 @@ in
   hardware = {
     pulseaudio.enable = false;
     i2c.enable = true;
+    sensor.iio.enable = true;
+    # trackpoint.fakeButtons = true;
   };
-
-  boot.loader.systemd-boot.enable = true;
 
   time.timeZone = "America/New_York";
 
   networking = {
-    hostName = "rigetti";
+    hostName = "x12";
     # wireless.enable = true;
     interfaces = {
-      enp0s13f0u3u1.useDHCP = true;
-      enp0s31f6.useDHCP = true;
+      # enp0s13f0u3u1.useDHCP = true;
+      # enp0s31f6.useDHCP = true;
       wlp0s20f3.useDHCP = true;
     };
     firewall = {
@@ -127,6 +127,7 @@ in
       jack.enable = true;
     };
     # globalprotect.enable = true;
+    opensnitch.enable = true;
   };
 
   virtualisation = {
@@ -154,10 +155,17 @@ in
 
   environment = {
     # systemPackages = with pkgs; [ ];
+    sessionVariables = {
+      CALIBRE_USE_DARK_PALETTE = "1";
+      MOZ_USE_XINPUT2 = "1";
+      EDITOR = "nvim";
+    };
     gnome.excludePackages = with pkgs; [
       gnome.cheese
       gnome.gnome-music
       gnome.gedit
+      gnome-tour
+      gnome-passwordsafe
       epiphany
       gnome.gnome-characters
     ];
@@ -188,5 +196,6 @@ in
       enable = true;
       pinentryFlavor = "gnome3";
     };
+    steam.enable = true;
   };
 }

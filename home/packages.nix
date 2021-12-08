@@ -5,19 +5,21 @@ with pkgs; [
   nixpkgs-fmt
   python-language-server
   niv
-  #unstable.newsflash
+  newsflash
   wl-clipboard
-  # syncthing-gtk
-  unstable.gotify-desktop
-  #bitwarden-cli
+  syncthing-gtk
+  gotify-desktop
   nextcloud-client
-  unstable.barrier
+  barrier
   libreoffice
   # chromium
-  networkmanager-openconnect
-  openconnect
-  globalprotect-openconnect
+  # networkmanager-openconnect
+  # openconnect
+  # globalprotect-openconnect
   shellcheck
+
+  sof-firmware
+  opensnitch-ui
 
 
   # appimage-run
@@ -27,7 +29,7 @@ with pkgs; [
   # hunspell
   # hunspellDicts.en_US-large
   # #google-drive-ocamlfuse
-  # #dbeaver
+  dbeaver
   # #file
   # #scrcpy
   # barrier
@@ -66,7 +68,7 @@ with pkgs; [
   # #terraform
   # #pulumi-bin
   bash-completion
-  # bitwarden-cli
+  bitwarden-cli
   # fzf
   # google-cloud-sdk
   awscli2
@@ -85,11 +87,11 @@ with pkgs; [
 
   # comms
   #ferdi
-  # unstable.discord
+  discord
   slack
   tdesktop
   # zoom-us
-  #element-desktop
+  element-desktop-wayland
 
   # # gnome
   gnome.dconf-editor
@@ -98,7 +100,7 @@ with pkgs; [
   # gnome3.gnome-tweaks
   gnome.gnome-remote-desktop
   gnomeExtensions.bluetooth-quick-connect
-  unstable.gnomeExtensions.brightness-control-using-ddcutil
+  gnomeExtensions.brightness-control-using-ddcutil
   gnomeExtensions.gsconnect
   # gnomeExtensions.material-shell
   gnomeExtensions.nasa-apod
@@ -138,7 +140,7 @@ with pkgs; [
   # #maven
 
   # containers
-  unstable.lens
+  lens
   # docker
   # #docker-compose
   # helmfile
@@ -171,9 +173,10 @@ with pkgs; [
   #guitarix
   #inkscape
   #openscad
-  unstable.prusa-slicer
+  prusa-slicer
   #surge
   #siril
   #flameshot
-  #xournalpp
+  xournalpp
+  krita
 ]
