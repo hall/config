@@ -22,5 +22,8 @@
       tap-to-click = true;
       speed = 0.5;
     };
+    "org/gnome/shell" = {
+      disable-user-extensions = false;
+    };
   };
 }
