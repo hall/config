@@ -10,12 +10,15 @@
     ];
 
   boot = {
+    consoleLogLevel = 0;
+    loader.systemd-boot.enable = true;
     initrd = {
       availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "usbhid" "sd_mod" "sdhci_pci" ];
       kernelModules = [ "dm-snapshot" ];
       luks.devices."crypt".device = "/dev/disk/by-partlabel/crypt";
+      verbose = false;
     };
-    kernelModules = [ "kvm-intel" ];
+    kernelParams = [ "quiet" ]; #"udev.log_priority=3" ];
     extraModulePackages = [ ];
   };
 
