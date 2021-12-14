@@ -41,7 +41,7 @@ with pkgs; [
   # unstable.lighttpd
   # gnupg
   # iperf
-  # youtube-dl
+  youtube-dl
   # #istioctl
   # pre-commit
   # #shellcheck
@@ -62,14 +62,15 @@ with pkgs; [
   #sagemath
   #stellarium
 
-  # # cli
+  # cli
+  pciutils
   # #velero
   # #azure-cli
   # #terraform
   # #pulumi-bin
   bash-completion
   bitwarden-cli
-  # fzf
+  fzf
   # google-cloud-sdk
   awscli2
   # inotify-tools
@@ -78,7 +79,7 @@ with pkgs; [
   # #packer
   # #gitlab-runner
   # plan9port
-  # ripgrep
+  ripgrep
   # #s3cmd
   # telnet
   # gparted
@@ -91,11 +92,11 @@ with pkgs; [
   slack
   tdesktop
   # zoom-us
-  element-desktop-wayland
+  element-desktop
 
   # # gnome
   gnome.dconf-editor
-  # gnome.gnome-todo
+  gnome.gnome-todo
   # gnome.gnome-boxes
   # gnome3.gnome-tweaks
   gnome.gnome-remote-desktop
@@ -140,7 +141,7 @@ with pkgs; [
   # #maven
 
   # containers
-  lens
+  # lens
   # docker
   # #docker-compose
   # helmfile
