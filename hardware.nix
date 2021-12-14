@@ -20,6 +20,11 @@
     };
     kernelParams = [ "quiet" ]; #"udev.log_priority=3" ];
     extraModulePackages = [ ];
+    #extraModprobeConfig = ''
+    #  options snd-intel-dspcfg dsp_driver=3
+    #'';
+    #kernelPackages = pkgs.linuxKernel.packages.linux_5_15;
+    kernelModules = with config.boot.kernelPackages; [ "kvm-intel" ];
   };
 
 

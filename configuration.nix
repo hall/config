@@ -39,7 +39,6 @@ in
     pulseaudio.enable = false;
     i2c.enable = true;
     sensor.iio.enable = true;
-    # trackpoint.fakeButtons = true;
   };
 
   time.timeZone = "America/New_York";
@@ -112,10 +111,10 @@ in
       '';
     };
     printing.enable = true;
-    # avahi = {
-    #   enable = true;
-    #   nssmdns = true;
-    # };
+    avahi = {
+      enable = true;
+      nssmdns = true;
+    };
 
     fprintd = {
       enable = true;
@@ -189,7 +188,6 @@ in
   };
 
   programs = {
-    bash.enableCompletion = true;
     dconf.enable = true;
     wireshark.enable = true;
     gnupg.agent = {

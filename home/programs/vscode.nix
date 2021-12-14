@@ -23,6 +23,15 @@
       "[ ]"
       "[x]"
     ];
+    "todo-tree.highlights.customHighlight" = {
+      "[ ]" = {
+        "background" = "#ff000080";
+      };
+      "[x]" = {
+        "background" = "#00ff0080";
+      };
+    };
+
     "terminal.integrated.commandsToSkipShell" = [
       "-workbench.action.quickOpen" # ctrl-p
     ];
