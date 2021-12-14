@@ -15,6 +15,8 @@
         "browser.toolbars.bookmarks.visibility" = "never";
         "devtools.theme" = "dark";
         "extensions.activeThemeID" = "firefox-compact-dark@mozilla.org";
+        "print.tab_modal.enabled" = false;
+        "geo.enabled" = false;
         "signon.rememberSignons" = false;
         "svg.context-properties.content.enabled" = true;
         "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
