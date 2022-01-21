@@ -12,7 +12,7 @@
       };
     };
     pull = {
-      rebase = true;
+      rebase = false;
     };
   };
 }
