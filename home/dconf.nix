@@ -15,9 +15,6 @@
     "org/gnome/desktop/screensaver" = {
       lock-delay = 3600;
     };
-    "org/gnome/desktop/wm/preferences" = {
-      focus-mode = "sloppy";
-    };
     "org/gnome/desktop/peripherals/touchpad" = {
       tap-to-click = true;
       speed = 0.5;
