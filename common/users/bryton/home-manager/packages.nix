@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 with pkgs; [
   # talosctl
 
@@ -7,12 +7,10 @@ with pkgs; [
   niv
   newsflash
   wl-clipboard
-  syncthing-gtk
   gotify-desktop
   nextcloud-client
   barrier
   libreoffice
-  # chromium
   # networkmanager-openconnect
   # openconnect
   # globalprotect-openconnect
@@ -23,15 +21,15 @@ with pkgs; [
 
 
   # appimage-run
-  # calibre
+  #calibre
   # direnv
-  # dnsutils
+  dnsutils
   # hunspell
   # hunspellDicts.en_US-large
   # #google-drive-ocamlfuse
-  dbeaver
+  # dbeaver
   # #file
-  # #scrcpy
+  # scrcpy
   # barrier
   # #go-task
   # #hadolint
@@ -42,9 +40,6 @@ with pkgs; [
   # gnupg
   # iperf
   youtube-dl
-  # #istioctl
-  # pre-commit
-  # #shellcheck
   # koreader
   # moreutils
   # #zotero
@@ -55,11 +50,11 @@ with pkgs; [
   # jellyfin-media-player
   # #pprof
   # zip
-  # wireshark
+  wireshark
 
   # math / science
   #jupyter
-  #sagemath
+  # sage
   #stellarium
 
   # cli
@@ -72,7 +67,7 @@ with pkgs; [
   bitwarden-cli
   fzf
   # google-cloud-sdk
-  awscli2
+  # awscli2
   # inotify-tools
   # lsof
   # #pdsh
@@ -84,11 +79,11 @@ with pkgs; [
   # telnet
   # gparted
   # unzip
-  # yq
+  yq
 
   # comms
   #ferdi
-  discord
+  # discord
   slack
   tdesktop
   # zoom-us
@@ -106,15 +101,18 @@ with pkgs; [
   # gnomeExtensions.material-shell
   gnomeExtensions.nasa-apod
   gnomeExtensions.syncthing-icon
-  gnomeExtensions.night-light-slider
+  # gnomeExtensions.night-light-slider
   gnomeExtensions.unite
-  gnomeExtensions.wireguard-indicator
+  # gnomeExtensions.wireguard-indicator
+  gnomeExtensions.night-theme-switcher
   ddcutil
 
   # # dev
   # #gcc
-  # #gh
+  gh
   # #gnumake
+  ## c
+  clang-tools
   # ## go
   # #air
   # #delve
@@ -127,6 +125,7 @@ with pkgs; [
   # #gopkgs
   # #goreleaser
   # ## python
+  # micromamba
   # #poetry
   # #conda
   # #R
@@ -143,6 +142,7 @@ with pkgs; [
   # containers
   # lens
   # docker
+  docker-buildx
   # #docker-compose
   # helmfile
   # k3s
@@ -152,7 +152,7 @@ with pkgs; [
   # kubernetes-helm
   # #kubetail
   # kustomize
-  kubie # TODO: merge xonsh support
+  kubie
   # krew
   # unstable.skaffold
 
@@ -163,21 +163,25 @@ with pkgs; [
 
   # design
   ardour
+  musescore
   #avldrums-lv2
   #freecad
   #blender
   #gimp
-  #pianobooster
+  pianobooster
   #imagemagick
   #faust
   #faustlive
-  #guitarix
-  #inkscape
-  #openscad
+  guitarix
+  inkscape
+  openscad
+  qjackctl
   prusa-slicer
   #surge
   #siril
   #flameshot
-  xournalpp
-  krita
 ]
+# ++ lib.optionals (config.networking.hostname == "x12") [
+#  krita
+# xournalpp
+#]

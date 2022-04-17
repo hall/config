@@ -8,11 +8,15 @@
       "**.yaml.gotmpl" = "helm";
       "**.yaml.jinja" = "helm";
       "helmfile.yaml" = "helm";
+      "**.pyx" = "python";
     };
     "explorer.confirmDelete" = false;
     "explorer.confirmDragAndDrop" = false;
     "editor.formatOnSave" = true;
     "git.confirmSync" = false;
+    "jupyter.widgetScriptSources" = [ "jsdelivr.com" "unpkg.com" ];
+    "jupyter.themeMatplotlibPlots" = true;
+    "jupyter.askForKernelRestart" = false;
     "todo-tree.regex.regex" = "(//|#|<!--|;|/\\*|^|^\\s*(-|\\d+.))\\s*($TAGS)";
     "todo-tree.general.tags" = [
       "BUG"
@@ -36,6 +40,16 @@
       "-workbench.action.quickOpen" # ctrl-p
     ];
     "projectManager.git.baseFolders" = [ "~/src" ];
+
+    # https://wiki.dendron.so/notes/692fa114-f798-467f-a0b9-3cccc327aa6f/#remove-markdown-buttons-in-menu-bar
+    "markdownShortcuts.icons.bold" = false;
+    "markdownShortcuts.icons.italic" = false;
+    "markdownShortcuts.icons.strikethrough" = false;
+    "markdownShortcuts.icons.bullets" = false;
+    # "workbench.experimental.sidePanel.enabled" = true;
+    "workbench.experimental.panel.alignment" = "left";
+    "redhat.telemetry.enabled" = false;
+
   };
   extensions = with pkgs.vscode-extensions; [
     # dendron
@@ -62,6 +76,7 @@
     stkb.rewrap
     streetsidesoftware.code-spell-checker
     vscodevim.vim
+    llvm-vs-code-extensions.vscode-clangd
   ];
   keybindings = [
     {
@@ -102,20 +117,31 @@
       command = "workbench.action.terminal.split";
       when = "terminalFocus && panelPosition == 'bottom'";
     }
-    # {
-    #   key = "ctrl+n";
-    #   command = "cursorHome";
-    #   when = "terminalFocus";
-    # }
-    # {
-    #   key = "ctrl+e";
-    #   command = "cursorEnd";
-    #   when = "terminalFocus";
-    # }
+    {
+      key = "ctrl+n";
+      command = "cursorHome";
+      when = "terminalFocus";
+    }
+    {
+      key = "ctrl+e";
+      command = "cursorEnd";
+      when = "terminalFocus";
+    }
     {
       key = "ctrl+l";
       command = "workbench.action.terminal.clear";
       when = "terminalFocus";
     }
+
+    # https://wiki.dendron.so/notes/692fa114-f798-467f-a0b9-3cccc327aa6f/#keep-track-of-tabs
+    {
+      key = "ctrl+t";
+      command = "workbench.action.showAllEditors";
+    }
+    {
+      key = "ctrl+l";
+      command = "-extension.vim_navigateCtrlL";
+    }
+
   ];
 }

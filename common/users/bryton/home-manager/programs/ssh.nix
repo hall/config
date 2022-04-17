@@ -1,4 +1,4 @@
-{...}:
+{ ... }:
 let
   # get ssh key from bitwarden
   ssh-key = x: builtins.toFile "${x}-ssh-key" (
@@ -25,18 +25,27 @@ in
       identityFile = ssh-key "github";
     };
     devices = {
-      host = "router switch ap1 ap2";
+      host = "router ap1 ap2";
+      user = "root";
+      identityFile = ssh-key "router";
+    };
+    switch = {
+      hostname = "192.168.1.130";
       user = "root";
       identityFile = ssh-key "router";
     };
     pinephone = {
-      host = "pinephone";
+      hostname = "pro";
       identityFile = ssh-key "pinephone";
     };
     osmc = {
-      host = "osmc";
       user = "osmc";
       identityFile = ssh-key "github";
+    };
+    pi = {
+      host = "bedroom office";
+      user = "pi";
+      identityFile = ssh-key "pi";
     };
   };
 }

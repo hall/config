@@ -18,11 +18,30 @@
     };
   };
 
-  # direnv = {};
+  direnv = {
+    enable = true;
+    nix-direnv = {
+      enable = true;
+    };
+  };
+
+  gnome-terminal = {
+    profile.default = {
+      
+
+    };
+  };
+
   fzf = {
     enable = true;
   };
-  gh = { enable = true; };
+  # TODO: https://github.com/nix-community/home-manager/issues/1654
+  # gh = {
+  #   enable = true;
+  #   settings = {
+  #     git_protocol = "ssh";
+  #   };
+  # };
   # htop = { enable = true; };
   jq = { enable = true; };
   # obs-studio = { enable = true; };

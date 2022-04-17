@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 {
   accounts = import ./accounts.nix;
   dconf = import ./dconf.nix;
@@ -11,7 +11,7 @@
     username = "bryton";
     homeDirectory = "/home/bryton";
     stateVersion = "21.05";
-    packages = import ./packages.nix pkgs;
+    packages = import ./packages.nix { inherit config pkgs; };
     sessionVariables = {
       CALIBRE_USE_DARK_PALETTE = "1";
       MOZ_USE_XINPUT2 = "1";
