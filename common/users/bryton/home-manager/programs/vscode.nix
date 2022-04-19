@@ -40,6 +40,7 @@
       "-workbench.action.quickOpen" # ctrl-p
     ];
     "projectManager.git.baseFolders" = [ "~/src" ];
+    "projectManager.git.maxDepthRecursion" = 5;
 
     # https://wiki.dendron.so/notes/692fa114-f798-467f-a0b9-3cccc327aa6f/#remove-markdown-buttons-in-menu-bar
     "markdownShortcuts.icons.bold" = false;
@@ -49,7 +50,6 @@
     # "workbench.experimental.sidePanel.enabled" = true;
     "workbench.experimental.panel.alignment" = "left";
     "redhat.telemetry.enabled" = false;
-
   };
   extensions = with pkgs.vscode-extensions; [
     # dendron
@@ -119,12 +119,12 @@
     }
     {
       key = "ctrl+n";
-      command = "cursorHome";
+      command = "cursorLineStart";
       when = "terminalFocus";
     }
     {
       key = "ctrl+e";
-      command = "cursorEnd";
+      command = "cursorLineEnd";
       when = "terminalFocus";
     }
     {
