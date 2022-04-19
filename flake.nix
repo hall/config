@@ -16,6 +16,8 @@
       inherit (inputs.nixpkgs.lib) recursiveUpdate;
 
       lib = import ./lib;
+      overlays = import ./overlays { inherit lib; };
+      packages = import ./pkgs;
     in
     inputs.utils.lib.mkFlake rec {
       inherit self inputs lib;
@@ -38,8 +40,16 @@
       };
 
       sharedOverlays = [
+        overlays
         inputs.nur.overlay
       ];
 
+      outputsBuilder = channels: {
+        packages =
+          let
+            inherit (channels.nixpkgs.stdenv.hostPlatform) system;
+          in
+          packages { inherit lib channels; } // { };
+      };
     };
 }
