@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, flakePkgs, ... }:
 with pkgs; [
   # talosctl
 
@@ -180,8 +180,7 @@ with pkgs; [
   #surge
   #siril
   #flameshot
+  krita
+  xournalpp
+  flakePkgs.moserial
 ]
-# ++ lib.optionals (config.networking.hostname == "x12") [
-#  krita
-# xournalpp
-#]
