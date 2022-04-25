@@ -42,8 +42,6 @@ in
       # enable = false;
       allowedTCPPorts = [
         1716 # gsconnect
-        24800 # barrier
-        # 5900 # vnc
       ];
     };
     wireguard = {
