@@ -25,12 +25,7 @@ in
       identityFile = ssh-key "github";
     };
     devices = {
-      host = "router ap1 ap2";
-      user = "root";
-      identityFile = ssh-key "router";
-    };
-    switch = {
-      hostname = "192.168.1.130";
+      host = "router switch ap1 ap2";
       user = "root";
       identityFile = ssh-key "router";
     };
