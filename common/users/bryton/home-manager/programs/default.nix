@@ -1,8 +1,8 @@
-{ lib, config, pkgs, ... }:
+{ pkgs, flake, ... }:
 {
   vscode = import ./vscode.nix pkgs;
   firefox = import ./firefox pkgs;
-  ssh = import ./ssh.nix pkgs;
+  ssh = import ./ssh.nix { inherit pkgs flake; };
   git = import ./git.nix;
   # grm = import ./grm.nix;
 
@@ -67,7 +67,7 @@
     enable = true;
     viAlias = true;
     vimAlias = true;
-    # plugins = [];
+    plugins = with pkgs; [ nur.repos.m15a.vimExtraPlugins.firenvim ];
   };
 
 }

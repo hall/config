@@ -1,9 +1,9 @@
-{ config, pkgs, flakePkgs, ... }:
+{ config, pkgs, flakePkgs, flake, ... }:
 {
   accounts = import ./accounts.nix;
   dconf = import ./dconf.nix;
   gtk = import ./gtk.nix pkgs;
-  programs = import ./programs pkgs;
+  programs = import ./programs { inherit pkgs flake; };
   services = import ./services.nix;
   systemd = import ./systemd.nix pkgs;
 

@@ -1,14 +1,8 @@
-{ ... }:
+{ flake, ... }:
 let
   # get ssh key from bitwarden
   ssh-key = x: builtins.toFile "${x}-ssh-key" (
-    builtins.exec [
-      "su"
-      "-c"
-      "echo \"''\" && rbw get --folder ssh ${x} && echo \"''\""
-      "-"
-      "bryton"
-    ]
+    flake.lib.pass "--folder ssh ${x}"
   );
 in
 {
@@ -41,6 +35,13 @@ in
       host = "bedroom office";
       user = "pi";
       identityFile = ssh-key "pi";
+    };
+
+    rigetti = {
+      host = "rigetti.gitlab.com";
+      hostname = "gitlab.com";
+      user = "git";
+      identityFile = ssh-key "rigetti";
     };
   };
 }
