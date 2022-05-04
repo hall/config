@@ -54,9 +54,9 @@
     #   enable = true;
     #   nssmdns = true;
     # };
-    fprintd = {
-      enable = true;
-    };
+    # fprintd = {
+    #   enable = true;
+    # };
     pipewire = {
       enable = true;
       alsa.enable = true;
@@ -86,7 +86,7 @@
     pam = {
       services = {
         login = {
-          fprintAuth = true;
+          # fprintAuth = true;
         };
       };
     };
