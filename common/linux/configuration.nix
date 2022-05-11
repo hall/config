@@ -1,6 +1,8 @@
 { pkgs, ... }:
 {
 
+  imports = [ ./hardware.nix ];
+
   hardware = {
     pulseaudio.enable = false;
     i2c.enable = true;
