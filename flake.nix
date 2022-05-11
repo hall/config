@@ -5,7 +5,6 @@
     stable.url = github:nixos/nixpkgs/nixos-21.11;
     nur.url = github:nix-community/nur;
     home-manager.url = github:nix-community/home-manager; #/release-21.11;
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
     musnix.url = github:musnix/musnix;
     mach.url = github:davhau/mach-nix;
     utils.url = github:gytis-ivaskevicius/flake-utils-plus/v1.3.1;
@@ -32,7 +31,6 @@
       hostDefaults.modules = [
         ./common/configuration.nix
       ];
-
 
       hosts = lib.mkHosts {
         inherit self;

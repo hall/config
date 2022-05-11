@@ -1,9 +1,9 @@
 { config, pkgs, flakePkgs, ... }:
 with pkgs; [
-  # talosctl
+  talosctl
 
   nixpkgs-fmt
-  python-language-server
+  # python-language-server
   niv
   newsflash
   wl-clipboard
@@ -11,23 +11,18 @@ with pkgs; [
   nextcloud-client
   barrier
   libreoffice
-  # networkmanager-openconnect
-  # openconnect
-  # globalprotect-openconnect
   shellcheck
 
   sof-firmware
   opensnitch-ui
 
-
   # appimage-run
-  #calibre
   # direnv
   dnsutils
   # hunspell
   # hunspellDicts.en_US-large
   # #google-drive-ocamlfuse
-  # dbeaver
+  dbeaver
   # #file
   # scrcpy
   # barrier
@@ -168,7 +163,6 @@ with pkgs; [
   #freecad
   #blender
   #gimp
-  pianobooster
   #imagemagick
   #faust
   #faustlive
