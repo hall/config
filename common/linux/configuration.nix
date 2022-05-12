@@ -17,7 +17,13 @@
     xserver = {
       enable = true;
       displayManager = {
-        gdm.enable = true;
+        gdm = {
+          enable = true;
+          autoLogin = {
+            enable = true;
+            user = "bryton";
+          };
+        };
       };
       libinput = {
         touchpad = {
@@ -56,9 +62,6 @@
     #   enable = true;
     #   nssmdns = true;
     # };
-    fprintd = {
-      enable = true;
-    };
     pipewire = {
       enable = true;
       alsa.enable = true;
@@ -85,13 +88,6 @@
         commands = [{ command = "ALL"; options = [ "NOPASSWD" ]; }];
       }
     ];
-    pam = {
-      services = {
-        login = {
-          fprintAuth = true;
-        };
-      };
-    };
     rtkit.enable = true;
   };
 }
