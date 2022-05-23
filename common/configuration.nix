@@ -5,11 +5,14 @@
     ./home-manager.nix
   ];
 
-  # This value determines the NixOS release with which your system is to be
-  # compatible, in order to avoid breaking some software such as database
-  # servers. You should change this only after NixOS release notes say you
-  # should.
-  system.stateVersion = "21.05"; # Did you read the comment?
+  system = {
+    # This value determines the NixOS release with which your system is to be
+    # compatible, in order to avoid breaking some software such as database
+    # servers. You should change this only after NixOS release notes say you
+    # should.
+    stateVersion = "21.05"; # Did you read the comment?
+    autoUpgrade.enable = true;
+  };
 
 
   environment = {
@@ -52,7 +55,6 @@
   nix = {
     generateRegistryFromInputs = true;
     generateNixPathFromInputs = true;
-    package = pkgs.nixUnstable;
     gc.automatic = true;
     extraOptions = ''
       experimental-features = nix-command flakes
