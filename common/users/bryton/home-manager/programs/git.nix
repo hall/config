@@ -23,8 +23,10 @@
         user = {
           email = "bhall@rigetti.com";
         };
-        core = {
-          sshCommand = "ssh -i ~/.ssh/rigetti";
+        url = {
+          "rigetti.gitlab.com" = {
+            insteadOf = "gitlab.com";
+          };
         };
       };
     }
