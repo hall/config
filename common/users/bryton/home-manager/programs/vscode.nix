@@ -40,6 +40,7 @@
       };
     };
 
+    "terminal.integrated.scrollback" = 10000;
     "terminal.integrated.commandsToSkipShell" = [
       "-workbench.action.quickOpen" # ctrl-p
     ];

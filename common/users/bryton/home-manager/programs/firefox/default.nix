@@ -36,16 +36,17 @@
     # ipfs-companion
     anchors-reveal
     auto-tab-discard
+    bitwarden
     darkreader
-    i-dont-care-about-cookies
-    refined-github
+    firenvim
     floccus
+    https-everywhere
+    i-dont-care-about-cookies
     link-cleaner
     multi-account-containers
+    refined-github
     temporary-containers
+    tridactyl
     ublock-origin
-    bitwarden
-    vim-vixen
-    https-everywhere
   ];
 }

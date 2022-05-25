@@ -13,6 +13,8 @@
     };
     "org/gnome/desktop/interface" = {
       enable-hot-corners = false;
+      color-scheme = "prefer-dark";
+      font-name = "Hack Regular";
     };
     "org/gnome/desktop/screensaver" = {
       lock-delay = 3600;
