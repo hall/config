@@ -6,8 +6,10 @@
     "org/gnome/settings-daemon/plugins/power" = {
       sleep-inactive-ac-timeout = 2400;
     };
-    "org/gnome/mutter" = {
-      workspaces-only-on-primary = false;
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
+      name = "notes";
+      command = "codium notes/dendron.code-workspace --touch-events";
+      binding = "<Super>apostrophe";
     };
     "org/gnome/desktop/interface" = {
       enable-hot-corners = false;
@@ -21,6 +23,9 @@
     };
     "org/gnome/shell" = {
       disable-user-extensions = false;
+    };
+    "org/gnome/mutter" = {
+      workspaces-only-on-primary = false;
     };
   };
 }
