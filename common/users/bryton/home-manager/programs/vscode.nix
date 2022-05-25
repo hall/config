@@ -13,6 +13,7 @@
     "explorer.confirmDelete" = false;
     "explorer.confirmDragAndDrop" = false;
     "editor.formatOnSave" = true;
+    "draw.directory" = "assets";
     "git.confirmSync" = false;
     "jupyter.widgetScriptSources" = [ "jsdelivr.com" "unpkg.com" ];
     "jupyter.themeMatplotlibPlots" = true;
@@ -27,6 +28,9 @@
       "[ ]"
       "[x]"
     ];
+    "latex-workshop.view.pdf.invertMode.enabled" = "auto";
+    "latex-workshop.view.pdf.invert" = 0.88;
+    "latex-workshop.view.pdf.zoom" = "page-width";
     "todo-tree.highlights.customHighlight" = {
       "[ ]" = {
         "background" = "#ff000080";
@@ -50,11 +54,13 @@
     # "workbench.experimental.sidePanel.enabled" = true;
     "workbench.experimental.panel.alignment" = "left";
     "redhat.telemetry.enabled" = false;
+    "window.menuBarVisibility" = "toggle";
   };
   extensions = with pkgs.vscode-extensions; [
-    # dendron
+    # dendron (+ md shortcuts, paste image)
     # rest-client
     # jnoortheen.xonsh
+    # remote containers
     alefragnani.project-manager
     arcticicestudio.nord-visual-studio-code
     arrterian.nix-env-selector
@@ -62,21 +68,22 @@
     bbenoist.nix
     eamodio.gitlens
     editorconfig.editorconfig
-    formulahendry.code-runner
     golang.go
     gruntfuggly.todo-tree
     hashicorp.terraform
     haskell.haskell
     james-yu.latex-workshop
     jnoortheen.nix-ide
+    llvm-vs-code-extensions.vscode-clangd
     mikestead.dotenv
     ms-kubernetes-tools.vscode-kubernetes-tools
     ms-python.python
+    ms-toolsai.jupyter
+    # ms-vscode-remote.remote-ssh
     redhat.vscode-yaml
-    stkb.rewrap
     streetsidesoftware.code-spell-checker
     vscodevim.vim
-    llvm-vs-code-extensions.vscode-clangd
+    yzhang.markdown-all-in-one
   ];
   keybindings = [
     {
