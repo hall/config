@@ -7,7 +7,10 @@
 
   boot = {
     consoleLogLevel = 0;
-    loader.systemd-boot.enable = true;
+    loader = {
+      timeout = 0;
+      systemd-boot.enable = true;
+    };
     initrd = {
       availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "usbhid" "sd_mod" "sdhci_pci" ];
       kernelModules = [ "dm-snapshot" ];
