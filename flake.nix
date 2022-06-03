@@ -30,6 +30,7 @@
 
       hostDefaults.modules = [
         ./common/configuration.nix
+        inputs.musnix.nixosModules.musnix
       ];
 
       hosts = lib.mkHosts {

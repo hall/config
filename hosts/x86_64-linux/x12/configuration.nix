@@ -1,4 +1,4 @@
-{ pkgs, mach, ... }:
+{ pkgs, musnix, ... }:
 let
   xontribs = [
     # "argcomplete" # tab completion of python and xonsh scripts
@@ -35,7 +35,7 @@ in
 
   # boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
-  # musnix.enable = true;
+  musnix.enable = true;
 
   networking = {
     firewall = {
