@@ -17,8 +17,17 @@
       musescore
       prusa-slicer
       xournalpp
+      element-desktop
+      tdesktop
 
       flakePkgs.moserial
+
+      talosctl
+      nextcloud-client
+      newsflash
+      sof-firmware
+      youtube-dl
+      bitwarden-cli
     ];
   };
 }

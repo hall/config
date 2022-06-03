@@ -1,12 +1,5 @@
 { config, pkgs, flakePkgs, ... }:
 with pkgs; [
-  talosctl
-  nextcloud-client
-  newsflash
-  sof-firmware
-  youtube-dl
-  bitwarden-cli
-
   nixpkgs-fmt
   # python-language-server
   niv
@@ -59,16 +52,10 @@ with pkgs; [
   yq
 
   # comms
-  #ferdi
-  # discord
   slack
-  tdesktop
-  # zoom-us
-  element-desktop
 
   # # gnome
   gnome.dconf-editor
-  gnome.gnome-todo
   # gnome.gnome-boxes
   # gnome3.gnome-tweaks
   # gnome.gnome-remote-desktop
