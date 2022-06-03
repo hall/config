@@ -56,6 +56,9 @@
     "workbench.experimental.panel.alignment" = "left";
     "redhat.telemetry.enabled" = false;
     "window.menuBarVisibility" = "toggle";
+    "telemetry.telemetryLevel" = "off";
+    "rest-client.enableTelemetry" = true;
+    "editor.fontFamily" = "Hack, monospace";
   };
   extensions = with pkgs.vscode-extensions; [
     # dendron (+ md shortcuts, paste image)
