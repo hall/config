@@ -13,7 +13,6 @@ with pkgs; [
   wl-clipboard
   libreoffice
   shellcheck
-  opensnitch-ui
   dbeaver
   dnsutils
   wireshark
