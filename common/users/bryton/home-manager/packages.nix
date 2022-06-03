@@ -117,6 +117,7 @@ with pkgs; [
 
   # containers
   # lens
+  flakePkgs.openlens
   docker-buildx
   kubectl
   kubie
