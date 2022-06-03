@@ -19,10 +19,6 @@
       displayManager = {
         gdm = {
           enable = true;
-          autoLogin = {
-            enable = true;
-            user = "bryton";
-          };
         };
       };
       libinput = {
