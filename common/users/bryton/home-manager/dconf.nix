@@ -22,6 +22,7 @@
     "org/gnome/desktop/peripherals/touchpad" = {
       tap-to-click = true;
       speed = 0.5;
+      tap-and-drag = false;
     };
     "org/gnome/shell" = {
       disable-user-extensions = false;
