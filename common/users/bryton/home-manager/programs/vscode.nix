@@ -153,6 +153,9 @@
       key = "ctrl+l";
       command = "-extension.vim_navigateCtrlL";
     }
-
+    {
+      key = "meta+Escape"; # stylus tail button
+      command = "draw.editCurrentLineAsSVG";
+    }
   ];
 }

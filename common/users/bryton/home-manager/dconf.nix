@@ -11,6 +11,9 @@
       command = "codium notes/dendron.code-workspace --touch-events";
       binding = "<Super>apostrophe";
     };
+    "org/gnome/mutter/wayland/keybindings" = {
+      restore-shortcuts = [ ]; # bound to meta+esc by default which conflicts with stylus tail button
+    };
     "org/gnome/desktop/interface" = {
       enable-hot-corners = false;
       color-scheme = "prefer-dark";
