@@ -23,7 +23,7 @@ aliases |= {
     "k": ["kubectl"],
     "t": ["talosctl"],
     "cd": ["z"],
-    "lens": ["bash", "-c", "sudo rm -rf ~/.config/Lens/extensions && openlens"]
+    "lens": ["bash", "-c", "sudo rm -rf ~/.config/OpenLens/extensions && openlens"]
 }
 
 

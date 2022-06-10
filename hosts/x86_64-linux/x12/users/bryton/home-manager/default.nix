@@ -19,6 +19,7 @@
       xournalpp
       element-desktop
       tdesktop
+      gnome.gnome-boxes
 
       flakePkgs.moserial
 

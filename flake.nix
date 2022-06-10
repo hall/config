@@ -8,7 +8,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     musnix.url = github:musnix/musnix;
-    # mach.url = github:davhau/mach-nix;
+    mach.url = github:davhau/mach-nix;
     utils.url = github:gytis-ivaskevicius/flake-utils-plus/v1.3.1;
     # mobile.url = github:nixos/mobile-nixos/master;
   };
