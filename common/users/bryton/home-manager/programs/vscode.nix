@@ -18,6 +18,7 @@
     "jupyter.widgetScriptSources" = [ "jsdelivr.com" "unpkg.com" ];
     "jupyter.themeMatplotlibPlots" = true;
     "jupyter.askForKernelRestart" = false;
+    "window.autoDetectColorScheme" = true;
     "todo-tree.regex.regex" = "(//|#|<!--|;|/\\*|^|^\\s*(-|\\d+.))\\s*($TAGS)";
     "todo-tree.general.tags" = [
       "BUG"
