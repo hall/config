@@ -8,7 +8,7 @@ let
 
   src = fetchurl {
     url = "https://github.com/MuhammedKalkan/OpenLens/releases/download/v${version}/OpenLens-${version}.AppImage";
-    sha256 = "sha256-4xZfB9fnwwirPeTlcps1bUN+NEI1X9X5v9EIvBlkcJE=";
+    sha256 = "sha256-ISQ0IAUe+Qqg8FRymlzvt2rnGN80GbicpP40Y4pORvQ=";
     name = "${name}.AppImage";
   };
 
