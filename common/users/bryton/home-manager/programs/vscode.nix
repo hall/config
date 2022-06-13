@@ -156,7 +156,7 @@
     }
     {
       key = "meta+Escape"; # stylus tail button
-      command = "draw.editCurrentLineAsSVG";
+      command = "draw.editCurrentLine";
     }
   ];
 }
