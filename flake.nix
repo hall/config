@@ -10,7 +10,11 @@
     musnix.url = github:musnix/musnix;
     mach.url = github:davhau/mach-nix;
     utils.url = github:gytis-ivaskevicius/flake-utils-plus/v1.3.1;
-    # mobile.url = github:nixos/mobile-nixos/master;
+    mobile = {
+      # url = github:nixos/mobile-nixos/master;
+      url = github:samueldr-wip/mobile-nixos-wip/wip/pinephone-pro;
+      flake = false;
+    };
   };
   outputs = inputs@{ self, home-manager, ... }:
     let
