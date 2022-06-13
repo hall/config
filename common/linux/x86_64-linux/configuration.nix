@@ -1,5 +1,29 @@
-{ pkgs, ... }:
+{ pkgs, system, inputs, flakePkgs, ... }:
+let
+  #pyenv = inputs.mach.mkPython {
+  #  requirements = ''
+  #    # black
+  #    # python-lsp-server[all]
+  #    xontrib-sh
+  #    # xxh-xxh
+  #    # numpy
+  #    # pandas
+  #  ''; #+ builtins.toString (map (x: "xontrib-" + x) xontribs);
+  #  # pylint
+  #  # pip
+  #};
+
+  #_xonsh = pkgs.xonsh.overrideAttrs (old: {
+  #  propagatedBuildInputs = old.propagatedBuildInputs ++ pyenv.python.pkgs.selectPkgs pyenv.python.pkgs;
+  #});
+
+in
 {
+  # environment = {
+  #   systemPackages = with pkgs; [
+  #     _xonsh
+  #   ];
+  # };
 
   imports = [ ./hardware.nix ];
 
@@ -14,6 +38,7 @@
   };
 
   services = {
+    # input-remapper.enable = true;
     xserver = {
       enable = true;
       displayManager = {
