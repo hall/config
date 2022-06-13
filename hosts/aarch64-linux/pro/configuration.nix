@@ -46,6 +46,8 @@ in
     chatty
     megapixels
     gnome.gnome-terminal
+    guitarix
+    newsflash
   ];
 
   programs.calls.enable = true;
