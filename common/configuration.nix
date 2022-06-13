@@ -44,7 +44,6 @@
 
   services = {
     xserver = {
-      desktopManager.gnome.enable = true;
       layout = "us";
       xkbVariant = "dvorak";
     };
@@ -69,7 +68,7 @@
 
   programs = {
     dconf.enable = true;
-    wireshark.enable = true;
+    # wireshark.enable = true;
     gnupg.agent = {
       enable = true;
       pinentryFlavor = "gnome3";
