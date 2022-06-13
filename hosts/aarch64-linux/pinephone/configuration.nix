@@ -1,9 +1,11 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, musnix, ... }:
 let
   username = "bryton";
 in
 {
   imports = [ ./hardware.nix ];
+
+  musnix.enable = true;
 
   boot.loader.grub.enable = false;
   # numeric password is currently required to unlock a session
