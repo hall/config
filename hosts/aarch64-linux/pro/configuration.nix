@@ -12,7 +12,6 @@ in
     ${username} = {
       isNormalUser = true;
       group = "users";
-      password = "1234";
     };
     root.password = "1234";
     # geoclue.extraGroups = [ "networkmanager" ];
