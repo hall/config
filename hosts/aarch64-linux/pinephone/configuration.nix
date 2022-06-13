@@ -24,6 +24,11 @@ in
 
   services = {
     fwupd.enable = true;
+    flatpak = {
+      enable = true;
+      # bitwarden
+      # dialect
+    };
 
     xserver.desktopManager.phosh = {
       enable = true;
@@ -45,9 +50,42 @@ in
   environment.systemPackages = with pkgs; [
     chatty
     megapixels
-    gnome.gnome-terminal
+    epiphany
     guitarix
     newsflash
+    giara
+
+    gnome.gnome-terminal
+    gnome.gnome-calendar
+    gnome.gnome-contacts
+    gnome.gnome-calculator
+    gnome.gnome-clocks
+    #gnome.gnome-documents # broken
+    gnome.gnome-maps
+    gnome.gnome-music
+    gnome-photos
+    gnome.gnome-weather
+    gnome.gnome-system-monitor
+    gnome.gnome-sound-recorder
+
+    gnome.gnome-todo
+    gnome.gnome-notes
+    gnome.gnome-books
+    gnome.gnome-screenshot
+    gnome.gnome-dictionary
+    gnome-podcasts
+
+    gnome.geary # email
+    gnome.totem # videos
+    gnome.gedit # editor
+    gnome.nautilus # files
+    gnome.eog # images
+    drawing
+    fragments
+    banking
+    tootle
+    waydroid
+    #telegram
   ];
 
   programs.calls.enable = true;
