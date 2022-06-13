@@ -11,6 +11,10 @@
       "input"
       "wheel"
       #"wireshark"
+
+      "feedbackd"
+      "video"
+      "networkmanager"
     ];
   };
 }
