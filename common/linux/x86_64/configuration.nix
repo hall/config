@@ -27,16 +27,6 @@ in
 
   imports = [ ./hardware.nix ];
 
-  hardware = {
-    pulseaudio.enable = false;
-    i2c.enable = true;
-    sensor.iio.enable = true;
-  };
-
-  console = {
-    useXkbConfig = true;
-  };
-
   services = {
     # input-remapper.enable = true;
     xserver = {
@@ -75,17 +65,10 @@ in
               EV_KEY: [KEY_CAPSLOCK, KEY_ESC]
       '';
     };
-    printing.enable = true;
     # avahi = {
     #   enable = true;
     #   nssmdns = true;
     # };
-    pipewire = {
-      enable = true;
-      alsa.enable = true;
-      pulse.enable = true;
-      jack.enable = true;
-    };
     # globalprotect.enable = true;
     opensnitch.enable = true;
   };
@@ -95,17 +78,5 @@ in
       enable = true;
       enableOnBoot = false;
     };
-  };
-
-  sound.enable = true;
-
-  security = {
-    sudo.extraRules = [
-      {
-        users = [ "bryton" ];
-        commands = [{ command = "ALL"; options = [ "NOPASSWD" ]; }];
-      }
-    ];
-    rtkit.enable = true;
   };
 }
