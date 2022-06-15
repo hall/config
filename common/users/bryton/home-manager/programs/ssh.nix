@@ -24,7 +24,6 @@ in
       identityFile = ssh-key "router";
     };
     pinephone = {
-      hostname = "pro";
       identityFile = ssh-key "pinephone";
     };
     osmc = {
