@@ -1,7 +1,7 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   services = {
-    nextcloud-client.enable = false;
+    nextcloud-client.enable = lib.mkForce false;
   };
   home = {
     packages = with pkgs; [
