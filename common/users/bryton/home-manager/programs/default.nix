@@ -9,7 +9,6 @@
   rbw = {
     enable = true;
     settings = {
-      base_url = "https://bitwarden.bryton.io";
       email = "email@bryton.io";
       pinentry = "gnome3";
     };
