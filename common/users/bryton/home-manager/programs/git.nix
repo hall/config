@@ -18,7 +18,7 @@
   };
   includes = [
     {
-      condition = "gitdir:/home/bryton/src/gitlab.com/rigetti/";
+      condition = "gitdir:~/src/gitlab.com/rigetti/";
       contents = {
         user = {
           email = "bhall@rigetti.com";
