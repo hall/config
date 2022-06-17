@@ -26,6 +26,13 @@
     in
     inputs.utils.lib.mkFlake rec {
       inherit self inputs lib;
+
+      username = "bryton";
+      hostname = "${username}.io";
+
+      name = "Bryton Hall";
+      email = "email@${hostname}";
+
       channelsConfig = {
         # allowBroken = true;
         allowUnfreePredicate = pkg: builtins.elem (inputs.nixpkgs.lib.getName pkg) [

@@ -1,14 +1,15 @@
+{ flake }:
 {
   email = {
     accounts = {
       personal = {
-        address = "email@bryton.io";
-        realName = "Bryton Hall";
+        address = flake.email;
+        realName = flake.name;
         primary = true;
-        userName = "email@bryton.io";
+        userName = flake.email;
         passwordCommand = "rbw get protonmail";
         imap = {
-          host = "imap.bryton.io";
+          host = "imap.${flake.hostname}";
           port = 1143;
           tls = {
             enable = true;
@@ -16,7 +17,7 @@
           };
         };
         smtp = {
-          host = "smtp.bryton.io";
+          host = "smtp.${flake.hostname}";
           port = 1025;
           tls = {
             enable = true;

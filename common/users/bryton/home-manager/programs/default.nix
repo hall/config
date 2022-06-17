@@ -3,13 +3,13 @@
   vscode = import ./vscode.nix pkgs;
   firefox = import ./firefox pkgs;
   ssh = import ./ssh.nix { inherit pkgs flake; };
-  git = import ./git.nix;
+  git = import ./git.nix { inherit flake; };
   # grm = import ./grm.nix;
 
   rbw = {
     enable = true;
     settings = {
-      email = "email@bryton.io";
+      email = flake.email;
       pinentry = "gnome3";
     };
   };

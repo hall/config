@@ -1,4 +1,4 @@
-{ pkgs, musnix, ... }:
+{ pkgs, musnix, flake, ... }:
 let
   xontribs = [
     # "argcomplete" # tab completion of python and xonsh scripts
@@ -32,12 +32,12 @@ in
       # interfaces = {
       #   wg0 = {
       #     # TODO: use privateKeyFile instead
-      #     privateKey = builtins.exec [ "su" "-c" "echo -n 'rbw get wg | tr -d '\\n'" "bryton" ];
+      #     privateKey = builtins.exec [ "su" "-c" "echo -n 'rbw get wg | tr -d '\\n'" flake.username ];
       #     ips = [
       #       "192.168.20.4/24"
       #     ];
       #     peers = [{
-      #       endpoint = "vpn.bryton.io";
+      #       endpoint = "vpn.${flake.hostname}";
       #       publicKey = "jTmdPNGrlmF3vS/AdLNiWCK4HfA1EeeogR8yCHLsgWk=";
       #     }];
       #   };
@@ -52,7 +52,7 @@ in
                 if [[ "$(nmcli -t -f NAME connection show --active)" == "hall" ]]; then
                   setting=false
                 fi
-                su -l bryton -c "dbus-launch dconf write /org/gnome/desktop/screensaver/lock-enabled ''${setting:-true}"
+                su -l ${flake.username} -c "dbus-launch dconf write /org/gnome/desktop/screensaver/lock-enabled ''${setting:-true}"
         '';
       }];
     };

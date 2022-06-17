@@ -1,6 +1,6 @@
 { config, pkgs, flakePkgs, flake, ... }:
 {
-  accounts = import ./accounts.nix;
+  accounts = import ./accounts.nix { inherit flake; };
   dconf = import ./dconf.nix;
   gtk = import ./gtk.nix pkgs;
   programs = import ./programs { inherit pkgs flake; };
@@ -8,8 +8,8 @@
   systemd = import ./systemd.nix pkgs;
 
   home = {
-    username = "bryton";
-    homeDirectory = "/home/bryton";
+    username = flake.username;
+    homeDirectory = "/home/${flake.username}";
     stateVersion = "21.05";
     packages = import ./packages.nix { inherit config pkgs flakePkgs; };
     sessionVariables = {

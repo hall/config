@@ -1,4 +1,4 @@
-{ pkgs, system, inputs, flakePkgs, ... }:
+{ pkgs, system, inputs, flake, flakePkgs, ... }:
 {
   # environment = {
   #   systemPackages = with pkgs; [
@@ -34,7 +34,7 @@
   security = {
     sudo.extraRules = [
       {
-        users = [ "bryton" ];
+        users = [ flake.username ];
         commands = [{ command = "ALL"; options = [ "NOPASSWD" ]; }];
       }
     ];

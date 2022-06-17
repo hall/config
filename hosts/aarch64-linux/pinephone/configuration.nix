@@ -1,7 +1,4 @@
-{ config, lib, pkgs, musnix, ... }:
-let
-  username = "bryton";
-in
+{ config, lib, pkgs, musnix, flake, ... }:
 {
   imports = [ ./hardware.nix ];
 
@@ -11,18 +8,13 @@ in
   # numeric password is currently required to unlock a session
   # TODO change me!
   users.users = {
-    ${username} = {
+    ${flake.username} = {
       isNormalUser = true;
       group = "users";
     };
     root.password = "1234";
     # geoclue.extraGroups = [ "networkmanager" ];
   };
-
-  hardware = {
-    sensor.iio.enable = true;
-  };
-
 
   services = {
     fwupd.enable = true;
@@ -34,7 +26,7 @@ in
 
     xserver.desktopManager.phosh = {
       enable = true;
-      user = username;
+      user = flake.username;
       group = "users";
     };
 
@@ -50,6 +42,13 @@ in
   };
 
   environment.systemPackages = with pkgs; [
+    # element-desktop
+    # tdesktop
+
+    # talosctl
+    # nextcloud-client
+    # newsflash
+
     chatty
     megapixels
     epiphany

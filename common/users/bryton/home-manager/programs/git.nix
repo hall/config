@@ -1,7 +1,8 @@
+{ flake }:
 {
   enable = true;
-  userName = "Bryton Hall";
-  userEmail = "email@bryton.io";
+  userName = flake.name;
+  userEmail = flake.email;
   difftastic.enable = true;
   extraConfig = {
     init = {

@@ -1,6 +1,6 @@
-{ lib, pkgs, ... }:
+{ lib, pkgs, flake, ... }:
 {
-  users.users.bryton = {
+  users.users.${flake.username} = {
     isNormalUser = true;
     shell = pkgs.xonsh;
     extraGroups = [
