@@ -10,11 +10,10 @@
         "browser.newtabpage.enabled" = false;
         "browser.search.defaultenginename" = "duckduckgo";
         "browser.startup.homepage" = "about:blank";
+        "browser.display.use_system_colors" = true;
         "browser.startup.page" = 3; # restore previous session
         "browser.tabs.drawInTitlebar" = false;
         "browser.toolbars.bookmarks.visibility" = "never";
-        "devtools.theme" = "dark";
-        "extensions.activeThemeID" = "firefox-compact-dark@mozilla.org";
         "print.tab_modal.enabled" = false;
         "geo.enabled" = false;
         "signon.rememberSignons" = false;
