@@ -62,9 +62,6 @@
     "editor.fontFamily" = "Hack, monospace";
   };
   extensions = (with pkgs.vscode-extensions; [
-    # dendron (+ md shortcuts, paste image)
-    # rest-client
-    # jnoortheen.xonsh
     # remote containers
     alefragnani.project-manager
     arcticicestudio.nord-visual-studio-code
@@ -89,12 +86,32 @@
     streetsidesoftware.code-spell-checker
     vscodevim.vim
     yzhang.markdown-all-in-one
-  ]) ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [{
+  ]) ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+    {
+      name = "dendron";
+      publisher = "dendron";
+      version = "0.99.0";
+      sha256 = "sha256-UpizlcpNNx81+0MSCwO42srRPI2EhZDpa0ly3rdARzE=";
+    }
+    {
+      name = "xonsh";
+      publisher = "jnoortheen";
+      version = "0.2.6";
+      sha256 = "sha256-EhpIzYLn5XdvR5gAd129+KuyTcKFswXtO6WgVT8b+xA=";
+    }
+    {
     name = "tasks-shell-input";
     publisher = "augustocdias";
     version = "1.7.0";
     sha256 = "sha256-s+kh3sFPmKTwyhumSeBnhFrdUV92CWvVjBMFUykipAE=";
-  }];
+    }
+    {
+      name = "rest-client";
+      publisher = "humao";
+      version = "0.24.6";
+      sha256 = "sha256-g1RSkRnKamuaegmNX6MnDLfKL0SQThr2XQgRsN+p16Q=";
+    }
+  ];
   keybindings = [
     {
       key = "ctrl+a c";
