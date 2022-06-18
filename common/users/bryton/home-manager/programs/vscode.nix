@@ -61,7 +61,7 @@
     "rest-client.enableTelemetry" = true;
     "editor.fontFamily" = "Hack, monospace";
   };
-  extensions = with pkgs.vscode-extensions; [
+  extensions = (with pkgs.vscode-extensions; [
     # dendron (+ md shortcuts, paste image)
     # rest-client
     # jnoortheen.xonsh
@@ -89,7 +89,12 @@
     streetsidesoftware.code-spell-checker
     vscodevim.vim
     yzhang.markdown-all-in-one
-  ];
+  ]) ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [{
+    name = "tasks-shell-input";
+    publisher = "augustocdias";
+    version = "1.7.0";
+    sha256 = "sha256-s+kh3sFPmKTwyhumSeBnhFrdUV92CWvVjBMFUykipAE=";
+  }];
   keybindings = [
     {
       key = "ctrl+a c";

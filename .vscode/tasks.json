@@ -11,13 +11,28 @@
                 "nixos-rebuild",
                 "switch",
                 "--flake",
-                ".",
-                // "--impure"
+                ".#${input:host}",
+                "--target-host",
+                "${env:USER}@${input:host}",
+                "--build-host",
+                "${env:USER}@${input:host}"
             ],
             "problemMatcher": [],
             "group": {
                 "kind": "build",
                 "isDefault": true
+            }
+        }
+    ],
+    "inputs": [
+        {
+            "id": "host",
+            "type": "command",
+            "command": "shellCommand.execute",
+            "args": {
+                "command": "find ./hosts -maxdepth 2 -mindepth 2 -exec basename {} \\; | sed -e \"/$HOSTNAME/d\" -e \"1i$HOSTNAME\"",
+                "cwd": "${workspaceFolder}",
+                "description": "Target Host"
             }
         }
     ]
