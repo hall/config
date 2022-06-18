@@ -59,6 +59,7 @@
     "window.menuBarVisibility" = "toggle";
     "telemetry.telemetryLevel" = "off";
     "rest-client.enableTelemetry" = true;
+    "rest-client.previewResponseInUntitledDocument" = true;
     "editor.fontFamily" = "Hack, monospace";
   };
   extensions = (with pkgs.vscode-extensions; [
