@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   enable = true;
   package = pkgs.vscodium;
@@ -80,14 +80,15 @@
     llvm-vs-code-extensions.vscode-clangd
     mikestead.dotenv
     ms-kubernetes-tools.vscode-kubernetes-tools
-    ms-python.python
     ms-toolsai.jupyter
     # ms-vscode-remote.remote-ssh
     redhat.vscode-yaml
     streetsidesoftware.code-spell-checker
     vscodevim.vim
     yzhang.markdown-all-in-one
-  ]) ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+  ] ++ (lib.optionals (pkgs.system != "aarch64-linux") [
+    ms-python.python # unsupported
+  ])) ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
     {
       name = "dendron";
       publisher = "dendron";
@@ -101,10 +102,10 @@
       sha256 = "sha256-EhpIzYLn5XdvR5gAd129+KuyTcKFswXtO6WgVT8b+xA=";
     }
     {
-    name = "tasks-shell-input";
-    publisher = "augustocdias";
-    version = "1.7.0";
-    sha256 = "sha256-s+kh3sFPmKTwyhumSeBnhFrdUV92CWvVjBMFUykipAE=";
+      name = "tasks-shell-input";
+      publisher = "augustocdias";
+      version = "1.7.0";
+      sha256 = "sha256-s+kh3sFPmKTwyhumSeBnhFrdUV92CWvVjBMFUykipAE=";
     }
     {
       name = "rest-client";
