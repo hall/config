@@ -1,0 +1,7 @@
+#!bash
+readonly host=$1
+
+# stopgap until I can figure out why setting a remote host with nixos-rebuild doesn't work
+
+rsync -r . $host:conf/
+ssh $host 'git add ./conf; sudo nixos-rebuild switch --flake ./conf'

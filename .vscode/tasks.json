@@ -10,12 +10,14 @@
             "args": [
                 "nixos-rebuild",
                 "switch",
+                // "--use-remote-sudo",
+                // "--no-build-nix",
+                // "--target-host",
+                // "${env:USER}@${input:host}",
+                // "--build-host",
+                // "${env:USER}@${input:host}",
                 "--flake",
                 ".#${input:host}",
-                "--target-host",
-                "${env:USER}@${input:host}",
-                "--build-host",
-                "${env:USER}@${input:host}"
             ],
             "problemMatcher": [],
             "group": {
