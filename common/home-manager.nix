@@ -13,10 +13,10 @@ let
 
   mkUsers = hostPath:
     let
-      inherit (builtins) listToAttrs map;
+      inherit (builtins) listToAttrs map pathExists;
 
       usersPath = hostPath + /users;
-      users = readDirNames usersPath;
+      users = if pathExists usersPath then readDirNames usersPath else [ ];
     in
     listToAttrs (map (mkUser hostPath) users);
 
