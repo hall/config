@@ -1,25 +1,66 @@
-{ config, lib, pkgs, flake, ... }:
+{ flake, pkgs, ... }:
 {
-  # numeric password is currently required to unlock a session
-  # TODO change me!
-  # users.users.${flake.username}.hashedPassword = "$6$zActsdzv754qmpNR$TVgNLHx4/0Q3GIqirequckS252LvYFomx11IimP8uuk.soV8CQFIUDcjhhF7lHz5BurJZJLj/QlGOHZTYAX8R1";
-  # users.users.root.hashedPassword = "$6$Jv0Cl55I5TN$BAwcCxOv7Yvy3z369jwFU7/x.TfUOCEvM6FVxsQOPWJEFgKYhZvsgDmvF3gb8dgOAntHvYHR8QF0obpezLx3v1";
-  # nixpkgs.crossSystem = {
-  #   config = "aarch64-unknown-linux-gnu";
-  #   system = "aarch64-linux";
-  # };
-
-  networking = {
-    # FIXME : configure usb rndis through networkmanager in the future.
-    # Currently this relies on stage-1 having configured it.
-    # networkmanager.unmanaged = [ "rndis0" "usb0" ];
-    hostName = "office";
+  services = {
+    snapserver = {
+      enable = true;
+      openFirewall = true;
+      streams = {
+        all = {
+          type = "meta";
+          location = "/turntable/spotify";
+        };
+        turntable = {
+          type = "tcp";
+          location = "0.0.0.0:49566";
+          query = {
+            sampleformat = "44100:16:2";
+          };
+        };
+        spotify = {
+          type = "librespot";
+          location = "${pkgs.librespot}/bin/librespot";
+          query = {
+            name = "spotify";
+            username = flake.email;
+            password = flake.lib.pass "spotify/${flake.username}";
+            devicename = "home";
+            volume = "60";
+          };
+        };
+      };
+    };
   };
 
-  # services.openssh = {
-  #   enable = true;
-  #   passwordAuthentication = false;
-  #   permitRootLogin = "no";
-  #   allowSFTP = false;
-  # };
+  systemd.services.snapcast-sink = {
+    wantedBy = [
+      "pipewire.service"
+    ];
+    after = [
+      "pipewire.service"
+    ];
+    bindsTo = [
+      "pipewire.service"
+    ];
+    path = with pkgs; [
+      gawk
+      pulseaudio
+    ];
+    script = ''
+      pactl load-module module-pipe-sink file=/run/snapserver/pipewire sink_name=Snapcast format=s16le rate=48000
+    '';
+  };
+
+  systemd.services.snapclient = {
+    wantedBy = [
+      "pipewire.service"
+      "multi-user.target" # enable on boot
+    ];
+    after = [
+      "pipewire.service"
+    ];
+    serviceConfig = {
+      ExecStart = "${pkgs.snapcast}/bin/snapclient -h ::1";
+    };
+  };
+
 }
