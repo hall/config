@@ -8,7 +8,7 @@
   boot = {
     consoleLogLevel = 0;
     loader = {
-      timeout = 0;
+      timeout = lib.mkForce 0; # set to 10 in isoImage
       systemd-boot.enable = true;
     };
     initrd = {
