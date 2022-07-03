@@ -113,6 +113,12 @@
       version = "0.24.6";
       sha256 = "sha256-g1RSkRnKamuaegmNX6MnDLfKL0SQThr2XQgRsN+p16Q=";
     }
+    {
+      name = "vscode-faust";
+      publisher = "glen-anderson";
+      version = "1.1.0";
+      sha256 = "sha256-1aoyIN8qbMd2j3UnHUVe1YG9kmuCW/KXVkn5z7Z2SjU=";
+    }
   ];
   keybindings = [
     {
