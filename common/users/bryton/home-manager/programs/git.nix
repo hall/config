@@ -3,7 +3,7 @@
   enable = true;
   userName = flake.name;
   userEmail = flake.email;
-  difftastic.enable = true;
+  # difftastic.enable = true;
   extraConfig = {
     init = {
       defaultBranch = "main";
