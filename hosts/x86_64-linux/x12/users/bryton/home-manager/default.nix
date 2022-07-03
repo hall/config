@@ -1,4 +1,4 @@
-{ pkgs, flakePkgs, ... }:
+{ pkgs, flake, flakePkgs, ... }:
 {
   home = {
     packages = with pkgs; [
@@ -22,6 +22,8 @@
       gnome.gnome-boxes
 
       flakePkgs.moserial
+      flakePkgs.siglo
+      wireshark
 
       talosctl
       nextcloud-client
