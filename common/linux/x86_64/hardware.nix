@@ -22,7 +22,7 @@
     #extraModprobeConfig = ''
     #  options snd-intel-dspcfg dsp_driver=3
     #'';
-    kernelPackages = pkgs.linuxKernel.packages.linux_5_17;
+    # kernelPackages = pkgs.linuxKernel.packages.linux_5_17;
     kernelModules = with config.boot.kernelPackages; [ "kvm-intel" ];
   };
 
