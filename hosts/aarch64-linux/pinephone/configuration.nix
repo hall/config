@@ -9,16 +9,7 @@
   musnix.enable = true;
 
   boot.loader.grub.enable = false;
-  # numeric password is currently required to unlock a session
-  # TODO change me!
-  users.users = {
-    ${flake.username} = {
-      isNormalUser = true;
-      group = "users";
-    };
-    root.password = "1234";
-    # geoclue.extraGroups = [ "networkmanager" ];
-  };
+  # users.users.geoclue.extraGroups = [ "networkmanager" ];
 
   services = {
     fwupd.enable = true;
