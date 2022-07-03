@@ -1,4 +1,4 @@
-{ config, pkgs, flakePkgs, flake, ... }:
+{ config, pkgs, flakePkgs, flake, lib, ... }:
 {
   accounts = import ./accounts.nix { inherit flake; };
   dconf = import ./dconf.nix;
@@ -17,23 +17,23 @@
       MOZ_USE_XINPUT2 = "1";
       EDITOR = "nvim";
     };
-    file = {
-      config = {
-        recursive = true;
-        source = ../stage/.config/xonsh;
-        target = ".config/xonsh";
+    file = let path = ../stage; in
+      builtins.listToAttrs
+        (map
+          (file:
+            let
+              # get relative filename
+              filename = lib.strings.removePrefix "${(builtins.toString path)}/" (builtins.toString file);
+            in
+            {
+              name = filename;
+              value = {
+                source = path + "/${filename}";
+                target = filename;
       };
-      bin = {
-        recursive = true;
-        source = ../stage/bin;
-        target = "bin/";
-      };
-      kube = {
-        recursive = true;
-        source = ../stage/.kube;
-        target = ".kube/";
-      };
-    };
+            })
+          (lib.filesystem.listFilesRecursive path)
+        );
   };
 }
  
