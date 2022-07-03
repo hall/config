@@ -55,7 +55,7 @@
   nix = {
     generateRegistryFromInputs = true;
     generateNixPathFromInputs = true;
-    gc.automatic = true;
+    # gc.automatic = true;
     extraOptions = ''
       experimental-features = nix-command flakes
       allow-unsafe-native-code-during-evaluation = true
