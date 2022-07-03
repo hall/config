@@ -11,7 +11,7 @@
     username = flake.username;
     homeDirectory = "/home/${flake.username}";
     stateVersion = "21.05";
-    packages = import ./packages.nix { inherit config pkgs flakePkgs; };
+    packages = import ./packages.nix { inherit config pkgs flakePkgs lib; };
     sessionVariables = {
       CALIBRE_USE_DARK_PALETTE = "1";
       MOZ_USE_XINPUT2 = "1";
@@ -30,7 +30,7 @@
               value = {
                 source = path + "/${filename}";
                 target = filename;
-      };
+              };
             })
           (lib.filesystem.listFilesRecursive path)
         );

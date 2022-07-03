@@ -1,14 +1,13 @@
-{ config, pkgs, flakePkgs, ... }:
+{ config, pkgs, flakePkgs, lib, ... }:
 with pkgs; [
   nixpkgs-fmt
   # python-language-server
-  niv
+  # niv
   wl-clipboard
-  libreoffice
-  shellcheck
-  dbeaver
+  # libreoffice
+  # shellcheck
   dnsutils
-  wireshark
+  # wireshark
 
   # appimage-run
   # direnv
@@ -52,9 +51,9 @@ with pkgs; [
   yq
 
   # comms
-  slack
+  # slack
 
-  # # gnome
+  # gnome
   gnome.dconf-editor
   # gnome.gnome-boxes
   # gnome3.gnome-tweaks
@@ -67,6 +66,7 @@ with pkgs; [
   gnomeExtensions.unite
   # gnomeExtensions.wireguard-indicator
   gnomeExtensions.night-theme-switcher
+  # gnomeExtensions.gesture-improvements
   ddcutil
 
   # # dev
@@ -74,7 +74,7 @@ with pkgs; [
   gh
   # #gnumake
   ## c
-  clang-tools
+  # clang-tools
   # ## go
   # #air
   # #delve
@@ -103,13 +103,14 @@ with pkgs; [
 
   # containers
   # lens
-  flakePkgs.openlens
-  docker-buildx
+  # docker-buildx
   kubectl
   kubie
 
   # tmux
-  tmuxPlugins.nord
-  tmuxPlugins.sensible
-  tmuxPlugins.vim-tmux-navigator
-]
+  # tmuxPlugins.nord
+  # tmuxPlugins.sensible
+  # tmuxPlugins.vim-tmux-navigator
+] ++ (lib.optionals (pkgs.system != "aarch64-linux") [
+  flakePkgs.openlens
+])
