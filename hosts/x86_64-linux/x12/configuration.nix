@@ -17,6 +17,7 @@ in
   ];
 
   imports = [
+    ../../../modules/syncthing.nix
     ../../../modules/wifi.nix
   ];
 
