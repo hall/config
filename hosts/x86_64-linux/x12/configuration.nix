@@ -16,6 +16,10 @@ in
     "aarch64-linux"
   ];
 
+  imports = [
+    ../../../modules/wifi.nix
+  ];
+
   musnix.enable = true;
 
   networking = {

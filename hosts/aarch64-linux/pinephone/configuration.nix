@@ -3,6 +3,7 @@
   imports = [
     ./hardware.nix
     (import "${flake.inputs.mobile}/lib/configuration.nix" { device = "pine64-pinephonepro"; })
+    ../../../modules/wifi.nix
   ];
 
   musnix.enable = true;
