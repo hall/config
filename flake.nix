@@ -22,11 +22,10 @@
       inherit (inputs.nixpkgs.lib) recursiveUpdate;
 
       lib = import ./lib;
-      overlays = import ./overlays { inherit lib; };
-      packages = import ./pkgs;
+      modules = import ./modules { inherit lib; };
     in
     inputs.utils.lib.mkFlake rec {
-      inherit self inputs lib;
+      inherit self inputs lib modules;
 
       username = "bryton";
       hostname = "${username}.io";
@@ -55,16 +54,15 @@
       };
 
       sharedOverlays = [
-        overlays
         inputs.nur.overlay
       ];
 
       outputsBuilder = channels: {
-        packages =
+        flakePkgs =
           let
             inherit (channels.nixpkgs.stdenv.hostPlatform) system;
           in
-          packages { inherit lib channels; } // { };
+          (import ./packages) { inherit lib channels; } // { };
       };
     };
 }

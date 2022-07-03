@@ -31,29 +31,18 @@ let
 
       modulesPaths = map (path: path + /modules.nix) paths;
       modulesConfigs = concatMap (src: import src self) (filter pathExists modulesPaths);
-
-      aarch64ExtraPkgs = optionalAttrs (system == "aarch64-darwin") {
-        x86_64 = {
-          flakePkgs = self.packages."x86_64-${platform}";
-          pkgs = self.pkgs."x86_64-${platform}".nixpkgs;
-          unstablePkgs = self.pkgs."x86_64-${platform}".nixpkgs-unstable;
-        };
-      };
     in
     {
       inherit name;
       value = {
         inherit system;
         modules = configs ++ modulesConfigs;
-        specialArgs = aarch64ExtraPkgs // {
+        specialArgs = {
           flake = self;
           hostPath = fullHostPath;
-          flakePkgs = self.outputs.packages."${system}";
+          flakePkgs = self.outputs.flakePkgs."${system}";
           unstablePkgs = self.outputs.pkgs."${system}".nixpkgs-unstable;
         };
-      } // optionalAttrs (platform == "darwin") {
-        output = "darwinConfigurations";
-        builder = darwin.lib.darwinSystem;
       };
     };
 
@@ -66,7 +55,6 @@ let
   mkHosts = args@{ self, hostsPath }:
     let
       inherit (builtins) concatMap listToAttrs;
-
       systems = readDirNames hostsPath;
     in
     listToAttrs (concatMap (mkSystem args) systems);
