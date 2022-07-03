@@ -1,6 +1,8 @@
 { pkgs, system, inputs, flake, flakePkgs, ... }:
 {
-  # environment = {
+  imports = [
+    flake.inputs.home-manager.nixosModules.home-manager
+  ];
   #   systemPackages = with pkgs; [
   #   ];
   # };

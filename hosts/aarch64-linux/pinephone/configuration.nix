@@ -1,6 +1,9 @@
 { config, lib, pkgs, musnix, flake, ... }:
 {
-  imports = [ ./hardware.nix ];
+  imports = [
+    ./hardware.nix
+    (import "${flake.inputs.mobile}/lib/configuration.nix" { device = "pine64-pinephonepro"; })
+  ];
 
   musnix.enable = true;
 

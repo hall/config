@@ -25,7 +25,10 @@ in
   #   ];
   # };
 
-  imports = [ ./hardware.nix ];
+  imports = [
+    ./hardware.nix
+    # "${flake.inputs.nixpkgs}/nixos/modules/installer/cd-dvd/iso-image.nix"
+  ];
 
   services = {
     # input-remapper.enable = true;
