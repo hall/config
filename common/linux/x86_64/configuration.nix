@@ -19,11 +19,13 @@ let
 
 in
 {
-  # environment = {
-  #   systemPackages = with pkgs; [
-  #     _xonsh
-  #   ];
-  # };
+
+  networking = {
+    # wireless.enable = true;
+    networkmanager.enable = true;
+  };
+
+  hardware.bluetooth.enable = true;
 
   imports = [
     ./hardware.nix

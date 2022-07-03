@@ -38,11 +38,6 @@
     ];
   };
 
-  networking = {
-    # wireless.enable = true;
-    networkmanager.enable = true;
-  };
-
   services = {
     xserver = {
       layout = "us";
@@ -50,7 +45,6 @@
     };
   };
 
-  hardware.bluetooth.enable = true;
 
   nix = {
     generateRegistryFromInputs = true;
