@@ -4,6 +4,5 @@
     startInBackground = true;
   };
 
-  syncthing.enable = true;
   opensnitch-ui.enable = true;
 }
