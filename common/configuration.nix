@@ -1,4 +1,4 @@
-{ lib, pkgs, unstablePkgs, ... }:
+{ lib, pkgs, ... }:
 
 {
   imports = [
@@ -19,6 +19,7 @@
     systemPackages = with pkgs; [
       git
       tmux
+      pinentry
     ];
 
     sessionVariables = {
