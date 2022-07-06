@@ -48,7 +48,6 @@
     chatty
     megapixels
     epiphany
-    guitarix
     newsflash
     giara
 

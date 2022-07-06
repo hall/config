@@ -11,7 +11,7 @@
       #siril
       ardour
       calibre
-      guitarix
+      # guitarix
       inkscape
       krita
       musescore
@@ -23,6 +23,7 @@
 
       flakePkgs.moserial
       flakePkgs.siglo
+      flakePkgs.effects
       wireshark
 
       talosctl

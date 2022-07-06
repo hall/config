@@ -26,10 +26,6 @@ in
           };
         }
         (lib.mkIf (builtins.elem config.networking.hostName personal) {
-          guitarix = {
-            path = "${home}/.config/guitarix";
-            devices = personal;
-          };
           library = {
             path = "${home}/library";
             devices = personal;
