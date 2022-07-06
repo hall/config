@@ -1,11 +1,14 @@
-{ pkgs, system, inputs, flake, flakePkgs, ... }:
+{ pkgs, flake, ... }:
 {
   imports = [
     flake.inputs.home-manager.nixosModules.home-manager
   ];
-  #   systemPackages = with pkgs; [
-  #   ];
-  # };
+  environment = {
+    # systemPackages = with pkgs; [
+    #   rbw
+    #   pinentry
+    # ];
+  };
 
   hardware = {
     pulseaudio.enable = false;
@@ -18,7 +21,7 @@
   };
 
   services = {
-    printing.enable = true;
+    # printing.enable = true;
     # avahi = {
     #   enable = true;
     #   nssmdns = true;
