@@ -24,6 +24,9 @@
       enable = true;
       user = flake.username;
       group = "users";
+      phocConfig = {
+        xwayland = "immediate";
+      };
     };
 
     openssh = {
