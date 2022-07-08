@@ -50,7 +50,7 @@
   environment = {
     variables = {
       WEBKIT_FORCE_SANDBOX = "0"; # workaround for epiphany
-  };
+    };
 
     systemPackages = with pkgs; [
       # purple-matrix
@@ -64,51 +64,51 @@
       # cozy
       sooperlooper
 
-    # element-desktop
+      # element-desktop
       protonmail-bridge
 
-    # talosctl
-    # nextcloud-client
-    # newsflash
+      # talosctl
+      # nextcloud-client
+      # newsflash
 
-    chatty
-    megapixels
-    epiphany
-    newsflash
-    giara
+      chatty
+      megapixels
+      epiphany
+      newsflash
+      giara
       nheko
 
-    gnome.gnome-terminal
+      gnome.gnome-terminal
       # gnome-connections
-    gnome.gnome-calendar
-    gnome.gnome-contacts
-    gnome.gnome-calculator
-    gnome.gnome-clocks
-    #gnome.gnome-documents # broken
-    gnome.gnome-maps
-    gnome.gnome-music
-    gnome-photos
-    gnome.gnome-weather
-    gnome.gnome-system-monitor
-    gnome.gnome-sound-recorder
+      gnome.gnome-calendar
+      gnome.gnome-contacts
+      gnome.gnome-calculator
+      gnome.gnome-clocks
+      #gnome.gnome-documents # broken
+      gnome.gnome-maps
+      gnome.gnome-music
+      gnome-photos
+      gnome.gnome-weather
+      gnome.gnome-system-monitor
+      gnome.gnome-sound-recorder
 
-    gnome.gnome-todo
-    gnome.gnome-notes
-    gnome.gnome-books
-    gnome.gnome-screenshot
-    gnome.gnome-dictionary
+      gnome.gnome-todo
+      gnome.gnome-notes
+      gnome.gnome-books
+      gnome.gnome-screenshot
+      gnome.gnome-dictionary
       gnome.gnome-disk-utility
-    gnome-podcasts
+      gnome-podcasts
 
-    gnome.geary # email
-    gnome.totem # videos
-    gnome.gedit # editor
-    gnome.nautilus # files
-    gnome.eog # images
-    drawing
-    fragments
-    banking
-    tootle
+      gnome.geary # email
+      gnome.totem # videos
+      gnome.gedit # editor
+      gnome.nautilus # files
+      gnome.eog # images
+      drawing
+      fragments
+      banking
+      tootle
       # waydroid
       tdesktop
       pure-maps
@@ -119,7 +119,7 @@
       libusb
 
       flakePkgs.effects
-  ];
+    ];
   };
 
   programs.calls.enable = true;
