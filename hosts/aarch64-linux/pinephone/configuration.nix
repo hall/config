@@ -39,6 +39,9 @@
 
     # geoclue.enable = true;
 
+  environment = {
+    variables = {
+      WEBKIT_FORCE_SANDBOX = "0"; # workaround for epiphany
   };
 
     systemPackages = with pkgs; [
@@ -109,6 +112,7 @@
 
       flakePkgs.effects
   ];
+  };
 
   programs.calls.enable = true;
 
