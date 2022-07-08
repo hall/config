@@ -17,7 +17,6 @@
     fwupd.enable = true;
     flatpak = {
       enable = true;
-      # bitwarden
       # dialect
     };
 
@@ -30,14 +29,23 @@
       };
     };
 
-    openssh = {
+    geoclue2 = {
       enable = true;
-      # passwordAuthentication = false;
-      # permitRootLogin = "no";
-      # allowSFTP = false;
+      appConfig."gammastep" = {
+        isAllowed = true;
+        isSystem = true;
+      };
     };
 
-    # geoclue.enable = true;
+    redshift = {
+      enable = true;
+      package = pkgs.gammastep;
+      executable = "/bin/gammastep";
+    };
+  };
+
+  sound.enable = true;
+  location.provider = "geoclue2";
 
   environment = {
     variables = {
