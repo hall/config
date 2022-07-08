@@ -8,8 +8,14 @@ let
   ];
 in
 {
-  readDirNames = import ./readDirNames.nix;
+  pass = x: doas "rbw get ${x}";
+
   mkHosts = import ./mkHosts.nix;
 
-  pass = x: doas "rbw get ${x}";
+  readDirNames = path:
+    let
+      files = builtins.readDir path;
+      isDirectory = name: files."${name}" == "directory";
+    in
+    builtins.filter isDirectory (builtins.attrNames files);
 }
