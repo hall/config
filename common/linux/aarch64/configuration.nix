@@ -1,8 +1,11 @@
 { flake, ... }:
 {
   imports = [
+    ./hardware.nix
     # "${flake.inputs.nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
   ];
+
+  boot.loader.grub.enable = false;
 
   services = {
     openssh = {

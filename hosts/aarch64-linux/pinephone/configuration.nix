@@ -7,7 +7,6 @@
 
   musnix.enable = true;
 
-  boot.loader.grub.enable = false;
   # users.users.geoclue.extraGroups = [ "networkmanager" ];
 
   services = {
