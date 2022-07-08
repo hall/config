@@ -16,12 +16,6 @@ in
     "aarch64-linux"
   ];
 
-  imports = [
-    ../../../modules/syncthing.nix
-    ../../../modules/wifi.nix
-    (import ../../../modules/effects.nix { inherit flakePkgs pkgs flake; kernel = "controlC1"; })
-  ];
-
   musnix.enable = true;
 
   networking = {
@@ -63,6 +57,11 @@ in
   };
 
   services = {
+    effects = {
+      enable = true;
+      kernel = "controlC1";
+    };
+    wifi.enable = true;
     xserver.wacom.enable = true;
     udev = {
       extraRules = ''

@@ -1,16 +1,19 @@
 { flake, lib, config, ... }:
 let
-  home = "/home/${flake.username}";
+  home = config.users.users.${flake.username}.home;
 
   # device groups
   personal = [ "x12" "pinephone" ];
   work = [ "rigetti" ];
   all = personal ++ work;
+
+  # true if current host is in `group`
+  inGroup = group: (builtins.elem config.networking.hostName group);
 in
 {
   services = {
     syncthing = {
-      enable = true;
+      enable = inGroup all;
       user = flake.username;
       dataDir = home;
       devices = {
@@ -25,7 +28,7 @@ in
             devices = all;
           };
         }
-        (lib.mkIf (builtins.elem config.networking.hostName personal) {
+        (lib.mkIf (inGroup personal) {
           library = {
             path = "${home}/library";
             devices = personal;

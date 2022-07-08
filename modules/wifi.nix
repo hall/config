@@ -1,25 +1,37 @@
-{ flake, ... }:
+{ lib, config, flake, ... }:
+with lib;
 let
-  ssid = "hall";
+  name = "wifi";
+  cfg = config.services.${name};
 in
 {
-  environment = {
-    etc = {
-      wifi = {
-        target = "NetworkManager/system-connections/${ssid}.nmconnection";
-        mode = "0400";
-        text = ''
-          [connection]
-          id=${ssid}
-          type=wifi
+  options.services.${name} = {
+    enable = mkEnableOption "wifi";
+    ssid = mkOption {
+      type = types.str;
+      default = "hall";
+    };
+  };
 
-          [wifi]
-          ssid=${ssid}
+  config = mkIf cfg.enable {
+    environment = {
+      etc = {
+        wifi = {
+          target = "NetworkManager/system-connections/${cfg.ssid}.nmconnection";
+          mode = "0400";
+          text = ''
+            [connection]
+            id=${cfg.ssid}
+            type=wifi
 
-          [wifi-security]
-          key-mgmt=wpa-psk
-          psk=${flake.lib.pass "wifi"}
-        '';
+            [wifi]
+            ssid=${cfg.ssid}
+
+            [wifi-security]
+            key-mgmt=wpa-psk
+            psk=${flake.lib.pass "wifi"}
+          '';
+        };
       };
     };
   };

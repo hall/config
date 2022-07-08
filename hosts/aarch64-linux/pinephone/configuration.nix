@@ -3,9 +3,6 @@
   imports = [
     ./hardware.nix
     (import "${flake.inputs.mobile}/lib/configuration.nix" { device = "pine64-pinephonepro"; })
-    ../../../modules/syncthing.nix
-    ../../../modules/wifi.nix
-    (import ../../../modules/effects.nix { inherit flakePkgs pkgs flake; kernel = "controlC3"; })
   ];
 
   musnix.enable = true;
@@ -14,6 +11,12 @@
   # users.users.geoclue.extraGroups = [ "networkmanager" ];
 
   services = {
+    effects = {
+      enable = true;
+      kernel = "controlC3";
+    };
+    wifi.enable = true;
+
     fwupd.enable = true;
     flatpak = {
       enable = true;

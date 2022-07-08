@@ -22,10 +22,9 @@
       inherit (inputs.nixpkgs.lib) recursiveUpdate;
 
       lib = import ./lib;
-      modules = import ./modules { inherit lib; };
     in
     inputs.utils.lib.mkFlake rec {
-      inherit self inputs lib modules;
+      inherit self inputs lib;
 
       username = "bryton";
       hostname = "${username}.io";
@@ -45,7 +44,7 @@
         modules = [
           ./common/configuration.nix
           inputs.musnix.nixosModules.musnix
-        ];
+        ] ++ (import ./modules);
       };
 
       hosts = lib.mkHosts {
