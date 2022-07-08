@@ -1,10 +1,11 @@
-{ config, lib, pkgs, musnix, flake, ... }:
+{ config, lib, pkgs, musnix, flake, flakePkgs, ... }:
 {
   imports = [
     ./hardware.nix
     (import "${flake.inputs.mobile}/lib/configuration.nix" { device = "pine64-pinephonepro"; })
     ../../../modules/syncthing.nix
     ../../../modules/wifi.nix
+    (import ../../../modules/effects.nix { inherit flakePkgs pkgs flake; kernel = "controlC3"; })
   ];
 
   musnix.enable = true;

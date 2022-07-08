@@ -24,20 +24,23 @@ let
 in
 stdenv.mkDerivation rec {
   inherit name;
-  src = ./main.dsp;
+  src = [
+    ./main.dsp
+  ];
 
   unpackPhase = ''
-    filename="$(stripHash $src)"
-    cp $src $filename
+    for file in $src; do
+        cp $file "$(stripHash $file)"
+    done
   '';
 
   buildPhase = ''
-    faust2jack -httpd $filename
+    faust2jack -httpd main.dsp
   '';
 
   installPhase = ''
-    mkdir -p $out/bin
-    cp ''${filename%.*} $out/bin/${name}
+    mkdir -p $out/{bin,lib}
+    cp main $out/bin/${name}
 
     runHook postInstall
   '';
@@ -45,6 +48,7 @@ stdenv.mkDerivation rec {
   postInstall = ''
     mkdir -p $out/share
     cp -r ${desktop}/share/applications $out/share
+
   '';
 
   nativeBuildInputs = [

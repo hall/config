@@ -1,4 +1,4 @@
-{ pkgs, musnix, flake, ... }:
+{ pkgs, musnix, flake, flakePkgs, ... }:
 let
   xontribs = [
     # "argcomplete" # tab completion of python and xonsh scripts
@@ -19,6 +19,7 @@ in
   imports = [
     ../../../modules/syncthing.nix
     ../../../modules/wifi.nix
+    (import ../../../modules/effects.nix { inherit flakePkgs pkgs flake; kernel = "controlC1"; })
   ];
 
   musnix.enable = true;
