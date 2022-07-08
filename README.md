@@ -10,6 +10,17 @@ Update packages with
 
 > **NOTE**: structure based on https://github.com/reckenrode/nixos-configs
 
-For arm devices, build a bootable image with:
+## images
 
-    nix build '.#nixosConfigurations.${hostname}.config.system.build.sdImage'
+Build a bootable image with:
+
+    nix build '.#nixosConfigurations.${hostname}.config.${type}'
+
+where `<type>` is one of
+
+- `system.build.sdImage` (for aarch64)
+- `system.build.isoImage` (for x86)
+- `mobile.outputs.u-boot.disk-image` (for mobile-nixos)
+
+
+
