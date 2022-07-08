@@ -41,9 +41,20 @@
 
   };
 
-  environment.systemPackages = with pkgs; [
+    systemPackages = with pkgs; [
+      # purple-matrix
+      # purple-slack
+      # telegram-purple
+      pinentry-curses
+      pinentry-gnome
+
+      lingot
+      fmit
+      # cozy
+      sooperlooper
+
     # element-desktop
-    # tdesktop
+      protonmail-bridge
 
     # talosctl
     # nextcloud-client
@@ -54,8 +65,10 @@
     epiphany
     newsflash
     giara
+      nheko
 
     gnome.gnome-terminal
+      # gnome-connections
     gnome.gnome-calendar
     gnome.gnome-contacts
     gnome.gnome-calculator
@@ -73,6 +86,7 @@
     gnome.gnome-books
     gnome.gnome-screenshot
     gnome.gnome-dictionary
+      gnome.gnome-disk-utility
     gnome-podcasts
 
     gnome.geary # email
@@ -84,8 +98,16 @@
     fragments
     banking
     tootle
-    waydroid
-    #telegram
+      # waydroid
+      tdesktop
+      pure-maps
+      # siglo
+      # ardour
+
+      usbutils
+      libusb
+
+      flakePkgs.effects
   ];
 
   programs.calls.enable = true;
