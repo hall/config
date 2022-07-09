@@ -32,7 +32,7 @@
             "type": "command",
             "command": "shellCommand.execute",
             "args": {
-                "command": "find ./hosts -maxdepth 2 -mindepth 2 -exec basename {} \\; | sed -e \"/$HOSTNAME/d\" -e \"1i$HOSTNAME\"",
+                "command": "find ./hosts -maxdepth 3 -mindepth 3 -type d -exec basename {} \\; | sed -e \"/$HOSTNAME/d\" -e \"1i$HOSTNAME\"",
                 "cwd": "${workspaceFolder}",
                 "description": "Target Host"
             }
