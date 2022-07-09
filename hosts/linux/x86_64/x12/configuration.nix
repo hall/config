@@ -1,4 +1,4 @@
-{ pkgs, musnix, flake, flakePkgs, ... }:
+{ pkgs, musnix, flake, ... }:
 let
   xontribs = [
     # "argcomplete" # tab completion of python and xonsh scripts

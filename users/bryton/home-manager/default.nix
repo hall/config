@@ -1,4 +1,4 @@
-{ config, pkgs, flakePkgs, flake, lib, ... }:
+{ config, pkgs, flake, lib, ... }:
 {
   accounts = import ./accounts.nix { inherit flake; };
   dconf = import ./dconf.nix;
@@ -11,7 +11,7 @@
     username = flake.username;
     homeDirectory = "/home/${flake.username}";
     stateVersion = "21.05";
-    packages = import ./packages.nix { inherit config pkgs flakePkgs lib; };
+    packages = import ./packages.nix { inherit config pkgs flake lib; };
     sessionVariables = {
       CALIBRE_USE_DARK_PALETTE = "1";
       MOZ_USE_XINPUT2 = "1";

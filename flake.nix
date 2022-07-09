@@ -57,7 +57,7 @@
       ];
 
       outputsBuilder = channels: {
-        flakePkgs =
+        packages =
           let
             inherit (channels.nixpkgs.stdenv.hostPlatform) system;
           in

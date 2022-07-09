@@ -1,4 +1,4 @@
-{ config, lib, pkgs, musnix, flake, flakePkgs, ... }:
+{ config, lib, pkgs, musnix, ... }:
 {
   users.users.kodi = {
     isNormalUser = true;

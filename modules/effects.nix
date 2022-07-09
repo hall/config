@@ -1,4 +1,4 @@
-{ lib, config, pkgs, flake, flakePkgs, ... }:
+{ lib, config, pkgs, flake, ... }:
 with lib;
 let
   name = "effects";
@@ -25,7 +25,7 @@ in
       };
       script = ''
         if ! pgrep ${name}; then
-          ${flakePkgs.${name}}/bin/${name} &
+          ${flake.packages.${name}}/bin/${name} &
         fi
 
         dev=usb-IK_Multimedia_iRig_HD_2-00

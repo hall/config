@@ -1,4 +1,4 @@
-{ config, lib, pkgs, musnix, flake, flakePkgs, ... }:
+{ config, lib, pkgs, musnix, flake, ... }:
 {
   imports = [
     ./hardware.nix
@@ -120,8 +120,9 @@
       usbutils
       libusb
 
-      flakePkgs.effects
-    ];
+    ] ++ (with flake.packages; [
+      effects
+    ]);
   };
 
   programs.calls.enable = true;

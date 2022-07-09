@@ -37,9 +37,8 @@ let
         inherit system;
         modules = configs ++ modulesConfigs;
         specialArgs = {
-          flake = self;
+          flake = self // { packages = self.outputs.packages."${system}"; };
           hostPath = fullHostPath;
-          flakePkgs = self.outputs.flakePkgs."${system}";
           unstablePkgs = self.outputs.pkgs."${system}".nixpkgs-unstable;
         };
       };

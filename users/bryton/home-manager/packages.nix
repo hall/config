@@ -1,4 +1,4 @@
-{ config, pkgs, flakePkgs, lib, ... }:
+{ config, pkgs, flake, lib, ... }:
 with pkgs; [
   nixpkgs-fmt
   # python-language-server
@@ -112,5 +112,5 @@ with pkgs; [
   # tmuxPlugins.sensible
   # tmuxPlugins.vim-tmux-navigator
 ] ++ (lib.optionals (pkgs.system != "aarch64-linux") [
-  flakePkgs.openlens
+  flake.packages.openlens
 ])

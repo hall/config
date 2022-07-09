@@ -1,4 +1,4 @@
-{ pkgs, system, inputs, flakePkgs, ... }:
+{ pkgs, system, inputs, flake, ... }:
 let
   #pyenv = inputs.mach.mkPython {
   #  requirements = ''

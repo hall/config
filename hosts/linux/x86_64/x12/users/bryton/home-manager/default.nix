@@ -1,4 +1,4 @@
-{ pkgs, flake, flakePkgs, ... }:
+{ pkgs, flake, ... }:
 {
   home = {
     packages = with pkgs; [
@@ -21,9 +21,6 @@
       tdesktop
       gnome.gnome-boxes
 
-      flakePkgs.moserial
-      flakePkgs.siglo
-      flakePkgs.effects
       wireshark
 
       talosctl
@@ -34,6 +31,10 @@
       bitwarden-cli
 
       nix-diff
-    ];
+    ] ++ (with flake.packages; [
+      moserial
+      siglo
+      effects
+    ]);
   };
 }
