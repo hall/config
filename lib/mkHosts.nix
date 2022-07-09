@@ -3,20 +3,15 @@ let
 
   mkHost = { self, hostsPath, system }: name:
     let
-      inherit (builtins) concatMap elemAt filter map mapAttrs pathExists split;
-      inherit (self.inputs) home-manager;
-
-      # Define `optionalAttrs` and `id` manually because trying to access
-      # `self.input.nixpkgs` causes an infinite recursion.
-      optionalAttrs = pred: attrs: if pred then attrs else { };
+      inherit (builtins) concatMap elemAt filter map pathExists split;
 
       platformTuple = split "-" system;
       platform = elemAt platformTuple 2;
       arch = elemAt platformTuple 0;
 
-      fullHostPath = ../hosts/${platform}/${arch}/${name};
-      usersPath = fullHostPath + /users;
+      fullHostPath = /${hostsPath}/${platform}/${arch}/${name};
 
+      usersPath = fullHostPath + /users;
       users = if pathExists usersPath then readDirNames usersPath else [ ];
 
       paths =
@@ -28,11 +23,13 @@ let
           fullHostPath
         ];
 
-      configPaths = map (path: path + /configuration.nix) paths;
-      configs = filter pathExists configPaths;
+      configs = filter pathExists
+        (map (path: path + /configuration.nix) paths);
 
-      modulesPaths = map (path: path + /modules.nix) paths;
-      modulesConfigs = concatMap (src: import src self) (filter pathExists modulesPaths);
+      modulesConfigs = concatMap
+        (src: import src self)
+        (filter pathExists
+          (map (path: path + /modules.nix) paths));
     in
     {
       inherit name;
@@ -60,8 +57,9 @@ let
   mkHosts = args@{ self, hostsPath }:
     let
       inherit (builtins) concatMap listToAttrs;
-      os = readDirNames hostsPath;
-      systems = builtins.concatMap (x: map (y: y + "-" + x) (readDirNames /${ hostsPath}/${ x})) os;
+      platforms = readDirNames hostsPath;
+      systems = concatMap
+        (platform: map (arch: arch + "-" + platform) (readDirNames /${ hostsPath}/${ platform})) platforms;
     in
     listToAttrs (concatMap (mkSystem args) systems);
 in
