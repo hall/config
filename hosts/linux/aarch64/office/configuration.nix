@@ -31,35 +31,31 @@
     };
   };
 
-  systemd.services.snapcast-sink = {
-    wantedBy = [
-      "pipewire.service"
-    ];
-    after = [
-      "pipewire.service"
-    ];
-    bindsTo = [
-      "pipewire.service"
-    ];
-    path = with pkgs; [
-      gawk
-      pulseaudio
-    ];
-    script = ''
-      pactl load-module module-pipe-sink file=/run/snapserver/pipewire sink_name=Snapcast format=s16le rate=48000
-    '';
-  };
+  systemd.services = {
+    # snapcast-sink = {
+    #   wantedBy = [ "pipewire.service" ];
+    #   after = [ "pipewire.service" ];
+    #   bindsTo = [ "pipewire.service" ];
+    #   path = with pkgs; [
+    #     gawk
+    #     pulseaudio
+    #   ];
+    #   script = ''
+    #     pactl load-module module-pipe-sink file=/run/snapserver/pipewire sink_name=Snapcast format=s16le rate=48000
+    #   '';
+    # };
 
-  systemd.services.snapclient = {
-    wantedBy = [
-      "pipewire.service"
-      "multi-user.target" # enable on boot
-    ];
-    after = [
-      "pipewire.service"
-    ];
-    serviceConfig = {
-      ExecStart = "${pkgs.snapcast}/bin/snapclient -h ::1";
+    snapclient = {
+      wantedBy = [
+        "pipewire.service"
+        "multi-user.target" # enable on boot
+      ];
+      after = [
+        "pipewire.service"
+      ];
+      serviceConfig = {
+        ExecStart = "${pkgs.snapcast}/bin/snapclient -h ::1";
+      };
     };
   };
 

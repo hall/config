@@ -42,7 +42,7 @@
 
       hostDefaults = {
         modules = [
-          ./common/configuration.nix
+          ./hosts/configuration.nix
           inputs.musnix.nixosModules.musnix
         ] ++ (import ./modules);
       };

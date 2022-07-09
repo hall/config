@@ -32,6 +32,8 @@
       sof-firmware
       youtube-dl
       bitwarden-cli
+
+      nix-diff
     ];
   };
 }

@@ -31,7 +31,7 @@ in
       identityFile = ssh-key "github";
     };
     pi = {
-      host = "bedroom office tv";
+      host = "bedroom office tv k0";
       user = flake.username;
       identityFile = ssh-key "pi";
     };

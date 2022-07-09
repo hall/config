@@ -8,7 +8,10 @@ Update packages with
 
     nix flake update
 
-> **NOTE**: structure based on https://github.com/reckenrode/nixos-configs
+Generate a diff with
+
+    nixos-rebuild build --flake .
+    nix-diff /run/current-system ./result --character-oriented
 
 ## images
 

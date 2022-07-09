@@ -77,7 +77,7 @@
     haskell.haskell
     james-yu.latex-workshop
     jnoortheen.nix-ide
-    llvm-vs-code-extensions.vscode-clangd
+    # llvm-vs-code-extensions.vscode-clangd
     mikestead.dotenv
     ms-kubernetes-tools.vscode-kubernetes-tools
     ms-toolsai.jupyter
@@ -86,6 +86,7 @@
     streetsidesoftware.code-spell-checker
     vscodevim.vim
     yzhang.markdown-all-in-one
+    # ms-vscode.cpptools
   ] ++ (lib.optionals (pkgs.system != "aarch64-linux") [
     ms-python.python # unsupported
   ])) ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
@@ -118,6 +119,18 @@
       publisher = "glen-anderson";
       version = "1.1.0";
       sha256 = "sha256-1aoyIN8qbMd2j3UnHUVe1YG9kmuCW/KXVkn5z7Z2SjU=";
+    }
+    {
+      name = "cpptools";
+      publisher = "ms-vscode";
+      version = "1.11.0";
+      sha256 = "sha256-JGgX2fB07OWZDeTs4lwl90aJOweUlylRy2iAubfouG0=";
+    }
+    {
+      name = "cmake-tools";
+      publisher = "ms-vscode";
+      version = "1.12.1";
+      sha256 = "sha256-I47Um4YV6AglC2fs5NrLZaqxmCw/J+rZox6I/V4t2tY=";
     }
   ];
   keybindings = [
