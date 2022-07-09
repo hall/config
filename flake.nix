@@ -54,6 +54,7 @@
 
       sharedOverlays = [
         inputs.nur.overlay
+        (import ./overlays { inherit lib; })
       ];
 
       outputsBuilder = channels: {
