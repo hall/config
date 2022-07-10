@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ lib, pkgs, flake, ... }:
 
 {
   imports = [
@@ -19,6 +19,7 @@
     systemPackages = with pkgs; [
       git
       tmux
+      rbw
       pinentry
     ];
 
@@ -48,6 +49,7 @@
 
 
   nix = {
+    trustedUsers = [ "@wheel" ];
     generateRegistryFromInputs = true;
     generateNixPathFromInputs = true;
     # gc.automatic = true;
@@ -69,6 +71,10 @@
       enable = true;
       pinentryFlavor = "gnome3";
     };
+  };
+
+  lollypops.deployment = {
+    user = flake.username;
   };
 
 }

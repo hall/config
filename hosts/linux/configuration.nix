@@ -3,12 +3,6 @@
   imports = [
     flake.inputs.home-manager.nixosModules.home-manager
   ];
-  environment = {
-    # systemPackages = with pkgs; [
-    #   rbw
-    #   pinentry
-    # ];
-  };
 
   hardware = {
     pulseaudio.enable = false;
