@@ -7,6 +7,12 @@
 
   musnix.enable = true;
 
+  boot.postBootCommands = ''
+    # usb audio interface does not work in the default `device` mode
+    # and automatic mode switching is not functional
+    echo host | tee /sys/class/usb_role/fe800000.usb-role-switch/role
+  '';
+
   # users.users.geoclue.extraGroups = [ "networkmanager" ];
 
   services = {
@@ -33,9 +39,11 @@
 
     geoclue2 = {
       enable = true;
-      appConfig."gammastep" = {
+      # enableDemoAgent = lib.mkForce true;
+      appConfig.gammastep = {
         isAllowed = true;
         isSystem = true;
+        users = [ "1000" ];
       };
     };
 
@@ -80,33 +88,6 @@
       giara
       nheko
 
-      gnome.gnome-terminal
-      # gnome-connections
-      gnome.gnome-calendar
-      gnome.gnome-contacts
-      gnome.gnome-calculator
-      gnome.gnome-clocks
-      #gnome.gnome-documents # broken
-      gnome.gnome-maps
-      gnome.gnome-music
-      gnome-photos
-      gnome.gnome-weather
-      gnome.gnome-system-monitor
-      gnome.gnome-sound-recorder
-
-      gnome.gnome-todo
-      gnome.gnome-notes
-      gnome.gnome-books
-      gnome.gnome-screenshot
-      gnome.gnome-dictionary
-      gnome.gnome-disk-utility
-      gnome-podcasts
-
-      gnome.geary # email
-      gnome.totem # videos
-      gnome.gedit # editor
-      gnome.nautilus # files
-      gnome.eog # images
       drawing
       fragments
       banking
@@ -120,7 +101,34 @@
       usbutils
       libusb
 
-    ] ++ (with flake.packages; [
+      gnome-podcasts
+      gnome-photos
+    ] ++ (with pkgs.gnome; [
+      geary # email
+      totem # videos
+      gedit # editor
+      nautilus # files
+      eog # images
+
+      gnome-terminal
+      # gnome-connections
+      gnome-calendar
+      gnome-contacts
+      gnome-calculator
+      gnome-clocks
+      #gnome-documents # broken
+      gnome-maps
+      gnome-music
+      gnome-weather
+      gnome-system-monitor
+      gnome-sound-recorder
+      gnome-todo
+      gnome-notes
+      gnome-books
+      gnome-screenshot
+      gnome-dictionary
+      gnome-disk-utility
+    ]) ++ (with flake.packages; [
       effects
     ]);
   };
