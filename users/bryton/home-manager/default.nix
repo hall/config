@@ -6,6 +6,7 @@
   programs = import ./programs { inherit pkgs flake; };
   services = import ./services.nix;
   systemd = import ./systemd.nix pkgs;
+  xdg = import ./xdg.nix pkgs;
 
   home = {
     username = flake.username;
