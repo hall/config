@@ -7,6 +7,10 @@ let
 in
 {
   enable = true;
+  extraOptionOverrides = {
+    CanonicalizeHostname = "yes";
+    CanonicalDomains = "lab.rigetti.com";
+  };
   matchBlocks = {
     gitlab = {
       host = "gitlab.com";
@@ -41,6 +45,14 @@ in
       hostname = "gitlab.com";
       user = "git";
       identityFile = ssh-key "rigetti";
+    };
+    lab = {
+      host = "*.lab.rigetti.com";
+      user = "ansible";
+      identityFile = "~/.ssh/infra-shared.pem";
+      extraOptions = {
+        PubkeyAcceptedKeyTypes = "+ssh-ed25519";
+      };
     };
   };
 }
