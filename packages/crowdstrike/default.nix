@@ -2,8 +2,8 @@
 stdenv.mkDerivation {
   name = "crowdstrike";
   system = "x86_64-linux";
-  # src = ./falcon-sensor.deb;
-  src = https://drive.google.com/file/d/1xUC55drHC24JV5V14lnkRHDxwt33DY8U/view?usp=sharing;
+  src = ./falcon-sensor.deb;
+  # src = https://drive.google.com/file/d/1xUC55drHC24JV5V14lnkRHDxwt33DY8U/view?usp=sharing;
 
   # Required for compilation
   nativeBuildInputs = [

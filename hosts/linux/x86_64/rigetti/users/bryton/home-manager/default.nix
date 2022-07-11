@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, flake, lib, ... }:
 {
   services = {
     nextcloud-client.enable = lib.mkForce false;
@@ -9,8 +9,12 @@
       awscli2
       google-cloud-sdk
       terraform
+      nomad
       # slack
+      jwt-cli
+      toml2json
 
+      flake.packages.crowdstrike
     ];
   };
 }
