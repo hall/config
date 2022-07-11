@@ -4,6 +4,7 @@
   userName = flake.name;
   userEmail = flake.email;
   # difftastic.enable = true;
+  lfs.enable = true;
   extraConfig = {
     init = {
       defaultBranch = "main";
