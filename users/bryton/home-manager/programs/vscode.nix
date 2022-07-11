@@ -2,6 +2,7 @@
 {
   enable = true;
   package = pkgs.vscodium;
+  # mutableExtensionsDir = false;
   userSettings = {
     "update.mode" = "none";
     "files.associations" = {
@@ -61,6 +62,7 @@
     "rest-client.enableTelemetry" = true;
     "rest-client.previewResponseInUntitledDocument" = true;
     "editor.fontFamily" = "Hack, monospace";
+    "zenMode.centerLayout" = false;
   };
   extensions = (with pkgs.vscode-extensions; [
     # remote containers
