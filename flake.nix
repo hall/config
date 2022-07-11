@@ -1,30 +1,29 @@
 {
   inputs = {
     nixpkgs.url = github:nixos/nixpkgs/nixos-22.05;
-    unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    unstable.url = github:NixOS/nixpkgs/nixos-unstable;
     hardware.url = github:NixOS/nixos-hardware/master;
     nur.url = github:nix-community/nur;
     home-manager = {
-      url = github:nix-community/home-manager;
-      inputs.nixpkgs.follows = "nixpkgs";
+      # url = github:nix-community/home-manager;
+      # https://github.com/nix-community/home-manager/pull/3081
+      url = github:hall/home-manager;
+      # inputs.nixpkgs.follows = "nixpkgs";
     };
     musnix.url = github:musnix/musnix;
     mach.url = github:davhau/mach-nix;
     utils.url = github:gytis-ivaskevicius/flake-utils-plus/v1.3.1;
     mobile = {
       # url = github:nixos/mobile-nixos/master;
+      # https://github.com/NixOS/mobile-nixos/pull/445
       url = github:samueldr-wip/mobile-nixos-wip/wip/pinephone-pro;
       flake = false;
     };
   };
-  outputs = inputs@{ self, home-manager, ... }:
-    let
-      inherit (inputs.nixpkgs.lib) recursiveUpdate;
-
-      lib = import ./lib;
-    in
+  outputs = inputs@{ self, ... }:
     inputs.utils.lib.mkFlake rec {
-      inherit self inputs lib;
+      inherit self inputs;
+      lib = import ./lib;
 
       username = "bryton";
       hostname = "${username}.io";
@@ -58,11 +57,10 @@
       ];
 
       outputsBuilder = channels: {
-        packages =
-          let
-            inherit (channels.nixpkgs.stdenv.hostPlatform) system;
-          in
-          (import ./packages) { inherit lib channels; } // { };
+        packages = (import ./packages) {
+          inherit lib channels;
       };
+      };
+
     };
 }
