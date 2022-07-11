@@ -37,9 +37,11 @@ let
         inherit system;
         modules = configs ++ modulesConfigs;
         specialArgs = {
-          flake = self // { packages = self.outputs.packages."${system}"; };
+          flake = self // {
+            packages = self.outputs.packages."${system}";
+            unstable = self.outputs.pkgs."${system}".unstable;
+          };
           hostPath = fullHostPath;
-          unstablePkgs = self.outputs.pkgs."${system}".nixpkgs-unstable;
         };
       };
     };
