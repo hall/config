@@ -24,7 +24,8 @@
       desktopManager = {
         kodi = {
           enable = true;
-          package = (pkgs.kodi-wayland.withPackages (kodiPkgs: with kodiPkgs; [
+          # widevine is only available on 32bit arm
+          package = (pkgs.pkgsCross.armv7l-hf-multiplatform.kodi-wayland.withPackages (kodiPkgs: with kodiPkgs; [
             inputstream-adaptive
             # jellyfin
             # iagl
