@@ -1,7 +1,7 @@
 { pkgs, flake, ... }:
 {
   imports = [
-    flake.inputs.home-manager.nixosModules.home-manager
+    flake.inputs.home.nixosModules.home-manager
   ];
 
   hardware = {

@@ -1,15 +1,10 @@
 {
   inputs = {
     nixpkgs.url = github:nixos/nixpkgs/nixos-22.05;
-    unstable.url = github:NixOS/nixpkgs/nixos-unstable;
-    hardware.url = github:NixOS/nixos-hardware/master;
+    unstable.url = github:nixos/nixpkgs/nixos-unstable;
+    hardware.url = github:nixos/nixos-hardware/master;
     nur.url = github:nix-community/nur;
-    home-manager = {
-      # url = github:nix-community/home-manager;
-      # https://github.com/nix-community/home-manager/pull/3081
-      url = github:hall/home-manager;
-      # inputs.nixpkgs.follows = "nixpkgs";
-    };
+    home.url = github:nix-community/home-manager;
     musnix.url = github:musnix/musnix;
     mach.url = github:davhau/mach-nix;
     utils.url = github:gytis-ivaskevicius/flake-utils-plus/v1.3.1;
@@ -59,7 +54,7 @@
       outputsBuilder = channels: {
         packages = (import ./packages) {
           inherit lib channels;
-      };
+        };
       };
 
     };
