@@ -73,8 +73,5 @@
     };
   };
 
-  lollypops.deployment = {
-    user = flake.username;
-  };
 
 }
