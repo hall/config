@@ -8,7 +8,10 @@ let
   ];
 in
 {
-  pass = x: doas "rbw get ${x}";
+  pass = let path = "/run/secrets"; in
+    { name, args ? "" }:
+    if (doas "sudo mkdir -p ${path} && sudo chmod 700 ${path}; sudo chown bryton ${path}; sudo setfacl -d --set u::r ${path}; rbw get ${args} ${name} | sudo tee ${path}/${name} > /dev/null; sudo chown bryton ${path}/${name}"
+    ) == "" then "${path}/${name}" else "";
 
   mkHosts = import ./mkHosts.nix;
 

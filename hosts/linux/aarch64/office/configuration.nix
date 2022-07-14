@@ -22,7 +22,7 @@
           query = {
             name = "spotify";
             username = flake.email;
-            password = flake.lib.pass "spotify/${flake.username}";
+            password = flake.lib.pass { name = "spotify/${flake.username}"; };
             devicename = "home";
             volume = "60";
           };

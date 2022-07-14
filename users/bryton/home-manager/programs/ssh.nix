@@ -1,9 +1,10 @@
 { flake, ... }:
 let
   # get ssh key from bitwarden
-  ssh-key = x: builtins.toFile "${x}-ssh-key" (
-    flake.lib.pass "--folder ssh ${x}"
-  );
+  ssh-key = x: flake.lib.pass {
+    name = "${x}";
+    args = "--folder ssh";
+  };
 in
 {
   enable = true;
@@ -35,7 +36,7 @@ in
       identityFile = ssh-key "github";
     };
     pi = {
-      host = "bedroom office tv k0";
+      host = "bedroom office tv k0 x12";
       user = flake.username;
       identityFile = ssh-key "pi";
     };
