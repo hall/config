@@ -1,19 +1,33 @@
+{ pkgs, flake, ... }:
 let
-  # like exec but not as the root user (also, return a string)
-  doas = x: builtins.exec [
-    "su"
-    "-c"
-    "echo \"''\" && ${x} && echo \"''\""
-    (builtins.exec [ "sh" "-c" "echo \"''$(logname)''\"" ])
-  ];
-in
-{
-  pass = let path = "/run/secrets"; in
-    { name, args ? "" }:
-    if (doas "sudo mkdir -p ${path} && sudo chmod 700 ${path}; sudo chown bryton ${path}; sudo setfacl -d --set u::r ${path}; rbw get ${args} ${name} | sudo tee ${path}/${name} > /dev/null; sudo chown bryton ${path}/${name}"
-    ) == "" then "${path}/${name}" else "";
+  script = let path = "/run/secrets"; in
+    (pkgs.writeScript "pass"
+      ''
+        #!${pkgs.bash}/bin/bash
+        if [ ! -f ${path } ]; then
+          mkdir -p ${path}
+          chmod 700 ${path}
+          chown ${flake.username} ${path}
+          setfacl -d --set u::r ${path}
+        fi
 
-  mkHosts = import ./mkHosts.nix;
+        # parse name from remaining args
+        read -ra arr <<<"$*"
+        name=''${arr[0]}
+        args="''${arr[@]:1}"
+
+        su -c "rbw get $args $name" $(logname) | tee ${path}/$name > /dev/null
+        chown ${flake.username} ${path}/$name
+
+        # return strigified path to secret
+        echo \"${path}/$name\"
+      '');
+
+in
+rec {
+  pass = name: builtins.exec [ script name ];
+
+  mkHosts = import ./mkHosts.nix { inherit readDirNames; };
 
   readDirNames = path:
     let

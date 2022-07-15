@@ -1,10 +1,7 @@
 { flake, ... }:
 let
   # get ssh key from bitwarden
-  ssh-key = x: flake.lib.pass {
-    name = "${x}";
-    args = "--folder ssh";
-  };
+  ssh-key = x: flake.lib.pass "${x} --folder ssh";
 in
 {
   enable = true;

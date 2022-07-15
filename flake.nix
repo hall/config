@@ -16,9 +16,10 @@
     };
   };
   outputs = inputs@{ self, ... }:
+    let pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux; in
     inputs.utils.lib.mkFlake rec {
       inherit self inputs;
-      lib = import ./lib;
+      lib = import ./lib { inherit pkgs; flake = self; };
 
       username = "bryton";
       hostname = "${username}.io";

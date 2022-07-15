@@ -1,6 +1,5 @@
+{ readDirNames }:
 let
-  inherit (import ./.) readDirNames;
-
   mkHost = { self, hostsPath, system }: name:
     let
       inherit (builtins) concatMap elemAt filter map pathExists split;
