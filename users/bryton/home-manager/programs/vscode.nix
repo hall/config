@@ -68,9 +68,7 @@
     # remote containers
     alefragnani.project-manager
     arcticicestudio.nord-visual-studio-code
-    arrterian.nix-env-selector
     asciidoctor.asciidoctor-vscode
-    bbenoist.nix
     eamodio.gitlens
     editorconfig.editorconfig
     golang.go
