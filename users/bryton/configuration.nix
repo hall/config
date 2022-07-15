@@ -1,4 +1,4 @@
-{ lib, pkgs, flake, ... }:
+{ pkgs, flake, ... }:
 {
   users.users.${flake.username} = {
     isNormalUser = true;

@@ -1,5 +1,4 @@
-{ lib, pkgs, flake, ... }:
-
+{ pkgs, flake, ... }:
 {
   imports = [
     ./home-manager.nix
@@ -49,7 +48,7 @@
 
 
   nix = {
-    trustedUsers = [ "@wheel" ];
+    trustedUsers = [ flake.username ];
     generateRegistryFromInputs = true;
     generateNixPathFromInputs = true;
     # gc.automatic = true;

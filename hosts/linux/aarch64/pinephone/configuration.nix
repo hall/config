@@ -1,4 +1,4 @@
-{ config, lib, pkgs, musnix, flake, ... }:
+{ pkgs, musnix, flake, ... }:
 {
   imports = [
     ./hardware.nix
@@ -39,7 +39,6 @@
 
     geoclue2 = {
       enable = true;
-      # enableDemoAgent = lib.mkForce true;
       appConfig.gammastep = {
         isAllowed = true;
         isSystem = true;
@@ -85,7 +84,7 @@
       megapixels
       epiphany
       newsflash
-      giara
+      flake.unstable.giara
       nheko
 
       drawing

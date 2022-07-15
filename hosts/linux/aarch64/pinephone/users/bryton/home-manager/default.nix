@@ -1,4 +1,4 @@
-{ config, pkgs, flake, lib, ... }:
+{ pkgs, ... }:
 {
   programs = {
     vscode = {

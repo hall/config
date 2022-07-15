@@ -134,6 +134,12 @@
       version = "1.12.1";
       sha256 = "sha256-I47Um4YV6AglC2fs5NrLZaqxmCw/J+rZox6I/V4t2tY=";
     }
+    {
+      name = "direnv";
+      publisher = "mkhl";
+      version = "0.6.1";
+      sha256 = "sha256-5/Tqpn/7byl+z2ATflgKV1+rhdqj+XMEZNbGwDmGwLQ=";
+    }
   ];
   keybindings = [
     {

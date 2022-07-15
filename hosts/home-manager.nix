@@ -1,4 +1,4 @@
-{ config, lib, pkgs, flake, hostPath, specialArgs, ... }:
+{ lib, pkgs, flake, hostPath, specialArgs, ... }:
 
 let
   platformTuple = lib.strings.splitString "-" pkgs.stdenv.hostPlatform.system;

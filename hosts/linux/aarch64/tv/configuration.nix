@@ -1,4 +1,4 @@
-{ config, lib, pkgs, musnix, ... }:
+{ pkgs, ... }:
 {
   users.users.kodi = {
     isNormalUser = true;
