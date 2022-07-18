@@ -24,6 +24,7 @@ in
         Type = "forking";
       };
       script = ''
+        #!${pkgs.bash}/bin/bash
         if ! pgrep ${name}; then
           ${flake.packages.${name}}/bin/${name} &
         fi
@@ -33,6 +34,13 @@ in
         out=alsa_output.$dev.analog-stereo
 
         sleep 1  # wait for app to register with pw
+
+        # disconnect any links which auto-connected
+        ${pkgs.pipewire}/bin/pw-link -Il \
+          | ${pkgs.gnugrep}/bin/grep effects \
+          | ${pkgs.gawk}/bin/awk '{print $1}' \
+          | xargs -I {} ${pkgs.bash}/bin/sh -c '${pkgs.pipewire}/bin/pw-link -d {} || true'
+
         ${pkgs.pipewire}/bin/pw-link $in:capture_MONO ${name}:in_0
         ${pkgs.pipewire}/bin/pw-link ${name}:out_0 $out:playback_FL
         ${pkgs.pipewire}/bin/pw-link ${name}:out_0 $out:playback_FR
