@@ -29,7 +29,7 @@ in
 
             [wifi-security]
             key-mgmt=wpa-psk
-            psk=${flake.lib.pass {name = "wifi";}}
+            psk=${flake.lib.pass "wifi"}
           '';
         };
       };
