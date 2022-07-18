@@ -21,20 +21,23 @@ in
         rigetti.id = "B5FZE7E-6HH43KW-BC2EI3A-FMORTYY-TOKOM66-Z7G5KX6-R4IIJXL-ULN6KQL";
         pinephone.id = "NMTAKR7-KYODQLF-OFSZYNW-LCPHLRX-WNEX2IJ-LMFD5G2-TEMNVLB-SGK4ZQV";
       };
-      folders = lib.mkMerge [
-        {
-          notes = {
-            path = "${home}/notes";
-            devices = all;
-          };
-        }
-        (lib.mkIf (inGroup personal) {
-          library = {
-            path = "${home}/library";
-            devices = personal;
-          };
-        })
-      ];
+      folders = {
+        notes = {
+          path = "${home}/notes";
+          devices = all;
+        };
+      } // (lib.mkIf (inGroup personal)
+        (builtins.listToAttrs (map
+          (dir: {
+            name = dir;
+            value = {
+              path = "${home}/${dir}";
+              devices = personal;
+            };
+          })
+          [ "cloud" "library" "sessions" ".stash" ]
+        )))
+      ;
     };
   };
 }
