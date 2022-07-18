@@ -4,7 +4,7 @@ Build with either `ctrl-shift-b` (in `codium`) or
 
     sudo nixos-rebuild switch --flake .
 
-Update packages with
+Update lock file with
 
     nix flake update
 
@@ -25,5 +25,15 @@ where `<type>` is one of
 - `system.build.isoImage` (for x86)
 - `mobile.outputs.u-boot.disk-image` (for mobile-nixos)
 
+
+## secrets
+
+Secrets are pull from [bitwarden](https://bitwarden.com/) and saved to `/run/secrets` with `lib.pass` in [./lib/default.nix](./lib/default.nix).
+
+## packages
+
+Build a [package](./packages) directly with
+
+    nix build '.#packages.${arch}.${package}'
 
 
