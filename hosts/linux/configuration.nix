@@ -28,8 +28,6 @@
     };
   };
 
-  sound.enable = true;
-
   security = {
     sudo.extraRules = [
       {
