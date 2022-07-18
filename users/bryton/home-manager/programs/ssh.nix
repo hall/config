@@ -49,7 +49,7 @@ in
       user = "ansible";
       identityFile = "~/.ssh/infra-shared.pem";
       extraOptions = {
-        PubkeyAcceptedKeyTypes = "+ssh-ed25519";
+        PubkeyAcceptedKeyTypes = "+ssh-rsa";
       };
     };
   };
