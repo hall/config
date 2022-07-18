@@ -10,7 +10,7 @@
       google-cloud-sdk
       terraform
       nomad
-      # slack
+      slack
       jwt-cli
       toml2json
 
