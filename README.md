@@ -17,14 +17,9 @@ Generate a diff with
 
 Build a bootable image with:
 
-    nix build '.#nixosConfigurations.${hostname}.config.${type}'
+    nix build '.#images.${hostname}'
 
-where `<type>` is one of
-
-- `system.build.sdImage` (for aarch64)
-- `system.build.isoImage` (for x86)
-- `mobile.outputs.u-boot.disk-image` (for mobile-nixos)
-
+> **NOTE**: this currently requires uncommenting the appropriate installer module
 
 ## secrets
 
