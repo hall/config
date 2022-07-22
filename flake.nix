@@ -1,10 +1,12 @@
 {
   inputs = {
-    nixpkgs.url = github:nixos/nixpkgs/nixos-22.05;
-    unstable.url = github:nixos/nixpkgs/nixos-unstable;
+    nixpkgs.url = github:nixos/nixpkgs/nixos-unstable;
     hardware.url = github:nixos/nixos-hardware/master;
     nur.url = github:nix-community/nur;
-    home.url = github:nix-community/home-manager;
+    home = {
+      url = github:nix-community/home-manager;
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     musnix.url = github:musnix/musnix;
     mach.url = github:davhau/mach-nix;
     utils.url = github:gytis-ivaskevicius/flake-utils-plus/v1.3.1;
@@ -30,6 +32,7 @@
         # allowBroken = true;
         allowUnfreePredicate = pkg: builtins.elem (inputs.nixpkgs.lib.getName pkg) [
           "vscode-extension-ms-toolsai-jupyter"
+          "vscode-extension-ms-vscode-cpptools"
           "slack"
         ];
       };
@@ -48,10 +51,11 @@
 
       images = builtins.mapAttrs
         (_: host:
-          let keys = {
-            "aarch64-linux" = "sdImage";
-            "x86_64-linux" = "isoImage";
-          };
+          let
+            keys = {
+              "aarch64-linux" = "sdImage";
+              "x86_64-linux" = "isoImage";
+            };
           in
           if builtins.elem "mobile" (builtins.attrNames host)
           then host.config.mobile.outputs.u-boot.disk-image

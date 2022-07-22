@@ -84,7 +84,7 @@
       megapixels
       epiphany
       newsflash
-      flake.unstable.giara
+      flake.giara
       nheko
 
       drawing
