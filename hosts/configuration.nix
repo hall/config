@@ -48,7 +48,7 @@
 
 
   nix = {
-    trustedUsers = [ flake.username ];
+    settings.trusted-users = [ flake.username ];
     generateRegistryFromInputs = true;
     generateNixPathFromInputs = true;
     # gc.automatic = true;
