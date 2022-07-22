@@ -2,25 +2,49 @@
 {
   enable = true;
   package = pkgs.vscodium;
-  # mutableExtensionsDir = false;
+  mutableExtensionsDir = false;
   userSettings = {
-    "update.mode" = "none";
-    "files.associations" = {
-      "**.yaml.gotmpl" = "helm";
-      "**.yaml.jinja" = "helm";
-      "helmfile.yaml" = "helm";
-      "**.pyx" = "python";
-    };
+    "draw.directory" = "assets";
+
+    "editor.fontFamily" = "Hack, monospace";
+    "editor.formatOnSave" = true;
+
     "explorer.confirmDelete" = false;
     "explorer.confirmDragAndDrop" = false;
-    "editor.formatOnSave" = true;
-    "draw.directory" = "assets";
+
     "git.confirmSync" = false;
-    "jupyter.widgetScriptSources" = [ "jsdelivr.com" "unpkg.com" ];
-    "jupyter.themeMatplotlibPlots" = true;
+
     "jupyter.askForKernelRestart" = false;
-    "window.autoDetectColorScheme" = true;
+    "jupyter.themeMatplotlibPlots" = true;
+    "jupyter.widgetScriptSources" = [ "jsdelivr.com" "unpkg.com" ];
+
+    "latex-workshop.view.pdf.invert" = 0.88;
+    "latex-workshop.view.pdf.invertMode.enabled" = "auto";
+    "latex-workshop.view.pdf.zoom" = "page-width";
+
+    # https://wiki.dendron.so/notes/692fa114-f798-467f-a0b9-3cccc327aa6f/#remove-markdown-buttons-in-menu-bar
+    "markdownShortcuts.icons.bold" = false;
+    "markdownShortcuts.icons.bullets" = false;
+    "markdownShortcuts.icons.italic" = false;
+    "markdownShortcuts.icons.strikethrough" = false;
+
+    "projectManager.git.baseFolders" = [ "~/src" ];
+    "projectManager.git.maxDepthRecursion" = 5;
+
+    "redhat.telemetry.enabled" = false;
+
+    "rest-client.enableTelemetry" = false;
+    "rest-client.previewResponseInUntitledDocument" = true;
+
     "todo-tree.regex.regex" = "(//|#|<!--|;|/\\*|^|^\\s*(-|\\d+.))\\s*($TAGS)";
+    "todo-tree.highlights.customHighlight" = {
+      "[ ]" = {
+        "background" = "#ff000080";
+      };
+      "[x]" = {
+        "background" = "#00ff0080";
+      };
+    };
     "todo-tree.general.tags" = [
       "BUG"
       "HACK"
@@ -30,107 +54,73 @@
       "[ ]"
       "[x]"
     ];
-    "latex-workshop.view.pdf.invertMode.enabled" = "auto";
-    "latex-workshop.view.pdf.invert" = 0.88;
-    "latex-workshop.view.pdf.zoom" = "page-width";
-    "todo-tree.highlights.customHighlight" = {
-      "[ ]" = {
-        "background" = "#ff000080";
-      };
-      "[x]" = {
-        "background" = "#00ff0080";
-      };
-    };
 
-    "terminal.integrated.scrollback" = 5000;
+    "telemetry.telemetryLevel" = "off";
+
     "terminal.integrated.commandsToSkipShell" = [
       "-workbench.action.quickOpen" # ctrl-p
     ];
-    "projectManager.git.baseFolders" = [ "~/src" ];
-    "projectManager.git.maxDepthRecursion" = 5;
+    "terminal.integrated.scrollback" = 5000;
 
-    # https://wiki.dendron.so/notes/692fa114-f798-467f-a0b9-3cccc327aa6f/#remove-markdown-buttons-in-menu-bar
-    "markdownShortcuts.icons.bold" = false;
-    "markdownShortcuts.icons.italic" = false;
-    "markdownShortcuts.icons.strikethrough" = false;
-    "markdownShortcuts.icons.bullets" = false;
+    "update.mode" = "none";
+
+    "window.autoDetectColorScheme" = true;
+    "window.menuBarVisibility" = "toggle";
+
     # "workbench.experimental.sidePanel.enabled" = true;
     "workbench.experimental.panel.alignment" = "left";
-    "redhat.telemetry.enabled" = false;
-    "window.menuBarVisibility" = "toggle";
-    "telemetry.telemetryLevel" = "off";
-    "rest-client.enableTelemetry" = true;
-    "rest-client.previewResponseInUntitledDocument" = true;
-    "editor.fontFamily" = "Hack, monospace";
+
     "zenMode.centerLayout" = false;
   };
   extensions = (with pkgs.vscode-extensions; [
-    # remote containers
     alefragnani.project-manager
     arcticicestudio.nord-visual-studio-code
-    asciidoctor.asciidoctor-vscode
+    # asciidoctor.asciidoctor-vscode
     eamodio.gitlens
     editorconfig.editorconfig
+    esbenp.prettier-vscode
+    gitlab.gitlab-workflow
     golang.go
     gruntfuggly.todo-tree
-    hashicorp.terraform
-    haskell.haskell
+    # hashicorp.terraform
+    # haskell.haskell
+    humao.rest-client
     james-yu.latex-workshop
     jnoortheen.nix-ide
+    jock.svg
     # llvm-vs-code-extensions.vscode-clangd
-    mikestead.dotenv
-    ms-kubernetes-tools.vscode-kubernetes-tools
+    # ms-kubernetes-tools.vscode-kubernetes-tools
     ms-toolsai.jupyter
     # ms-vscode-remote.remote-ssh
+    # ms-vscode.cpptools
     redhat.vscode-yaml
+    rust-lang.rust-analyzer
+    ryu1kn.partial-diff
+    # stkb.rewrap
     streetsidesoftware.code-spell-checker
+    usernamehw.errorlens
     vscodevim.vim
     yzhang.markdown-all-in-one
-    # ms-vscode.cpptools
   ] ++ (lib.optionals (pkgs.system != "aarch64-linux") [
     ms-python.python # unsupported
   ])) ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
     {
+      name = "draw";
+      publisher = "hall";
+      version = "0.1.19";
+      sha256 = "sha256-9yfqNyE0s13xNOeP/iAE1fUPvXdDiBrHJhQ1AnkrHE0=";
+    }
+    {
       name = "dendron";
       publisher = "dendron";
-      version = "0.99.0";
+      version = "0.104.1";
       sha256 = "sha256-UpizlcpNNx81+0MSCwO42srRPI2EhZDpa0ly3rdARzE=";
     }
     {
-      name = "xonsh";
-      publisher = "jnoortheen";
-      version = "0.2.6";
-      sha256 = "sha256-EhpIzYLn5XdvR5gAd129+KuyTcKFswXtO6WgVT8b+xA=";
-    }
-    {
-      name = "tasks-shell-input";
-      publisher = "augustocdias";
-      version = "1.7.0";
-      sha256 = "sha256-s+kh3sFPmKTwyhumSeBnhFrdUV92CWvVjBMFUykipAE=";
-    }
-    {
-      name = "rest-client";
-      publisher = "humao";
-      version = "0.24.6";
-      sha256 = "sha256-g1RSkRnKamuaegmNX6MnDLfKL0SQThr2XQgRsN+p16Q=";
-    }
-    {
-      name = "vscode-faust";
-      publisher = "glen-anderson";
+      name = "dendron-paste-image";
+      publisher = "dendron";
       version = "1.1.0";
-      sha256 = "sha256-1aoyIN8qbMd2j3UnHUVe1YG9kmuCW/KXVkn5z7Z2SjU=";
-    }
-    {
-      name = "cpptools";
-      publisher = "ms-vscode";
-      version = "1.11.0";
-      sha256 = "sha256-JGgX2fB07OWZDeTs4lwl90aJOweUlylRy2iAubfouG0=";
-    }
-    {
-      name = "cmake-tools";
-      publisher = "ms-vscode";
-      version = "1.12.1";
-      sha256 = "sha256-I47Um4YV6AglC2fs5NrLZaqxmCw/J+rZox6I/V4t2tY=";
+      sha256 = "sha256-dhyTYsSVg3nXFdApTwRDC2ge5LYwVaX58uj5uJwoWqc=";
     }
     {
       name = "direnv";
@@ -138,8 +128,34 @@
       version = "0.6.1";
       sha256 = "sha256-5/Tqpn/7byl+z2ATflgKV1+rhdqj+XMEZNbGwDmGwLQ=";
     }
+    {
+      # to generate conf hosts task list
+      name = "tasks-shell-input";
+      publisher = "augustocdias";
+      version = "1.7.0";
+      sha256 = "sha256-s+kh3sFPmKTwyhumSeBnhFrdUV92CWvVjBMFUykipAE=";
+    }
+    {
+      # for effects package
+      name = "vscode-faust";
+      publisher = "glen-anderson";
+      version = "1.1.0";
+      sha256 = "sha256-1aoyIN8qbMd2j3UnHUVe1YG9kmuCW/KXVkn5z7Z2SjU=";
+    }
+    {
+      name = "xonsh";
+      publisher = "jnoortheen";
+      version = "0.2.6";
+      sha256 = "sha256-EhpIzYLn5XdvR5gAd129+KuyTcKFswXtO6WgVT8b+xA=";
+    }
   ];
   keybindings = [
+    {
+      key = "meta+Escape"; # stylus tail button
+      command = "draw.editCurrentLine";
+    }
+
+    # tmux
     {
       key = "ctrl+a c";
       command = "workbench.action.terminal.newInActiveWorkspace";
@@ -168,16 +184,18 @@
       command = "workbench.action.terminal.focusPrevious";
       when = "terminalFocus";
     }
-    {
-      key = "ctrl+a shift+'";
-      command = "workbench.action.terminal.split";
-      when = "terminalFocus && panelPosition != 'bottom'";
-    }
+    # { TODO: fix
+    #   key = "ctrl+a shift+'";
+    #   command = "workbench.action.terminal.split";
+    #   when = "terminalFocus && panelPosition != 'bottom'";
+    # }
     {
       key = "ctrl+a shift+5";
       command = "workbench.action.terminal.split";
       when = "terminalFocus && panelPosition == 'bottom'";
     }
+
+    # readline
     {
       key = "ctrl+n";
       command = "cursorLineStart";
@@ -199,13 +217,17 @@
       key = "ctrl+t";
       command = "workbench.action.showAllEditors";
     }
+
+    # disabled keys
     {
       key = "ctrl+l";
       command = "-extension.vim_navigateCtrlL";
     }
     {
-      key = "meta+Escape"; # stylus tail button
-      command = "draw.editCurrentLine";
+      # markdown-all-in-one conflicts with dendron
+      key = "ctrl+enter";
+      command = "-markdown.extension.onCtrlEnterKey";
+      when = "editorTextFocus && !editorReadonly && !suggestWidgetVisible && editorLangId == 'markdown'";
     }
   ];
 }
