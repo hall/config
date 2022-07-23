@@ -3,8 +3,6 @@
   enable = true;
   profiles = {
     default = {
-      id = 0;
-      name = "default";
       settings = {
         "browser.aboutConfig.showWarning" = false;
         "browser.newtabpage.enabled" = false;
@@ -25,25 +23,22 @@
     };
   };
   extensions = with pkgs.nur.repos.rycee.firefox-addons; [
-    # TODO: don't exist
-    # gsconnect
-    # sidebery
-    # cast-kodi
-
-    # buster
-    # bypass-paywalls
-    # ipfs-companion
+    # allow-right-click # TODO
     anchors-reveal
     auto-tab-discard
     bitwarden
+    buster-captcha-solver
+    bypass-paywalls-clean
+    # cast-kodi # TODO
     darkreader
-    firenvim
+    multi-account-containers
+    firefox-translations
     floccus
+    # gsconnect # TODO
     https-everywhere
     i-dont-care-about-cookies
     link-cleaner
-    multi-account-containers
-    refined-github
+    sidebery
     temporary-containers
     tridactyl
     ublock-origin
