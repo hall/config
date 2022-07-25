@@ -101,7 +101,6 @@
     ryu1kn.partial-diff
     # stkb.rewrap
     streetsidesoftware.code-spell-checker
-    usernamehw.errorlens
     vscodevim.vim
     yzhang.markdown-all-in-one
   ] ++ (lib.optionals (pkgs.system != "aarch64-linux") [
