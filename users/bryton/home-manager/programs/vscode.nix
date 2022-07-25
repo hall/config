@@ -36,6 +36,9 @@
     "rest-client.enableTelemetry" = false;
     "rest-client.previewResponseInUntitledDocument" = true;
 
+    "revealjs.highlightTheme" = "nord";
+    "revealjs.controls" = false;
+
     "todo-tree.regex.regex" = "(//|#|<!--|;|/\\*|^|^\\s*(-|\\d+.))\\s*($TAGS)";
     "todo-tree.highlights.customHighlight" = {
       "[ ]" = {
@@ -141,6 +144,12 @@
       publisher = "glen-anderson";
       version = "1.1.0";
       sha256 = "sha256-1aoyIN8qbMd2j3UnHUVe1YG9kmuCW/KXVkn5z7Z2SjU=";
+    }
+    {
+      name = "vscode-reveal";
+      publisher = "evilz";
+      version = "4.3.3";
+      sha256 = "sha256-KqvQi0DMfHppX96qKHIkO9zIueBdGGV+6dYkpFEzFBo=";
     }
     {
       name = "xonsh";
