@@ -22,12 +22,6 @@
     "latex-workshop.view.pdf.invertMode.enabled" = "auto";
     "latex-workshop.view.pdf.zoom" = "page-width";
 
-    # https://wiki.dendron.so/notes/692fa114-f798-467f-a0b9-3cccc327aa6f/#remove-markdown-buttons-in-menu-bar
-    "markdownShortcuts.icons.bold" = false;
-    "markdownShortcuts.icons.bullets" = false;
-    "markdownShortcuts.icons.italic" = false;
-    "markdownShortcuts.icons.strikethrough" = false;
-
     "projectManager.git.baseFolders" = [ "~/src" ];
     "projectManager.git.maxDepthRecursion" = 5;
 
