@@ -70,6 +70,7 @@
     "window.autoDetectColorScheme" = true;
     "window.menuBarVisibility" = "toggle";
 
+    "workbench.colorTheme" = "Nord";
     # "workbench.experimental.sidePanel.enabled" = true;
     "workbench.experimental.panel.alignment" = "left";
 
