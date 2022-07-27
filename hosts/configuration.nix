@@ -48,10 +48,12 @@
 
 
   nix = {
-    settings.trusted-users = [ flake.username ];
     generateRegistryFromInputs = true;
     generateNixPathFromInputs = true;
-    # gc.automatic = true;
+    gc = {
+      automatic = true;
+      options = "--delete-older-than 30d";
+    };
     extraOptions = ''
       experimental-features = nix-command flakes
       allow-unsafe-native-code-during-evaluation = true
