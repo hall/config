@@ -106,7 +106,7 @@ ts9sim = ts9nonlin : lowpassfilter : *(gain)
 with {
 
     R1 = 4700;
-    R2 = 51000 + 500000 * vslider("drive[name:Drive][style:knob]", 0.5, 0, 1, 0.01);
+    R2 = 51000 + 500000 * vslider("drive[name:Drive][style:knob]", 0.5, 0, 1, 0.01) * (1 - checkbox("bypass"));
     C = 0.047 * 1e-6;
     a1 = (R1 + R2) * C * 2 * ma.SR;
     a2 = R1 * C * 2 * ma.SR;
