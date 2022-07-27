@@ -31,6 +31,6 @@ mach-nix.nixpkgs.mkShell {
   shellHook = ''
     conda-shell
     conda install -y -c conda-forge -c cadquery python=3.8 cadquery=2 jupyter_cadquery
-    pip install jupyter-cadquery==2.2.1 matplotlib
+    pip install jupyter-cadquery==2.2.1 matplotlib ipyplot
   '';
 }
