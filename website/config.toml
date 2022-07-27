@@ -1,0 +1,64 @@
+baseurl = "https://bryton.io"
+#title = "Bryton Hall"
+theme = "hugo-coder"
+languagecode = "en"
+defaultcontentlanguage = "en"
+
+paginate = 20
+canonifyurls = true
+
+#pygmentsstyle = "bw"
+pygmentscodefences = true
+pygmentscodefencesguesssyntax = true
+
+[params]
+    author = "Bryton Hall"
+    info = "Engineer"
+    description = "Bryton Hall's personal website"
+    keywords = "blog,developer,personal"
+    avatarurl = "images/avatar.png"
+
+    #favicon_32 = "/img/favicon-32x32.png"
+    #favicon_16 = "/img/favicon-16x16.png"
+
+    footercontent = "<a href='https://emailselfdefense.fsf.org/en/'>PGP</a>: 8389BE69C0C4035DCEB1B0CF85FE245744CDAC7F"
+
+    hidecredits = true
+    hidecopyright = true
+
+    rtl = false
+
+    math = true
+    custom_css = ["css/custom.css"]
+
+# Social links
+[[params.social]]
+    name = "Gitlab"
+    icon = "fab fa-gitlab fa-2x"
+    url = "https://gitlab.com/hall/"
+[[params.social]]
+    name = "Github"
+    icon = "fab fa-github fa-2x"
+    url = "https://github.com/hall/"
+[[params.social]]
+    name = "LinkedIn"
+    icon = "fab fa-linkedin fa-2x"
+    url = "https://linkedin.com/in/brytonhall/"
+[[params.social]]
+    name = "email"
+    icon = "far fa-envelope fa-2x"
+    url = "mailto:email@bryton.io"
+[[params.social]]
+    name = "bitcoin"
+    icon = "fab fa-btc fa-2x"
+    url = "bitcoin:19UzojQx8W96gnnvJL5222idqCR3o7J9DF"
+
+# Menu links
+#[[menu.main]]
+#    name = "Blog"
+#    weight = 1
+#    url  = "/posts/"
+#[[menu.main]]
+#    name = "About"
+#    weight = 2
+#    url = "/about/"
