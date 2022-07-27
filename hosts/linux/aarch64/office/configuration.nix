@@ -1,49 +1,64 @@
-{ flake, pkgs, ... }:
+{ flake, pkgs, config, ... }:
 {
-  services = {
-    snapserver = {
-      enable = true;
-      openFirewall = true;
-      streams = {
-        all = {
-          type = "meta";
-          location = "/turntable/spotify";
+  boot = {
+    kernelPackages = pkgs.linuxPackages_rpi3;
+    loader = {
+      raspberryPi = {
+        enable = true;
+        version = 3;
+        # firmwareConfig = ''
+        #   dtoverlay=hifiberry-dac
+        # '';
+      };
+    };
+  };
+  hardware.deviceTree = {
+    enable = true;
+    overlays = [ "${config.boot.kernelPackages.kernel}/dtbs/overlays/hifiberry-amp.dtbo" ];
+  };
+
+  services.snapserver = {
+    enable = true;
+    openFirewall = true;
+    streams = {
+      all = {
+        type = "meta";
+        location = "/turntable/spotify";
+      };
+      turntable = {
+        type = "tcp";
+        location = "0.0.0.0:49566";
+        query = {
+          sampleformat = "44100:16:2";
         };
-        turntable = {
-          type = "tcp";
-          location = "0.0.0.0:49566";
-          query = {
-            sampleformat = "44100:16:2";
-          };
-        };
-        spotify = {
-          type = "librespot";
-          location = "${pkgs.librespot}/bin/librespot";
-          query = {
-            name = "spotify";
-            username = flake.email;
-            password = flake.lib.pass "spotify/${flake.username}";
-            devicename = "home";
-            volume = "60";
-          };
+      };
+      spotify = {
+        type = "librespot";
+        location = "${pkgs.librespot}/bin/librespot";
+        query = {
+          name = "spotify";
+          username = flake.email;
+          password = flake.lib.pass "spotify/${flake.username}";
+          devicename = "home";
+          volume = "60";
         };
       };
     };
   };
 
   systemd.services = {
-    # snapcast-sink = {
-    #   wantedBy = [ "pipewire.service" ];
-    #   after = [ "pipewire.service" ];
-    #   bindsTo = [ "pipewire.service" ];
-    #   path = with pkgs; [
-    #     gawk
-    #     pulseaudio
-    #   ];
-    #   script = ''
-    #     pactl load-module module-pipe-sink file=/run/snapserver/pipewire sink_name=Snapcast format=s16le rate=48000
-    #   '';
-    # };
+    snapcast-sink = {
+      wantedBy = [ "pipewire.service" ];
+      after = [ "pipewire.service" ];
+      bindsTo = [ "pipewire.service" ];
+      path = with pkgs; [
+        gawk
+        pulseaudio
+      ];
+      script = ''
+        pactl load-module module-pipe-sink file=/run/snapserver/pipewire sink_name=Snapcast format=s16le rate=48000
+      '';
+    };
 
     snapclient = {
       wantedBy = [
