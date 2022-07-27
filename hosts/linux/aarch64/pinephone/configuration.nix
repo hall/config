@@ -84,7 +84,7 @@
       megapixels
       epiphany
       newsflash
-      flake.giara
+      giara
       nheko
 
       drawing
