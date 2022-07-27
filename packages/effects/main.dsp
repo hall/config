@@ -1,16 +1,19 @@
 ba = library("basics.lib");
 si = library("signals.lib");
 
+import("stdfaust.lib");
 import("tubes.lib");
 import("tonestacks.lib");
 
 process = preamp;
 
-preamp = vgroup("amp",
+preamp = vgroup("effects",
+            pitchshifter :
          	hgroup("[0]distortion",ts9sim) :
          	hgroup("[1]preamp", stage1 : stage2): 
          	hgroup("[2]tonestack", tstack) :
-         	hgroup("[3]cabinet", cab))
+         	hgroup("[3]cabinet", cab)
+            )
 with {
 
     stage1 = T1_12AX7 : *(preamp) : fi.lowpass(1,6531.0) : T2_12AX7 : *(preamp) 
@@ -30,19 +33,13 @@ with {
         l = vslider("[4] bass [style:knob]",0.5,0,1,0.01);
     };
    
-    /*
-    // Dynamically choose between several 'tstack'
-    tstack = ba.selectmulti(ma.SR/100, (tjcm2000, tjtm45, tjcm800), 
-    nentry("tstack [style:menu{'tjcm2000':0;'tjtm45':1;'tjcm800':2}]", 0, 0, 2, 1))
-    with {
-    	tjcm2000 = jcm2000(t, m, l);
-    	tjtm45 = jtm45(t, m, l);
-    	tjcm800 = jcm800(t, m, l);
-        t = vslider("[2] Treble [style:knob]",0.5,0,1,0.01);
-        m = vslider("[3] Middle [style:knob]",0.5,0,1,0.01);
-        l = vslider("[4] Bass [style:knob]",0.5,0,1,0.01);
-    };
-    */
+    pitchshifter = vgroup("Pitch Shifter", ef.transpose(
+                       hslider("window (samples)", 1000, 50, 10000, 1),
+                       hslider("xfade (samples)", 10, 1, 10000, 1),
+                       hslider("shift (semitones) ", 0, -12, +12, 0.1)
+                     )
+   );
+
 };
 
 
