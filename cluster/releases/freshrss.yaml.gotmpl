@@ -1,0 +1,17 @@
+chart: k8s-at-home/freshrss
+version: ~6
+namespace: default
+values:
+- env:
+    TZ: {{ .Values.timezone }}
+  persistence:
+    config:
+      enabled: true
+  ingress:
+    main:
+      enabled: true
+      hosts:
+        - host: rss.{{ .Values.hostname }}
+          paths:
+            - path: /
+  

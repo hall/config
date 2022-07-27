@@ -1,0 +1,64 @@
+env:
+  TZ: {{ .Values.timezone }}
+ingress:
+  main:
+    enabled: true
+    hosts:
+      {{- if eq .Release.Name "lidarr" }}
+      - host: music.{{ .Values.hostname }}
+      {{- else if eq .Release.Name "radarr" }}
+      - host: movies.{{ .Values.hostname }}
+      {{- else if eq .Release.Name "sonarr" }}
+      - host: shows.{{ .Values.hostname }}
+      {{- else if eq .Release.Name "readarr" }}
+      - host: books.{{ .Values.hostname }}
+      {{- else if eq .Release.Name "qbittorrent" }}
+      - host: downloads.{{ .Values.hostname }}
+      {{- else if eq .Release.Name "prowlarr" }}
+      - host: indexer.{{ .Values.hostname }}
+      {{- else if eq .Release.Name "jellyfin" }}
+      - host: player.{{ .Values.hostname }}
+      {{- else -}}
+      - host: {{ .Release.Name }}.{{ .Values.hostname }}
+      {{- end }}
+        paths:
+          - path: /
+persistence:
+  config:
+    enabled: true
+{{- if has .Release.Name (list "jellyfin" "qbittorrent") }}
+  music:
+    enabled: true
+    existingClaim: lidarr-media
+    mountPath: /media/music
+  movies:
+    enabled: true
+    existingClaim: radarr-media
+    mountPath: /media/movies
+  shows:
+    enabled: true
+    existingClaim: sonarr-media
+    mountPath: /media/shows
+  books:
+    enabled: true
+    existingClaim: calibre-media
+    mountPath: /media/books
+{{- else if not (eq .Release.Name "prowlarr") }}
+  media:
+    enabled: true
+    accessMode: ReadWriteMany
+    storageClass: ceph-filesystem
+  {{- if eq .Release.Name "lidarr" }}
+    size: 50G
+    mountPath: /media/music
+  {{- else if eq .Release.Name "radarr" }}
+    size: 100G
+    mountPath: /media/movies
+  {{- else if eq .Release.Name "sonarr" }}
+    size: 200G
+    mountPath: /media/shows
+  {{- else if eq .Release.Name "readarr" }}
+    mountPath: /media/books
+    existingClaim: calibre-media
+  {{- end }}
+{{- end }}

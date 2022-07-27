@@ -1,0 +1,22 @@
+chart: k8s-at-home/calibre-web
+version: ~8
+namespace: default
+values:
+- env:
+    TZ: {{ .Values.timezone }}
+    PUID: 568
+    PGID: 568
+  persistence:
+    config:
+      enabled: true
+    books:
+      enabled: true
+      existingClaim: calibre-media
+  ingress:
+    main:
+      enabled: true
+      hosts:
+        - host: library.{{ .Values.hostname }}
+          paths:
+            - path: /
+  

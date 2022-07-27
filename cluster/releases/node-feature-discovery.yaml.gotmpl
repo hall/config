@@ -1,0 +1,18 @@
+chart: nfd/node-feature-discovery
+version: 0.2.1
+namespace: system
+values:
+- image:
+    repository: docker.io/raspbernetes/node-feature-discovery
+    tag: v0.9.0
+  worker:
+    config: |
+      sources:
+        usb:
+          deviceClassWhitelist:
+            - 03  # HID
+            - 0e  # video
+            - ef  # misc
+            - fe  # application-specific
+            - ff  # vendor-specific
+  

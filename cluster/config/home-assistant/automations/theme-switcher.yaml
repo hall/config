@@ -1,0 +1,10 @@
+- id: theme_switcher
+  alias: Set HA theme for day and night
+  trigger:
+    - platform: homeassistant
+      event: start
+  action:
+    - service: frontend.set_theme
+      data:
+        name: nord
+        mode: dark

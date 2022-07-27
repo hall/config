@@ -1,0 +1,28 @@
+chart: kiali/kiali-server
+namespace: istio-system
+values:
+#- istio_namespace: istio-system
+- deployment:
+    ingress:
+      enabled: true
+      class_name: null
+  server:
+    web_fqdn: kiali.{{ .Values.hostname }}
+    web_root: /
+  auth:
+    strategy: anonymous
+  istio_labels:
+    app_label_name: app.kubernetes.io/name
+    version_label_name: app.kubernetes.io/version
+  external_services:
+    prometheus:
+      url: http://prometheus-operated.system:9090/
+    tracing:
+      enabled: false
+      in_cluster_url: http://tracing.system:16685/jaeger
+      url: https://jaeger.{{ .Values.hostname }}
+    grafana:
+      in_cluster_url: http://kube-prometheus-stack-grafana.system
+      url: https://grafana.{{ .Values.hostname }}
+    
+      

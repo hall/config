@@ -1,0 +1,13 @@
+- id: motion_detected
+  alias: Notify of events
+  trigger:
+    platform: mqtt
+    topic: frigate/events
+  action:
+    - service: notify.mobile_app_sm_n950u1
+      data_template:
+        message: 'A {{ trigger.payload_json["after"]["label" ]}} was detected.'
+        data:
+          image: https://home.bryton.io/api/frigate/notifications/{{ trigger.payload_json["after"]["id"] }}/thumbnail.jpg?format=android
+          tag: '{{ trigger.payload_json["after"]["id"] }}'
+          clickAction: https://frigate.bryton.io/events/{{ trigger.payload_json["after"]["id"] }}

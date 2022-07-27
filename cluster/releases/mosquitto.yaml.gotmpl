@@ -1,0 +1,18 @@
+chart: k8s-at-home/mosquitto
+version: ~3
+namespace: default
+values:
+- persistence:
+    data:
+      enabled: false # TODO?
+  
+  #ingress:
+  #  main:
+  #    enabled: true
+  #    hosts:
+  #      - host: mqtt.{{ .Values.hostname }}
+  #        paths:
+  #          - path: /
+  #            service:
+  #              port: 1883
+  

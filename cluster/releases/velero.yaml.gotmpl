@@ -1,0 +1,17 @@
+chart: vmware-tanzu/velero
+version: ~2
+namespace: system
+values:
+- configuration:
+    provider:
+    backupStorageLocation:
+      bucket:
+      prefix:
+      config:
+        serviceAccount:
+  initContainers:
+    - name: velero-plugin-for-
+      image: velero/velero-plugin-for- :v1.
+      volumeMounts:
+        - name: plugins
+          mountPath: /target

@@ -1,0 +1,6 @@
+printer_home:
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: octoPrint/hassControl/home
+        payload: '["x", "y", "z"]'

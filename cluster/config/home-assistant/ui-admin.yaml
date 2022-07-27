@@ -1,0 +1,63 @@
+title: Admin
+icon: mdi:console-line
+views:
+  - title: Grafana
+    path: grafana
+    panel: true
+    cards:
+      - type: iframe
+        url: https://grafana.bryton.io
+  - title: ESPHome
+    path: esphome
+    panel: true
+    cards:
+      - type: iframe
+        url: https://esphome.bryton.io
+  - title: Frigate
+    path: frigate
+    panel: true
+    cards:
+      - type: iframe
+        url: https://frigate.bryton.io
+  - title: Ceph
+    path: ceph
+    panel: true
+    cards:
+      - type: iframe
+        url: https://ceph.bryton.io
+  - title: Bitwarden
+    path: bitwarden
+    panel: true
+    cards:
+      - type: iframe
+        url: https://bitwarden.bryton.io
+  - title: Prometheus
+    path: prometheus
+    panel: true
+    cards:
+      - type: iframe
+        url: https://prometheus.bryton.io
+  - title: AlertManager
+    path: alertmanager
+    panel: true
+    cards:
+      - type: iframe
+        url: https://alertmanager.bryton.io
+  - title: Adguard
+    path: adguard
+    panel: true
+    cards:
+      - type: iframe
+        url: https://adguard.bryton.io
+  - title: Octoprint
+    path: octoprint
+    panel: true
+    cards:
+      - type: iframe
+        url: https://print.bryton.io
+  - title: Notify
+    path: notify
+    panel: true
+    cards:
+      - type: iframe
+        url: https://notify.bryton.io

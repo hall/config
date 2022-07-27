@@ -1,0 +1,3 @@
+config openvpn 'va'
+        option config '/etc/openvpn/us-va-04.protonvpn.com.udp.ovpn'
+        option enabled '1'

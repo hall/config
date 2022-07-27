@@ -1,0 +1,34 @@
+chart: k8s-at-home/adguard-home
+version: ~5
+namespace: default
+values:
+- env:
+    TZ: {{ .Values.timezone }}
+  #persistence:
+  #  data:
+  #    enabled: true
+  #serviceUDP:
+  #  loadBalancerIP: {{ .Values.address.ip.dns }}
+  #  type: LoadBalancer
+  #  annotations:
+  #    metallb.universe.tf/allow-shared-ip: adguard-home-svc
+  #serviceTCP:
+  #  loadBalancerIP: {{ .Values.address.ip.dns }}
+  #  type: LoadBalancer
+  #  annotations:
+  #    metallb.universe.tf/allow-shared-ip: adguard-home-svc
+  config: |
+    users:
+      - name: {{ .Values.username }}
+        password: {{ exec "bw" (list "get" "password" "adguard") }}
+    dns:
+      upstream_dns:
+        - https://dns10.quad9.net/dns-query
+        - "[/{{ .Values.address.domain }}/]{{ .Values.address.ip.router }}"
+        - "[/{{ .Values.address.ip.router | splitList "." | reverse | rest | join "." }}.in-addr.arpa/]{{ .Values.address.ip.router }}"
+      rewrites:
+        - domain: router.{{ .Values.hostname }}
+          answer: {{ .Values.address.ip.router }}
+        - domain: "*.{{ .Values.hostname }}"
+          answer: {{ .Values.address.ip.ingress }}
+            

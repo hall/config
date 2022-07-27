@@ -1,0 +1,15 @@
+- id: leak_detected
+  alias: Water leak notification
+  trigger:
+    platform: state
+    entity_id:
+      - binary_sensor.rental_water_heater_flood
+      - binary_sensor.sump_pump_flood
+      - binary_sensor.water_heater_flood
+      - binary_sensor.washing_machine_flood
+    to: "on"
+  action:
+    - service: notify.mobile_app_sm_n950u1
+      data_template:
+        message: "{{ trigger.entity_id }} leak detected"
+        data:

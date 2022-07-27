@@ -1,0 +1,16 @@
+chart: k8s-at-home/ombi
+namespace: default
+values:
+- env:
+    TZ: {{ .Values.timezone }}
+  persistence:
+    config:
+      enabled: true
+  ingress:
+    main:
+      enabled: true
+      hosts:
+        - host: ombi.{{ .Values.hostname }}
+          paths:
+            - path: /
+  

@@ -1,0 +1,51 @@
+title: Media
+icon: mdi:bookshelf
+views:
+  - title: Player
+    path: player
+    panel: true
+    cards:
+      - type: iframe
+        url: https://player.bryton.io
+  - title: Downloads
+    path: downloads
+    panel: true
+    cards:
+      - type: iframe
+        url: https://downloads.bryton.io
+  - title: Books
+    path: books
+    panel: true
+    cards:
+      - type: iframe
+        url: https://books.bryton.io
+  - title: Shows
+    path: shows
+    panel: true
+    cards:
+      - type: iframe
+        url: https://shows.bryton.io
+  - title: Movies
+    path: movies
+    panel: true
+    cards:
+      - type: iframe
+        url: https://movies.bryton.io
+  - title: Music
+    path: music
+    panel: true
+    cards:
+      - type: iframe
+        url: https://music.bryton.io
+  - title: Requests
+    path: requests
+    panel: true
+    cards:
+      - type: iframe
+        url: https://ombi.bryton.io
+  - title: Indexer
+    path: indexer
+    panel: true
+    cards:
+      - type: iframe
+        url: https://indexer.bryton.io

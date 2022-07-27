@@ -1,0 +1,57 @@
+version: v1alpha1
+debug: false
+persist: true
+machine:
+  type: {{ type }}
+  token: {{ machine_token }}
+  network:
+    hostname: {{ hostname }}
+  install:
+    disk: /dev/mmcblk0
+    image: ghcr.io/talos-systems/installer:v0.12.1
+    bootloader: true
+    wipe: false
+  features:
+    rbac: true
+  sysctls:
+    fs.inotify.max_user_instances: "8192"
+    fs.inotify.max_user_watches: "524288"
+  time:
+    disabled: false
+    servers:
+      - time.cloudflare.com
+  ca:
+    crt: {{ machine_crt }}
+    key: {{ machine_key }}
+cluster:
+  id: {{ cluster_id }}
+  secret: {{ cluster_secret }}
+  controlPlane:
+    endpoint: https://k:6443
+  clusterName: k
+  allowSchedulingOnMasters: true
+  network:
+    dnsDomain: cluster.local
+    podSubnets:
+      - 10.244.0.0/16
+    serviceSubnets:
+      - 10.96.0.0/12
+  token: {{ cluster_token }}
+  ca:
+    crt: {{ cluster_crt }}
+{% if type == "controlPlane" %}
+    key: {{ cluster_key }}
+  aescbcEncryptionSecret: {{ aescbc_secret }}
+  aggregatorCA:
+    crt: {{ aggregator_crt }}
+    key: {{ aggregator_key }}
+  serviceAccount:
+    key: {{ sa_key }}
+  apiServer:
+    certSANs:
+      - k
+  etcd:
+    ca:
+      crt: {{ etcd_crt }}
+      key: {{ etcd_key }}
+{% endif %}

@@ -1,0 +1,10 @@
+- id: forward_alerts
+  alias: Forward alerts from Alertmanager
+  trigger:
+    platform: webhook
+    webhook_id: alertmanager
+  action:
+    service: notify.gotify
+    data:
+      message: >
+        {{ trigger.json.message }}

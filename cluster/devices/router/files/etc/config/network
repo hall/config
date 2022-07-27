@@ -1,0 +1,50 @@
+config interface 'loopback'                                
+        option ifname 'lo'                                 
+        option proto 'static'
+        option ipaddr '127.0.0.1'
+        option netmask '255.0.0.0'
+
+config globals 'globals'                                   
+        option ula_prefix 'fd25:649a:24a5::/48'
+
+config interface 'wan'                                     
+        option ifname 'port1'
+        option proto 'dhcp'                                
+        option ipv6 'off'                                  
+
+config interface 'wan6'                                    
+        option ifname 'port1'
+        option proto 'dhcpv6'
+
+config interface 'lan'                                     
+        option type 'bridge'                               
+        option ifname 'port2 port3 port4 port5 port6 port7 port8 port9 port10'
+        option proto 'static'
+        option ipaddr '192.168.1.1'
+        option netmask '255.255.255.0'
+        option ip6assign '60'
+        option ipv6 'off'                                  
+
+config interface 'tun0'                                    
+        option proto 'none'                                
+        option ifname 'tun0'                               
+        option delegate '0'                                
+
+config interface 'wg'                                      
+        option proto 'wireguard'
+        option private_key '' # TODO: secret
+        option listen_port '1234'
+        list addresses '10.14.0.1/24'
+
+config interface 'modem'                                   
+        option proto 'static'
+        option ifname '@wan'                               
+        option ipaddr '192.168.100.2'
+        option netmask '255.255.255.0'
+
+config wireguard_wg                                        
+        option description 'note8'
+        option public_key 'lClZ5Pdeud6YIKFENZz8gNhWJptB8jCuz1xx0giYgnc='
+        option route_allowed_ips '1'
+        option persistent_keepalive '25'
+        list allowed_ips '10.14.0.3/32'

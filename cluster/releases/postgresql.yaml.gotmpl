@@ -1,0 +1,13 @@
+chart: bitnami/postgresql
+namespace: system
+version: ~10
+values:
+- image:
+    repository: postgres
+    tag: 11.12
+  postgresqlDataDir: /data/pgdata
+  postgresqlPostgresPassword: {{ exec "bw" (list "get" "password" "89988a9a-eb85-4623-8b27-3a3e0f949ad4") }}
+  postgresqlPassword: {{ exec "bw" (list "get" "password" "89988a9a-eb85-4623-8b27-3a3e0f949ad4") }}
+  persistence:
+    mountPath: /data/
+  

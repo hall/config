@@ -1,0 +1,108 @@
+chart: prometheus-community/kube-prometheus-stack
+version: ~18
+namespace: system
+values:
+- kubeControllerManager:
+    enabled: false
+  kubeScheduler:
+    enabled: false
+  kubeProxy:
+    enabled: false
+  kubeEctd:
+    enabled: false
+  
+  prometheus:
+    prometheusSpec:
+      externalUrl: https://prometheus.{{ .Values.hostname }}
+      serviceMonitorSelectorNilUsesHelmValues: false
+      podMonitorSelectorNilUsesHelmValues: false
+      #additionalScrapeConfigs:
+      #  - job_name: OpenWRT
+      #    static_configs:
+      #      - targets:
+      #          - '{{ .Values.address.ip.router }}:9100'
+      #          {{- range .Values.address.ip.accessPoints }}
+      #          - '{{ . }}:9100'
+      #          {{- end }}
+    ingress:
+      enabled: true
+      hosts:
+        - prometheus.{{ .Values.hostname }}
+      pathType: ImplementationSpecific
+  alertmanager:
+    alertmanagerSpec:
+      externalUrl: https://alertmanager.{{ .Values.hostname }}
+    ingress:
+      enabled: true
+      hosts:
+        - alertmanager.{{ .Values.hostname }}
+      pathType: ImplementationSpecific
+    config:
+      global:
+        resolve_timeout: 5m
+      route:
+        receiver: gotify
+        group_by: ["job"]
+        group_wait: 30s
+        group_interval: 5m
+        repeat_interval: 12h
+        routes:
+          - receiver: "null"
+            match:
+              alertname: Watchdog
+      receivers:
+        - name: "null"
+        - name: gotify
+          webhook_configs:
+            - url: http://gotify.default:8080/gotify_webhook
+  grafana:
+    grafana.ini:
+      auth.anonymous:
+        enabled: true
+        org_name: Main Org.
+        org_role: Viewer
+      security:
+        allow_embedding: true
+    plugins:
+      - grafana-piechart-panel
+    dashboardProviders:
+      dashboardproviders.yaml:
+        apiVersion: 1
+        providers:
+          - name: 'default'
+            orgId: 1
+            folder: ''
+            type: file
+            disableDeletion: true
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/default
+    dashboards:
+      default:
+        {{- range $_, $path := exec "sh" (list "-c" "echo -n dashboards/*.json") | splitList " " }}
+        {{ first (splitList "." (base $path)) }}:
+          json: |
+{{ readFile (print "dashboards/" (base $path)) | indent 14 }}
+        {{- end }}
+        {{ range (list "ceph-cluster" "cephfs-overview" "host-details" "hosts-overview" "osd-device-details" "osds-overview" "pool-detail" "pool-overview" "radosgw-detail" "radosgw-overview" "radosgw-sync-overview" "rdb-details" "rdb-overview") -}}
+        {{ . }}:
+          url: https://raw.githubusercontent.com/ceph/ceph/master/monitoring/grafana/dashboards/{{ . }}.json
+          datasource: Prometheus
+        {{ end }}
+    additionalDataSources:
+      - name: Loki
+        type: loki
+        url: http://loki-stack:3100
+    ingress:
+      enabled: true
+      hosts:
+        - grafana.{{ .Values.hostname }}
+      pathType: ImplementationSpecific
+  nodeExporter:
+    serviceMonitor:
+      relabelings:
+        # use node name instead of IP address
+        - sourceLabels: [__meta_kubernetes_pod_node_name]
+          targetLabel: instance
+          action: replace
+  

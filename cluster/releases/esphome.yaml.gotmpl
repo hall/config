@@ -1,0 +1,28 @@
+chart: k8s-at-home/esphome
+version: ~8
+namespace: default
+values:
+- hostNetwork: true
+  dnsPolicy: ClusterFirstWithHostNet
+  image:
+    tag: 2022.2.5
+  persistence:
+    config:
+      enabled: true
+      size: 5Gi
+    secrets:
+      enabled: true
+      type: custom
+      mountPath: /config/secrets.yaml
+      subPath: secrets.yaml
+      volumeSpec:
+        secret:
+          secretName: home-assistant
+  ingress:
+    main:
+      enabled: true
+      hosts:
+        - host: esphome.{{ .Values.hostname }}
+          paths:
+            - path: /
+  

@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: List
+items:
+  - apiVersion: v1
+    kind: Secret
+    metadata:
+      name: home-assistant
+      namespace: default
+    stringData:
+      secrets.yaml: |
+        timezone: {{ exec "bash" (list "-c" "bw get item location | jq -j '.fields[] | select(.name==\"timezone\").value'") }}
+        postgresql: postgresql://home-assistant:{{ exec "bash" (list "-c" "bw get item postgresql | jq -j '.fields[] | select(.name==\"homeassistant\").value'") }}@postgresql.system/home-assistant
+        roomba_user: {{ exec "bw" (list "get" "username" "roomba") | quote }}
+        roomba_pass: {{ exec "bw" (list "get" "password" "roomba") | quote }}
+        latitude: {{ exec "bash" (list "-c" "bw get item location | jq -j '.fields[] | select(.name==\"latitude\").value'") | quote }}
+        longitude: {{ exec "bash" (list "-c" "bw get item location | jq -j '.fields[] | select(.name==\"longitude\").value'") | quote }}
+        wifi: {{ exec "bw" (list "get" "password" "wifi") | quote }}
+        router: {{ exec "bw" (list "get" "password" "router") | quote }}
+        matrix_user: {{ exec "bw" (list "get" "username" "matrix-bot") | quote }}
+        matrix_pass: {{ exec "bw" (list "get" "password" "matrix-bot") }}
+        matrix_room: {{ exec "bash" (list "-c" "bw get item matrix-bot | jq -j '.fields[] | select(.name==\"room\").value'") | quote }}
+        matrix_token: {{ exec "bash" (list "-c" "bw get item matrix-bot | jq -j '.fields[] | select(.name==\"token\").value'") | quote }}
+        jellyfin: {{ exec "bash" (list "-c" "bw get item jellyfin | jq -j '.fields[] | select(.name==\"apikey\").value'") | quote }}
+        esphome: {{ exec "bw" (list "get" "password" "esphome") }}
+        mac_car: {{ exec "bash" (list "-c" "bw get item b0020b9f-dfd8-4b29-8a81-63b9fd07ee97 | jq -j '.fields[] | select(.name==\"mac\").value'") | quote }}
+        doorbell: {{ exec "bw" (list "get" "password" "doorbell") }}
+        landroid: {{ exec "bash" (list "-c" "bw get item landroid | jq -j '.fields[] | select(.name==\"pin\").value'") | quote }}
+        osmc: {{ exec "bw" (list "get" "password" "osmc") }}
+        gotify_key: {{ exec "bash" (list "-c" "bw get item gotify | jq -j '.fields[] | select(.name==\"homeassistant\").value'") }}

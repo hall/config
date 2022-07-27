@@ -1,0 +1,12 @@
+- id: print_done
+  alias: Print Done
+  trigger:
+    platform: state
+    entity_id:
+      - binary_sensor.octoprint_printing
+    to: "off"
+  action:
+    - service: notify.mobile_app_sm_n950u1
+      data_template:
+        message: "print done"
+        data:

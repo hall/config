@@ -1,0 +1,25 @@
+chart: k8s-at-home/stash
+version: ~3
+namespace: default
+values:
+- env:
+    TZ: {{ .Values.timezone }}
+  image:
+    tag: v0.12.0
+  persistence:
+    config:
+      enabled: true
+      size: 10Gi
+    media:
+      enabled: true
+      accessMode: ReadWriteMany
+      storageClass: ceph-filesystem
+      size: 30Gi
+  ingress:
+    main:
+      enabled: true
+      hosts:
+        - host: stash.{{ .Values.hostname }}
+          paths:
+            - path: /
+  

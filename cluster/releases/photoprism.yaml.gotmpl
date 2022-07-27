@@ -1,0 +1,24 @@
+chart: k8s-at-home/photoprism
+version: ~6
+namespace: default
+values:
+- env:
+    TZ: {{ .Values.timezone }}
+    PHOTOPRISM_ADMIN_PASSWORD: {{ exec "bw" (list "get" "password" "photoprism") }}
+  persistence:
+    config: 
+      enabled: true
+      accessMode: ReadWriteOnce
+    originals:
+      enabled: true
+      accessMode: ReadWriteOnce
+      size: 20G
+  ingress:
+    main:
+      enabled: true
+      annotations:
+        traefik.ingress.kubernetes.io/router.middlewares: system-home-assistant@kubernetescrd
+      hosts:
+        - host: photos.{{ .Values.hostname }}
+          paths:
+            - path: /
