@@ -17,7 +17,7 @@
                 // "--build-host",
                 // "${env:USER}@${input:host}",
                 "--flake",
-                ".#${input:host}",
+                "./conf#${input:host}",
             ],
             "problemMatcher": [],
             "group": {
@@ -32,7 +32,7 @@
             "type": "command",
             "command": "shellCommand.execute",
             "args": {
-                "command": "find ./hosts -maxdepth 3 -mindepth 3 -type d -exec basename {} \\; | sed -e \"s/$HOSTNAME//1;1i$HOSTNAME\"",
+                "command": "find ./conf/hosts -maxdepth 3 -mindepth 3 -type d -exec basename {} \\; | sed -e \"s/$HOSTNAME//1;1i$HOSTNAME\"",
                 "cwd": "${workspaceFolder}",
                 "description": "Target Host"
             }
