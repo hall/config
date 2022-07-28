@@ -13,23 +13,42 @@ div.activitybar::-webkit-scrollbar { height: 0 !important }
 }
 
 /* push sidebar content above new activitybar */
-
 /* #workbench\.parts\.sidebar > div.content {
   height
 } */
 
-/* reflow content to use old activity bar space */
 
-/* div.split-view-container > div:nth-child(2) */
-/* body > div.file-icons-enabled.enable-motion.monaco-workbench.linux.chromium.noauxiliarybar.maximized.vs-dark.arcticicestudio-nord-visual-studio-code-themes-nord-color-theme-json > div.monaco-grid-view > div > div > div.monaco-scrollable-element > div.split-view-container > div:nth-child(3) > div > div > div.monaco-scrollable-element > div.split-view-container > div:nth-child(2)
+/* reflow content to use old activity bar space */
+body > div.file-icons-enabled.enable-motion.monaco-workbench.linux.chromium.noauxiliarybar.maximized.vs-dark.arcticicestudio-nord-visual-studio-code-themes-nord-color-theme-json > div.monaco-grid-view > div > div > div.monaco-scrollable-element > div.split-view-container > div:nth-child(3) > div > div > div.monaco-scrollable-element > div.split-view-container > div:nth-child(2)
 {
   left: 0 !important;
-  right: 0 !important;
   width: 100% !important;
-} */
+}
 
-/* body > div.file-icons-enabled.enable-motion.monaco-workbench.linux.chromium.nopanel.noauxiliarybar.maximized.vs-dark.arcticicestudio-nord-visual-studio-code-themes-nord-color-theme-json > div.monaco-grid-view > div > div > div.monaco-scrollable-element > div.split-view-container > div:nth-child(3) > div > div > div.monaco-scrollable-element > div.split-view-container > div:nth-child(2) > div > div > div.monaco-scrollable-element > div.split-view-container > div.split-view-view.visible > div > div > div.monaco-scrollable-element > div.split-view-container > div:nth-child(2),
+/* full-width text editor */
+body > div.file-icons-enabled.enable-motion.monaco-workbench.linux.chromium.noauxiliarybar.maximized.vs-dark.arcticicestudio-nord-visual-studio-code-themes-nord-color-theme-json > div.monaco-grid-view > div > div > div.monaco-scrollable-element > div.split-view-container > div:nth-child(3) > div > div > div.monaco-scrollable-element > div.split-view-container > div:nth-child(2) > div > div > div.monaco-scrollable-element > div.split-view-container > div:nth-child(1) > div > div > div.monaco-scrollable-element > div.split-view-container > div:nth-child(2),
+#workbench\.parts\.editor > div.content > div.grid-view-container > div > div > div > div.monaco-scrollable-element > div.split-view-container > div > div > div.editor-container > div > div > div.overflow-guard > div.monaco-scrollable-element.editor-scrollable.vs-dark
+{
+  width: 100% !important;
+}
+
+/* TODO: move minimap to right edge */
+#workbench\.parts\.editor > div.content > div.grid-view-container > div > div > div > div.monaco-scrollable-element > div.split-view-container > div > div > div.editor-container > div > div > div.overflow-guard > div.minimap.slider-mouseover
+{
+  left: auto !important;
+  right: 0 !important;
+}
+
+/* resize editor group */
+/* #workbench\.parts\.editor > div.content > div.grid-view-container > div > div > div > div.monaco-scrollable-element > div.split-view-container > div > div */
+/* add sidebar width to last editor group */
+#workbench\.parts\.editor > div.content > div.grid-view-container > div > div > div > div.monaco-scrollable-element > div.split-view-container > div:last-child > div,
+#workbench\.parts\.editor > div.content > div.grid-view-container > div > div > div > div.monaco-scrollable-element > div.split-view-container > div:last-child > div > div.editor-container > div > div > div.overflow-guard
+{
+  width: calc(100% + 48px) !important;
+}
+
 #workbench\.parts\.editor > div.content
 {
-  margin-right: -48px !important;
-} */
+  width: auto !important;
+}

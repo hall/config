@@ -8,9 +8,10 @@ div.title.breadcrumbs {
 /* replace vertical space left by hidden tabs */
 div.editor-container,
 div.editor-instance,
-div.monaco-editor,
-div.overflow-guard,
-div.monaco-scrollable-element {
+/* div.monaco-editor, */
+div.overflow-guard
+/* div.monaco-scrollable-element  */
+{
   height: 100% !important;
 }
 
