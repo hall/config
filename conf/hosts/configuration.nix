@@ -5,11 +5,8 @@
   ];
 
   system = {
-    # This value determines the NixOS release with which your system is to be
-    # compatible, in order to avoid breaking some software such as database
-    # servers. You should change this only after NixOS release notes say you
-    # should.
-    stateVersion = "21.05"; # Did you read the comment?
+    # https://nixos.org/manual/nixos/stable/release-notes.html#sec-release-22.05
+    stateVersion = "22.05";
     autoUpgrade.enable = true;
   };
 
