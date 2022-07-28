@@ -11,7 +11,8 @@
   home = {
     username = flake.username;
     homeDirectory = "/home/${flake.username}";
-    stateVersion = "21.05";
+    # https://nix-community.github.io/home-manager/release-notes.html#sec-release-22.05
+    stateVersion = "22.05";
     packages = import ./packages.nix { inherit config pkgs flake lib; };
     sessionVariables = {
       CALIBRE_USE_DARK_PALETTE = "1";
