@@ -1,20 +1,35 @@
 div.activitybar {
-  margin-top: -45px;
-  width: auto;
-  position: relative;
+  margin-top: -45px !important;
+  width: auto !important;
+  position: relative !important;
+  overflow-x: auto !important;
+}
+/* hide horizontal scrollbar */
+div.activitybar::-webkit-scrollbar { height: 0 !important }
+
+/* align items in row format */
+.monaco-action-bar.vertical .actions-container {
+  display: flex !important;
 }
 
+/* push sidebar content above new activitybar */
+
+/* #workbench\.parts\.sidebar > div.content {
+  height
+} */
+
+/* reflow content to use old activity bar space */
+
 /* div.split-view-container > div:nth-child(2) */
-body > div.file-icons-enabled.enable-motion.monaco-workbench.linux.chromium.noauxiliarybar.maximized.vs-dark.arcticicestudio-nord-visual-studio-code-themes-nord-color-theme-json > div.monaco-grid-view > div > div > div.monaco-scrollable-element > div.split-view-container > div:nth-child(3) > div > div > div.monaco-scrollable-element > div.split-view-container > div:nth-child(2)
+/* body > div.file-icons-enabled.enable-motion.monaco-workbench.linux.chromium.noauxiliarybar.maximized.vs-dark.arcticicestudio-nord-visual-studio-code-themes-nord-color-theme-json > div.monaco-grid-view > div > div > div.monaco-scrollable-element > div.split-view-container > div:nth-child(3) > div > div > div.monaco-scrollable-element > div.split-view-container > div:nth-child(2)
 {
   left: 0 !important;
   right: 0 !important;
   width: 100% !important;
-}
+} */
 
-body > div.file-icons-enabled.enable-motion.monaco-workbench.linux.chromium.nopanel.noauxiliarybar.maximized.vs-dark.arcticicestudio-nord-visual-studio-code-themes-nord-color-theme-json > div.monaco-grid-view > div > div > div.monaco-scrollable-element > div.split-view-container > div:nth-child(3) > div > div > div.monaco-scrollable-element > div.split-view-container > div:nth-child(2) > div > div > div.monaco-scrollable-element > div.split-view-container > div.split-view-view.visible > div > div > div.monaco-scrollable-element > div.split-view-container > div:nth-child(2),
+/* body > div.file-icons-enabled.enable-motion.monaco-workbench.linux.chromium.nopanel.noauxiliarybar.maximized.vs-dark.arcticicestudio-nord-visual-studio-code-themes-nord-color-theme-json > div.monaco-grid-view > div > div > div.monaco-scrollable-element > div.split-view-container > div:nth-child(3) > div > div > div.monaco-scrollable-element > div.split-view-container > div:nth-child(2) > div > div > div.monaco-scrollable-element > div.split-view-container > div.split-view-view.visible > div > div > div.monaco-scrollable-element > div.split-view-container > div:nth-child(2),
 #workbench\.parts\.editor > div.content
 {
-  /* width: 100% !important; */
   margin-right: -48px !important;
-}
+} */
