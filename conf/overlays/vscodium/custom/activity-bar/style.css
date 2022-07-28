@@ -19,14 +19,14 @@ div.activitybar::-webkit-scrollbar { height: 0 !important }
 
 
 /* reflow content to use old activity bar space */
-body > div.file-icons-enabled.enable-motion.monaco-workbench.linux.chromium.noauxiliarybar.maximized.vs-dark.arcticicestudio-nord-visual-studio-code-themes-nord-color-theme-json > div.monaco-grid-view > div > div > div.monaco-scrollable-element > div.split-view-container > div:nth-child(3) > div > div > div.monaco-scrollable-element > div.split-view-container > div:nth-child(2)
+body > div.monaco-workbench > div.monaco-grid-view > div > div > div.monaco-scrollable-element > div.split-view-container > div:nth-child(3) > div > div > div.monaco-scrollable-element > div.split-view-container > div:nth-child(2)
 {
   left: 0 !important;
   width: 100% !important;
 }
 
 /* full-width text editor */
-body > div.file-icons-enabled.enable-motion.monaco-workbench.linux.chromium.noauxiliarybar.maximized.vs-dark.arcticicestudio-nord-visual-studio-code-themes-nord-color-theme-json > div.monaco-grid-view > div > div > div.monaco-scrollable-element > div.split-view-container > div:nth-child(3) > div > div > div.monaco-scrollable-element > div.split-view-container > div:nth-child(2) > div > div > div.monaco-scrollable-element > div.split-view-container > div:nth-child(1) > div > div > div.monaco-scrollable-element > div.split-view-container > div:nth-child(2),
+body > div.monaco-workbench > div.monaco-grid-view > div > div > div.monaco-scrollable-element > div.split-view-container > div:nth-child(3) > div > div > div.monaco-scrollable-element > div.split-view-container > div:nth-child(2) > div > div > div.monaco-scrollable-element > div.split-view-container > div:nth-child(1) > div > div > div.monaco-scrollable-element > div.split-view-container > div:nth-child(2),
 #workbench\.parts\.editor > div.content > div.grid-view-container > div > div > div > div.monaco-scrollable-element > div.split-view-container > div > div > div.editor-container > div > div > div.overflow-guard > div.monaco-scrollable-element.editor-scrollable.vs-dark
 {
   width: 100% !important;
