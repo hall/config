@@ -18,6 +18,9 @@ super.vscodium.overrideAttrs (prev: {
         *.css)
           echo -e "<style>\n$(cat $file)\n</style>" | append head
         ;;
+        *.scss|*.sass)
+          echo -e "<style>\n$(${super.pkgs.sass}/bin/sass $file)\n</style>" | append head
+        ;;
       esac
     done
   '';

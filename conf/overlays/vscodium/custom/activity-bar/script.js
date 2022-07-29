@@ -14,7 +14,6 @@ function waitForElm(selector) {
 }
 
 // move activity bar to bottom of sidebar
-waitForElm('.sidebar').then((elm) => {
-  elm.appendChild(document.querySelector('.activitybar'));
-  console.log("hello");
+waitForElm("div[id='workbench.parts.sidebar']").then((elm) => {
+  elm.parentElement.appendChild(document.querySelector("div[id='workbench.parts.activitybar']"));
 });

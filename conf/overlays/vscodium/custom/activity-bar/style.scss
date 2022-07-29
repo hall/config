@@ -1,0 +1,64 @@
+#workbench\.parts\.activitybar {
+  position: relative;
+  overflow-x: auto;
+  width: auto;
+  margin-top: -45px;
+
+  // align items in row format
+  .actions-container { display: flex; }
+
+  // hide horizontal scrollbar
+  ::-webkit-scrollbar { height: 0; }
+
+  // move active indicator to bottom of icon
+  div.active-item-indicator::before {
+    top: initial;
+    bottom: 3px;
+    height: initial;
+    width: 100%;
+    border-bottom: 2px solid var(--vscode-activityBar-activeBorder);
+  }
+
+  // hide account and settings
+  div.content > div:nth-child(2) { display: none }
+}
+
+// sift content left to use old activity bar space
+div.monaco-workbench > div.monaco-grid-view > div > div > div.monaco-scrollable-element > div.split-view-container > div:nth-child(3) > div > div > div.monaco-scrollable-element > div.split-view-container > div:nth-child(2) {
+  left: 0 !important;
+  width: 100% !important;
+}
+
+#workbench\.parts\.editor {
+  width: calc(100% + 48px);
+
+  div.content {
+    width: 100% !important;
+
+    // last editor in group
+    div.grid-view-container > div > div > div > div.monaco-scrollable-element > div.split-view-container > div:last-child {
+
+      div.overflow-guard,
+      div.monaco-editor {
+        width: 100% !important;
+      }
+
+      // add sidebar width to last editor group
+      div.editor-group-container {
+        width: calc(100% + 48px) !important;
+      }
+
+      div.editor-scrollable {
+        width: calc(100% - 70px) !important;
+      }
+
+      // move minimap to right edge
+      div.minimap.slider-mouseover {
+        // un-attach from left edge
+        left: auto !important;
+        // leave room for scrollbar
+        right: 14px !important;
+      }
+    }
+  }
+}
