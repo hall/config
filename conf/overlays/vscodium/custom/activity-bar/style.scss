@@ -38,18 +38,15 @@ div.monaco-workbench > div.monaco-grid-view > div > div > div.monaco-scrollable-
     // last editor in group
     div.grid-view-container > div > div > div > div.monaco-scrollable-element > div.split-view-container > div:last-child {
 
+      // add sidebar width to last editor group
+      > div.editor-group-container,   // if one 1 editor in group
+      > div.monaco-grid-branch-node { // if multiple editors in group
+        width: calc(100% + 48px) !important;
+      }
+      // ensure child elements also use full width
       div.overflow-guard,
       div.monaco-editor {
         width: 100% !important;
-      }
-
-      // add sidebar width to last editor group
-      div.editor-group-container {
-        width: calc(100% + 48px) !important;
-      }
-
-      div.editor-scrollable {
-        width: calc(100% - 70px) !important;
       }
 
       // move minimap to right edge
@@ -59,6 +56,12 @@ div.monaco-workbench > div.monaco-grid-view > div > div > div.monaco-scrollable-
         // leave room for scrollbar
         right: 14px !important;
       }
+
+      // ensure scrollbar can still be seen
+      div.editor-scrollable {
+        width: calc(100% - 70px) !important;
+      }
+
     }
   }
 }
