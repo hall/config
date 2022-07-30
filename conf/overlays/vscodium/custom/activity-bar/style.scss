@@ -1,8 +1,12 @@
+// activity bar item dimensions
+$height: 45px;
+$width: 48px;
+
 #workbench\.parts\.activitybar {
   position: relative;
   overflow-x: auto;
   width: auto;
-  margin-top: -45px;
+  margin-top: -$height;
 
   // align items in row format
   .actions-container { display: flex; }
@@ -30,7 +34,7 @@ div.monaco-workbench > div.monaco-grid-view > div > div > div.monaco-scrollable-
 }
 
 #workbench\.parts\.editor {
-  width: calc(100% + 48px);
+  width: calc(100% + #{$width});
 
   div.content {
     width: 100% !important;
@@ -41,7 +45,7 @@ div.monaco-workbench > div.monaco-grid-view > div > div > div.monaco-scrollable-
       // add sidebar width to last editor group
       > div.editor-group-container,   // if one 1 editor in group
       > div.monaco-grid-branch-node { // if multiple editors in group
-        width: calc(100% + 48px) !important;
+        width: calc(100% + #{$width}) !important;
       }
       // ensure child elements also use full width
       div.overflow-guard,
@@ -64,4 +68,9 @@ div.monaco-workbench > div.monaco-grid-view > div > div > div.monaco-scrollable-
 
     }
   }
+}
+
+// prevent sidebar content overflowing onto activitybar
+div[id^="workbench.view"] > div > div > div.monaco-scrollable-element > div.split-view-container div.split-view-view:last-child > div {
+  height: calc(100% - #{$height});
 }
