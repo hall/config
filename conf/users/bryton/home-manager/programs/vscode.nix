@@ -232,5 +232,11 @@
       command = "-markdown.extension.onCtrlEnterKey";
       when = "editorTextFocus && !editorReadonly && !suggestWidgetVisible && editorLangId == 'markdown'";
     }
+
+    # conflicts
+    {
+      key = "ctrl+k";
+      command = "-extension.vim_ctrl+k";
+    }
   ];
 }
