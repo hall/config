@@ -1,4 +1,4 @@
-{ pkgs, flake, ... }:
+{ lib, pkgs, flake, age, ... }:
 {
   imports = [
     ./home-manager.nix
