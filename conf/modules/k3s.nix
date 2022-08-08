@@ -5,12 +5,9 @@ let
   cfg = config.services.${name};
 in
 {
-  imports = [
-    flake.inputs.hardware.nixosModules.raspberry-pi-4
-  ];
-
   config = mkIf cfg.enable {
     boot = {
+      growPartition = true;
       kernelParams = [
         "cgroup_memory=1"
         "cgroup_memory=1"
@@ -18,25 +15,23 @@ in
       ];
     };
 
-    networking.firewall = mkIf (cfg.role == "server") {
-      allowedTCPPorts = [ 6443 ];
-    };
+    networking.firewall.allowedTCPPorts = mkIf (cfg.role == "server") [
+      6443 # k8s
+      2379 # etcd client requests
+      2380 # etcd peer communication
+    ];
 
-    # boot.growPartition = true;
-
-    services = {
-      k3s = {
-        extraFlags = toString [
-          "--disable-helm-controller"
-          "--disable-cloud-controller"
-          "--disable-network-policy"
-          "--disable traefik"
-          "--disable local-storage"
-          # coredns, servicelb, metrics-server
-        ];
-        tokenFile = flake.lib.pass "k3s";
-        serverAddr = "https://k.bryton.io:6443";
-      };
+    services.k3s = {
+      extraFlags = mkIf (cfg.role == "server") (toString [
+        "--disable-helm-controller"
+        "--disable-cloud-controller"
+        "--disable-network-policy"
+        "--disable traefik"
+        "--disable local-storage"
+        # coredns, servicelb, metrics-server
+      ]);
+      tokenFile = "/run/secrets/k3s";
+      serverAddr = "https://k0:6443";
     };
     environment.systemPackages = with pkgs; [ libcgroup k3s ];
   };
