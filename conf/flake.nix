@@ -7,6 +7,7 @@
       url = github:nix-community/home-manager;
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    agenix.url = "github:ryantm/agenix";
     musnix.url = github:musnix/musnix;
     mach.url = github:davhau/mach-nix;
     utils.url = github:gytis-ivaskevicius/flake-utils-plus/v1.3.1;
@@ -40,6 +41,7 @@
       hostDefaults = {
         modules = [
           ./hosts/configuration.nix
+          inputs.agenix.nixosModule
           inputs.musnix.nixosModules.musnix
         ] ++ (import ./modules);
       };

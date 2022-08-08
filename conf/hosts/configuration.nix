@@ -10,6 +10,23 @@
     autoUpgrade.enable = true;
   };
 
+  age = {
+    secretsDir = "/run/secrets";
+    secrets = builtins.listToAttrs
+      (map
+        (name: {
+          name = name;
+          value = {
+            name = lib.strings.removeSuffix ".age" name;
+            file = ../secrets/${name};
+          };
+        })
+        (builtins.filter
+          (name: lib.strings.hasSuffix ".age" name)
+          (builtins.attrNames (builtins.readDir ../secrets))
+        ) # secret file names
+      );
+  };
 
   environment = {
     systemPackages = with pkgs; [
