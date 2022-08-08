@@ -1,25 +1,5 @@
 { pkgs, system, inputs, flake, ... }:
-let
-  #pyenv = inputs.mach.mkPython {
-  #  requirements = ''
-  #    # black
-  #    # python-lsp-server[all]
-  #    xontrib-sh
-  #    # xxh-xxh
-  #    # numpy
-  #    # pandas
-  #  ''; #+ builtins.toString (map (x: "xontrib-" + x) xontribs);
-  #  # pylint
-  #  # pip
-  #};
-
-  #_xonsh = pkgs.xonsh.overrideAttrs (old: {
-  #  propagatedBuildInputs = old.propagatedBuildInputs ++ pyenv.python.pkgs.selectPkgs pyenv.python.pkgs;
-  #});
-
-in
 {
-
   networking = {
     # wireless.enable = true;
     networkmanager.enable = true;

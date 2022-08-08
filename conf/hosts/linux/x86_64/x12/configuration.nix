@@ -1,16 +1,4 @@
 { pkgs, musnix, flake, ... }:
-let
-  xontribs = [
-    # "argcomplete" # tab completion of python and xonsh scripts
-    "sh" # prefix (ba)sh commands with "!"
-    # "autojump" or "z"   # autojump support(or zoxide?)
-    # "autoxsh" or "direnv"     # execute .autoxsh when entering directory
-    # "onepath" # act on file/dir by only using its name
-    # "prompt_starship"
-    # "pipeliner" # use "pl" to pipe a python expression
-  ];
-
-in
 {
   boot.binfmt.emulatedSystems = [
     "aarch64-linux"
@@ -142,11 +130,5 @@ in
       '';
     };
   };
-
-  # environment = {
-  #   systemPackages = with pkgs; [
-  #     _xonsh
-  #   ];
-  # };
 
 }
