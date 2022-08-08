@@ -21,17 +21,23 @@ in
       2380 # etcd peer communication
     ];
 
-    services.k3s = {
-      extraFlags = mkIf (cfg.role == "server") (toString [
-        "--disable-helm-controller"
-        "--disable-cloud-controller"
-        "--disable-network-policy"
-        "--disable traefik"
-        "--disable local-storage"
-        # coredns, servicelb, metrics-server
-      ]);
-      tokenFile = "/run/secrets/k3s";
-      serverAddr = "https://k0:6443";
+    services = {
+      k3s = {
+        extraFlags = mkIf (cfg.role == "server") (toString [
+          "--disable-helm-controller"
+          "--disable-cloud-controller"
+          "--disable-network-policy"
+          "--disable traefik"
+          "--disable local-storage"
+          # coredns, servicelb, metrics-server
+        ]);
+        tokenFile = "/run/secrets/k3s";
+        serverAddr = "https://k0:6443";
+      };
+      openiscsi = {
+        enable = true;
+        name = "longhorn";
+      };
     };
     environment.systemPackages = with pkgs; [ libcgroup k3s ];
   };
