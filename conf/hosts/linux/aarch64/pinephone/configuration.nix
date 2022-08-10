@@ -20,7 +20,7 @@
       enable = true;
       kernel = "controlC3";
     };
-    wifi.enable = true;
+    # wifi.enable = true;
 
     fwupd.enable = true;
     flatpak = {
@@ -64,7 +64,7 @@
     systemPackages = with pkgs; [
       # purple-matrix
       # purple-slack
-      # telegram-purple
+      # tdlib-purple
       pinentry-curses
       pinentry-gnome
 
