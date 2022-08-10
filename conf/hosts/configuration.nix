@@ -70,7 +70,6 @@
       options = "--delete-older-than 30d";
     };
     extraOptions = ''
-      allow-unsafe-native-code-during-evaluation = true
       # https://github.com/nix-community/nix-direnv#installation
       keep-outputs = true
       keep-derivations = true
