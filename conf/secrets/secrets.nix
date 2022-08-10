@@ -2,7 +2,8 @@ let
   # for manual re-encryption/rotation; backup in bitwarden
   user = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE/nxzI9MwJC1gMWCNDzdGUZsRvsCdNBqaH5iJwreqHc";
 
-  members = hosts: builtins.attrValues hosts;
+  # get all members in a group
+  members = group: builtins.attrValues group;
 
   cluster = {
     k0 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKVGaaL/HIr/0HdaqSoZ4giMzqBEpZ/eWBwD6ct0lB2K";
@@ -16,9 +17,9 @@ let
   hosts = {
     bedroom = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOFjdkSO9y85QQ0n6bmXI2RJLVYBsEVMPLtRoFCVHk39";
     office = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGNhknXC4pUYgz1eU1FNgpuy/zPIxaH9Rh5MP4+7Qku0";
+    pinephone = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPHx6N0eSzOMJF9fa2WjftMedXnpCQvuSXCdaPsl63T1";
     tv = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKNiXlHRZyKrVEfnMHnCTboWctumTRih80NHOVFog8bn";
     x12 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP70uIe/+6FtPWkuA7qiNRAoe2uvY+Qj/zGtU34HOccd";
-    # pinephone = "ssh-ed25519 ";
   };
 
   # readDirNames = path:
@@ -30,22 +31,23 @@ let
 
   # # hosts = readDirNames ../hosts;
   # arches = builtins.concatMap (x: readDirNames ./hosts/${x}) (readDirNames ./hosts);
+
+  main = [ user hosts.x12 ];
 in
 {
   # for ssh-ing to hosts
-  "id_ed25519.age".publicKeys = [ user ] ++ (members hosts) ++ (members cluster);
-  # for openwrt
-  # ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDcBJM2XkhTGCFCKlXbkQPD523PABGJtFdr+R2PkZtyImntKXXqgWo926fL4LKyBq+ZhfSIMLmqehz76bFrkg0UGqnQiBgH+EmbA2U6rc3yD8SzaWUalNkJtTK1Usf7ae6miXd3t9rn+0uZuu7633V6R0LZ7S+rza9rHVROSYNMik2sREoGiL++bwG/xBsWMF5qCMo5e6XW8Qe5rLbDU9AhrwyNfrE1m9WQ+X3ISlosbbMQiLJVChQImFIYwQ8RBAUUKkNZx2gRRXzQqRKZCkSB8SzAQnFD2ljKQB0A+dVQv76bmg2Gb/XjCTk9NYbgYFGIc+XCVljllj90C+RP10lI19ep7rvziJaQsleKry+vk2ciYY2ROBEmEyDPeTdXYCllkZXA0c5yAXKuilnz1IxgGcDeWB9ekMV5uVS/fg3W0DGJINC8XXlReoQM91qJGd40YACG3KeuBv4xcpG09Ou51KHPPslvL9cymHxVuADS5JxwSXG41MjKdBKGcoLKth8=
-  "id_rsa.age".publicKeys = with hosts; [ user x12 ];
+  "id_ed25519.age".publicKeys = main;
+  # for hosts w/o ed25519 support, e.g., openwrt
+  "id_rsa.age".publicKeys = main;
 
   # 3rd party providers
-  "github.age".publicKeys = with hosts; [ user x12 ];
-  "gitlab.age".publicKeys = with hosts; [ user x12 ];
-  "nixbuild.age".publicKeys = with hosts; [ user x12 ];
+  "github.age".publicKeys = main;
+  "gitlab.age".publicKeys = main;
+  "nixbuild.age".publicKeys = main;
 
   # k3s node token
   "k3s.age".publicKeys = [ user ] ++ (members cluster);
 
   # password for librespot
-  # "spotify.age".publicKeys = with hosts; [ user old office ];
+  # "spotify.age".publicKeys = with hosts; [ user office ];
 }
