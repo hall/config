@@ -15,11 +15,13 @@ in
       ];
     };
 
-    networking.firewall.allowedTCPPorts = mkIf (cfg.role == "server") [
+    networking.firewall.allowedTCPPorts = [
+      10250 # metrics server
+    ] ++ (lib.optionals (cfg.role == "server") [
       6443 # k8s
       2379 # etcd client requests
       2380 # etcd peer communication
-    ];
+    ]);
 
     services = {
       k3s = {
@@ -37,6 +39,18 @@ in
       openiscsi = {
         enable = true;
         name = "longhorn";
+      };
+    };
+    environment.systemPackages = with pkgs; [
+      libcgroup
+      k3s
+      nfs-utils # longhorn RWX
+    ];
+
+    fileSystems = {
+      "/var/lib/longhorn" = {
+        device = "/dev/disk/by-label/storage"; # e2label /dev/sda storage
+        fsType = "ext4";
       };
     };
 
