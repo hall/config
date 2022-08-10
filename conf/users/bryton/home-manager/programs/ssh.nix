@@ -1,56 +1,29 @@
 { flake, ... }:
-let
-  # get ssh key from bitwarden
-  ssh-key = x: flake.lib.pass "${x} --folder ssh";
-in
 {
   enable = true;
-  extraOptionOverrides = {
-    CanonicalizeHostname = "yes";
-    CanonicalDomains = "lab.rigetti.com";
-  };
   matchBlocks = {
-    gitlab = {
-      host = "gitlab.com";
-      user = "git";
-      identityFile = ssh-key "gitlab";
-    };
-    github = {
-      host = "github.com";
-      user = "git";
-      identityFile = ssh-key "github";
-    };
+    # not (yet?) managed by nix
     devices = {
       host = "router switch ap1 ap2";
       user = "root";
-      identityFile = ssh-key "router";
-    };
-    pinephone = {
-      identityFile = ssh-key "pinephone";
-    };
-    osmc = {
-      user = "osmc";
-      identityFile = ssh-key "github";
-    };
-    pi = {
-      host = "bedroom office tv k0 k1 k2 k3 k4 x12";
-      user = flake.username;
-      identityFile = ssh-key "pi";
-    };
 
-    rigetti = {
-      host = "rigetti.gitlab.com";
-      hostname = "gitlab.com";
-      user = "git";
-      identityFile = ssh-key "rigetti";
-    };
-    lab = {
-      host = "*.lab.rigetti.com";
-      user = "ansible";
-      identityFile = "~/.ssh/infra-shared.pem";
+      # ap2 needs these, dropbear is too old, I guess
       extraOptions = {
         PubkeyAcceptedKeyTypes = "+ssh-rsa";
+        HostKeyAlgorithms = "+ssh-rsa";
       };
     };
+
+    # gitlab = {
+    #   host = "gitlab.com";
+    #   user = "git";
+    #   identityFile = ssh-key "gitlab";
+    # };
+    # github = {
+    #   host = "github.com";
+    #   user = "git";
+    #   identityFile = ssh-key "github";
+    # };
+
   };
 }

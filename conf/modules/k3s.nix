@@ -39,6 +39,8 @@ in
         name = "longhorn";
       };
     };
-    environment.systemPackages = with pkgs; [ libcgroup k3s ];
+
+    age.secrets.k3s.file = ../secrets/k3s.age;
+
   };
 }

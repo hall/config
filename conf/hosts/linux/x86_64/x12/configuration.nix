@@ -1,4 +1,4 @@
-{ pkgs, musnix, flake, ... }:
+{ config, pkgs, musnix, flake, ... }:
 {
   boot.binfmt.emulatedSystems = [
     "aarch64-linux"
@@ -128,6 +128,21 @@
         ## PJRC's HalfKay
         SUBSYSTEMS=="usb", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="0478", TAG+="uaccess"
       '';
+    };
+  };
+
+  age.secrets = {
+    id_ed25519 = {
+      file = ../../../../secrets/id_ed25519.age;
+      path = "${config.users.users.${flake.username}.home}/.ssh/id_ed25519";
+      owner = flake.username;
+    };
+
+    # openwrt doesn't support ed25519
+    id_rsa = {
+      file = ../../../../secrets/id_rsa.age;
+      path = "${config.users.users.${flake.username}.home}/.ssh/id_rsa";
+      owner = flake.username;
     };
   };
 

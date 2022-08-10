@@ -15,17 +15,16 @@
   ];
 
   services = {
-    udev.extraRules = ''
-      # allow access to raspi cec device for video group (and optionally register it as a systemd device, used below)
-      SUBSYSTEM=="vchiq", GROUP="video", MODE="0660", TAG+="systemd", ENV{SYSTEMD_ALIAS}="/dev/vchiq"
-    '';
+    # udev.extraRules = ''
+    #   # allow access to raspi cec device for video group (and optionally register it as a systemd device, used below)
+    #   SUBSYSTEM=="vchiq", GROUP="video", MODE="0660", TAG+="systemd", ENV{SYSTEMD_ALIAS}="/dev/vchiq"
+    # '';
     xserver = {
       enable = true;
       desktopManager = {
         kodi = {
           enable = true;
-          # widevine is only available on 32bit arm
-          package = (pkgs.pkgsCross.armv7l-hf-multiplatform.kodi-wayland.withPackages (kodiPkgs: with kodiPkgs; [
+          package = (pkgs.kodi-wayland.withPackages (kodiPkgs: with kodiPkgs; [
             inputstream-adaptive
             # jellyfin
             # iagl

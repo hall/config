@@ -38,7 +38,8 @@
         query = {
           name = "spotify";
           username = flake.email;
-          password = flake.lib.pass "spotify/${flake.username}";
+          # password set in overlay
+          # password = flake.lib.pass "spotify/${flake.username}";
           devicename = "home";
           volume = "60";
         };
@@ -47,6 +48,9 @@
   };
 
   systemd.services = {
+    snapserver.preStart = ''
+      export LIBRESPOT_PASSWORD=$(cat /run/secrets/spotify);
+    '';
     snapcast-sink = {
       wantedBy = [ "pipewire.service" ];
       after = [ "pipewire.service" ];

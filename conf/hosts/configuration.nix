@@ -12,20 +12,6 @@
 
   age = {
     secretsDir = "/run/secrets";
-    secrets = builtins.listToAttrs
-      (map
-        (name: {
-          name = name;
-          value = {
-            name = lib.strings.removeSuffix ".age" name;
-            file = ../secrets/${name};
-          };
-        })
-        (builtins.filter
-          (name: lib.strings.hasSuffix ".age" name)
-          (builtins.attrNames (builtins.readDir ../secrets))
-        ) # secret file names
-      );
   };
 
   environment = {
@@ -54,6 +40,10 @@
   };
 
   services = {
+    openssh = {
+      enable = true;
+      # openFirewall = false;
+    };
     xserver = {
       layout = "us";
       xkbVariant = "dvorak";
@@ -62,20 +52,31 @@
 
 
   nix = {
+    # distributedBuilds = true;
+    # buildMachines = [
+    #   {
+    #     hostName = "eu.nixbuild.net";
+    #     system = "x86_64-linux";
+    #     # system = "aarch64-linux";
+    #     maxJobs = 100;
+    #     supportedFeatures = [ "benchmark" "big-parallel" ];
+    #   }
+    # ];
     # settings.trusted-users = [ flake.username ];
     generateRegistryFromInputs = true;
     generateNixPathFromInputs = true;
     gc = {
-      automatic = true;
+      automatic = false;
       options = "--delete-older-than 30d";
     };
     extraOptions = ''
-      experimental-features = nix-command flakes
       allow-unsafe-native-code-during-evaluation = true
-      # keep-outputs = true
-      # keep-derivations = true
+      # https://github.com/nix-community/nix-direnv#installation
+      keep-outputs = true
+      keep-derivations = true
     '';
     settings = {
+      experimental-features = "nix-command flakes";
       substituters = [
         "https://nix-community.cachix.org"
       ];
@@ -95,7 +96,18 @@
       enable = true;
       pinentryFlavor = "gnome3";
     };
+    # ssh = {
+    #   extraConfig = ''
+    #     Host eu.nixbuild.net
+    #     PubkeyAcceptedKeyTypes ssh-ed25519
+    #     IdentityFile /home/bryton/.ssh/nixbuild
+    #   '';
+    #   knownHosts = {
+    #     nixbuild = {
+    #       hostNames = [ "eu.nixbuild.net" ];
+    #       publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPIQCZc54poJ8vqawd8TraNryQeJnvH1eLpIDgbiqymM";
+    #     };
+    #   };
+    # };
   };
-
-
 }

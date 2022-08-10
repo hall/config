@@ -23,7 +23,9 @@ Build a bootable image with:
 
 ## secrets
 
-Secrets are pulled from [bitwarden](https://bitwarden.com/) and saved to `/run/secrets` with `lib.pass` in [./lib/default.nix](./lib/default.nix).
+Secrets are managed with [agenix](https://github.com/ryantm/agenix):
+
+    nix run github:ryantm/agenix -- -e ${secret}.age
 
 ## packages
 
