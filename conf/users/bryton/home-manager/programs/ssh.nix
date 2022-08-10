@@ -14,16 +14,16 @@
       };
     };
 
-    # gitlab = {
-    #   host = "gitlab.com";
-    #   user = "git";
-    #   identityFile = ssh-key "gitlab";
-    # };
-    # github = {
-    #   host = "github.com";
-    #   user = "git";
-    #   identityFile = ssh-key "github";
-    # };
+    gitlab = {
+      host = "gitlab.com";
+      user = "git";
+      identityFile = "/run/secrets/gitlab";
+    };
+    github = {
+      host = "github.com";
+      user = "git";
+      identityFile = "/run/secrets/github";
+    };
 
   };
 }

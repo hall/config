@@ -144,6 +144,17 @@
       path = "${config.users.users.${flake.username}.home}/.ssh/id_rsa";
       owner = flake.username;
     };
+
+    github = {
+      file = ../../../../secrets/github.age;
+      owner = flake.username;
+    };
+
+    gitlab = {
+      file = ../../../../secrets/gitlab.age;
+      owner = flake.username;
+    };
+
   };
 
 }

@@ -38,8 +38,10 @@ in
   # ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDcBJM2XkhTGCFCKlXbkQPD523PABGJtFdr+R2PkZtyImntKXXqgWo926fL4LKyBq+ZhfSIMLmqehz76bFrkg0UGqnQiBgH+EmbA2U6rc3yD8SzaWUalNkJtTK1Usf7ae6miXd3t9rn+0uZuu7633V6R0LZ7S+rza9rHVROSYNMik2sREoGiL++bwG/xBsWMF5qCMo5e6XW8Qe5rLbDU9AhrwyNfrE1m9WQ+X3ISlosbbMQiLJVChQImFIYwQ8RBAUUKkNZx2gRRXzQqRKZCkSB8SzAQnFD2ljKQB0A+dVQv76bmg2Gb/XjCTk9NYbgYFGIc+XCVljllj90C+RP10lI19ep7rvziJaQsleKry+vk2ciYY2ROBEmEyDPeTdXYCllkZXA0c5yAXKuilnz1IxgGcDeWB9ekMV5uVS/fg3W0DGJINC8XXlReoQM91qJGd40YACG3KeuBv4xcpG09Ou51KHPPslvL9cymHxVuADS5JxwSXG41MjKdBKGcoLKth8=
   "id_rsa.age".publicKeys = with hosts; [ user x12 ];
 
-  # ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKI5+smp6ptRoWR+1s+C0u8VmaRxt3fI+jIlaVpLhi7W bryton@x12
-  "nixbuild.age".publicKeys = [ user ];
+  # 3rd party providers
+  "github.age".publicKeys = with hosts; [ user x12 ];
+  "gitlab.age".publicKeys = with hosts; [ user x12 ];
+  "nixbuild.age".publicKeys = with hosts; [ user x12 ];
 
   # k3s node token
   "k3s.age".publicKeys = [ user ] ++ (members cluster);
