@@ -6,13 +6,12 @@
         {
             "label": "Build System",
             "type": "shell",
-            "command": "sudo",
+            "command": "nix",
             "args": [
-                "nix",
                 "run",
                 "github:serokell/deploy-rs",
                 "--",
-                "./conf#${input:host}"
+                "'./conf#${input:host}'"
             ],
             "problemMatcher": [],
             "group": {
