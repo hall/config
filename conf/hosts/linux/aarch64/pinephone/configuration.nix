@@ -94,7 +94,7 @@
       # waydroid
       tdesktop
       pure-maps
-      # siglo
+      siglo
       # ardour
 
       usbutils

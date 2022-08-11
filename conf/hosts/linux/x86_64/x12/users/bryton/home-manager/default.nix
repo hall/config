@@ -29,11 +29,11 @@
       sof-firmware
       youtube-dl
       bitwarden-cli
+      siglo
 
       nix-diff
     ] ++ (with flake.packages; [
       moserial
-      siglo
       effects
     ]);
   };
