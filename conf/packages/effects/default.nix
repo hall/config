@@ -57,11 +57,11 @@ stdenv.mkDerivation rec {
     faust2jack
   ];
 
-  # meta = with lib; {
-  #   description = "";
-  #   homepage = "";
-  #   license = licenses.gpl3Plus;
-  #   maintainers = with maintainers; [  ];
-  #   platforms = platforms.linux;
-  # };
+  meta = with lib; {
+    #   description = "";
+    #   homepage = "";
+    #   license = licenses.gpl3Plus;
+    #   maintainers = with maintainers; [  ];
+    platforms = [ "x86_64-linux" "aarch64-linux" ];
+  };
 }

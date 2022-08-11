@@ -1,8 +1,8 @@
-{ stdenv, dpkg, glibc, gcc-unwrapped, autoPatchelfHook, zlib, makeWrapper, hexdump, xxd }:
+{ lib, stdenv, dpkg, glibc, gcc-unwrapped, autoPatchelfHook, zlib, makeWrapper, hexdump, xxd }:
 stdenv.mkDerivation {
   name = "crowdstrike";
   system = "x86_64-linux";
-  src = ./falcon-sensor.deb;
+  # src = ./falcon-sensor.deb;
   # src = https://drive.google.com/file/d/1xUC55drHC24JV5V14lnkRHDxwt33DY8U/view?usp=sharing;
 
   # Required for compilation
@@ -35,4 +35,8 @@ stdenv.mkDerivation {
   '';
 
   postBuild = '''';
+
+  meta = with lib; {
+    platforms = platforms.linux;
+  };
 }
