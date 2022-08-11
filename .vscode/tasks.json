@@ -8,16 +8,11 @@
             "type": "shell",
             "command": "sudo",
             "args": [
-                "nixos-rebuild",
-                "switch",
-                // "--use-remote-sudo",
-                // "--no-build-nix",
-                // "--target-host",
-                // "${env:USER}@${input:host}",
-                // "--build-host",
-                // "${env:USER}@${input:host}",
-                "--flake",
-                "./conf#${input:host}",
+                "nix",
+                "run",
+                "github:serokell/deploy-rs",
+                "--",
+                "./conf#${input:host}"
             ],
             "problemMatcher": [],
             "group": {
