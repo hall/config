@@ -2,13 +2,12 @@
 
 let
   pname = "openlens";
-  version = "5.5.3";
-  build = "${version}-latest.20220120.1";
+  version = "6.0.1";
   name = "${pname}-${version}";
 
   src = fetchurl {
     url = "https://github.com/MuhammedKalkan/OpenLens/releases/download/v${version}/OpenLens-${version}.AppImage";
-    sha256 = "sha256-ISQ0IAUe+Qqg8FRymlzvt2rnGN80GbicpP40Y4pORvQ=";
+    sha256 = "sha256-GZO3pyf1nSfG9APtGKJ4hnIMtOdN6buqfmEjrBS1Z30=";
     name = "${name}.AppImage";
   };
 
