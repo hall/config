@@ -2,7 +2,7 @@
 
 Build with either `ctrl-shift-b` (in `codium`) or
 
-    sudo nixos-rebuild switch --flake .
+    nix run github:recokell/deploy-rs
 
 Update lock file with
 
@@ -13,6 +13,7 @@ Generate a diff with
     nixos-rebuild build --flake .
     nix-diff /run/current-system ./result --character-oriented
 
+
 ## images
 
 Build a bootable image with:
@@ -21,11 +22,13 @@ Build a bootable image with:
 
 > **NOTE**: this currently requires uncommenting the appropriate installer module
 
+
 ## secrets
 
 Secrets are managed with [agenix](https://github.com/ryantm/agenix):
 
     nix run github:ryantm/agenix -- -e ${secret}.age
+
 
 ## packages
 
@@ -40,6 +43,7 @@ Inspect the evaluated config with
 
     nix repl
     :lf .
+
 
 ## todo
 

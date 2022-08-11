@@ -8,6 +8,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     agenix.url = "github:ryantm/agenix";
+    deploy.url = "github:serokell/deploy-rs";
     musnix.url = github:musnix/musnix;
     mach.url = github:davhau/mach-nix/3.5.0;
     utils.url = github:gytis-ivaskevicius/flake-utils-plus/v1.3.1;
@@ -50,6 +51,19 @@
         inherit self;
         hostsPath = ./hosts;
       };
+
+      deploy.nodes = builtins.mapAttrs
+        (name: config: {
+          hostname = name;
+          profiles.system = {
+            user = "root";
+            path = inputs.deploy.lib.${config.pkgs.system}.activate.nixos config;
+          };
+        })
+        (builtins.removeAttrs self.nixosConfigurations [ "pinephone" "rigetti" "office" "tv" ])
+      ;
+
+      checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) inputs.deploy.lib;
 
       images = builtins.mapAttrs
         (_: host:

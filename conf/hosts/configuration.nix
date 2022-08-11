@@ -62,7 +62,6 @@
     #     supportedFeatures = [ "benchmark" "big-parallel" ];
     #   }
     # ];
-    # settings.trusted-users = [ flake.username ];
     generateRegistryFromInputs = true;
     generateNixPathFromInputs = true;
     gc = {
@@ -75,6 +74,7 @@
       keep-derivations = true
     '';
     settings = {
+      trusted-users = [ "root" flake.username ];
       experimental-features = "nix-command flakes";
       substituters = [
         "https://nix-community.cachix.org"
