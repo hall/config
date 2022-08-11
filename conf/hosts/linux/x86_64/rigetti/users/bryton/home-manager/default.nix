@@ -14,29 +14,29 @@
       jwt-cli
       toml2json
 
-      flake.packages.crowdstrike
+      # flake.packages.crowdstrike
     ];
+  };
 
-    programs.ssh = {
-      extraOptionOverrides = {
-        CanonicalizeHostname = "yes";
-        CanonicalDomains = "lab.rigetti.com";
+  programs.ssh = {
+    extraOptionOverrides = {
+      CanonicalizeHostname = "yes";
+      CanonicalDomains = "lab.rigetti.com";
+    };
+
+    matchBlocks = {
+      rigetti = {
+        host = "rigetti.gitlab.com";
+        hostname = "gitlab.com";
+        user = "git";
+        # identityFile = ssh-key "rigetti";
       };
-
-      matchBlocks = {
-        rigetti = {
-          host = "rigetti.gitlab.com";
-          hostname = "gitlab.com";
-          user = "git";
-          # identityFile = ssh-key "rigetti";
-        };
-        lab = {
-          host = "*.lab.rigetti.com";
-          user = "ansible";
-          identityFile = "~/.ssh/infra-shared.pem";
-          extraOptions = {
-            PubkeyAcceptedKeyTypes = "+ssh-rsa";
-          };
+      lab = {
+        host = "*.lab.rigetti.com";
+        user = "ansible";
+        identityFile = "~/.ssh/infra-shared.pem";
+        extraOptions = {
+          PubkeyAcceptedKeyTypes = "+ssh-rsa";
         };
       };
     };
