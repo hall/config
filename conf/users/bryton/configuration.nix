@@ -3,27 +3,27 @@ let
   xontribs = [
     # "argcomplete" # tab completion of python and xonsh scripts
     "sh" # prefix (ba)sh commands with "!"
-    # "autojump" or "z"   # autojump support(or zoxide?)
-    # "autoxsh" or "direnv"     # execute .autoxsh when entering directory
-    "onepath" # act on file/dir by only using its name
-    # "prompt_starship"
-    # "pipeliner" # use "pl" to pipe a python expression
-    # xxh-xxh
+    # "onepath" # act on file/dir by only using its name # TODO: build failed
+    "pipeliner" # use "pl" to pipe a python expression
+    "zoxide"
+    "broot"
+    "prompt-starship"
+    # "readable-traceback"
   ];
-  pyenv = flake.inputs.mach.lib.x86_64-linux.mkPython {
+  pyenv = flake.inputs.mach.lib.${pkgs.system}.mkPython {
+    python = "python310";
     requirements = ''
       # black
       # numpy
       # pandas
 
-      # setuptools
-      # wheel
-      # pip
+      xxh-xxh
+      # xxh-shell-xonsh
+      xonsh-direnv
     '' + builtins.toString (map (x: "xontrib-" + x + "\n") xontribs);
   };
   xonsh = pkgs.xonsh.overrideAttrs (super: {
-    # propagatedBuildInputs = super.propagatedBuildInputs ++ (pyenv.selectPkgs pyenv.python.pkgs);
-    # pythonPath = pyenv.selectPkgs pyenv.python.pkgs;
+    pythonPath = pyenv.selectPkgs pyenv.python.pkgs;
   });
 in
 {
@@ -45,7 +45,7 @@ in
     ];
   };
   environment.etc.xonshrc = {
-    text = "xontrib load abbrevs " + builtins.toString xontribs;
+    text = "xontrib load direnv prompt_starship " + builtins.toString xontribs;
     target = "xonsh/xonshrc";
   };
 }
