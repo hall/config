@@ -65,20 +65,6 @@
 
       checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) inputs.deploy.lib;
 
-      images = builtins.mapAttrs
-        (_: host:
-          let
-            keys = {
-              "aarch64-linux" = "sdImage";
-              "x86_64-linux" = "isoImage";
-            };
-          in
-          if builtins.elem "mobile" (builtins.attrNames host)
-          then host.config.mobile.outputs.u-boot.disk-image
-          else host.config.system.build.${keys.${host.pkgs.system}}
-        )
-        self.outputs.nixosConfigurations;
-
       sharedOverlays = [
         inputs.nur.overlay
         (import ./overlays { inherit lib; })

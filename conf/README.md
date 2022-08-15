@@ -18,9 +18,7 @@ Generate a diff with
 
 Build a bootable image with:
 
-    nix build '.#images.${hostname}'
-
-> **NOTE**: this currently requires uncommenting the appropriate installer module
+    nix run github:nix-community/nixos-generators -- --flake '.#${host}' -f [sd-aarch64|iso]
 
 
 ## secrets
