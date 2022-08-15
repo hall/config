@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, flake, ... }:
 {
   environment = {
     systemPackages = with pkgs; [
@@ -19,4 +19,8 @@
     };
   };
 
+  age.secrets.id_work = {
+    file = ../../../../secrets/id_work.age;
+    owner = flake.username;
+  };
 }

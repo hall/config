@@ -18,27 +18,50 @@
     ];
   };
 
-  programs.ssh = {
-    extraOptionOverrides = {
-      CanonicalizeHostname = "yes";
-      CanonicalDomains = "lab.rigetti.com";
-    };
-
-    matchBlocks = {
-      rigetti = {
-        host = "rigetti.gitlab.com";
-        hostname = "gitlab.com";
-        user = "git";
-        # identityFile = ssh-key "rigetti";
+  programs = {
+    ssh = {
+      extraOptionOverrides = {
+        CanonicalizeHostname = "yes";
+        CanonicalDomains = "lab.rigetti.com";
       };
-      lab = {
-        host = "*.lab.rigetti.com";
-        user = "ansible";
-        identityFile = "~/.ssh/infra-shared.pem";
-        extraOptions = {
-          PubkeyAcceptedKeyTypes = "+ssh-rsa";
+
+      matchBlocks = {
+        rigetti = {
+          host = "gitlab.com";
+          hostname = "gitlab.com";
+          user = "git";
+          identityFile = "/run/secrets/work";
+        };
+        lab = {
+          host = "*.lab.rigetti.com";
+          user = "ansible";
+          identityFile = "~/.ssh/infra-shared.pem";
+          extraOptions = {
+            PubkeyAcceptedKeyTypes = "+ssh-rsa";
+          };
         };
       };
     };
+
+    git = {
+      includes = [
+        {
+          condition = "gitdir:~/src/gitlab.com/rigetti/";
+          contents = {
+            user = {
+              email = "bhall@rigetti.com";
+            };
+            # url = {
+            #   "rigetti.gitlab.com" = {
+            #     insteadOf = "gitlab.com";
+            #   };
+            # };
+          };
+        }
+      ];
+
+    };
+
+
   };
 }
