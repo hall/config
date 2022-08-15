@@ -30,7 +30,7 @@
           host = "gitlab.com";
           hostname = "gitlab.com";
           user = "git";
-          identityFile = "/run/secrets/work";
+          identityFile = "/run/secrets/id_work";
         };
         lab = {
           host = "*.lab.rigetti.com";
