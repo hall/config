@@ -22,6 +22,8 @@ let
     x12 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP70uIe/+6FtPWkuA7qiNRAoe2uvY+Qj/zGtU34HOccd";
   };
 
+  work = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAl/FhVda1Cr2CMOpvr67C4F3n9Fw07oAL7SorUAZdbl";
+
   # readDirNames = path:
   #   let
   #     files = builtins.readDir path;
@@ -39,6 +41,9 @@ in
   "id_ed25519.age".publicKeys = main;
   # for hosts w/o ed25519 support, e.g., openwrt
   "id_rsa.age".publicKeys = main;
+
+  # for work accounts/devices
+  "id_work.age".publicKeys = [ user work];
 
   # 3rd party providers
   "github.age".publicKeys = main;
