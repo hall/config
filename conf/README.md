@@ -8,10 +8,9 @@ Update lock file with
 
     nix flake update
 
-Generate a diff with
-
-    nixos-rebuild build --flake .
-    nix-diff /run/current-system ./result --character-oriented
+> **NOTE**: Generate a diff with
+>
+>    nix-diff /run/current-system ./result --character-oriented
 
 
 ## images
