@@ -18,7 +18,7 @@ let
     bedroom = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOFjdkSO9y85QQ0n6bmXI2RJLVYBsEVMPLtRoFCVHk39";
     office = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGNhknXC4pUYgz1eU1FNgpuy/zPIxaH9Rh5MP4+7Qku0";
     pinephone = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPHx6N0eSzOMJF9fa2WjftMedXnpCQvuSXCdaPsl63T1";
-    tv = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKNiXlHRZyKrVEfnMHnCTboWctumTRih80NHOVFog8bn";
+    tv = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPBsVhSyPX8F3/WBo+W9w8lYAtfnFgQGg7k7w/8SINCa";
     x12 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP70uIe/+6FtPWkuA7qiNRAoe2uvY+Qj/zGtU34HOccd";
   };
 
@@ -43,7 +43,7 @@ in
   "id_rsa.age".publicKeys = main;
 
   # for work accounts/devices
-  "id_work.age".publicKeys = [ user work];
+  "id_work.age".publicKeys = [ user work ];
 
   # 3rd party providers
   "github.age".publicKeys = main;
@@ -54,5 +54,5 @@ in
   "k3s.age".publicKeys = [ user ] ++ (members cluster);
 
   # password for librespot
-  # "spotify.age".publicKeys = with hosts; [ user office ];
+  "spotify.age".publicKeys = with hosts; [ user office ];
 }
