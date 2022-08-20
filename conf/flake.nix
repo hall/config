@@ -60,7 +60,7 @@
             path = inputs.deploy.lib.${config.pkgs.system}.activate.nixos config;
           };
         })
-        (builtins.removeAttrs self.nixosConfigurations [ "pinephone" "rigetti" "office" "tv" ])
+        self.nixosConfigurations
       ;
 
       checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) inputs.deploy.lib;
