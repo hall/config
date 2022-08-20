@@ -4,6 +4,8 @@
     "aarch64-linux"
   ];
 
+  laptop.enable = true;
+
   musnix.enable = true;
 
   networking = {

@@ -1,5 +1,6 @@
 { pkgs, flake, ... }:
 {
+  laptop.enable = true;
   environment = {
     systemPackages = with pkgs; [
       globalprotect-openconnect

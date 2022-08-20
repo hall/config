@@ -14,7 +14,6 @@
     initrd = {
       availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usbhid" ];
       kernelModules = [ "dm-snapshot" ];
-      luks.devices."crypt".device = "/dev/disk/by-partlabel/crypt";
       verbose = false;
     };
     kernelParams = [ "quiet" ]; #"udev.log_priority=3" ];
@@ -29,7 +28,7 @@
 
   fileSystems = {
     "/" = {
-      device = "/dev/vg/root";
+      device = "/dev/disk/by-label/nixos";
       fsType = "ext4";
     };
     "/boot" = {
@@ -43,7 +42,7 @@
     # };
   };
   swapDevices = [{
-    device = "/dev/vg/swap";
+    device = "/dev/disk/by-label/swap";
   }];
 
   # nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
