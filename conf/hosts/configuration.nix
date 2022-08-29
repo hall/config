@@ -42,6 +42,8 @@
     xserver = {
       layout = "us";
       xkbVariant = "dvorak";
+      autoRepeatInterval = 300;
+      autoRepeatDelay = 500;
     };
   };
 
