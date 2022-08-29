@@ -12,16 +12,16 @@
       generic-extlinux-compatible.enable = false;
     };
     initrd = {
-      availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usbhid" ];
+      availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usbhid" "ahci" "rtsx_pci_sdmmc" ];
       kernelModules = [ "dm-snapshot" ];
       verbose = false;
     };
     kernelParams = [ "quiet" ]; #"udev.log_priority=3" ];
-    extraModulePackages = [ ];
+    # extraModulePackages = with config.boot.kernelPackages; [ wireguard ];
     #extraModprobeConfig = ''
     #  options snd-intel-dspcfg dsp_driver=3
     #'';
-    # kernelPackages = pkgs.linuxKernel.packages.linux_5_17;
+    # kernelPackages = pkgs.linuxPackages_latest;
     kernelModules = [ "kvm-intel" ];
   };
 
