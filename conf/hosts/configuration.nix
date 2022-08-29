@@ -94,6 +94,8 @@
   time.timeZone = "America/New_York";
   i18n.defaultLocale = "en_US.UTF-8";
 
+  hardware.enableRedistributableFirmware = true;
+
   programs = {
     dconf.enable = true;
     # wireshark.enable = true;
