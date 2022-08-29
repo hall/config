@@ -22,6 +22,8 @@
     "latex-workshop.view.pdf.invertMode.enabled" = "auto";
     "latex-workshop.view.pdf.zoom" = "page-width";
 
+    "nix.enableLanguageServer" = true;
+
     "projectManager.git.baseFolders" = [ "~/src" ];
     "projectManager.git.maxDepthRecursion" = 5;
 
@@ -124,6 +126,13 @@
       publisher = "mkhl";
       version = "0.6.1";
       sha256 = "sha256-5/Tqpn/7byl+z2ATflgKV1+rhdqj+XMEZNbGwDmGwLQ=";
+    }
+    {
+      # vscode-nix-ide dev uses this
+      name = "esbuild-problem-matchers";
+      publisher = "connor4312";
+      version = "0.0.2";
+      sha256 = "sha256-97Y+pJT/+MWOvyDwPqHoX3DnHhePaEvb0Mo+2bJvivE=";
     }
     {
       # to generate conf hosts task list
