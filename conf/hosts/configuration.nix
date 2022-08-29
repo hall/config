@@ -15,17 +15,12 @@
   };
 
   environment = {
-    systemPackages = with pkgs; [
-      git
-      tmux
-      rbw
-      pinentry
-    ];
+    defaultPackages = lib.mkForce (with pkgs; [
+      vim
+    ]);
 
-    sessionVariables = {
-      CALIBRE_USE_DARK_PALETTE = "1";
-      MOZ_USE_XINPUT2 = "1";
-      EDITOR = "nvim";
+    variables = {
+      EDITOR = "vim";
     };
 
     gnome.excludePackages = with pkgs; [
