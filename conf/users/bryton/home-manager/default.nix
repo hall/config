@@ -17,7 +17,6 @@
     sessionVariables = {
       CALIBRE_USE_DARK_PALETTE = "1";
       MOZ_USE_XINPUT2 = "1";
-      EDITOR = "nvim";
     };
     file = let path = ../stage; in
       builtins.listToAttrs
