@@ -1,20 +1,18 @@
 { flake, pkgs, config, ... }:
 {
+  age.secrets.spotify.file = ../../../../secrets/spotify.age;
+
   boot = {
     kernelPackages = pkgs.linuxPackages_rpi3;
     loader = {
       raspberryPi = {
         enable = true;
         version = 3;
-        # firmwareConfig = ''
-        #   dtoverlay=hifiberry-dac
-        # '';
+        firmwareConfig = ''
+          dtoverlay=hifiberry-dac
+        '';
       };
     };
-  };
-  hardware.deviceTree = {
-    enable = true;
-    overlays = [ "${config.boot.kernelPackages.kernel}/dtbs/overlays/hifiberry-amp.dtbo" ];
   };
 
   services.snapserver = {
@@ -38,8 +36,6 @@
         query = {
           name = "spotify";
           username = flake.email;
-          # password set in overlay
-          # password = flake.lib.pass "spotify/${flake.username}";
           devicename = "home";
           volume = "60";
         };
@@ -49,7 +45,7 @@
 
   systemd.services = {
     snapserver.preStart = ''
-      export LIBRESPOT_PASSWORD=$(cat /run/secrets/spotify);
+      export LIBRESPOT_PASSWORD="$(cat /run/secrets/spotify)"
     '';
     snapcast-sink = {
       wantedBy = [ "pipewire.service" ];
