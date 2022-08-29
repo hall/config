@@ -10,9 +10,9 @@
     autoUpgrade.enable = true;
   };
 
-  age = {
-    secretsDir = "/run/secrets";
-  };
+  age.secretsDir = "/run/secrets";
+
+  security.sudo.execWheelOnly = true;
 
   environment = {
     defaultPackages = lib.mkForce (with pkgs; [
