@@ -1,8 +1,5 @@
 { lib, flake, pkgs, config, ... }:
 {
-  imports = [
-    flake.inputs.hardware.nixosModules.raspberry-pi-4
-  ];
   # networking.firewall = {
   #   allowedTCPPorts = [ 8080 ];
   #   allowedUDPPorts = [ 8080 ];
@@ -18,7 +15,7 @@
   swapDevices = [{ device = "/swapfile"; size = 1024; }];
   # sound.enable = lib.mkForce false;
 
-  boot.kernelPackages = pkgs.linuxPackages_rpi4;
+  # boot.kernelPackages = pkgs.linuxPackages_rpi4;
   # hardware.deviceTree = {
   #   enable = true;
   #   overlays = [ "${config.boot.kernelPackages.kernel}/dtbs/overlays/hifiberry-dacplus.dtbo" ];
@@ -28,10 +25,9 @@
   # dtparam=audio=off
   # dtoverlay=vc4-fkms-v3d,audio=off
   boot.loader = {
-    generic-extlinux-compatible.enable = lib.mkForce false;
     raspberryPi = {
       enable = true;
-      version = 4;
+      version = 3;
       firmwareConfig = ''
         dtoverlay=hifiberry-dacplus
       '';
