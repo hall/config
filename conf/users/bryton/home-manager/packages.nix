@@ -102,10 +102,11 @@ with pkgs; [
   # #maven
 
   # containers
-  # lens
-  # docker-buildx
+
   kubectl
   kubie
+
+  rnix-lsp
 
   # tmux
   # tmuxPlugins.nord
