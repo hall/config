@@ -37,7 +37,16 @@
   services = {
     openssh = {
       enable = true;
-      # openFirewall = false;
+      passwordAuthentication = false;
+      # allowSFTP = false;
+      kbdInteractiveAuthentication = false;
+      extraConfig = ''
+        AllowTcpForwarding yes
+        X11Forwarding no
+        AllowAgentForwarding no
+        AllowStreamLocalForwarding no
+        AuthenticationMethods publickey
+      '';
     };
     xserver = {
       layout = "us";
