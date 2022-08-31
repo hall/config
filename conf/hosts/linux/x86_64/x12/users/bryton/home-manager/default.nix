@@ -15,7 +15,7 @@
       inkscape
       krita
       musescore
-      prusa-slicer
+      # prusa-slicer
       xournalpp
       element-desktop
       tdesktop
@@ -34,7 +34,7 @@
       nix-diff
     ] ++ (with flake.packages; [
       moserial
-      effects
+      # effects
     ]);
   };
 }

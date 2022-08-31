@@ -7,6 +7,7 @@
   laptop.enable = true;
 
   musnix.enable = true;
+  # programs.steam.enable = true;
 
   networking = {
     firewall = {
@@ -48,7 +49,7 @@
 
   services = {
     effects = {
-      enable = true;
+      # enable = true;
       kernel = "controlC1";
     };
     # wifi.enable = true;

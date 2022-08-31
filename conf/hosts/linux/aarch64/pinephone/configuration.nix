@@ -17,7 +17,7 @@
 
   services = {
     effects = {
-      enable = true;
+      # enable = true;
       kernel = "controlC3";
     };
     # wifi.enable = true;
@@ -87,6 +87,7 @@
       giara
       nheko
 
+      spot
       drawing
       fragments
       banking
@@ -123,12 +124,12 @@
       gnome-sound-recorder
       gnome-todo
       gnome-notes
-      gnome-books
+      # gnome-books
       gnome-screenshot
       gnome-dictionary
       gnome-disk-utility
     ]) ++ (with flake.packages; [
-      effects
+      # effects
     ]);
   };
 
