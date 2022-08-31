@@ -19,6 +19,7 @@
   };
 
   programs = {
+
     ssh = {
       extraOptionOverrides = {
         CanonicalizeHostname = "yes";
@@ -62,6 +63,8 @@
 
     };
 
-
+    vscode.extensions = with pkgs.vscode-extensions; [
+      hashicorp.terraform
+    ];
   };
 }
