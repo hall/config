@@ -29,6 +29,7 @@ in
         8472 # cni (flannel vxlan)
       ];
       allowedTCPPorts = [
+        4443 # metrics server but shouldn't be necesasry?
         10250 # metrics server
       ] ++ (lib.optionals (cfg.role == "server") [
         6443 # k8s api
@@ -40,10 +41,10 @@ in
     services = {
       k3s = {
         extraFlags = mkIf (cfg.role == "server") (toString [
-          "--disable-helm-controller"
+          # "--disable-helm-controller"
           "--disable-cloud-controller"
           "--disable-network-policy"
-          "--disable traefik"
+          # "--disable traefik"
           "--disable local-storage"
           # "--disable servicelb"
           # coredns, servicelb, metrics-server
