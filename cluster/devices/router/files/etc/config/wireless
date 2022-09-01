@@ -1,7 +1,0 @@
-config	wifi-iface
-	option	device		'wl0'
-	option	network		'lan'
-	option	mode		'ap'
-	option	ssid		'hall'
-	option	encryption	'psk2'
-	option	key		'secret passphrase'

@@ -1,4 +1,0 @@
-packages:
-  plug: !include .plug.yaml
-substitutions:
-  name: printer-power
