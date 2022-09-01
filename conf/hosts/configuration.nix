@@ -18,8 +18,8 @@
     defaultPackages = lib.mkForce (with pkgs; [
       vim
     ]);
-
-    variables = {
+    sessionVariables = {
+      MOZ_USE_XINPUT2 = "1";
       EDITOR = "vim";
     };
 
