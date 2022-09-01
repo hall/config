@@ -11,7 +11,8 @@
     deploy.url = "github:serokell/deploy-rs";
     musnix.url = github:musnix/musnix;
     mach.url = github:davhau/mach-nix/3.5.0;
-    utils.url = github:gytis-ivaskevicius/flake-utils-plus/v1.3.1;
+    # removes evalModules deprecation warning which is not yet included in any release
+    utils.url = github:gytis-ivaskevicius/flake-utils-plus/be1be083af014720c14f3b574f57b6173b4915d0;
     mobile = {
       # url = github:nixos/mobile-nixos/master;
       # https://github.com/NixOS/mobile-nixos/pull/445
