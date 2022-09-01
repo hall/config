@@ -55,4 +55,7 @@ in
 
   # password for librespot
   "spotify.age".publicKeys = with hosts; [ user office ];
+
+  # kubernetes
+  "kubeconfig.age".publicKeys = main;
 }

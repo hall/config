@@ -158,6 +158,11 @@
       owner = flake.username;
     };
 
+    kubeconfig = {
+      file = ../../../../secrets/kubeconfig.age;
+      owner = flake.username;
+    };
+
   };
 
 }
