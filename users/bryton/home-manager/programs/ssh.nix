@@ -14,6 +14,11 @@
       };
     };
 
+    old = {
+      host = "office";
+      identityFile = "/home/bryton/.ssh/backup/pi";
+    };
+
     gitlab = {
       host = "gitlab.com";
       user = "git";
