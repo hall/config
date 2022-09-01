@@ -31,15 +31,6 @@
       name = "Bryton Hall";
       email = "email@${hostname}";
 
-      channelsConfig = {
-        # allowBroken = true;
-        allowUnfreePredicate = pkg: builtins.elem (inputs.nixpkgs.lib.getName pkg) [
-          "vscode-extension-ms-toolsai-jupyter"
-          "vscode-extension-ms-vscode-cpptools"
-          "slack"
-        ];
-      };
-
       hostDefaults = {
         modules = [
           ./hosts/configuration.nix

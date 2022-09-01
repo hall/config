@@ -10,6 +10,15 @@
     autoUpgrade.enable = true;
   };
 
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "vscode-extension-ms-toolsai-jupyter"
+    "vscode-extension-ms-vscode-cpptools"
+    "slack"
+    "steam"
+    "steam-original"
+    "steam-runtime"
+  ];
+
   age.secretsDir = "/run/secrets";
 
   security.sudo.execWheelOnly = true;
