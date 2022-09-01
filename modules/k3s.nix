@@ -41,10 +41,10 @@ in
     services = {
       k3s = {
         extraFlags = mkIf (cfg.role == "server") (toString [
-          # "--disable-helm-controller"
+          "--disable-helm-controller"
           "--disable-cloud-controller"
           "--disable-network-policy"
-          # "--disable traefik"
+          "--disable traefik"
           "--disable local-storage"
           # "--disable servicelb"
           # coredns, servicelb, metrics-server
