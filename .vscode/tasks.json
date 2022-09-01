@@ -6,11 +6,8 @@
         {
             "label": "Build System",
             "type": "shell",
-            "command": "nix",
+            "command": "deploy",
             "args": [
-                "run",
-                "github:serokell/deploy-rs",
-                "--",
                 "'.#${input:host}'"
             ],
             "problemMatcher": [],
