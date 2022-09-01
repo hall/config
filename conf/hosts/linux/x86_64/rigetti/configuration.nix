@@ -1,27 +1,15 @@
-{ pkgs, flake, ... }:
+{ pkgs, flake, lib, ... }:
 {
   laptop.enable = true;
-  environment = {
-    systemPackages = with pkgs; [
-      globalprotect-openconnect
-    ];
-  };
 
-  networking = {
-    # firewall = {
-    #   allowedTCPPorts = [
-    #   ];
-    # };
-  };
-
-  services = {
-    globalprotect = {
-      enable = true;
-    };
-  };
+  services.globalprotect.enable = true;
+  environment.systemPackages = with pkgs; [
+    globalprotect-openconnect
+  ];
 
   age.secrets.id_work = {
     file = ../../../../secrets/id_work.age;
     owner = flake.username;
   };
+
 }
