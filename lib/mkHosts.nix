@@ -17,24 +17,17 @@ let
         map (user: ../users/${user}) users ++
         map (user: usersPath + /${user}) users ++
         [
+          ../hosts
           ../hosts/${platform}
           ../hosts/${platform}/${arch}
           fullHostPath
         ];
-
-      configs = filter pathExists
-        (map (path: path + /configuration.nix) paths);
-
-      modulesConfigs = concatMap
-        (src: import src self)
-        (filter pathExists
-          (map (path: path + /modules.nix) paths));
     in
     {
       inherit name;
       value = {
         inherit system;
-        modules = configs ++ modulesConfigs;
+        modules = filter pathExists (map (path: path + /configuration.nix) paths);
         specialArgs = {
           flake = self // {
             packages = self.outputs.packages."${system}";
@@ -58,7 +51,8 @@ let
       inherit (builtins) concatMap listToAttrs;
       platforms = readDirNames hostsPath;
       systems = concatMap
-        (platform: map (arch: arch + "-" + platform) (readDirNames /${ hostsPath}/${ platform})) platforms;
+        (platform: map (arch: arch + "-" + platform) (readDirNames /${ hostsPath}/${ platform}))
+        platforms;
     in
     listToAttrs (concatMap (mkSystem args) systems);
 in
