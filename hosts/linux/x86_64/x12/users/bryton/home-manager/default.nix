@@ -32,10 +32,10 @@
       youtube-dl
       bitwarden-cli
       siglo
+      moserial
 
       nix-diff
     ] ++ (with flake.packages; [
-      moserial
       # effects
     ]);
   };
