@@ -16,7 +16,7 @@ let
 
   hosts = {
     bedroom = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOFjdkSO9y85QQ0n6bmXI2RJLVYBsEVMPLtRoFCVHk39";
-    office = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGNhknXC4pUYgz1eU1FNgpuy/zPIxaH9Rh5MP4+7Qku0";
+    office = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEMXGDere8n2mzJHI48hZ2OU8Av+1J1AreXKovN8XxLr";
     pinephone = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPHx6N0eSzOMJF9fa2WjftMedXnpCQvuSXCdaPsl63T1";
     tv = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPBsVhSyPX8F3/WBo+W9w8lYAtfnFgQGg7k7w/8SINCa";
     x12 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP70uIe/+6FtPWkuA7qiNRAoe2uvY+Qj/zGtU34HOccd";
@@ -56,6 +56,13 @@ in
   # password for librespot
   "spotify.age".publicKeys = with hosts; [ user office ];
 
+  # digitalocean auth token
+  "do.age".publicKeys = with hosts; [ user tv ];
+
+  # cal/card dav
+  "dav.age".publicKeys = with hosts; [ user tv ];
+
   # kubernetes
   "kubeconfig.age".publicKeys = main;
+  "postgres.age".publicKeys = main;
 }
