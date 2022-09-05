@@ -6,7 +6,7 @@ let
   members = group: builtins.attrValues group;
 
   cluster = {
-    k0 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKVGaaL/HIr/0HdaqSoZ4giMzqBEpZ/eWBwD6ct0lB2K";
+    k0 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMpvfboDPErxtHsXQio3gii2Gj9TgDLFfZ9Hj8CUu5bg";
     k1 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINQIAo8GyvynexxqaeUlkQPjqnU9Ky5gRr6Ut83XJhpy";
     k2 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEBT90Iw3wAsrb7asEcxY3RamKZxTIr1Gs2ZyBsxgg7z";
     k3 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKqea9Z97QRtRfJbKTFhrTEmOuFmvh0TigPwl48I6U6f";
@@ -65,4 +65,5 @@ in
   # kubernetes
   "kubeconfig.age".publicKeys = main;
   "postgres.age".publicKeys = main;
+  "ha.age".publicKeys = main;
 }
