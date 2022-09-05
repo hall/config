@@ -1,5 +1,4 @@
-# $BASH_COMPLETIONS = f"{$(nix eval --raw 'nixpkgs#bash-completion')}/share/bash-completion/bash_completion"
-# $BASH_COMPLETIONS.append(f"{$(nix show-derivation 'nixpkgs#bash-completion' | jq -j '.[].outputs.out.path')}/share/bash-completion/bash_completion")
+$BASH_COMPLETIONS = f"{$(nix eval --raw 'nixpkgs#bash-completion')}/share/bash-completion/bash_completion"
 
 # PATH = [
 #     "$HOME/bin",
