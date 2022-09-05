@@ -8,4 +8,6 @@
     enable = true;
     role = "agent";
   };
+
+  # bryton.io/ups=true
 }

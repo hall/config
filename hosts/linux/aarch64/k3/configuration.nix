@@ -8,4 +8,7 @@
     enable = true;
     role = "agent";
   };
+
+  # bryton.io/tpu=true
+  # bryton.io/printer=true
 }
