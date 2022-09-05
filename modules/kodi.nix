@@ -24,6 +24,11 @@ in
 
   config = lib.mkIf cfg.enable {
 
+    # TODO: figure out a stable sound config
+    services.pipewire.enable = lib.mkForce false;
+    hardware.pulseaudio.enable = lib.mkForce true;
+    sound.enable = true;
+
     programs.steam.enable = true;
 
     hardware = {
@@ -68,8 +73,9 @@ in
     # wayland:
     # - no sound
     # - kodi fails to start randomly
+    #
+    # both: pipewire problems :/
     services = {
-      # pipewire.enable = lib.mkForce false;
       upower.enable = true;
 
       # cage = {
