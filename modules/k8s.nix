@@ -1,27 +1,25 @@
 { lib, config, pkgs, flake, ... }:
 with lib;
 let
-  name = "k3s";
+  name = "k8s";
   cfg = config.services.${name};
 in
 {
-  config = mkIf cfg.enable {
-    boot = {
-      growPartition = true;
-      loader = {
-        grub.enable = false;
-        generic-extlinux-compatible.enable = false;
-        raspberryPi = {
-          enable = true;
-          version = 4;
-        };
-      };
-
-      kernelParams = [
-        "cgroup_memory=1"
-        "cgroup_enable=memory"
-      ];
+  options.services.${name} = {
+    enable = lib.mkEnableOption "kubernetes node";
+    role = lib.mkOption {
+      description = "server or agent node";
+      default = "server";
+      type = lib.types.str;
     };
+
+  };
+  config = mkIf cfg.enable {
+
+    boot.kernelParams = [
+      "cgroup_memory=1"
+      "cgroup_enable=memory"
+    ];
 
     networking.firewall = {
       allowedUDPPorts = [
@@ -31,6 +29,7 @@ in
       allowedTCPPorts = [
         4443 # metrics server but shouldn't be necesasry?
         10250 # metrics server
+        9100 # ?
       ] ++ (lib.optionals (cfg.role == "server") [
         6443 # k8s api
         2379 # etcd client requests
@@ -40,6 +39,8 @@ in
 
     services = {
       k3s = {
+        enable = true;
+        role = cfg.role;
         extraFlags = mkIf (cfg.role == "server") (toString [
           "--disable-helm-controller"
           "--disable-cloud-controller"
@@ -50,7 +51,7 @@ in
           # coredns, servicelb, metrics-server
         ]);
         tokenFile = "/run/secrets/k3s";
-        serverAddr = "https://k0:6443";
+        serverAddr = "https://k1:6443";
       };
       openiscsi = {
         enable = true;
@@ -62,6 +63,7 @@ in
       k3s
       nfs-utils # longhorn RWX
       openiscsi # longhorn
+      usbutils
     ];
 
     fileSystems = {

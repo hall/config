@@ -4,7 +4,7 @@
     flake.inputs.hardware.nixosModules.raspberry-pi-4
   ];
 
-  services.k3s = {
+  services.k8s = {
     enable = true;
     role = "agent";
   };
