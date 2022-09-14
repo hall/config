@@ -63,14 +63,13 @@
       ];
 
       outputsBuilder = channels: {
-        packages = ((import ./packages) { inherit lib channels; }) //
-          {
+        packages = ((import ./packages) { inherit lib channels; });
             kubenix = import ./cluster {
               flake = self;
-              evalmodules = inputs.kubenix.evalmodules.${channels.nixpkgs.system};
+          evalModules = inputs.kubenix.evalModules.${channels.nixpkgs.system};
               inherit (channels.nixpkgs.pkgs) lib;
             };
-          };
+
         devShells.default = channels.nixpkgs.mkShell {
           buildInputs = with channels.nixpkgs.pkgs; [
             kubernetes-helm
