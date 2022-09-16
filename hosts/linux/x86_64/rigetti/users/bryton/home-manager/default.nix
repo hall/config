@@ -1,8 +1,5 @@
 { pkgs, flake, lib, ... }:
 {
-  services = {
-    nextcloud-client.enable = lib.mkForce false;
-  };
   home = {
     packages = with pkgs; [
       azure-cli
@@ -63,8 +60,15 @@
 
     };
 
-    vscode.extensions = with pkgs.vscode-extensions; [
+    vscode.extensions = (with pkgs.vscode-extensions; [
       hashicorp.terraform
+    ]) ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+      {
+        name = "hcl";
+        publisher = "hashicorp";
+        version = "0.2.1";
+        sha256 = "sha256-5dBLDJ7Wgv7p3DY0klqxtgo2/ckAHoMOm8G1mDOlzZc=";
+      }
     ];
   };
 }

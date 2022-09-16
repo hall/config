@@ -17,11 +17,6 @@
       verbose = false;
     };
     kernelParams = [ "quiet" ]; #"udev.log_priority=3" ];
-    # extraModulePackages = with config.boot.kernelPackages; [ wireguard ];
-    #extraModprobeConfig = ''
-    #  options snd-intel-dspcfg dsp_driver=3
-    #'';
-    # kernelPackages = pkgs.linuxPackages_latest;
     kernelModules = [ "kvm-intel" ];
   };
 

@@ -26,9 +26,9 @@
       wireshark
 
       talosctl
-      nextcloud-client
       newsflash
       sof-firmware
+      gnome.gnome-todo
       youtube-dl
       bitwarden-cli
       siglo
@@ -37,6 +37,7 @@
       nix-diff
     ] ++ (with flake.packages; [
       # effects
+      # itd
     ]);
   };
 }

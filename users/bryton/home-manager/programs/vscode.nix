@@ -82,7 +82,6 @@
     gitlab.gitlab-workflow
     golang.go
     gruntfuggly.todo-tree
-    # hashicorp.terraform
     # haskell.haskell
     humao.rest-client
     james-yu.latex-workshop
