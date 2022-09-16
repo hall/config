@@ -30,7 +30,10 @@ let
     , image
     , port
     , config ? { }
+    , host ? null
     , persistence ? { }
+    , values ? { }
+    , pkgs ? null
     }:
     let
       img = builtins.split ":" image;
@@ -41,7 +44,7 @@ let
       helm.releases.${name} = {
         chart = template { inherit kubenix; };
         namespace = "default";
-        values = {
+        values = recursiveMerge [{
           image = {
             repository = builtins.elemAt img 0;
             tag = builtins.elemAt img 2;
@@ -50,7 +53,7 @@ let
           ingress.main = {
             enabled = true;
             hosts = [{
-              host = "${name}.${flake.hostname}";
+              host = "${if host != null then host else name}.${flake.hostname}";
               paths = [{ path = "/"; }];
             }];
           };
@@ -62,8 +65,20 @@ let
               storageClass = "longhorn-static";
             } // v)
             persistence;
-        };
-
+        }
+          (if config != { } then {
+            persistence.config = {
+              enabled = true;
+              type = "configMap";
+              name = "${name}-config";
+              readOnly = true;
+            };
+            configmap.config = {
+              enabled = true;
+              data."config.yml" = builtins.readFile ((pkgs.formats.yaml { }).generate "." config);
+            };
+          } else { })
+          values];
       };
     };
 in
