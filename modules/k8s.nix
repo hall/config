@@ -42,13 +42,14 @@ in
         enable = true;
         role = cfg.role;
         extraFlags = mkIf (cfg.role == "server") (toString [
+          "--tls-san=k"
           "--disable-helm-controller"
           "--disable-cloud-controller"
           "--disable-network-policy"
           "--disable traefik"
           "--disable local-storage"
-          # "--disable servicelb"
-          # coredns, servicelb, metrics-server
+          "--disable servicelb"
+          # coredns, metrics-server
         ]);
         tokenFile = "/run/secrets/k3s";
         serverAddr = "https://k1:6443";
