@@ -32,12 +32,16 @@ Build a host with either `ctrl-shift-b` (in `codium`) or
 > Update the lock file with
 >
 >     nix flake update
+>
+> Remove old generations and garbage collect with
+>
+>     sudo nix-collect-garbage -d
 
 ## images
 
 Build a bootable image with:
 
-    nix run github:nix-community/nixos-generators -- --flake '.#${host}' -f [sd-aarch64|iso]
+    nix build '.#${hostname}'
 
 ## secrets
 
@@ -62,4 +66,4 @@ Deploy Kubernetes resources with
 Inspect the evaluated config with
 
     nix repl
-    :lf .
+    nix-repl> :lf .
