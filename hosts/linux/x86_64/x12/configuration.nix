@@ -163,6 +163,10 @@
       owner = flake.username;
     };
 
+    kubenix = {
+      file = ../../../../secrets/kubenix.age;
+      owner = flake.username;
+    };
   };
 
 }

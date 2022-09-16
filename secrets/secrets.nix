@@ -56,14 +56,7 @@ in
   # password for librespot
   "spotify.age".publicKeys = with hosts; [ user office ];
 
-  # digitalocean auth token
-  "do.age".publicKeys = with hosts; [ user tv ];
-
-  # cal/card dav
-  "dav.age".publicKeys = with hosts; [ user tv ];
-
   # kubernetes
   "kubeconfig.age".publicKeys = main;
-  "postgres.age".publicKeys = main;
-  "ha.age".publicKeys = main;
+  "kubenix.age".publicKeys = main;
 }
