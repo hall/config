@@ -11,7 +11,7 @@
     deploy.url = "github:serokell/deploy-rs";
     musnix.url = github:musnix/musnix;
     mach.url = github:davhau/mach-nix/3.5.0;
-    kubenix.url = "/home/bryton/src/github.com/hall/kubenix";
+    kubenix.url = "github:hall/kubenix";
     # removes evalModules deprecation warning which is not yet included in any release
     utils.url = github:gytis-ivaskevicius/flake-utils-plus/be1be083af014720c14f3b574f57b6173b4915d0;
     mobile = {
@@ -64,11 +64,11 @@
 
       outputsBuilder = channels: {
         packages = ((import ./packages) { inherit lib channels; });
-            kubenix = import ./cluster {
-              flake = self;
+        kubenix = import ./cluster {
+          flake = self;
           evalModules = inputs.kubenix.evalModules.${channels.nixpkgs.system};
-              inherit (channels.nixpkgs.pkgs) lib;
-            };
+          inherit (channels.nixpkgs.pkgs) lib;
+        };
 
         devShells.default = channels.nixpkgs.mkShell {
           buildInputs = with channels.nixpkgs.pkgs; [
