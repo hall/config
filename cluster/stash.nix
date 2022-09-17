@@ -4,7 +4,10 @@ vars.simple {
   image = "stashapp/stash:v0.16.1";
   port = 9999;
   persistence = {
-    media.size = "30Gi";
+    media = {
+      size = "50Gi";
+      accessMode = "ReadWriteMany";
+    };
     config.mountPath = "/root/.stash";
   };
 }
