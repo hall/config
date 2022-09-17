@@ -6,6 +6,10 @@ vars.simple {
   host = "sync";
   persistence = {
     stash.existingClaim = "stash-media";
+    config = {
+      size = "1Gi";
+      mountPath = "/var/syncthing";
+    };
   };
   values.service.nodeport = {
     enabled = true;
