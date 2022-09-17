@@ -47,6 +47,7 @@ in
         http.enabled = false;
         smtp = {
           enabled = true;
+          primary = true;
           port = 25;
         };
         imap = {
