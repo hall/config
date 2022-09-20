@@ -1,20 +1,5 @@
 { evalModules, flake, lib }:
 let
-  # merge a list of sets
-  # https://stackoverflow.com/a/54505212
-  recursiveMerge = with builtins; attrList:
-    let f = attrPath:
-      zipAttrsWith (n: values:
-        if tail values == [ ]
-        then head values
-        else if all isList values
-        then unique (concatLists values)
-        else if all isAttrs values
-        then f (attrPath ++ [ n ]) values
-        else lib.lists.last values
-      );
-    in f [ ] attrList;
-
   # a generic chart
   template = { kubenix }: kubenix.lib.helm.fetch {
     repo = "http://bjw-s.github.io/helm-charts/";
@@ -44,7 +29,7 @@ let
       helm.releases.${name} = {
         chart = template { inherit kubenix; };
         namespace = "default";
-        values = recursiveMerge [{
+        values = flake.lib.recursiveMerge [{
           image = {
             repository = builtins.elemAt img 0;
             tag = builtins.elemAt img 2;
@@ -86,7 +71,7 @@ evalModules {
   module = { kubenix, lib, pkgs, age, ... }: {
     imports = with kubenix.modules; [ helm ];
     kubenix.project = "k";
-    kubernetes = recursiveMerge ([
+    kubernetes = flake.lib.recursiveMerge ([
       {
         kubeconfig = "/run/secrets/kubeconfig";
       }
