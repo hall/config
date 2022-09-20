@@ -59,7 +59,7 @@ vars.simple {
         ];
         ffmpeg = {
           # add pcm_s16be codec
-          # output_args.record = "-f segment -segment_time 10 -segment_format mp4 -reset_timestamps 1 -strftime 1 -c copy -acodec pcm_s16be";
+          output_args.record = "-f segment -segment_time 10 -segment_format mp4 -reset_timestamps 1 -strftime 1 -c copy -an";
           inputs = [
             {
               path = ''rtsp://admin:${vars.secret "/rtsp/doorbell"}@192.168.1.20:554/cam/realmonitor?channel=1&subtype=1'';
