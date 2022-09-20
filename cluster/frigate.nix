@@ -1,7 +1,7 @@
 { kubenix, flake, vars, pkgs, ... }:
 vars.simple {
   inherit kubenix pkgs;
-  image = "blakeblackshear/frigate:0.11.0-rc2";
+  image = "blakeblackshear/frigate:0.11.0-rc3";
   port = 5000;
   persistence = {
     data.size = "1Gi";
