@@ -6,6 +6,10 @@ vars.simple {
   host = "sync";
   persistence = {
     stash.existingClaim = "stash-media";
+    notes.size = "5Gi";
+    cloud.size = "60Gi";
+    library.size = "10Gi";
+    sessions.size = "10Gi";
     config = {
       size = "1Gi";
       mountPath = "/var/syncthing";
