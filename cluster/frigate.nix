@@ -5,7 +5,7 @@ vars.simple {
   port = 5000;
   persistence = {
     data.size = "1Gi";
-    media.size = "10Gi";
+    media.size = "100Gi";
   };
   values = {
     # required to access coral USB
