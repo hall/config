@@ -8,7 +8,7 @@ LAYOUT=${QMK_HOME}/keyboards/${BOARD}/keymaps/hall
 
 .PHONY: flash
 flash: | ${LAYOUT}
-	qmk flash -kb $(BOARD) -km hall
+	$(QMK) flash -kb $(BOARD) -km hall
 
 ${LAYOUT}:
 	ln -s ${PWD}/$(NAME) ${LAYOUT}
@@ -16,4 +16,4 @@ ${LAYOUT}:
 .PHONY: clean
 clean:
 	rm ${LAYOUT}
-	qmk clean
+	$(QMK) clean

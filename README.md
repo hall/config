@@ -61,6 +61,12 @@ Deploy Kubernetes resources with
 
     nix run github:hall/kubenix -- apply
 
+## keyboard
+
+Flash firmware with
+
+    nix run '.#keyboard'
+
 ## debug
 
 Inspect the evaluated config with
