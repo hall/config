@@ -18,7 +18,7 @@ vars.simple {
     nodeSelector = { "${flake.hostname}/tpu" = "true"; };
   };
   config = {
-    ui.use_experimental = true;
+    # ui.use_experimental = true;
     # logger.default = "debug";
     mqtt.host = "mosquitto.system";
     detectors.coral = {
