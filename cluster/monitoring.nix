@@ -7,8 +7,8 @@ in
     chart = kubenix.lib.helm.fetch {
       repo = "https://prometheus-community.github.io/helm-charts";
       chart = "kube-prometheus-stack";
-      version = "39.11.0";
-      sha256 = "sha256-6Zwy+74Vb8qRNXzCjirAjxj94DZB/J9eKj1VJib/fBE=";
+      version = "40.1.2";
+      sha256 = "sha256-fr+WtF61tiYSaMBf0zpG1oLhMcJyx+YizaPKyr2Vya0=";
     };
     namespace = ns;
     values = {
@@ -52,9 +52,7 @@ in
             }];
           };
           receivers = [
-            {
-              name = "null";
-            }
+            { name = "null"; }
             {
               name = "matrix";
               webhook_configs = [{
