@@ -6,8 +6,6 @@
       settings = {
         "browser.aboutConfig.showWarning" = false;
         "browser.newtabpage.enabled" = false;
-        # do not open links in new tab by default
-        "browser.link.open_newwindow" = 1;
         "browser.search.defaultenginename" = "duckduckgo";
         "browser.startup.homepage" = "about:blank";
         "browser.display.use_system_colors" = true;
