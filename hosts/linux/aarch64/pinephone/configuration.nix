@@ -1,13 +1,17 @@
-{ pkgs, musnix, flake, ... }:
-{
-  imports = [
-    ./hardware.nix
-    (import "${flake.inputs.mobile}/lib/configuration.nix" { device = "pine64-pinephonepro"; })
-  ];
+{ pkgs, musnix, flake, lib, ... }: {
 
   musnix.enable = true;
 
-  boot.postBootCommands = ''
+  fileSystems = {
+    "/" = lib.mkForce {
+      device = "/dev/disk/by-label/NIXOS_SYSTEM";
+      fsType = "ext4";
+    };
+    "/home" = {
+      device = "/dev/disk/by-label/home";
+      fsType = "ext4";
+    };
+  };
     # usb audio interface does not work in the default `device` mode
     # and automatic mode switching is not functional
     echo host | tee /sys/class/usb_role/fe800000.usb-role-switch/role

@@ -1,10 +1,22 @@
-{ flake, ... }:
+{ flake, modulesPath, ... }:
 {
-  imports = [
-    ./hardware.nix
-  ];
+  imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
-  boot.loader.grub.enable = false;
+  fileSystems = {
+    "/" = {
+      device = "/dev/disk/by-label/NIXOS_SD";
+      fsType = "ext4";
+    };
+  };
+
+  swapDevices = [ ];
+
+  powerManagement.cpuFreqGovernor = lib.mkDefault "ondemand";
+
+  boot = {
+    loader.grub.enable = false;
+    initrd.availableKernelModules = [ "xhci_pci" "usb_storage" ];
+  };
 
   services = {
     openssh = {
