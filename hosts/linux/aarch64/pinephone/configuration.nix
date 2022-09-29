@@ -1,6 +1,6 @@
 { pkgs, musnix, flake, lib, ... }: {
 
-  musnix.enable = true;
+  imports = [ (import "${flake.inputs.mobile}/lib/configuration.nix" { device = "pine64-pinephonepro"; }) ];
 
   fileSystems = {
     "/" = lib.mkForce {
@@ -12,16 +12,21 @@
       fsType = "ext4";
     };
   };
+
+  boot = {
+    postBootCommands = ''
     # usb audio interface does not work in the default `device` mode
     # and automatic mode switching is not functional
     echo host | tee /sys/class/usb_role/fe800000.usb-role-switch/role
   '';
+  };
 
   # users.users.geoclue.extraGroups = [ "networkmanager" ];
+  musnix.enable = true;
 
   services = {
     effects = {
-      # enable = true;
+      enable = true;
       kernel = "controlC3";
     };
     # wifi.enable = true;
@@ -30,15 +35,14 @@
     flatpak = {
       enable = true;
       # dialect
+      # bitwarden
     };
 
     xserver.desktopManager.phosh = {
       enable = true;
       user = flake.username;
       group = "users";
-      phocConfig = {
-        xwayland = "immediate";
-      };
+      phocConfig.xwayland = "immediate";
     };
 
     geoclue2 = {
@@ -57,7 +61,8 @@
     };
   };
 
-  sound.enable = true;
+  programs.calls.enable = true;
+
   location.provider = "geoclue2";
 
   environment = {
@@ -73,23 +78,14 @@
       pinentry-gnome
 
       lingot
-      fmit
-      # cozy
-      sooperlooper
 
-      # element-desktop
+      element-desktop
       protonmail-bridge
-
-      # talosctl
-      # nextcloud-client
-      # newsflash
 
       chatty
       megapixels
       epiphany
       newsflash
-      giara
-      nheko
 
       spot
       drawing
@@ -113,6 +109,8 @@
       gedit # editor
       nautilus # files
       eog # images
+      fractal # matrix
+      giara # reddit
 
       gnome-terminal
       # gnome-connections
@@ -133,10 +131,9 @@
       gnome-dictionary
       gnome-disk-utility
     ]) ++ (with flake.packages; [
-      # effects
+      effects
+      itd
     ]);
   };
-
-  programs.calls.enable = true;
 
 }
