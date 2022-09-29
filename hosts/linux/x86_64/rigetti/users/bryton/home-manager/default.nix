@@ -5,11 +5,13 @@
       azure-cli
       awscli2
       google-cloud-sdk
-      terraform
+      tfswitch
       nomad
       slack
       jwt-cli
       toml2json
+      _1password-gui
+      dasel
 
       # flake.packages.crowdstrike
     ];
@@ -24,12 +26,7 @@
       };
 
       matchBlocks = {
-        rigetti = {
-          host = "gitlab.com";
-          hostname = "gitlab.com";
-          user = "git";
-          identityFile = "/run/secrets/id_work";
-        };
+        gitlab.identityFile = lib.mkForce "/run/secrets/id_work";
         lab = {
           host = "*.lab.rigetti.com";
           user = "ansible";
