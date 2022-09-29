@@ -198,15 +198,15 @@
       "locked": {
         "lastModified": 1653945435,
         "narHash": "sha256-pD7Om1ocnUiNyZZgh+jbD6ZKHwu5NqSIZZ2pxLroddk=",
-        "owner": "samueldr-wip",
-        "repo": "mobile-nixos-wip",
+        "owner": "nixos",
+        "repo": "mobile-nixos",
         "rev": "e8ffe9b29c74e27c25f55161c6e952ef97870c3e",
         "type": "github"
       },
       "original": {
-        "owner": "samueldr-wip",
-        "ref": "wip/pinephone-pro",
-        "repo": "mobile-nixos-wip",
+        "owner": "nixos",
+        "ref": "pull/445/head",
+        "repo": "mobile-nixos",
         "type": "github"
       }
     },

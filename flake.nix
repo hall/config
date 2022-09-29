@@ -15,9 +15,9 @@
     # removes evalModules deprecation warning which is not yet included in any release
     utils.url = github:gytis-ivaskevicius/flake-utils-plus/be1be083af014720c14f3b574f57b6173b4915d0;
     mobile = {
-      # url = github:nixos/mobile-nixos/master;
       # https://github.com/NixOS/mobile-nixos/pull/445
-      url = github:samueldr-wip/mobile-nixos-wip/wip/pinephone-pro;
+      url = github:nixos/mobile-nixos/pull/445/head;
+      # url = github:wentam/mobile-nixos-wip/wip/pinephone-pro;
       flake = false;
     };
   };
