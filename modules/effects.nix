@@ -31,7 +31,8 @@ in
 
         dev=usb-IK_Multimedia_iRig_HD_2-00
         in=alsa_input.$dev.mono-fallback
-        out=alsa_output.$dev.analog-stereo
+        # digital output (or `analog-stereo` for analog output)
+        out=alsa_output.$dev.iec958-stereo
 
         sleep 1  # wait for app to register with pw
 
