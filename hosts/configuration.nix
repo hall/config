@@ -17,6 +17,7 @@
     "steam"
     "steam-original"
     "steam-runtime"
+    "1password"
   ];
 
   age.secretsDir = "/run/secrets";
