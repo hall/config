@@ -35,7 +35,7 @@ stdenv.mkDerivation rec {
   '';
 
   buildPhase = ''
-    faust2jack -httpd main.dsp
+    faust2jack -httpd -osc main.dsp
   '';
 
   installPhase = ''
