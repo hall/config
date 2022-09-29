@@ -1,7 +1,4 @@
-{ flake, modulesPath, ... }:
-{
-  imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
-
+{ flake, lib, ... }: {
   fileSystems = {
     "/" = {
       device = "/dev/disk/by-label/NIXOS_SD";
@@ -15,7 +12,7 @@
 
   boot = {
     loader.grub.enable = false;
-    initrd.availableKernelModules = [ "xhci_pci" "usb_storage" ];
+    initrd.availableKernelModules = [ "xhci_pci" "usb_storage" "usbhid" ];
   };
 
   services = {

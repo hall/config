@@ -1,7 +1,8 @@
-{ pkgs, flake, ... }:
-{
+{ pkgs, flake, modulesPath, ... }: {
+
   imports = [
     flake.inputs.home.nixosModules.home-manager
+    (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
   hardware = {
@@ -15,7 +16,6 @@
   };
 
   services = {
-    # printing.enable = true;
     # avahi = {
     #   enable = true;
     #   nssmdns = true;
