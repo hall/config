@@ -48,6 +48,7 @@
   };
 
   services = {
+    printing.enable = true;
     effects = {
       # enable = true;
       kernel = "controlC1";
