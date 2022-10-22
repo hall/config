@@ -35,6 +35,12 @@
             PubkeyAcceptedKeyTypes = "+ssh-rsa";
           };
         };
+        pg = {
+          host = "pg";
+          hostname = "bhall.pg.rigetti.com";
+          user = "bhall";
+          identityFile = "/run/secrets/id_work";
+        };
       };
     };
 
@@ -46,11 +52,6 @@
             user = {
               email = "bhall@rigetti.com";
             };
-            # url = {
-            #   "rigetti.gitlab.com" = {
-            #     insteadOf = "gitlab.com";
-            #   };
-            # };
           };
         }
       ];
