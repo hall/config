@@ -1,57 +1,18 @@
 { config, pkgs, flake, lib, ... }:
 with pkgs; [
   nixpkgs-fmt
-  # python-language-server
-  # niv
   wl-clipboard
-  # libreoffice
-  # shellcheck
+  xclip # some apps (e.g., tuple) want an x11 session
   dnsutils
-  # wireshark
-
-  # appimage-run
-  # direnv
-  # hunspell
-  # hunspellDicts.en_US-large
-  # #file
-  # #go-task
-  # #hadolint
-  # #goss
-  # gnupg
-  # iperf
-  # koreader
-  # moreutils
-  # #zotero
-  # #transmission-gtk
-  # #usbutils
-  # #binutils
-  # #anki
-  # jellyfin-media-player
-  # #pprof
-  # zip
-
-  # math / science
-  #jupyter
-  # sage
-  #stellarium
+  inetutils
 
   # cli
   pciutils
-  # #velero
   bash-completion
   fzf
-  # inotify-tools
-  # lsof
-  # #pdsh
-  # plan9port
   ripgrep
-  # telnet
-  # gparted
-  # unzip
   yq
-
-  # comms
-  # slack
+  gh
 
   # gnome
   gnome.dconf-editor
@@ -69,40 +30,7 @@ with pkgs; [
   # gnomeExtensions.gesture-improvements
   ddcutil
 
-  # # dev
-  # #gcc
-  gh
-  # #gnumake
-  ## c
-  # clang-tools
-  # ## go
-  # #air
-  # #delve
-  # #go
-  # #go-outline
-  # #gocode
-  # #gocode-gomod
-  # #godef
-  # #golint
-  # #gopkgs
-  # #goreleaser
-  # ## python
-  # micromamba
-  # #poetry
-  # #conda
-  # #R
-  # #pyenv
-  # ## node
-  # #yarn
-  # nodejs
-  # ## rust
-  # #rustup
-  # ## java
-  # #openjdk
-  # #maven
-
   # containers
-
   kubectl
   kubie
 

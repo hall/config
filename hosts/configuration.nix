@@ -17,6 +17,7 @@
     "steam"
     "steam-original"
     "steam-runtime"
+    "steam-run"
     "1password"
   ];
 
@@ -39,7 +40,8 @@
       gnome.gedit
       gnome-tour
       gnome-passwordsafe
-      epiphany
+      epiphany # browser
+      gnome.seahorse # passwords
       gnome.gnome-characters
     ];
   };

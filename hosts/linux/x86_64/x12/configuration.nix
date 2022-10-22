@@ -50,7 +50,7 @@
   services = {
     printing.enable = true;
     effects = {
-      # enable = true;
+      enable = true;
       kernel = "controlC1";
     };
     # wifi.enable = true;
