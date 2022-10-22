@@ -3,6 +3,7 @@
   home = {
     packages = with pkgs; [
       deploy-rs
+      zotero
 
       # pianobooster
       qjackctl
@@ -36,7 +37,7 @@
 
       nix-diff
     ] ++ (with flake.packages; [
-      # effects
+      effects
       # itd
     ]);
   };
