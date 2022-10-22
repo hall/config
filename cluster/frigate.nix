@@ -35,7 +35,13 @@ vars.simple {
       width = 704;
       height = 480;
     };
-    record.enabled = true;
+    record = {
+      enabled = true;
+      retain = {
+        days = 2;
+        mode = "all";
+      };
+    };
     snapshots.enabled = true;
     # h264 video
     # aac audio
@@ -57,7 +63,7 @@ vars.simple {
       back_yard.ffmpeg.inputs = [
         {
           path = "rtsp://admin:${vars.secret "/rtsp/back"}@back_yard:554/cam/realmonitor?channel=1&subtype=1";
-        roles = [ "detect" "record" "rtmp" ];
+          roles = [ "detect" "record" "rtmp" ];
         }
       ];
       doorbell = {

@@ -22,20 +22,18 @@
     # windows
     {
       entities = [
+        "climate.thermostat"
         "cover.garage_door"
-        "media_player.osmc"
+        "media_player.kodi"
         "printer.ender"
-      ];
-    }
-
-    {
-      entities = [
         "camera.front_yard"
+        "camera.back_yard"
+        "camera.doorbell"
         "binary_sensor.washing_machine_flood"
         "binary_sensor.water_heater_flood"
       ];
-
     }
+
     {
       entities = [
         "vacuum.roomba"

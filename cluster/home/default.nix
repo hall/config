@@ -214,7 +214,6 @@ in
                 extra_module_url = [
                   "/hacsfiles/custom-sidebar/custom-sidebar.js"
                   # "/hacsfiles/stack-in-card/stack-in-card.js"
-                  "/hacsfiles/ha-floorplan/floorplan.js"
                   # "/hacsfiles/mini-graph-card/mini-graph-card-bundle.js"
                   # "/hacsfiles/bar-card/bar-card.js"
                   # "/hacsfiles/lovelace-card-templater/lovelace-card-templater.js"
@@ -224,6 +223,12 @@ in
 
               lovelace = {
                 mode = "yaml";
+                resources = [
+                  {
+                    url = "/hacsfiles/ha-floorplan/floorplan.js";
+                    type = "module";
+                  }
+                ];
                 dashboards = {
                   # lovelace-media = {
                   #   mode = "yaml";
@@ -314,8 +319,8 @@ in
               #   port = 443;
               # }];
               roomba = [{
-                host = "roomba";
-                #continuous= false
+                host = "vacuum";
+                # continuous = false;
                 blid = "!secret roomba_user";
                 password = "!secret roomba_pass";
               }];
