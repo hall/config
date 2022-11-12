@@ -8,6 +8,7 @@
 
   musnix.enable = true;
   # programs.steam.enable = true;
+  # wireguard.enable = true;
 
   networking = {
     firewall = {
@@ -33,18 +34,15 @@
 
       # };
     };
-    networkmanager = {
-      dispatcherScripts = [{
-        type = "basic";
-        source = pkgs.writeText "upHook" ''
-          export PATH=$PATH:/run/current-system/sw/bin
-                if [[ "$(nmcli -t -f NAME connection show --active)" == "hall" ]]; then
-                  setting=false
-                fi
-                su -l ${flake.username} -c "dbus-launch dconf write /org/gnome/desktop/screensaver/lock-enabled ''${setting:-true}"
-        '';
-      }];
-    };
+    networkmanager.dispatcherScripts = [{
+      source = pkgs.writeText "upHook" ''
+        export PATH=$PATH:/run/current-system/sw/bin
+        if [[ "$(nmcli -t -f NAME connection show --active)" == "hall" ]]; then
+          setting=false
+        fi
+        su -l ${flake.username} -c "dbus-launch dconf write /org/gnome/desktop/screensaver/lock-enabled ''${setting:-true}"
+      '';
+    }];
   };
 
   services = {
