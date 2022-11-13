@@ -6,7 +6,6 @@ let
     # "onepath" # act on file/dir by only using its name # TODO: build failed
     "pipeliner" # use "pl" to pipe a python expression
     "zoxide"
-    "broot"
     "prompt-starship"
     # "readable-traceback"
   ];
