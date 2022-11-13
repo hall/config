@@ -18,6 +18,8 @@
         "signon.rememberSignons" = false;
         "svg.context-properties.content.enabled" = true;
         "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+        # do not allow websites to steal keyboard input
+        "permissions.default.shortcuts" = 2;
       };
       userChrome = builtins.readFile ./userChrome.css;
       userContent = builtins.readFile ./userContent.css;
