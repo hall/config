@@ -3,14 +3,14 @@ let
   name = "kodi";
   cfg = config.${name};
 
-  kodi = (pkgs.kodi.passthru.withPackages (k: with k; [
+  kodi = (pkgs.kodi-wayland.withPackages (k: with k; [
     youtube
-    # controller-topology-project
+    controller-topology-project
     iagl
     # invidious
-    jellyfin
+    # jellyfin
     joystick
-    # libretro
+    libretro
     netflix
     steam-library
     # steam-launcher
@@ -24,12 +24,10 @@ in
 
   config = lib.mkIf cfg.enable {
 
-    # TODO: figure out a stable sound config
-    services.pipewire.enable = lib.mkForce false;
-    hardware.pulseaudio.enable = lib.mkForce true;
-    sound.enable = true;
-
-    programs.steam.enable = true;
+    programs = {
+      steam.enable = true;
+      # xwayland.enable = true;
+    };
 
     hardware = {
       xpadneo.enable = true;
@@ -71,31 +69,27 @@ in
     # - steam not fullscreen
     # - shutdown hangs
     # wayland:
-    # - no sound
-    # - kodi fails to start randomly
+    # - kodi fails on display on
     #
     # both: pipewire problems :/
     services = {
+      dbus.enable = true;
       upower.enable = true;
 
-      # cage = {
-      #   enable = true;
-      #   user = flake.username;
-      #   program = "${kodi}/bin/kodi-standalone";
-      # };
-
-      xserver = {
+      cage = {
         enable = true;
-        desktopManager.kodi = {
-          enable = true;
-          package = kodi;
-        };
-        displayManager.autoLogin = {
-          enable = true;
-          user = flake.username;
-        };
+        user = flake.username;
+        program = "${kodi}/bin/kodi-standalone";
       };
     };
+
+    # xdg.portal = {
+    #   enable = true;
+    #   wlr.enable = true;
+    #   # gtk portal needed to make gtk apps happy
+    #   extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+    #   # gtkUsePortal = true;
+    # };
 
     users.users.${flake.username}.extraGroups = [
       "audio"
