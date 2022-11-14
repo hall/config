@@ -6,12 +6,12 @@
     "aarch64-linux"
   ];
 
-  # musnix.enable = true;
-  # router = {
-  #   enable = true;
-  #   internal = "enp89s0";
-  #   external = "enp0s2of0u4";
-  # };
+  router = {
+    enable = true;
+    internal = "enp89s0";
+    external = "enp0s20f0u4";
+    # wireless = "wlo1";
+  };
 
   # services.pipewire.config.pipewire-pulse = {
   #   "context.modules" = [
