@@ -99,7 +99,6 @@
   hardware.enableRedistributableFirmware = true;
 
   programs = {
-    dconf.enable = true;
     # wireshark.enable = true;
     gnupg.agent = {
       enable = true;

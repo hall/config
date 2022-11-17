@@ -20,6 +20,7 @@ in
       device = "/dev/vg/swap";
     }];
 
+    programs.dconf.enable = true;
     services = {
       ddccontrol.enable = true;
       xserver = {
