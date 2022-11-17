@@ -78,6 +78,8 @@
       # https://github.com/nix-community/nix-direnv#installation
       keep-outputs = true
       keep-derivations = true
+      # useful when builder has faster network
+      builders-use-substitutes = true
     '';
     settings = {
       trusted-users = [ "root" flake.username ];
@@ -89,6 +91,16 @@
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       ];
     };
+
+    distributedBuilds = true;
+    buildMachines = [{
+      hostName = "tv";
+      sshUser = flake.username;
+      sshKey = "/run/secrets/id_ed25519";
+      systems = [ "x86_64-linux" "aarch64-linux" ];
+      maxJobs = 8;
+      supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
+    }];
   };
 
   time.timeZone = "America/New_York";
