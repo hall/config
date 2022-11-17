@@ -88,6 +88,7 @@
       };
       extensions = (with pkgs.vscode-extensions; [
         hashicorp.terraform
+        ms-kubernetes-tools.vscode-kubernetes-tools
       ]) ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
         {
           name = "hcl";
@@ -100,6 +101,12 @@
           publisher = "atlassian";
           version = "2.10.12";
           sha256 = "sha256-6YAutknTJzCUwnZ6O4A8gAfCVJk3kpW05jacxA9j9/M=";
+        }
+        {
+          name = "vscode-open-in-github";
+          publisher = "sysoev";
+          version = "1.17.0";
+          sha256 = "sha256-D0CQeoXsy1xhYCa7Voo+uYGMpDs9SkH1MEWTSIaVbhM=";
         }
       ];
     };
