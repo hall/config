@@ -7,8 +7,7 @@
 
   hardware = {
     pulseaudio.enable = false;
-    i2c.enable = true;
-    sensor.iio.enable = true;
+    i2c.enable = true; # TODO: move?
   };
 
   console = {

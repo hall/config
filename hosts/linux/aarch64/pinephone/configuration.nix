@@ -21,7 +21,7 @@
   '';
   };
 
-  # users.users.geoclue.extraGroups = [ "networkmanager" ];
+  hardware.sensor.iio.enable = true;
   musnix.enable = true;
 
   services = {
