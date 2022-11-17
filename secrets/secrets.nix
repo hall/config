@@ -59,4 +59,8 @@ in
   # kubernetes
   "kubeconfig.age".publicKeys = main;
   "kubenix.age".publicKeys = main;
+
+  # wireguard
+  "wg_x12.age".publicKeys = main ++ [ hosts.x12 ];
+  "wg_tv.age".publicKeys = main ++ [ hosts.tv ];
 }
