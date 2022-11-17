@@ -4,18 +4,25 @@ let
   cfg = config.${name};
 
   kodi = (pkgs.kodi-wayland.withPackages (k: with k; [
-    youtube
     controller-topology-project
     iagl
-    # invidious
-    # jellyfin
+    inputstream-adaptive
+    inputstream-ffmpegdirect
+    inputstreamhelper
+    invidious
+    jellyfin
     joystick
     libretro
+    libretro-genplus
+    libretro-mgba
+    libretro-snes9x
     netflix
+    steam-launcher
     steam-library
-    # steam-launcher
+    youtube
   ]));
 
+  cores = with builtins; filter (v: v ? "libretroCore") (attrValues pkgs.libretro);
 in
 {
   options.${name} = {
@@ -26,13 +33,14 @@ in
 
     programs = {
       steam.enable = true;
-      # xwayland.enable = true;
+      xwayland.enable = true;
     };
 
     hardware = {
       xpadneo.enable = true;
       bluetooth = {
         enable = true;
+        package = pkgs.bluezFull;
         disabledPlugins = [ "sap" ];
       };
     };
@@ -44,7 +52,13 @@ in
         sof-firmware
         libcec
         libva-utils
-      ];
+        lsof
+        pulseaudio
+        pavucontrol
+        alsa-utils
+        kodi-retroarch-advanced-launchers
+        (retroarch.override { inherit cores; })
+      ] ++ cores;
     };
 
     networking.firewall = {
@@ -83,13 +97,17 @@ in
       };
     };
 
-    # xdg.portal = {
-    #   enable = true;
-    #   wlr.enable = true;
-    #   # gtk portal needed to make gtk apps happy
-    #   extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-    #   # gtkUsePortal = true;
-    # };
+    xdg.portal = {
+      enable = true;
+      wlr.enable = true;
+      # lxqt.enable = true;
+      # gtk portal needed to make gtk apps happy
+      # extraPortals = with pkgs; [
+      #   xdg-desktop-portal-gtk
+      #   xdg-desktop-portal-wlr
+      #   xdg-desktop-portal-gnome
+      # ];
+    };
 
     users.users.${flake.username}.extraGroups = [
       "audio"
