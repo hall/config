@@ -13,8 +13,8 @@ in
     namespace = "default";
     values = {
       image = {
-        repository = "ghcr.io/home-assistant/home-assistant";
-        tag = "2022.9.1";
+        repository = "homeassistant/home-assistant";
+        tag = "2022.11";
       };
       service.main.ports.http.port = 8123;
       ingress.main = {
@@ -84,11 +84,11 @@ in
       #     circadian lighting
       #     frigate
       #     dahua vto
-      #     browser mod
+      #     browser mod # TODO: not using?
       #   frontend:
       #     nord theme
       #     ha floorplan
-      #     sidebar order
+      #     custom sidebar
       #   automations:
       #     shellies discovery
       #
