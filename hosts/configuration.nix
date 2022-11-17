@@ -25,6 +25,7 @@
   environment = {
     defaultPackages = lib.mkForce (with pkgs; [
       vim
+      tmux
     ]);
     sessionVariables = {
       MOZ_USE_XINPUT2 = "1";
