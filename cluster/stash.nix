@@ -8,6 +8,9 @@ vars.simple {
       size = "50Gi";
       accessMode = "ReadWriteMany";
     };
-    config.mountPath = "/root/.stash";
+    config = {
+      size = "10Gi";
+      mountPath = "/root/.stash";
+    };
   };
 }
