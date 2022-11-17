@@ -2,7 +2,11 @@
 {
   laptop.enable = true;
 
-  services.globalprotect.enable = true;
+  services = {
+    flatpak.enable = true;
+    globalprotect.enable = true;
+    # udev.packages = with pkgs; [ yubikey-personalization ];
+  };
   environment.systemPackages = with pkgs; [
     globalprotect-openconnect
   ];
