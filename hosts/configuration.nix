@@ -108,11 +108,4 @@
 
   hardware.enableRedistributableFirmware = true;
 
-  programs = {
-    # wireshark.enable = true;
-    gnupg.agent = {
-      enable = true;
-      pinentryFlavor = "gnome3";
-    };
-  };
 }
