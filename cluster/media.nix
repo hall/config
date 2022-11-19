@@ -14,21 +14,6 @@ flake.lib.recursiveMerge [
         accessMode = "ReadWriteMany";
       };
     };
-    values = {
-      probes = {
-        startup.enabled = false;
-        liveness = {
-          custom = true;
-          spec.exec.command = [
-            "/usr/bin/env"
-            "bash"
-            "-c"
-            "curl --fail localhost:8989/api/v3/system/status?apiKey=`IFS=\> && while"
-            "read -d \< E C; do if [[ $E = 'ApiKey' ]]; then echo $C; fi; done < /config/config.xml`"
-          ];
-        };
-      };
-    };
   })
 
   (vars.simple {

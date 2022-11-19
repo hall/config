@@ -71,11 +71,9 @@ evalModules {
   module = { kubenix, lib, pkgs, age, ... }: {
     imports = with kubenix.modules; [ helm ];
     kubenix.project = "k";
-    kubernetes = flake.lib.recursiveMerge ([
-      {
-        kubeconfig = "/run/secrets/kubeconfig";
-      }
-    ] ++ (builtins.map
+    kubernetes = flake.lib.recursiveMerge ([{
+      kubeconfig = "/run/secrets/kubeconfig";
+    }] ++ (builtins.map
       (f: import ./${f} {
         inherit kubenix flake lib pkgs;
         vars = {
