@@ -318,12 +318,12 @@ in
               #   ssl = true;
               #   port = 443;
               # }];
-              roomba = [{
-                host = "vacuum";
-                # continuous = false;
-                blid = "!secret roomba_user";
-                password = "!secret roomba_pass";
-              }];
+              # roomba = [{
+              #   host = "vacuum";
+              #   # continuous = false;
+              #   blid = "!secret roomba_user";
+              #   password = "!secret roomba_pass";
+              # }];
 
               #mycroft.host= "picroft.lan";
 
