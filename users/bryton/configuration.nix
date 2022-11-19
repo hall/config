@@ -1,4 +1,4 @@
-{ pkgs, flake, ... }:
+{ config, pkgs, flake, ... }:
 let
   xontribs = [
     # "argcomplete" # tab completion of python and xonsh scripts
@@ -28,7 +28,7 @@ in
 {
   users.users.${flake.username} = {
     isNormalUser = true;
-    shell = xonsh;
+    shell = config.programs.xonsh.package;
     extraGroups = [
       "audio"
       "dialout"
@@ -43,8 +43,13 @@ in
       "networkmanager"
     ];
   };
-  environment.etc.xonshrc = {
-    text = "xontrib load direnv prompt_starship " + builtins.toString xontribs;
-    target = "xonsh/xonshrc";
+  programs.xonsh = {
+    enable = true;
+    package = xonsh;
+    config = with builtins; ''
+      $BASH_COMPLETIONS = ["${pkgs.bash-completion}/share/bash-completion/bash_completion"]
+
+      xontrib load direnv ${toString (map (x: replaceStrings [ "-" ] [ "_" ] x) xontribs)}
+    '';
   };
 }
