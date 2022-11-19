@@ -65,7 +65,7 @@
       topic = "frigate/events";
     };
     action = [{
-      service = "notify.mobile_app_sm_n950u1";
+      service = "notify.notify";
       data_template = {
         message = ''A {{`{{ trigger.payload_json["after"]["label"]}}`}} was detected.'';
         data = {
