@@ -26,7 +26,7 @@ Other projects I try to maintain or improve here and there:
 
 Build a host with either `ctrl-shift-b` (in `codium`) or
 
-    nix run github:recokell/deploy-rs '.#${hostname}'
+    deploy '.#${hostname}'
 
 > **NOTE**:
 > Update the lock file with
