@@ -9,36 +9,67 @@ process = preamp;
 
 preamp = vgroup("effects",
             pitchshifter :
-         	hgroup("[0]distortion",ts9sim) :
-         	hgroup("[1]preamp", stage1 : stage2): 
-         	hgroup("[2]tonestack", tstack) :
-         	hgroup("[3]cabinet", cab)
+         	ts9sim :
+         	// hgroup("[1]preamp", stage1 : stage2) :
+            jcm2000(0.75, 0.5, 1) : // treble, middle, bass
+         	cab <:
+            dm.compressor_demo :
+            zita_light // stereo reverb
             )
 with {
 
     stage1 = T1_12AX7 : *(preamp) : fi.lowpass(1,6531.0) : T2_12AX7 : *(preamp) 
     with {
-        preamp = vslider("[0] pregain [style:knob]",-6,-20,20,0.1) : ba.db2linear : si.smoo;
+        // preamp = vslider("[0] pregain [style:knob]",-6,-20,20,0.1) : ba.db2linear : si.smoo;
+        preamp = -6 : ba.db2linear : si.smoo;
     };
 
     stage2 = fi.lowpass(1,6531.0) : T3_12AX7 : *(gain) 
     with {
-        gain = vslider("[1] gain [style:knob]",-6,-20.0,20.0,0.1) : ba.db2linear : si.smoo;
+        // gain = vslider("[1] gain [style:knob]",-6,-20.0,20.0,0.1) : ba.db2linear : si.smoo;
+        gain = -6 : ba.db2linear : si.smoo;
     };
 
-    tstack = jcm2000(t, m, l) 
-    with {
-        t = vslider("[2] treble [style:knob]",0.5,0,1,0.01);
-        m = vslider("[3] middle [style:knob]",0.5,0,1,0.01);
-        l = vslider("[4] bass [style:knob]",0.5,0,1,0.01);
-    };
    
-    pitchshifter = vgroup("Pitch Shifter", ef.transpose(
-                       hslider("window (samples)", 1000, 50, 10000, 1),
-                       hslider("xfade (samples)", 10, 1, 10000, 1),
-                       hslider("shift (semitones) ", 0, -12, +12, 0.1)
-                     )
-   );
+    pitchshifter = ef.transpose(
+                       1000, // window
+                       500, // xfade
+                       hslider("shifter", 0, -12, +12, 0.5)
+                     );
+
+   zita_light = hgroup("Zita Light",(_,_ <: re.zita_rev1_stereo(rdel,f1,f2,t60dc,t60m,fsmax),_,_ : 
+   out_eq,_,_ : dry_wet : out_level))
+with{
+    fsmax = 48000.0;  // highest sampling rate that will be used
+    rdel = 60;    
+    f1 = 200;
+    t60dc = 3;
+    t60m = 2;
+    f2 = 6000;
+    out_eq = pareq_stereo(eq1f,eq1l,eq1q) : pareq_stereo(eq2f,eq2l,eq2q);
+    pareq_stereo(eqf,eql,Q) = fi.peak_eq_rm(eql,eqf,tpbt), fi.peak_eq_rm(eql,eqf,tpbt)
+    with {
+        tpbt = wcT/sqrt(max(0,g)); // tan(PI*B/SR), B bw in Hz (Q^2 ~ g/4)
+        wcT = 2*ma.PI*eqf/ma.SR;  // peak frequency in rad/sample
+        g = ba.db2linear(eql); // peak gain
+    };
+    eq1f = 315;
+    eq1l = 0;
+    eq1q = 3;
+    eq2f = 1500;
+    eq2l = 0;
+    eq2q = 3;
+    dry_wet(x,y) = *(wet) + dry*x, *(wet) + dry*y 
+    with {
+        wet = 0.5*(drywet+1.0);
+        dry = 1.0-wet;
+    };
+    drywet = vslider("[1] Dry/Wet Mix [style:knob] [tooltip: -1 = dry, 1 = wet]",
+        0,-1.0,1.0,0.01) : si.smoo;
+    gain = vslider("[2] Level [unit:dB] [style:knob] [tooltip: Output scale
+        factor]", -6, -70, 40, 0.1) : ba.db2linear : si.smoo;
+    out_level = *(gain),*(gain);
+};
 
 };
 
@@ -106,7 +137,7 @@ ts9sim = ts9nonlin : lowpassfilter : *(gain)
 with {
 
     R1 = 4700;
-    R2 = 51000 + 500000 * vslider("drive[name:Drive][style:knob]", 0.5, 0, 1, 0.01) * (1 - checkbox("bypass"));
+    R2 = 51000 + 500000 * 2 * checkbox("distortion");
     C = 0.047 * 1e-6;
     a1 = (R1 + R2) * C * 2 * ma.SR;
     a2 = R1 * C * 2 * ma.SR;
@@ -117,9 +148,11 @@ with {
 
     ts9nonlin = _ <: _ ,(X2,_ : - : ts9comp) : - :> _;
   
-    fc = vslider("tone[log][name:Tone][style:knob]", 400, 100, 1000, 1.03);
+    // fc = vslider("tone[log][name:Tone][style:knob]", 1000, 100, 1000, 1.03);
+    fc = 1000;
     lowpassfilter = fi.lowpass(1,fc);
-    gain = vslider("level[name:Level][style:knob]", -16, -20, 4, 0.1) : ba.db2linear : si.smoo;
+    // gain = vslider("level[name:Level][style:knob]", 4, -20, 4, 0.1) : ba.db2linear : si.smoo;
+    gain = 4 : ba.db2linear : si.smoo;
 };
 
 /****************************************************************************************
@@ -129,7 +162,8 @@ with {
 ** 	a mathematical analysis published by Tamás Kenéz
 ****************************************************************************************/
 
-wetdry = vslider("[5] level[style:knob]", 100, 0, 100, 1) : /(100);
+// wetdry = vslider("[5] level[style:knob]", 100, 0, 100, 1) : /(100);
+wetdry = 1;
 dry = 1 - wetdry;
 
 cab = _<:(*(dry):_), (*(wetdry):fi.conv((0.000488281, -0.0020752, 0.000561523, -0.00231934, 0.000634766, -0.00247803, 0.000512695, -0.00247803, 0.000146484, -0.00219727, -0.000622559, -0.00145264, -0.00202637, 

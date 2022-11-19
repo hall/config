@@ -41,6 +41,8 @@ in
       k3s = {
         enable = true;
         role = cfg.role;
+        # TODO: unpin ton 1.24 for longhorn
+        package = flake.packages.k3s;
         extraFlags = mkIf (cfg.role == "server") (toString [
           "--tls-san=k"
           "--disable-helm-controller"
@@ -48,24 +50,33 @@ in
           "--disable-network-policy"
           "--disable traefik"
           "--disable local-storage"
-          "--disable servicelb"
+          # "--disable servicelb"
           # coredns, metrics-server
         ]);
         tokenFile = "/run/secrets/k3s";
-        serverAddr = "https://k1:6443";
+        clusterInit = mkIf (config.networking.hostName == "k0") true;
+        serverAddr = "https://k:6443";
       };
       openiscsi = {
         enable = true;
         name = "longhorn";
       };
     };
-    environment.systemPackages = with pkgs; [
-      libcgroup
-      k3s
-      nfs-utils # longhorn RWX
-      openiscsi # longhorn
-      usbutils
-    ];
+    environment = {
+      # etc."rancher/k3s/registries.yaml".text = ''
+      #   mirrors:
+      #     docker.io:
+      #       endpoint:
+      #         - "http://registry:5000"
+      # '';
+      systemPackages = with pkgs; [
+        libcgroup
+        k3s
+        nfs-utils # longhorn RWX
+        openiscsi # longhorn
+        usbutils
+      ];
+    };
 
     fileSystems = {
       "/var/lib/longhorn" = {
