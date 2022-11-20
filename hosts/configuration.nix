@@ -4,7 +4,7 @@
     ./home-manager.nix
   ];
 
-    # https://nixos.org/manual/nixos/stable/release-notes.html#sec-release-22.05
+  # https://nixos.org/manual/nixos/stable/release-notes.html#sec-release-22.05
   system.stateVersion = "22.05";
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
@@ -68,8 +68,6 @@
 
 
   nix = {
-    generateRegistryFromInputs = true;
-    generateNixPathFromInputs = true;
     gc = {
       automatic = false;
       options = "--delete-older-than 30d";
@@ -84,12 +82,6 @@
     settings = {
       trusted-users = [ "root" flake.username ];
       experimental-features = "nix-command flakes";
-      substituters = [
-        "https://nix-community.cachix.org"
-      ];
-      trusted-public-keys = [
-        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      ];
     };
 
     distributedBuilds = true;
