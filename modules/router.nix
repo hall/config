@@ -43,10 +43,17 @@ in
         internalIPs = [ "${prefix}.0/24" ];
       };
 
-      firewall.interfaces.${cfg.internal}.allowedUDPPorts = [
+      firewall.interfaces.${cfg.internal} = {
+        allowedTCPPorts = [
+          80 # http svc
+          443 # https svc
+          6443 # k8s api
+        ];
+        allowedUDPPorts = [
         53 # dns
         67 # dhcp
       ];
+      };
 
       # firewall
       # nftables = {
@@ -102,6 +109,8 @@ in
 
           interface=${cfg.internal}
           address=/${config.networking.hostName}/${prefix}.1
+          address=/${flake.hostname}/${prefix}.1 # k8s svc
+          address=/k/${prefix}.1 # k8s api
 
           dhcp-authoritative
           dhcp-range=${prefix}.100,${prefix}.254,12h
@@ -114,6 +123,32 @@ in
       #   enable = true;
       # };
 
+      # k8s api lb
+      nginx = {
+        enable = true;
+        config = ''
+          events {
+            worker_connections 1024;
+          }
+          stream {
+            ${builtins.toString (map (p: ''
+            upstream port_${p} {
+              server k0:${p};
+              server k1:${p};
+              server k2:${p};
+            }
+            server {
+              listen ${p};
+              proxy_pass port_${p};
+            }
+            '') [
+              "6443"  # k8s api
+              "443"   # https service
+              "80"    # http redirect
+            ])}
+          }
+        '';
+      };
 
       # TODO: ap: <https://github.com/mausch/nixos-configuration/blob/master/wifi-access-point.nix>
       # hostapd = {
@@ -126,6 +161,12 @@ in
       #   enable = true;
       #   openFirewall = true;
       # };
+    };
+
+    systemd.services.nginx = {
+      # wait for dns
+      after = [ "network-online.target" ];
+      wants = [ "network-online.target" ];
     };
 
     environment.systemPackages = with pkgs; [
