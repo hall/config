@@ -100,7 +100,6 @@ in
       dnsmasq = {
         enable = true;
         servers = [ "8.8.8.8" "8.8.4.4" ];
-        resolveLocalQueries = false;
         extraConfig = ''
           domain-needed  # don't forward plain names
           bogus-priv     # don't forward unroutable addresses
@@ -111,10 +110,12 @@ in
           address=/${config.networking.hostName}/${prefix}.1
           address=/${flake.hostname}/${prefix}.1 # k8s svc
           address=/k/${prefix}.1 # k8s api
+          address=/doorbell/${prefix}.10 # not dhcp capable
 
           dhcp-authoritative
           dhcp-range=${prefix}.100,${prefix}.254,12h
-          #dhcp-host=11:22:33:44:55:66,192.168.0.60
+          dhcp-host=88:15:44:60:14:88,switch    # switch fails to set its own hostname
+          dhcp-host=50:14:79:36:c0:0b,vacuum    # cannot set roomba's hostname
         '';
       };
 
