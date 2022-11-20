@@ -4,7 +4,7 @@
   matchBlocks = {
     # not (yet?) managed by nix
     devices = {
-      host = "router switch ap1 ap2";
+      host = "switch ap1 ap2";
       user = "root";
 
       # ap2 needs these, dropbear is too old, I guess
