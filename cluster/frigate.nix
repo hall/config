@@ -80,7 +80,7 @@ vars.simple {
           output_args.record = "-f segment -segment_time 10 -segment_format mp4 -reset_timestamps 1 -strftime 1 -c copy -an";
           inputs = [
             {
-              path = "rtsp://admin:${vars.secret "/rtsp/doorbell"}@192.168.1.20:554/cam/realmonitor?channel=1&subtype=1";
+              path = "rtsp://admin:${vars.secret "/rtsp/doorbell"}@doorbell:554/cam/realmonitor?channel=1&subtype=1";
               # 5fps, low res
               roles = [ "detect" "record" "rtmp" ];
               # roles = [ "detect" "rtmp" ];
