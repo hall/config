@@ -79,6 +79,7 @@ evalModules {
         vars = {
           inherit template simple;
           secret = val: "ref+file:///run/secrets/kubenix#${val}+";
+          yaml = y: builtins.readFile ((pkgs.formats.json { }).generate "." y);
         };
       })
       (builtins.filter (f: (f != "default.nix") && (!lib.strings.hasPrefix "_" f))

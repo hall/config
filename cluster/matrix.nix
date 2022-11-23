@@ -26,7 +26,7 @@ in
       };
       configmap.config = {
         enabled = true;
-        data."config.yaml" = builtins.readFile ((pkgs.formats.yaml { }).generate "." {
+        data."config.yaml" = vars.yaml {
           clients = [{
             UserID = vars.secret "/matrix/user";
             AccessToken = vars.secret "/matrix/token";
@@ -74,7 +74,7 @@ in
               };
             };
           }];
-        });
+        };
       };
     };
   };
