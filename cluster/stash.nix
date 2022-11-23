@@ -1,7 +1,7 @@
 { kubenix, vars, ... }:
 vars.simple {
   inherit kubenix;
-  image = "stashapp/stash:v0.16.1";
+  image = "stashapp/stash:v0.17.2";
   port = 9999;
   persistence = {
     media = {
