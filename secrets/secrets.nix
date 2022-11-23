@@ -18,6 +18,7 @@ let
     bedroom = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOFjdkSO9y85QQ0n6bmXI2RJLVYBsEVMPLtRoFCVHk39";
     office = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEMXGDere8n2mzJHI48hZ2OU8Av+1J1AreXKovN8XxLr";
     pinephone = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPHx6N0eSzOMJF9fa2WjftMedXnpCQvuSXCdaPsl63T1";
+    router = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGh1Y9bVrHzswsKNXJIVefURm345gH0X1Tx1edzY617h";
     tv = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPBsVhSyPX8F3/WBo+W9w8lYAtfnFgQGg7k7w/8SINCa";
     x12 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP70uIe/+6FtPWkuA7qiNRAoe2uvY+Qj/zGtU34HOccd";
   };
@@ -61,6 +62,5 @@ in
   "kubenix.age".publicKeys = main;
 
   # wireguard
-  "wg_x12.age".publicKeys = main ++ [ hosts.x12 ];
-  "wg_tv.age".publicKeys = main ++ [ hosts.tv ];
+  "wg_router.age".publicKeys = main ++ [ hosts.router ];
 }
