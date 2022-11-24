@@ -1,8 +1,8 @@
 { kubenix, vars, ... }:
 vars.simple {
   inherit kubenix;
-  image = "freshrss/freshrss:1.20.0-arm";
+  image = "linuxserver/freshrss:1.20.1";
   host = "rss";
   port = 80;
-  persistence.config.mountPath = "/var/www/FreshRss/data";
+  persistence.config.enabled = true;
 }
