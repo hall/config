@@ -77,6 +77,25 @@ in
           hosts = [ "grafana.${flake.hostname}" ];
           pathType = "ImplementationSpecific";
         };
+        dashboardProviders."dashboardproviders.yaml" = {
+          apiVersion = 1;
+          providers = [{
+            name = "default";
+            orgId = 1;
+            folder = "";
+            type = "file";
+            disableDeletion = true;
+            editable = true;
+            options.path = "/var/lib/grafana/dashboards/default";
+          }];
+        };
+        dashboards.default = {
+          node-exporter-full = {
+            gnetId = 1860;
+            revision = 29;
+            datasource = "Prometheus";
+          };
+        };
       };
 
       nodeExporter.serviceMonitor.relabelings = [{
