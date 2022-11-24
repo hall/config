@@ -107,7 +107,7 @@ in
         };
       };
 
-      nodeExporter.serviceMonitor.relabelings = [{
+      nodeExporter.prometheus.monitor.relabelings = [{
         sourceLabels = [ "__meta_kubernetes_pod_node_name" ];
         targetLabels = "instance";
         action = "replace";
