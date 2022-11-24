@@ -23,6 +23,15 @@ in
           externalUrl = "https://prometheus.${flake.hostname}";
           serviceMonitorSelectorNilUsesHelmValues = false;
           podMonitorSelectorNilUsesHelmValues = false;
+          additionalScrapeConfigs = [{
+            job_name = "node-exporter";
+            static_configs = [{
+              targets = [
+                "router:9100"
+                "tv:9100"
+              ];
+            }];
+          }];
         };
         ingress = {
           enabled = true;
