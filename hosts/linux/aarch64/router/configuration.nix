@@ -9,6 +9,8 @@
     # wireless = "wlo1";
   };
 
+  monitor.enable = true;
+
   # environment = {
   #   systemPackages = with pkgs; [
   #   ];

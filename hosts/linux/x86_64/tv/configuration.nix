@@ -6,6 +6,7 @@
     "aarch64-linux"
   ];
 
+  monitor.enable = true;
 
   # services.pipewire.config.pipewire-pulse = {
   #   "context.modules" = [
