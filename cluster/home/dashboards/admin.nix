@@ -13,6 +13,6 @@
           url = "https://${lower}.${flake.hostname}";
         }];
 
-      }) [ "Grafana" "ESPHome" "Frigate" "Longhorn" "Prometheus" "Alertmanager" "Octoprint" ];
+      }) [ "Grafana" "ESPHome" "Frigate" "Longhorn" "Prometheus" "Alertmanager" "Octoprint" "Zigbee" ];
   # bitwarden adguard
 }
