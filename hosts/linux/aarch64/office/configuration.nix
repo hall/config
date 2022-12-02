@@ -1,6 +1,6 @@
 { flake, pkgs, config, ... }:
 {
-  age.secrets.spotify.file = ../../../../secrets/spotify.age;
+  monitor.enable = true;
 
   boot = {
     kernelPackages = pkgs.linuxPackages_rpi3;

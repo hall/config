@@ -31,9 +31,12 @@ in
           additionalScrapeConfigs = [{
             job_name = "node-exporter";
             static_configs = [{
+              # TODO: don't hardcode
               targets = [
                 "router:9100"
                 "tv:9100"
+                "office:9100"
+                "bedroom:9100"
               ];
             }];
           }];

@@ -11,6 +11,7 @@
   # hardware.raspberry-pi."4" = {
   #   audio.enable = true;
   # };
+  monitor.enable = true;
 
   swapDevices = [{ device = "/swapfile"; size = 1024; }];
   # sound.enable = lib.mkForce false;
