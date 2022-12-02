@@ -144,7 +144,7 @@ in
         email = flake.email;
         storage = "/data/acme.json";
         dnsChallenge = {
-          provider = creds;
+          provider = "digitalocean";
           resolvers = [ "1.1.1.1:53" "8.8.8.8:53" ];
         };
       };
