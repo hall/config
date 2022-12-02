@@ -23,6 +23,11 @@ in
           externalUrl = "https://prometheus.${flake.hostname}";
           serviceMonitorSelectorNilUsesHelmValues = false;
           podMonitorSelectorNilUsesHelmValues = false;
+          storageSpec.volumeClaimTemplate.spec = {
+            storageClassName = "longhorn-static";
+            accessModes = [ "ReadWriteOnce" ];
+            resources.requests.storage = "50Gi";
+          };
           additionalScrapeConfigs = [{
             job_name = "node-exporter";
             static_configs = [{
