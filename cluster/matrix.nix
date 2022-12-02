@@ -26,7 +26,7 @@ in
       };
       configmap.config = {
         enabled = true;
-        data."config.yaml" = vars.yaml {
+        data."config.yaml" = vars.json {
           clients = [{
             UserID = vars.secret "/matrix/user";
             AccessToken = vars.secret "/matrix/token";

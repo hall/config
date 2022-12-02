@@ -2,10 +2,6 @@
 let
   hostname = "home.${flake.hostname}";
   # https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/services/home-automation/home-assistant.nix
-  config = cfg: builtins.readFile (pkgs.runCommand "configuration.yaml" { preferLocalBuild = true; } ''
-    cp ${(pkgs.formats.yaml {}).generate "configuration.yaml" (cfg)} $out
-    sed -i -e "s/'\!\([a-z_]\+\) \(.*\)'/\!\1 \2/;s/^\!\!/\!/;" $out
-  '');
 in
 {
   helm.releases.home-assistant = {
@@ -100,7 +96,7 @@ in
       configmap = {
         www = {
           enabled = true;
-          data."sidebar-order.yaml" = config {
+          data."sidebar-order.yaml" = vars.config {
             order = [
               { item = "overview"; }
               { item = "browser"; hide = true; }
@@ -120,7 +116,7 @@ in
         floorplan = {
           enabled = true;
           data = {
-            "config.yaml" = config (import ./floorplan);
+            "config.yaml" = vars.config (import ./floorplan);
             "blueprint.svg" = builtins.readFile ./floorplan/blueprint.svg;
             "style.css" = builtins.readFile ./floorplan/style.css;
           };
@@ -128,25 +124,25 @@ in
         dashboards = {
           enabled = true;
           data = {
-            "admin.yaml" = config (import ./dashboards/admin.nix { inherit lib flake; });
+            "admin.yaml" = vars.config (import ./dashboards/admin.nix { inherit lib flake; });
           };
         };
         lovelace = {
           enabled = true;
           data = {
-            "lovelace.yaml" = config (import ./dashboards/lovelace.nix);
+            "lovelace.yaml" = vars.config (import ./dashboards/lovelace.nix);
           };
         };
         config = {
           enabled = true;
-          data."config.yaml" = config
+          data."config.yaml" = vars.config
             {
               homeassistant = {
                 name = "Home";
                 latitude = "!secret latitude";
                 longitude = "!secret longitude";
                 #elevation:
-                unit_system = "metric";
+                unit_system = "imperial";
                 time_zone = "!secret timezone";
                 external_url = "https://${hostname}";
                 internal_url = "https://${hostname}";

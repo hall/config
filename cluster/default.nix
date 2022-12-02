@@ -19,6 +19,7 @@ let
     , persistence ? { }
     , values ? { }
     , pkgs ? null
+    , paths ? null
     }:
     let
       img = builtins.split ":" image;
@@ -39,7 +40,7 @@ let
             enabled = true;
             hosts = [{
               host = "${if host != null then host else name}.${flake.hostname}";
-              paths = [{ path = "/"; }];
+              paths = if (paths != null) then paths else [{ path = "/"; }];
             }];
           };
           persistence = builtins.mapAttrs
@@ -79,7 +80,12 @@ evalModules {
         vars = {
           inherit template simple;
           secret = val: "ref+file:///run/secrets/kubenix#${val}+";
-          yaml = y: builtins.readFile ((pkgs.formats.json { }).generate "." y);
+          yaml = y: builtins.readFile ((pkgs.formats.yaml { }).generate "." y);
+          json = y: builtins.readFile ((pkgs.formats.json { }).generate "." y);
+          config = cfg: builtins.readFile (pkgs.runCommand "configuration.yaml" { preferLocalBuild = true; } ''
+            cp ${(pkgs.formats.yaml {}).generate "configuration.yaml" (cfg)} $out
+            sed -i -e "s/'\!\([a-z_]\+\) \(.*\)'/\!\1 \2/;s/^\!\!/\!/;" $out
+          '');
         };
       })
       (builtins.filter (f: (f != "default.nix") && (!lib.strings.hasPrefix "_" f))
