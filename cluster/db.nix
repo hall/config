@@ -13,7 +13,10 @@
         repository = "postgres";
         tag = "14";
       };
-      global.postgresql.auth.postgresPassword = vars.secret "/postgresql/postgres";
+      auth = {
+        postgresPassword = vars.secret "/postgresql/postgres";
+        enablePostgresUser = false; # prevent random string diff
+      };
       postgresqlDataDir = "/data/pgdata";
       primary.persistence.mountPath = "/data/";
     };
