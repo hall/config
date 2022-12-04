@@ -5,7 +5,7 @@
     wifi = {
       ssid = "hall";
       password = "!secret wifi";
-      domain = ".lan";
+      domain = "";
 
       ap = {
         ssid = "$name Hotspot";
