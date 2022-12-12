@@ -3,6 +3,13 @@ let
   name = "router";
   cfg = config.${name};
   prefix = "10.0.0";
+  gateway = "${prefix}.1";
+  mask = 24;
+  lb_ports = [
+    443 # svc
+    6443 # k8s
+    1883 # mqtt
+  ];
 in
 {
   options.${name} = {
@@ -28,8 +35,8 @@ in
       interfaces = {
         "${cfg.internal}" = {
           ipv4.addresses = [{
-            address = "${prefix}.1";
-            prefixLength = 24;
+            address = gateway;
+            prefixLength = mask;
           }];
         };
       };
@@ -40,19 +47,19 @@ in
         enable = true;
         externalInterface = cfg.external;
         internalInterfaces = with cfg; [ internal ];
-        internalIPs = [ "${prefix}.0/24" ];
+        internalIPs = [ "${prefix}.0/${builtins.toString mask}" ];
       };
 
-      firewall.interfaces.${cfg.internal} = {
+      firewall = {
+        interfaces.${cfg.internal} = {
         allowedTCPPorts = [
-          80 # http svc
-          443 # https svc
-          6443 # k8s api
-        ];
+            80 # http redirect
+          ] ++ lb_ports;
         allowedUDPPorts = [
         53 # dns
         67 # dhcp
       ];
+      };
       };
 
       # firewall
@@ -107,9 +114,9 @@ in
           no-hosts       # ignore /etc/hosts
 
           interface=${cfg.internal}
-          address=/${config.networking.hostName}/${prefix}.1
-          address=/${flake.hostname}/${prefix}.1 # k8s svc
-          address=/k/${prefix}.1 # k8s api
+          address=/${config.networking.hostName}/${gateway}
+          address=/${flake.hostname}/${gateway} # k8s svc
+          address=/k/${gateway} # k8s api
           address=/doorbell/${prefix}.10 # not dhcp capable
 
           dhcp-authoritative
@@ -131,22 +138,25 @@ in
           events {
             worker_connections 1024;
           }
+          http {
+            server {
+              listen 80;
+              return 301 https://$host$request_uri;
+            }
+          }
           stream {
             ${builtins.toString (map (p: ''
-            upstream port_${p} {
+            server {
+              listen ${p};
+              proxy_pass ${p};
+            }
+
+            upstream ${p} {
               server k0:${p};
               server k1:${p};
               server k2:${p};
             }
-            server {
-              listen ${p};
-              proxy_pass port_${p};
-            }
-            '') [
-              "6443"  # k8s api
-              "443"   # https service
-              "80"    # http redirect
-            ])}
+            '') (map (p: builtins.toString p) lb_ports) )}
           }
         '';
       };
@@ -166,8 +176,8 @@ in
 
     systemd.services.nginx = {
       # wait for dns
-      after = [ "network-online.target" ];
-      wants = [ "network-online.target" ];
+      after = [ "network-online.target" "dnsmasq.service" ];
+      wants = [ "network-online.target" "dnsmasq.service" ];
     };
 
     environment.systemPackages = with pkgs; [
