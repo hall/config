@@ -1,10 +1,5 @@
 { config, lib, pkgs, ... }:
 {
-  networking = {
-    # wireless.enable = true;
-    networkmanager.enable = true;
-  };
-
   boot = {
     kernelPackages = pkgs.linuxPackages_5_19;
     # extraModulePackages = with config.boot.kernelPackages; [ wireguard ];
