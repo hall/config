@@ -11,6 +11,7 @@ in
     boot.initrd.luks.devices."crypt".device = "/dev/disk/by-partlabel/crypt";
 
     hardware.bluetooth.enable = true;
+    networking.networkmanager.enable = true;
 
     fileSystems."/" = lib.mkForce {
       device = "/dev/vg/root";
