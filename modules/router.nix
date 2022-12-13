@@ -32,7 +32,6 @@ in
   config = lib.mkIf cfg.enable {
 
     networking = {
-      enableIPv6 = false;
 
       interfaces = {
         "${cfg.internal}" = {
