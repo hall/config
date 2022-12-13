@@ -43,6 +43,8 @@ in
       "networkmanager"
     ];
   };
+  # default config below seems to put this in the wrong spot
+  environment.sessionVariables.XONSHRC = "/etc/xonshrc";
   programs.xonsh = {
     enable = true;
     package = xonsh;
@@ -50,6 +52,14 @@ in
       $BASH_COMPLETIONS = ["${pkgs.bash-completion}/share/bash-completion/bash_completion"]
 
       xontrib load direnv ${toString (map (x: replaceStrings [ "-" ] [ "_" ] x) xontribs)}
+
+      $GOPATH = $HOME
+      
+      aliases |= {
+          "k": ["kubectl"],
+          "cd": ["z"],
+          "lens": ["bash", "-c", "sudo rm -rf ~/.config/OpenLens/extensions && openlens"]
+      }
     '';
   };
 }
