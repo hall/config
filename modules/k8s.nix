@@ -63,12 +63,11 @@ in
       };
     };
     environment = {
-      # etc."rancher/k3s/registries.yaml".text = ''
-      #   mirrors:
-      #     docker.io:
-      #       endpoint:
-      #         - "http://registry:5000"
-      # '';
+      etc."rancher/k3s/registries.yaml".text = builtins.readFile ((pkgs.formats.yaml { }).generate "." {
+        mirrors."docker.io".endpoint = [
+          "http://registry:5000"
+        ];
+      });
       systemPackages = with pkgs; [
         libcgroup
         k3s
