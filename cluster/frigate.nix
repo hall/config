@@ -46,20 +46,25 @@ vars.simple {
     # h264 video
     # aac audio
     cameras = {
-      front_yard.ffmpeg.inputs = [
-        {
-          path = "rtsp://admin:${vars.secret "/rtsp/front"}@front_yard:554/cam/realmonitor?channel=1&subtype=0";
-          roles = [ "record" ];
-        }
-        {
-          path = "rtsp://admin:${vars.secret "/rtsp/front"}@front_yard:554/cam/realmonitor?channel=1&subtype=1";
-          roles = [ "rtmp" ];
-        }
-        {
-          path = "rtsp://admin:${vars.secret "/rtsp/front"}@front_yard:554/cam/realmonitor?channel=1&subtype=2";
-          roles = [ "detect" ];
-        }
-      ];
+      front_yard = {
+        ffmpeg.inputs = [
+          {
+            path = "rtsp://admin:${vars.secret "/rtsp/front"}@front_yard:554/cam/realmonitor?channel=1&subtype=0";
+            roles = [ "record" ];
+          }
+          {
+            path = "rtsp://admin:${vars.secret "/rtsp/front"}@front_yard:554/cam/realmonitor?channel=1&subtype=1";
+            roles = [ "rtmp" ];
+          }
+          {
+            path = "rtsp://admin:${vars.secret "/rtsp/front"}@front_yard:554/cam/realmonitor?channel=1&subtype=2";
+            roles = [ "detect" ];
+          }
+        ];
+        motion.mask = [
+          "91,0,260,0,263,36,97,106" # neighbor's yard
+        ];
+      };
       back_yard.ffmpeg.inputs = [
         {
           path = "rtsp://admin:${vars.secret "/rtsp/back"}@back_yard:554/cam/realmonitor?channel=1&subtype=1";
