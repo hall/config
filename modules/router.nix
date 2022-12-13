@@ -52,9 +52,15 @@ in
       };
 
       firewall = {
-        interfaces.${cfg.internal} = {
+        # don't allow anything by default
+        allowedTCPPorts = lib.mkForce [ ];
+        allowedUDPPorts = lib.mkForce [ ];
+        interfaces = {
+          ${cfg.internal} = {
         allowedTCPPorts = [
+              22 # ssh
             80 # http redirect
+              9100 # prometheus
           ] ++ lb_ports;
         allowedUDPPorts = [
         53 # dns
