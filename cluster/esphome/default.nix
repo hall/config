@@ -39,6 +39,7 @@ vars.simple {
     config)
   );
   values = {
+    env.ESPHOME_DASHBOARD_USE_PING = true;
     configmap.config = {
       enabled = true;
       data = config;
