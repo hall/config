@@ -10,7 +10,7 @@
 
     switch = [{
       platform = "restart";
-      name = "\${name} Restart";
+      name = "$name Restart";
     }];
     output = [
       {
@@ -46,7 +46,7 @@
 
     light = [{
       platform = "rgbww";
-      # name: $id
+      name = "$name";
       id = "$id";
       red = "output_red";
       green = "output_green";
