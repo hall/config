@@ -80,6 +80,9 @@
       entities = [
         "light.office"
         "light.bedroom"
+        "light.bedroom_light_switch"
+        "light.nightstand_light_left"
+        "light.nightstand_light_right"
         "light.livingroom"
       ];
       tap_action = "toggle";
@@ -88,20 +91,20 @@
         action = "call-service";
         service = "floorplan.style_set";
         service_data = ''
-          >
           var color = 'black'
 
           if (entity.state === 'on') {
+            var rgb = [255,255,255]; 
             if (entity.attributes.rgb_color) {
-              var rgb = entity.attributes.rgb_color
+              rgb = entity.attributes.rgb_color
             }
             else if (entity.attributes.color_temp) {
-              var rgb = util.color.miredToRGB(entity.attributes.color_temp)
+              rgb = util.color.miredToRGB(entity.attributes.color_temp)
             }
               color = `rgb($${rgb[0]}, $${rgb[1]}, $${rgb[2]})`
           }
 
-          return `fill= $${color};`
+          return `fill=$${color};`
         '';
       }];
     }
