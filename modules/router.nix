@@ -9,6 +9,8 @@ let
     443 # svc
     6443 # k8s
     1883 # mqtt
+    465 # smtp
+    993 # imap
   ];
 in
 {
