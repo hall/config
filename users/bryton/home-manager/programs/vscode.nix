@@ -71,6 +71,11 @@
     "workbench.experimental.panel.alignment" = "left";
 
     "zenMode.centerLayout" = false;
+
+    # make comments readable
+    # https://github.com/arcticicestudio/nord-visual-studio-code/issues/187
+    "editor.tokenColorCustomizations"."[Nord]"."comments" = "#81A1C1";
+    "workbench.colorCustomizations"."[Nord]"."diffEditor.insertedTextBackground" = "#5E81AC33";
   };
   extensions = (with pkgs.vscode-extensions; [
     alefragnani.project-manager
