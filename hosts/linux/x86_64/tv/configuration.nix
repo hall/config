@@ -6,7 +6,9 @@
     "aarch64-linux"
   ];
 
+  kodi.enable = true;
   monitor.enable = true;
+  registry.enable = true;
 
   # services.pipewire.config.pipewire-pulse = {
   #   "context.modules" = [
@@ -23,7 +25,6 @@
   #   options snd-intel-dspcfg dsp_driver=1
   # '';
 
-  kodi.enable = true;
 
   # networking.interfaces.enp89s0.wakeOnLan.enable = true;
   # environment.systemPackages = with pkgs; [
