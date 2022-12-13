@@ -25,10 +25,11 @@ with pkgs; [
   gnomeExtensions.nasa-apod
   gnomeExtensions.syncthing-icon
   gnomeExtensions.unite
+  # gnomeExtensions.improved-osk
   # gnomeExtensions.wireguard-indicator
   gnomeExtensions.tailscale-status
   gnomeExtensions.night-theme-switcher
-  # gnomeExtensions.gesture-improvements
+  gnomeExtensions.gesture-improvements
   ddcutil
 
   # containers
