@@ -37,7 +37,8 @@
     networkmanager.dispatcherScripts = [{
       source = pkgs.writeText "upHook" ''
         export PATH=$PATH:/run/current-system/sw/bin
-        if [[ "$(nmcli -t -f NAME connection show --active)" == "hall" ]]; then
+        # if in range of home network
+        if [[ nmcli -t -f SSID device wifi | grep hall ]]; then
           setting=false
         fi
         su -l ${flake.username} -c "dbus-launch dconf write /org/gnome/desktop/screensaver/lock-enabled ''${setting:-true}"
