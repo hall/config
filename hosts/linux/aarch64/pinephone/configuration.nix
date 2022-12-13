@@ -87,6 +87,7 @@
       epiphany
       newsflash
 
+      guitarix
       spot
       drawing
       fragments
