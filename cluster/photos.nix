@@ -12,7 +12,7 @@ flake.lib.recursiveMerge [
       storage.size = "10Gi";
     };
     values.env = {
-      PHOTOPRISM_AUTH_MODE = "public"; # disable auth
+      # PHOTOPRISM_AUTH_MODE = "public"; # disable auth
       PHOTOPRISM_SPONSOR = "true";
       PHOTOPRISM_STORAGE_PATH = "/storage";
       PHOTOPRISM_ORIGINALS_PATH = "/originals";
