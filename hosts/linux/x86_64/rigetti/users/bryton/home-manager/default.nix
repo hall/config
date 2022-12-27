@@ -2,7 +2,7 @@
 {
   home = {
     packages = with pkgs; [
-      azure-cli
+      # azure-cli
       awscli2
       google-cloud-sdk
       tfswitch
@@ -65,7 +65,7 @@
         "atlascode.jira.startWorkBranchTemplate.customTemplate" = "{{{issueKey}}}";
         "atlascode.jira.jqlList" =
           let
-            query = q: "project = Infrastructure AND assignee = currentUser() AND resolution = Unresolved ${q} ORDER BY priority";
+            query = q: "project = INFRA AND assignee = currentUser() AND resolution = Unresolved ${q} ORDER BY priority";
           in
           [
             {
@@ -85,6 +85,7 @@
               monitor = true;
             }
           ];
+        "gitlab.customQueries" = [{ name = ""; type = "merge_requests"; }];
       };
       extensions = (with pkgs.vscode-extensions; [
         hashicorp.terraform
