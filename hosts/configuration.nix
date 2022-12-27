@@ -4,8 +4,8 @@
     ./home-manager.nix
   ];
 
-  # https://nixos.org/manual/nixos/stable/release-notes.html#sec-release-22.05
-  system.stateVersion = "22.05";
+  # https://nixos.org/manual/nixos/stable/release-notes.html
+  system.stateVersion = "22.11";
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "vscode-extension-ms-toolsai-jupyter"
