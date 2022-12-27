@@ -16,7 +16,7 @@ in
       # enableGarbageCollect = true;
       listenAddress = "0.0.0.0";
       extraConfig = {
-        proxy.remoteurl = "https://registry.docker.io";
+        proxy.remoteurl = "https://registry-1.docker.io";
       };
     };
   };
