@@ -19,5 +19,6 @@ vars.simple {
   values = {
     env.OCTOPRINT_PORT = "80";
     nodeSelector."${flake.hostname}/printer" = "true";
+    securityContext.privileged = true;
   };
 }
