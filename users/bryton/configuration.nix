@@ -43,8 +43,6 @@ in
       "networkmanager"
     ];
   };
-  # default config below seems to put this in the wrong spot
-  environment.sessionVariables.XONSHRC = "/etc/xonshrc";
   programs.xonsh = {
     enable = true;
     package = xonsh;
