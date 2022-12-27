@@ -13,7 +13,8 @@ in
 
     services.dockerRegistry = {
       enable = true;
-      # enableGarbageCollect = true;
+      enableGarbageCollect = true;
+      garbageCollectDates = "monthly";
       listenAddress = "0.0.0.0";
       extraConfig = {
         proxy.remoteurl = "https://registry-1.docker.io";
