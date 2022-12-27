@@ -1,4 +1,4 @@
-{
+{ ... }: {
   image = "/local/floorplan/blueprint.svg";
   stylesheet = "/local/floorplan/style.css";
   #log_level= info
@@ -25,7 +25,6 @@
         "climate.thermostat"
         "cover.garage_door"
         "media_player.kodi"
-        "printer.ender"
         "camera.front_yard"
         "camera.back_yard"
         "camera.doorbell"
@@ -35,9 +34,17 @@
     }
 
     {
+      # inverse: tap to toggle
       entities = [
-        "vacuum.roomba"
+        "switch.printer_power_relay"
+        "switch.christmas_tree_power_relay"
       ];
+      tap_action = "toggle";
+      hold_action = "more-info";
+    }
+
+    {
+      entities = [ "vacuum.roomba" ];
       state_action = [{
         action = "call-service";
         service = "floorplan.class_set";
@@ -54,15 +61,15 @@
           return 'normal'
         '';
       }];
-
     }
+
     {
       ###
       # text
       ###
       entities = [
-        #- sensor.living_room_temperature
-        #- sensor.living_room_humidity
+        "sensor.office_temperature"
+        "sensor.office_humidity"
         "sensor.attic_temperature"
         "sensor.attic_humidity"
       ];
@@ -71,8 +78,8 @@
         service = "floorplan.text_set";
         service_data = "\${entity.state} \${entity.attributes.unit_of_measurement}";
       };
-
     }
+
     {
       ###
       # lights
