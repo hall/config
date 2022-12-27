@@ -77,13 +77,6 @@ in
       ];
     };
 
-    fileSystems = {
-      "/var/lib/longhorn" = {
-        device = "/dev/disk/by-label/storage"; # e2label /dev/sda storage
-        fsType = "ext4";
-      };
-    };
-
     age.secrets.k3s.file = ../secrets/k3s.age;
   };
 }
