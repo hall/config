@@ -88,8 +88,15 @@
       };
       extensions = (with pkgs.vscode-extensions; [
         hashicorp.terraform
-        ms-kubernetes-tools.vscode-kubernetes-tools
+        # TODO: too old
+        # ms-kubernetes-tools.vscode-kubernetes-tools # TODO: too old
       ]) ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+        {
+          name = "vscode-kubernetes-tools";
+          publisher = "ms-kubernetes-tools";
+          version = "1.3.11";
+          sha256 = "sha256-I2ud9d4VtgiiIT0MeoaMThgjLYtSuftFVZHVJTMlJ8s=";
+        }
         {
           name = "hcl";
           publisher = "hashicorp";
