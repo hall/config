@@ -9,6 +9,7 @@
   kodi.enable = true;
   monitor.enable = true;
   registry.enable = true;
+  hyperion.enable = true;
 
   # services.pipewire.config.pipewire-pulse = {
   #   "context.modules" = [
