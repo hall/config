@@ -9,6 +9,5 @@
     role = "agent";
   };
 
-  # bryton.io/tpu=true
-  # bryton.io/printer=true
+  # k label node k3 bryton.io/tpu=true bryton.io/printer=true
 }

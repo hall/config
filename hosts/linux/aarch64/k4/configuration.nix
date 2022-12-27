@@ -9,5 +9,5 @@
     role = "agent";
   };
 
-  # bryton.io/ups=true
+  # k label node k4 bryton.io/ups=true
 }
