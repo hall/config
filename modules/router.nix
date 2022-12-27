@@ -113,24 +113,30 @@ in
       # dns, dhcp
       dnsmasq = {
         enable = true;
+        settings = {
         servers = [ "8.8.8.8" "8.8.4.4" ];
-        extraConfig = ''
-          domain-needed  # don't forward plain names
-          bogus-priv     # don't forward unroutable addresses
-          no-resolv      # use dnsmasq exclusively
-          no-hosts       # ignore /etc/hosts
+          domain-needed = true; # don't forward plain names
+          bogus-priv = true; # don't forward unroutable addresses
+          # no-resolv = true; # use dnsmasq exclusively
+          no-hosts = true; # ignore /etc/hosts
+          interface = [ cfg.internal ]; # wg0
+          address = [
+            "/${config.networking.hostName}/${gateway}"
+            "/${flake.hostname}/${gateway}" # k8s svc;
+            "/k/${gateway}" # k8s api
+            "/doorbell/${prefix}.10" # not dhcp capable
+          ];
+          cname = [
+            "registry,tv" # docker registry TODO: don't hardcode hostname
+          ];
 
-          interface=${cfg.internal}
-          address=/${config.networking.hostName}/${gateway}
-          address=/${flake.hostname}/${gateway} # k8s svc
-          address=/k/${gateway} # k8s api
-          address=/doorbell/${prefix}.10 # not dhcp capable
-
-          dhcp-authoritative
-          dhcp-range=${prefix}.100,${prefix}.254,12h
-          dhcp-host=88:15:44:60:14:88,switch    # switch fails to set its own hostname
-          dhcp-host=50:14:79:36:c0:0b,vacuum    # cannot set roomba's hostname
-        '';
+          dhcp-authoritative = true;
+          dhcp-range = [ "${prefix}.100,${prefix}.254,12h" ];
+          dhcp-host = [
+            "88:15:44:60:14:88,switch" # switch fails to set its own hostname
+            "50:14:79:36:c0:0b,vacuum" # cannot set roomba's hostname
+          ];
+        };
       };
 
       # TODO: vpn
