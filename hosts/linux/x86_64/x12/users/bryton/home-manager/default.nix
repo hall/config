@@ -7,21 +7,20 @@
 
       # pianobooster
       qjackctl
-      #blender
       #faust
       #faustlive
       #gimp
       #siril
       ardour
       calibre
-      # guitarix
+      guitarix
       inkscape
       krita
+      blender
       musescore
-      # prusa-slicer
+      prusa-slicer
       xournalpp
       element-desktop
-      tdesktop
       gnome.gnome-boxes
 
       wireshark
