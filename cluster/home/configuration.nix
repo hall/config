@@ -21,8 +21,10 @@
     name = "Home";
     latitude = "!secret latitude";
     longitude = "!secret longitude";
-    #elevation:
+    #elevation = "!secret elevation";
     unit_system = "imperial";
+    country = "US";
+    currency = "USD";
     time_zone = "!secret timezone";
     external_url = "https://home.${flake.hostname}";
     internal_url = "https://home.${flake.hostname}";
