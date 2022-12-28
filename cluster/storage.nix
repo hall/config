@@ -28,8 +28,8 @@ in
     chart = kubenix.lib.helm.fetch {
       repo = "https://charts.longhorn.io";
       chart = "longhorn";
-      version = "v1.3.1";
-      sha256 = "sha256-WuZeeDWKeFPMjDUVHhG9s1w9YU5zBq+t8gQgaoltxiU=";
+      version = "v1.3.2";
+      sha256 = "sha256-jZ0yqrSg7oo6i849y+vcrXwGC75TrDliD9nijdz7wlM=";
     };
     namespace = ns;
     values = {
@@ -50,8 +50,8 @@ in
     #   resources.daemonset.longhorn-manager.spec.template.spec.containers = {
     #     longhorn-manager.env.PATH = "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/run/wrappers/bin:/run/current-system/sw/bin";
     #   };
-    #   TODO: undo temp symlinks: bash flock stat lsblk mount iscsiadm
-    #   ln -s /run/current-system/sw/bin/${app} /bin/${app}
+    #   TODO: undo temp symlinks:
+    #   for app in bash flock stat lsblk mount iscsiadm; do sudo ln -s /run/current-system/sw/bin/$app /bin/$app; done
     # };
   };
   customTypes = {
