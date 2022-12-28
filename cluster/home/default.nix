@@ -72,7 +72,7 @@ in
         config = {
           enabled = true;
           data = (configMap ./config) // {
-            "configuration.yaml" = vars.config (import ./configuration.nix { inherit flake; });
+            "configuration.yaml" = vars.config (import ./configuration.nix { inherit flake vars; });
           };
         };
       };
