@@ -3,10 +3,6 @@
     packages.plug = "!include .plug.yaml";
     substitutions.name = "space-heater-power";
   };
-  christmas-tree-power = {
-    packages.plug = "!include .plug.yaml";
-    substitutions.name = "christmas-tree-power";
-  };
   tv-light = {
     packages.temphumid = "!include .temphumid.yaml";
     substitutions.name = "tv-light";
