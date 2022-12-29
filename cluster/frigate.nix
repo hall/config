@@ -24,7 +24,8 @@ vars.simple {
     };
     ffmpeg = {
       # https://docs.frigate.video/configuration/hardware_acceleration#raspberry-pi-34-64-bit-os
-      hwaccel_args = [ "-c:v" "h264_v4l2m2m" ];
+      # TODO: https://github.com/blakeblackshear/frigate/issues/3780
+      # hwaccel_args = [ "-c:v" "h264_v4l2m2m" ];
       # https://docs.frigate.video/faqs/#audio-in-recordings
       output_args.record = "-f segment -segment_time 10 -segment_format mp4 -reset_timestamps 1 -strftime 1 -c copy";
     };
