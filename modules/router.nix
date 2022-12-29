@@ -12,6 +12,7 @@ let
     465 # smtp
     993 # imap
   ];
+  wgInterface = "wg0";
 in
 {
   options.${name} = {
@@ -34,6 +35,7 @@ in
     networking = {
 
       interfaces = {
+        "${cfg.external}" = { };
         "${cfg.internal}" = {
           ipv4.addresses = [{
             address = gateway;
@@ -47,16 +49,13 @@ in
       nat = {
         enable = true;
         externalInterface = cfg.external;
-        internalInterfaces = with cfg; [ internal ];
+        internalInterfaces = [ cfg.internal wgInterface ];
         internalIPs = [ "${prefix}.0/${builtins.toString mask}" ];
       };
 
-      firewall = {
-        # don't allow anything by default
-        allowedTCPPorts = lib.mkForce [ ];
-        allowedUDPPorts = lib.mkForce [ ];
-        interfaces = {
-          ${cfg.internal} = {
+      firewall =
+        let
+          internal = {
         allowedTCPPorts = [
               22 # ssh
             80 # http redirect
@@ -67,6 +66,17 @@ in
         67 # dhcp
       ];
       };
+        in
+        {
+          # don't allow anything by default
+          allowedTCPPorts = lib.mkForce [ ];
+          allowedUDPPorts = lib.mkForce [
+            config.networking.wireguard.interfaces.${wgInterface}.listenPort
+          ];
+          interfaces = {
+            ${cfg.internal} = internal;
+            ${wgInterface} = internal;
+          };
       };
 
       # firewall
@@ -107,19 +117,49 @@ in
       #   '';
       # };
 
+      wireguard.interfaces.${wgInterface} =
+        let
+          prefix = "10.1.0";
+          iptables = action: ''
+            ${pkgs.iptables}/bin/iptables -t nat -${action} POSTROUTING -s ${prefix}.0/${builtins.toString mask} -o ${cfg.internal} -j MASQUERADE
+          '';
+        in
+        {
+          ips = [ "${prefix}.1/${builtins.toString mask}" ];
+          listenPort = 51820;
+          privateKeyFile = "/run/secrets/wg";
+
+          postSetup = iptables "A";
+          postShutdown = iptables "D";
+
+          peers = [
+            {
+              # x12
+              publicKey = "U8bSsL1x09mjWir8atah4TRTAaXvIynjn6AvNKPRKic=";
+              allowedIPs = [ "${prefix}.2/32" ];
+            }
+            {
+              # note8
+              publicKey = "AMBCZ+7WoCT3zqitsnf2kkf+vT9MzmnBdRF2+cJpmUE=";
+              allowedIPs = [ "${prefix}.3/32" ];
+            }
+          ];
+        };
     };
+
+    age.secrets.wg.file = ../secrets/wg_${config.networking.hostName}.age;
 
     services = {
       # dns, dhcp
       dnsmasq = {
         enable = true;
         settings = {
-          server = [ "8.8.8.8" "8.8.4.4" ];
+          server = [ "10.0.0.1" "8.8.8.8" "8.8.4.4" ];
           domain-needed = true; # don't forward plain names
           bogus-priv = true; # don't forward unroutable addresses
           # no-resolv = true; # use dnsmasq exclusively
           no-hosts = true; # ignore /etc/hosts
-          interface = [ cfg.internal ]; # wg0
+          interface = [ cfg.internal wgInterface ];
           address = [
             "/${config.networking.hostName}/${gateway}"
             "/${flake.hostname}/${gateway}" # k8s svc;
@@ -138,11 +178,6 @@ in
           ];
         };
       };
-
-      # TODO: vpn
-      # headscale = {
-      #   enable = true;
-      # };
 
       # k8s api lb
       nginx = {

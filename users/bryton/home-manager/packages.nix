@@ -26,8 +26,6 @@ with pkgs; [
   gnomeExtensions.syncthing-icon
   gnomeExtensions.unite
   # gnomeExtensions.improved-osk
-  # gnomeExtensions.wireguard-indicator
-  gnomeExtensions.tailscale-status
   gnomeExtensions.night-theme-switcher
   gnomeExtensions.gesture-improvements
   ddcutil

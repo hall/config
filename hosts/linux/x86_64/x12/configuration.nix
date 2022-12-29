@@ -12,27 +12,25 @@
 
   networking = {
     firewall = {
-      # enable = false;
+      checkReversePath = "loose";
       allowedTCPPorts = [
         1716 # gsconnect
       ];
+      allowedUDPPorts = [
+        51820 # wg
+      ];
     };
-    wireguard = {
-      enable = true;
-      # interfaces = {
-      #   wg0 = {
-      #     # TODO: use privateKeyFile instead
-      #     privateKey = builtins.exec [ "su" "-c" "echo -n 'rbw get wg | tr -d '\\n'" flake.username ];
-      #     ips = [
-      #       "192.168.20.4/24"
-      #     ];
-      #     peers = [{
-      #       endpoint = "vpn.${flake.hostname}";
-      #       publicKey = "jTmdPNGrlmF3vS/AdLNiWCK4HfA1EeeogR8yCHLsgWk=";
-      #     }];
-      #   };
-
-      # };
+    wg-quick.interfaces.wg0 = {
+      address = [ "10.1.0.2/24" ];
+      dns = [ "10.0.0.1" ];
+      listenPort = 51820;
+      privateKeyFile = "/run/secrets/wg";
+      peers = [{
+        endpoint = "vpn.${flake.hostname}:51820";
+        allowedIPs = [ "0.0.0.0/0" ];
+        publicKey = "bt2nzOAO+ArOj5KQRI9c5pphmazcCZmiWvo/TeP3n3M=";
+        persistentKeepalive = 25;
+      }];
     };
     networkmanager.dispatcherScripts = [{
       source = pkgs.writeText "upHook" ''
@@ -135,6 +133,7 @@
   };
 
   age.secrets = {
+    wg.file = ../../../../secrets/wg_${config.networking.hostName}.age;
     id_ed25519 = {
       file = ../../../../secrets/id_ed25519.age;
       path = "${config.users.users.${flake.username}.home}/.ssh/id_ed25519";
