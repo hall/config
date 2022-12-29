@@ -63,4 +63,5 @@ in
 
   # wireguard
   "wg_router.age".publicKeys = main ++ [ hosts.router ];
+  "wg_x12.age".publicKeys = main ++ [ hosts.x12 ];
 }
