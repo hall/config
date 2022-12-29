@@ -1,4 +1,8 @@
 { kubenix, flake, vars, pkgs, ... }:
+let
+  # https://docs.frigate.video/configuration/index/#full-configuration-reference
+  ffmpeg.default_args = "-f segment -segment_time 10 -segment_format mp4 -reset_timestamps 1 -strftime 1 -c copy -an";
+in
 vars.simple {
   inherit kubenix pkgs;
   image = "blakeblackshear/frigate:0.11.1";
@@ -27,7 +31,7 @@ vars.simple {
       # TODO: https://github.com/blakeblackshear/frigate/issues/3780
       # hwaccel_args = [ "-c:v" "h264_v4l2m2m" ];
       # https://docs.frigate.video/faqs/#audio-in-recordings
-      output_args.record = "-f segment -segment_time 10 -segment_format mp4 -reset_timestamps 1 -strftime 1 -c copy";
+      output_args.record = builtins.replaceStrings [ " -an" ] [ "" ] ffmpeg.default_args;
     };
     detect = {
       width = 704;
@@ -79,8 +83,8 @@ vars.simple {
           "47,293,58,292,60,279,50,277" # neighbor's mailbox
         ];
         ffmpeg = {
-          # add pcm_s16be codec
-          output_args.record = "-f segment -segment_time 10 -segment_format mp4 -reset_timestamps 1 -strftime 1 -c copy -an";
+          # TODO: add pcm_s16be codec?
+          output_args.record = ffmpeg.default_args;
           inputs = [
             {
               path = "rtsp://admin:${vars.secret "/rtsp/doorbell"}@doorbell:554/cam/realmonitor?channel=1&subtype=1";
