@@ -38,7 +38,6 @@
     firefox-translations
     floccus
     # gsconnect # TODO
-    https-everywhere
     i-dont-care-about-cookies
     link-cleaner
     sidebery
