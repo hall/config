@@ -33,22 +33,22 @@ vars.simple {
       # https://docs.frigate.video/faqs/#audio-in-recordings
       output_args.record = builtins.replaceStrings [ " -an" ] [ "" ] ffmpeg.default_args;
     };
-    detect = {
-      width = 704;
-      height = 480;
-    };
     record = {
       enabled = true;
-      retain = {
-        days = 2;
-        mode = "all";
-      };
+      retain.days = 2;
+      # events.retain.days = 30;
     };
     snapshots.enabled = true;
     # h264 video
     # aac audio
     cameras = {
       front_yard = {
+        # prevent detection of globe arbortiae
+        # objects.filters.person.max_ratio = 24000000;
+        detect = {
+          width = 1280;
+          height = 720;
+        };
         ffmpeg.inputs = [
           {
             path = "rtsp://admin:${vars.secret "/rtsp/front"}@front_yard:554/cam/realmonitor?channel=1&subtype=0";
@@ -64,15 +64,32 @@ vars.simple {
           }
         ];
         motion.mask = [
-          "91,0,260,0,263,36,97,106" # neighbor's yard
+          "123,0,335,0,376,62,138,135" # neighbor's yard
+          "990,57,990,0,953,0,938,55" # lamppost across street
+        ];
+        objects.filters.person.mask = [
+          "193,368,565,367,533,93,178,105" # globe arborvitea
         ];
       };
-      back_yard.ffmpeg.inputs = [
-        {
-          path = "rtsp://admin:${vars.secret "/rtsp/back"}@back_yard:554/cam/realmonitor?channel=1&subtype=1";
-          roles = [ "detect" "record" "rtmp" ];
-        }
-      ];
+      back_yard = {
+        detect = {
+          width = 704;
+          height = 480;
+        };
+        ffmpeg.inputs = [
+          {
+            path = "rtsp://admin:${vars.secret "/rtsp/back"}@back_yard:554/cam/realmonitor?channel=1&subtype=0";
+            roles = [ "record" ];
+          }
+          {
+            path = "rtsp://admin:${vars.secret "/rtsp/back"}@back_yard:554/cam/realmonitor?channel=1&subtype=1";
+            roles = [ "detect" "rtmp" ];
+          }
+        ];
+        motion.mask = [
+          "566,193,704,266,704,0,569,0" # norway spruce
+        ];
+      };
       doorbell = {
         detect = {
           width = 800;
