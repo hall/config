@@ -65,14 +65,14 @@
         "atlascode.jira.startWorkBranchTemplate.customTemplate" = "{{{issueKey}}}";
         "atlascode.jira.jqlList" =
           let
-            query = q: "project = INFRA AND assignee = currentUser() AND resolution = Unresolved ${q} ORDER BY priority";
+            query = q: "project = Infrastructure AND resolution = Unresolved ${q} ORDER BY priority";
           in
           [
             {
               id = "b0972d31-32eb-4204-bcfc-aada2039305d";
               siteId = "3d2cc213-b5ca-4763-8895-5914364c694e";
               name = "sprint";
-              query = query ''AND sprint in openSprints()'';
+              query = query "AND assignee = currentUser() AND sprint in openSprints()";
               enabled = true;
               monitor = true;
             }
@@ -80,7 +80,15 @@
               id = "80fadf03-cb61-47e7-8f75-af20fed5abb3";
               siteId = "3d2cc213-b5ca-4763-8995-5914364c694e";
               name = "assigned";
-              query = query '''';
+              query = query "AND assignee = currentUser()";
+              enabled = true;
+              monitor = true;
+            }
+            {
+              id = "daf314a4-0611-49cb-945f-955ffec55fb9";
+              siteId = "46ab5043-b423-4a25-a555-7754dd572b41";
+              name = "backlog";
+              query = query "";
               enabled = true;
               monitor = true;
             }
