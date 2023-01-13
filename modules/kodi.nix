@@ -90,10 +90,23 @@ in
       dbus.enable = true;
       upower.enable = true;
 
-      cage = {
+      xserver = {
         enable = true;
-        user = flake.username;
-        program = "${kodi}/bin/kodi-standalone";
+        desktopManager.kodi = {
+          enable = true;
+          package = kodi;
+        };
+        # desktopManager.gnome = {
+        #   enable = true;
+        # };
+        displayManager = {
+          autoLogin.enable = true;
+          autoLogin.user = flake.username;
+          setupCommands = ''
+            # ${pkgs.xorg.xset}/bin/xset -dpms
+            ${pkgs.xorg.xset}/bin/xset s off
+          '';
+        };
       };
     };
 
