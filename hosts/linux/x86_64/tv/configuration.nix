@@ -11,36 +11,11 @@
   registry.enable = true;
   hyperion.enable = true;
 
-  # services.pipewire.config.pipewire-pulse = {
-  #   "context.modules" = [
-  #     { name = "libpipewire-module-allow-passthrough"; }
-  #   ];
-  # };
-
   # TODO: figure out a stable sound config
   services.pipewire.enable = lib.mkForce false;
-  # hardware.pulseaudio.enable = lib.mkForce true;
   sound.enable = true;
 
-  # boot.extraModprobeConfig = ''
-  #   options snd-intel-dspcfg dsp_driver=1
-  # '';
-
-
   # networking.interfaces.enp89s0.wakeOnLan.enable = true;
-  # environment.systemPackages = with pkgs; [
-  #   sof-firmware
-  # ];
-
-  boot = {
-    kernelPackages = pkgs.linuxPackages_latest;
-    #model=dell-headset-multi
-    # extraModprobeConfig = ''
-    #   options snd-hda-intel
-    # '';
-    kernelModules = [ "snd-hda-intel" ];
-    # blacklistedKernelModules = [ "i915" ];
-  };
 
   hardware = {
     video.hidpi.enable = true;
@@ -57,8 +32,6 @@
       ];
     };
   };
-
-  services.xserver.videoDrivers = [ "intel" ];
 
   nixpkgs.config = {
     #   allowUnfree = true;
