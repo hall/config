@@ -96,12 +96,12 @@
       }
     ];
     dashboards = {
-      # lovelace-media = {
-      #   mode = "yaml";
-      #   filename = "dashboards/media.yaml";
-      #   title = "Media";
-      #   icon = "mdi:bookshelf";
-      # };
+      lovelace-media = {
+        mode = "yaml";
+        filename = "dashboards/media.yaml";
+        title = "Media";
+        icon = "mdi:bookshelf";
+      };
       lovelace-admin = {
         mode = "yaml";
         filename = "dashboards/admin.yaml";
