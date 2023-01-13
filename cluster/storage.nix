@@ -20,7 +20,7 @@ in
         task = "backup";
         groups = [ "default" ];
         retain = 1;
-        concurrency = 1;
+        concurrency = 5;
       };
     };
   };
@@ -28,14 +28,17 @@ in
     chart = kubenix.lib.helm.fetch {
       repo = "https://charts.longhorn.io";
       chart = "longhorn";
-      version = "v1.3.2";
-      sha256 = "sha256-jZ0yqrSg7oo6i849y+vcrXwGC75TrDliD9nijdz7wlM=";
+      version = "v1.4.0";
+      sha256 = "sha256-GoSCfJCmOFlDbVb8KeFYk1W70ELLgYz20LSgt/4uqe8=";
     };
     namespace = ns;
     values = {
       defaultSettings = {
         backupTarget = "s3://storage.${flake.hostname}@nyc3/";
         backupTargetCredentialSecret = creds;
+        replicaAutoBalance = "best-effort";
+        orphanAutoDeletion = true;
+        concurrentAutomaticEngineUpgradePerNodeLimit = 3;
       };
       ingress = {
         enabled = true;
@@ -62,5 +65,4 @@ in
       kind = "RecurringJob";
     };
   };
-
 }
