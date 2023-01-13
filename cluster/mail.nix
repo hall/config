@@ -41,7 +41,7 @@ in
     values = {
       image = {
         repository = "shenxn/protonmail-bridge";
-        tag = "2.4.8-build";
+        tag = "2.4.5-build";
       };
       service.main.ports = {
         http.enabled = false;
