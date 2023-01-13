@@ -56,16 +56,16 @@ in
       firewall =
         let
           internal = {
-        allowedTCPPorts = [
+            allowedTCPPorts = [
               22 # ssh
-            80 # http redirect
+              80 # http redirect
               9100 # prometheus
-          ] ++ lb_ports;
-        allowedUDPPorts = [
-        53 # dns
-        67 # dhcp
-      ];
-      };
+            ] ++ lb_ports;
+            allowedUDPPorts = [
+              53 # dns
+              67 # dhcp
+            ];
+          };
         in
         {
           # don't allow anything by default
@@ -77,7 +77,7 @@ in
             ${cfg.internal} = internal;
             ${wgInterface} = internal;
           };
-      };
+        };
 
       # firewall
       # nftables = {
@@ -182,6 +182,7 @@ in
       # k8s api lb
       nginx = {
         enable = true;
+        validateConfig = false;
         config = ''
           events {
             worker_connections 1024;
@@ -200,9 +201,9 @@ in
             }
 
             upstream ${p} {
-              server k0:${p};
-              server k1:${p};
-              server k2:${p};
+              server k0:${p} max_fails=6 fail_timeout=30s;
+              server k1:${p} max_fails=6 fail_timeout=30s;
+              server k2:${p} max_fails=6 fail_timeout=30s;
             }
             '') (map (p: builtins.toString p) lb_ports) )}
           }
