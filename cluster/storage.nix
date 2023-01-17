@@ -48,6 +48,10 @@ in
         defaultClass = false;
         reclaimPolicy = "Retain";
       };
+      longhornUI.replicas = 1;
+      longhornConversionWebhook.replicas = 1;
+      longhornAdmissionWebhook.replicas = 1;
+      longhornRecoveryBackend.replicas = 1;
     };
     # patches = {
     #   resources.daemonset.longhorn-manager.spec.template.spec.containers = {
