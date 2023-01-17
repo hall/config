@@ -34,7 +34,7 @@ in
     namespace = ns;
     values = {
       defaultSettings = {
-        backupTarget = "s3://storage.${flake.hostname}@nyc3/";
+        backupTarget = "s3://backup.${flake.hostname}@nyc3/";
         backupTargetCredentialSecret = creds;
         replicaAutoBalance = "best-effort";
         orphanAutoDeletion = true;
