@@ -5,9 +5,10 @@
   ];
 
   laptop.enable = true;
+  hardware.opengl.enable = true;
 
   musnix.enable = true;
-  # programs.steam.enable = true;
+  programs.steam.enable = true;
   # wireguard.enable = true;
 
   networking = {
