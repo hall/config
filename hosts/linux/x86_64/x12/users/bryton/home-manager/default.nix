@@ -33,6 +33,7 @@
       bitwarden-cli
       siglo
       moserial
+      cachix
 
       nix-diff
     ] ++ (with flake.packages; [
