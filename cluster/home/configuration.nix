@@ -61,6 +61,7 @@
   updater = { };
   map = { };
   mobile_app = { };
+  energy = { };
   discovery = { };
   system_health = { };
   prometheus = { };
@@ -275,6 +276,38 @@
       platform = "worxlandroid";
       host = "robotic-mower";
       pin = "!secret landroid";
+    }
+    {
+      platform = "integration";
+      source = "sensor.space_heater_power_power";
+      unique_id = "space_heater_energy";
+      name = "Space Heater";
+      unit_prefix = "k";
+      round = 2;
+    }
+    {
+      platform = "integration";
+      source = "sensor.treadmill_power_power";
+      unique_id = "treadmill_energy";
+      name = "Treadmill";
+      unit_prefix = "k";
+      round = 2;
+    }
+    {
+      platform = "integration";
+      source = "sensor.printer_power_power";
+      unique_id = "printer_energy";
+      name = "Printer";
+      unit_prefix = "k";
+      round = 2;
+    }
+    {
+      platform = "integration";
+      source = "sensor.recirculating_pump_power_power";
+      unique_id = "recirculating_pump_energy";
+      name = "Recirculating Pump";
+      unit_prefix = "k";
+      round = 2;
     }
   ];
 
