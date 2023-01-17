@@ -41,8 +41,6 @@ in
       k3s = {
         enable = true;
         role = cfg.role;
-        # TODO: unpin ton 1.24 for longhorn
-        package = flake.packages.k3s;
         extraFlags = mkIf (cfg.role == "server") (toString [
           "--tls-san=k"
           "--disable-helm-controller"
@@ -70,10 +68,12 @@ in
       });
       systemPackages = with pkgs; [
         libcgroup
-        k3s
-        nfs-utils # longhorn RWX
-        openiscsi # longhorn
         usbutils
+
+        # longhorn
+        cryptsetup # encryption
+        nfs-utils # RWX
+        openiscsi
       ];
     };
 
