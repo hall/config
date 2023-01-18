@@ -58,16 +58,8 @@ in
         metadata.namespace = ns;
         spec = {
           headers = {
-            accessControlAllowMethods = [
-              "GET"
-              "OPTIONS"
-              "PUT"
-            ];
-            accessControlAllowOriginList = [
-              "home.${flake.hostname}"
-            ];
-            accessControlMaxAge = 100;
-            addVaryHeader = true;
+            contentSecurityPolicy = "frame-src home.${flake.hostname}";
+            customResponseHeaders.x-frame-options = "";
           };
         };
       };
