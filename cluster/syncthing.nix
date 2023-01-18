@@ -5,33 +5,36 @@ vars.simple {
   port = 8384;
   host = "sync";
   persistence = {
-    stash.existingClaim = "stash-media";
     paperless.existingClaim = "paperless-ngx-consume";
+    photoprism.existingClaim = "photoprism-import";
+    stash.existingClaim = "stash-media";
     notes.size = "5Gi";
     cloud.size = "60Gi";
     library.size = "10Gi";
     sessions.size = "10Gi";
-    config = {
-      size = "1Gi";
-      mountPath = "/var/syncthing";
-    };
+    config.mountPath = "/var/syncthing";
   };
-  values.service.nodeport = {
-    enabled = true;
-    type = "NodePort";
-    externalTrafficPolicy = "Local";
-    ports = {
-      listen = {
-        enabled = true;
-        port = 22000;
-        protocol = "TCP";
-        targetPort = 22000;
-      };
-      discovery = {
-        enabled = true;
-        port = 21027;
-        protocol = "UDP";
-        targetPort = 21027;
+  values = {
+    ingress.main.annotations = {
+      "traefik.ingress.kubernetes.io/router.middlewares" = "kube-system-home@kubernetescrd";
+    };
+    service.nodeport = {
+      enabled = true;
+      type = "NodePort";
+      externalTrafficPolicy = "Local";
+      ports = {
+        listen = {
+          enabled = true;
+          port = 22000;
+          protocol = "TCP";
+          targetPort = 22000;
+        };
+        discovery = {
+          enabled = true;
+          port = 21027;
+          protocol = "UDP";
+          targetPort = 21027;
+        };
       };
     };
   };

@@ -7,18 +7,25 @@ flake.lib.recursiveMerge [
     host = "photos";
     persistence = {
       # unmodified images
-      originals.size = "30Gi";
+      originals.size = "100Gi";
       # db, cache, session, thumbnails, etc
       storage.size = "10Gi";
+      import.accessMode = "ReadWriteMany";
     };
-    values.env = {
-      # PHOTOPRISM_AUTH_MODE = "public"; # disable auth
-      PHOTOPRISM_SPONSOR = "true";
-      PHOTOPRISM_STORAGE_PATH = "/storage";
-      PHOTOPRISM_ORIGINALS_PATH = "/originals";
-      PHOTOPRISM_DATABASE_DRIVER = "mysql";
-      PHOTOPRISM_DATABASE_SERVER = "mariadb:3306";
-      PHOTOPRISM_DATABASE_PASSWORD = vars.secret "/mariadb/photoprism";
+    values = {
+      ingress.main.annotations = {
+        "traefik.ingress.kubernetes.io/router.middlewares" = "kube-system-home@kubernetescrd";
+      };
+      env = {
+        # PHOTOPRISM_AUTH_MODE = "public"; # disable auth
+        PHOTOPRISM_SPONSOR = "true";
+        PHOTOPRISM_STORAGE_PATH = "/storage";
+        PHOTOPRISM_ORIGINALS_PATH = "/originals";
+        PHOTOPRISM_IMPORT_PATH = "/import";
+        PHOTOPRISM_DATABASE_DRIVER = "mysql";
+        PHOTOPRISM_DATABASE_SERVER = "mariadb:3306";
+        PHOTOPRISM_DATABASE_PASSWORD = vars.secret "/mariadb/photoprism";
+      };
     };
   })
 
