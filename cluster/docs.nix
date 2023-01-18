@@ -36,6 +36,9 @@ flake.lib.recursiveMerge [
       };
     };
     values = {
+      ingress.main.annotations = {
+        "traefik.ingress.kubernetes.io/router.middlewares" = "kube-system-home@kubernetescrd";
+      };
       env = {
         PAPERLESS_URL = "https://docs.${flake.hostname}";
         PAPERLESS_CONSUMPTION_DIR = "/paperless/consume";
