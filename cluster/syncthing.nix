@@ -6,6 +6,7 @@ vars.simple {
   host = "sync";
   persistence = {
     stash.existingClaim = "stash-media";
+    paperless.existingClaim = "paperless-ngx-consume";
     notes.size = "5Gi";
     cloud.size = "60Gi";
     library.size = "10Gi";

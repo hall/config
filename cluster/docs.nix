@@ -30,6 +30,10 @@ flake.lib.recursiveMerge [
         size = "10Gi";
         mountPath = "/paperless";
       };
+      consume = {
+        mountPath = "/paperless/consume";
+        accessMode = "ReadWriteMany";
+      };
     };
     values = {
       env = {
