@@ -17,6 +17,9 @@ vars.simple {
   # prevent clashing of automatic variables
   # https://github.com/OctoPrint/octoprint-docker/issues/160#issuecomment-753364398
   values = {
+    ingress.main.annotations = {
+      "traefik.ingress.kubernetes.io/router.middlewares" = "kube-system-home@kubernetescrd";
+    };
     env.OCTOPRINT_PORT = "80";
     nodeSelector."${flake.hostname}/printer" = "true";
     securityContext.privileged = true;
