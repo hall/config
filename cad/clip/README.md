@@ -1,4 +1,7 @@
+hook
 
-![](clip_wire.svg)
+![](hook.svg)
 
-![](clip_hook.svg)
+wire
+
+![](wire.svg)

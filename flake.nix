@@ -70,10 +70,32 @@
           inherit (channels.nixpkgs.pkgs) lib;
         };
 
-        devShells.default = channels.nixpkgs.mkShell {
+        devShells = rec {
+          default = kube;
+          kube = channels.nixpkgs.mkShell {
           buildInputs = with channels.nixpkgs.pkgs; [
             kubernetes-helm
           ];
+          };
+          cad = with channels.nixpkgs; pkgs.mkShell {
+            # can't use mach due to https://github.com/DavHau/mach-nix/issues/199
+            # buildInputs = with pkgs; [ conda ];
+            shellHook = ''
+              conda-shell -c '
+                conda install -y -c conda-forge -c cadquery python=3.10 cadquery=master vtk=9.2.2;
+                pip install \
+                    autopep8 \
+                    jupyter-cadquery==3.5.2 \
+                    cadquery-massembly==1.0.0 \
+                    cqkit \
+                    ipyplot \
+                    matplotlib
+                '
+              export PYTHONPATH=$PYTHONPATH:$(pwd)
+              lab() { conda-shell -c 'jupyter lab --no-browser --ServerApp.token=849d61a414abafab97bc4aab1f3547755ddc232c2b8cb7fe'; };
+              export -f lab
+            '';
+          };
         };
         apps.keyboard = inputs.utils.lib.mkApp {
           drv = channels.nixpkgs.writeShellScriptBin "kbd" (with channels.nixpkgs; ''

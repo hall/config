@@ -1,11 +1,9 @@
 # computer aided design
 
-Start a shell with
+Load the environment with
 
-    nix-shell
+    nix develop '.#cad'
 
-Then start the jupyter notebook server
+Then start jupyterlab with
 
-    jupyter lab
-
-Set the url (w/ token) as codium's remote jupyter server.
+    lab
