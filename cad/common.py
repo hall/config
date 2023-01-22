@@ -21,8 +21,6 @@ def render(name: str, doc: str, render):
         show(render)
         p = Path(name)
         cq.exporters.export(render, f'{p}.stl')
-        cq.exporters.export(render, f'{p}.svg')
-        # ipyplot.plot_images([f'clip/hook.svg'], img_width=250, force_b64=True)
 
         # with open(p.parent / "README.md", "w") as file:
         #     file.write(f"{doc}\n![]({p.name}.svg)")
