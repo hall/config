@@ -71,29 +71,45 @@
         };
 
         devShells = rec {
-          default = kube;
+          default = cad;
           kube = channels.nixpkgs.mkShell {
           buildInputs = with channels.nixpkgs.pkgs; [
             kubernetes-helm
           ];
           };
-          cad = with channels.nixpkgs; pkgs.mkShell {
-            # can't use mach due to https://github.com/DavHau/mach-nix/issues/199
-            # buildInputs = with pkgs; [ conda ];
+          cad = with channels.nixpkgs; let
+            libs = [
+              stdenv.cc.cc
+              gfortran.cc.lib
+              xorg.libX11
+              libGL
+              expat
+              zlib
+            ];
+          in
+          mkShell {
+            buildInputs = [
+              (python3.withPackages (p: with p; [
+                autopep8
+              ]))
+              python3Packages.pip
+            ];
             shellHook = ''
-              conda-shell -c '
-                conda install -y -c conda-forge -c cadquery python=3.10 cadquery=master vtk=9.2.2;
+              # Tells pip to put packages into $PIP_PREFIX instead of the usual locations.
+              # See https://pip.pypa.io/en/stable/user_guide/#environment-variables.
+              export PIP_PREFIX=$(pwd)/_build/pip_packages
+              export PYTHONPATH="$PIP_PREFIX/${pkgs.python3.sitePackages}:$PYTHONPATH"
+              export PATH="$PIP_PREFIX/bin:$PATH"
+              unset SOURCE_DATE_EPOCH
+
+              export LD_LIBRARY_PATH=${channels.nixpkgs.lib.makeLibraryPath libs}
+                
                 pip install \
-                    autopep8 \
-                    jupyter-cadquery==3.5.2 \
-                    cadquery-massembly==1.0.0 \
-                    cqkit \
-                    ipyplot \
-                    matplotlib
-                '
-              export PYTHONPATH=$PYTHONPATH:$(pwd)
-              lab() { conda-shell -c 'jupyter lab --no-browser --ServerApp.token=849d61a414abafab97bc4aab1f3547755ddc232c2b8cb7fe'; };
-              export -f lab
+                  cadquery-server \
+                  cadquery==2.2.0b2 # cq-vscode \
+                  https://github.com/bernhard-42/vscode-cadquery-viewer/releases/download/v0.13.0/cq_vscode-0.13.0-py3-none-any.whl
+              
+              # cq-server run --ui-theme dark ./cad
             '';
           };
         };
