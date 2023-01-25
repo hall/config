@@ -3,10 +3,6 @@ from cq_server.ui import ui, show_object
 from pathlib import Path
 dir = Path(__file__).resolve().parent
 
-# from cq_vscode import show_object, reset_show, set_defaults
-# reset_show() # use for reapeated shift-enter execution to clean object buffer
-# set_defaults(axes=True, transparent=False, collapse=1, grid=(True, True, True))
-
 thickness = 2
 angle = 80
 
@@ -16,20 +12,26 @@ phone = {
     "depth": 14
 }
 earbuds = {
-    "width": 50,
-    "depth": 70,
-    "offset": 40 # distance from the bottom of phone back plate
+    "width": 48,
+    "depth": 67,
+    "offset": 40, # distance from the bottom of phone back plate
+    "usb": {
+        "depth": 18.75,
+        "width": 12,
+        "height": 6,
+        "offset": 8, # distance from bottom of case to usb port
+    }
 }
 watch = {
     "width": 37,
     "height": 40,
-    "offset": 120
+    "offset": 30 # vertical location on base
 }
 
 attachment = {
     "spread": 10,
-    "width": 50,
-    "depth": thickness/2,
+    "width": 30,
+    "depth": thickness,
     "thickness": 6,
     "taper": 20
 }
@@ -40,41 +42,50 @@ bracket = {
     "size": 20 # length of one edge on the attachment
 }
 
-earbuds = (
+earbuds_obj = (
     cq.Workplane()
     # draw the main body
-    .box(earbuds['depth'], earbuds['width'], thickness)
+    .box(earbuds['depth'], earbuds['width'], thickness*3)
     .tag("body")
     # round corners
-    .edges("|Z").fillet(5)
+    .edges("|Z").fillet(12)
     # create lip
     .faces("+Z").shell(thickness)
 
     # add wire bracket
-    .workplaneFromTagged('body')
-    # .rect(10,10).extrude(16)
-    # add bracket attachment
-    # .faces(">Y").workplane()
-    # .transformed(offset=cq.Vector(0,-3, -20),)
-    # .rect(10,thickness*2).extrude(35)
+    .faces(">Y").workplane()
+    .transformed(offset=cq.Vector(0, 4, 0))
+    # create outer shell
+    .rect(
+        earbuds['usb']['width']+thickness*2,
+        earbuds['usb']['height']+thickness*2+earbuds['usb']['offset']
+    ).extrude(earbuds['usb']['depth'] + thickness*2)
     # subtract negative space
-    # .faces(">Y").workplane()
-    # .rect(10,10).extrude(16)
+    .faces(">Y").workplane()
+    .transformed(offset=cq.Vector(0, earbuds['usb']['height']-thickness, -thickness))
+    .rect(
+        earbuds['usb']['width'],
+        earbuds['usb']['height'],
+    ).extrude(-earbuds['usb']['depth']-thickness, combine='cut')
+    # add wire cutout
+    .faces(">Z").workplane()
+    .transformed(offset=cq.Vector(0, -thickness*4, -earbuds['usb']['height']-thickness))
+    .rect(6,earbuds['usb']['depth']+thickness*4)
+    .extrude(earbuds['usb']['height']+thickness, combine='cut')
 
     # add attachment
     .workplaneFromTagged('body')
     .transformed(
-        offset=cq.Vector(20, attachment['width']/2, -thickness*2-1),
+        offset=cq.Vector(20, attachment['width']*1.3, -thickness),
         rotate=cq.Vector(0, angle, 0)
     )
     .rect(attachment['thickness'], attachment['width']).extrude(attachment['depth'])
 
 )
-cq.exporters.export(earbuds, str(dir / 'earbuds.stl'))
-# show_object(earbuds)
+cq.exporters.export(earbuds_obj, str(dir / 'earbuds.stl'))
+# show_object(earbuds_obj)
 
-
-watch = (
+watch_obj = (
     cq.Workplane()
     # draw the back plane
     # TODO: remove +thicknesses?
@@ -85,18 +96,19 @@ watch = (
     .faces("+Z").shell(thickness/2)
 
     # locate notch for wire
-    .faces(">Y").workplane().transformed(offset=cq.Vector(0, 0, -2))
+    .faces(">Y").workplane()
+    .transformed(offset=cq.Vector(0, 0, -2))
     # draw wire notch
     .rect(3,6).extrude(2, combine="cut")
 
     # locate attachment
-    .transformed(offset=cq.Vector(0, -thickness*1.75, -20),)
+    .transformed(offset=cq.Vector(0, -thickness*1.5, 1))
     # draw attachment
     .rect(attachment['thickness'], attachment['depth'])
     .extrude(attachment['width'])
 )
-cq.exporters.export(watch, str(dir / 'watch.stl'))
-# show_object(watch)
+cq.exporters.export(watch_obj, str(dir / 'watch.stl'))
+# show_object(watch_obj)
 
 base = (cq.Workplane('front')
     # tilt
@@ -128,22 +140,39 @@ base = (cq.Workplane('front')
         offset=cq.Vector(42, 0, 9)
     )
     .box(20, phone['width'], thickness)
+
+    # add attachment support brackets
+    .workplaneFromTagged('body')
+    .transformed(offset=cq.Vector(0, -phone['width']/3,-thickness/2))
+    .pushPoints([
+        (-watch["offset"],0),
+        (earbuds['offset'],0)
+    ])
+    .rect(attachment['thickness']+(thickness*3),attachment['width']/2)
+    .extrude(-thickness*2, taper=45)
+    # cut attachment hole
+    .pushPoints([
+        (-watch["offset"],0),
+        (earbuds['offset'],0)
+    ])
+    .rect(attachment['thickness'],attachment['width']/2)
+    .extrude(-thickness, combine='cut')
 )
 cq.exporters.export(base, str(dir / 'base.stl'))
 # show_object(base)
 
 assy = (
     cq.Assembly(base, name="base")
-    .add(earbuds, name='earbuds',
-        loc=cq.Location(cq.Vector(-14,-70,-40)), 
+    .add(earbuds_obj, name='earbuds',
+        loc=cq.Location(cq.Vector(-16,-70,-40)), 
         color=cq.Color("pink")
     )
-    .add(watch, name='watch',
-        loc=cq.Location(cq.Vector(-6,-65,30), cq.Vector(0,1,0),angle), 
+    .add(watch_obj, name='watch',
+        loc=cq.Location(cq.Vector(-4,-65,watch['offset']), cq.Vector(0,1,0),angle), 
         color=cq.Color("cyan")
     )
 )
 
 cq.exporters.export(assy.toCompound(), str(dir / 'main.svg'), 
-     opt={"projectionDir": (0.7,-0.3,0.2)})
+     opt={"projectionDir": (0.7, -0.6, 0.5)})
 show_object(assy)
