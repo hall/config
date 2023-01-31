@@ -27,8 +27,8 @@
   };
   extensions = with pkgs.nur.repos.rycee.firefox-addons; [
     # allow-right-click # TODO
-    anchors-reveal
-    auto-tab-discard
+    # anchors-reveal
+    # auto-tab-discard
     bitwarden
     buster-captcha-solver
     bypass-paywalls-clean
@@ -37,10 +37,10 @@
     multi-account-containers
     firefox-translations
     floccus
-    # gsconnect # TODO
+    gsconnect
     i-dont-care-about-cookies
     link-cleaner
-    sidebery
+    # sidebery # TODO: need beta for search bar
     temporary-containers
     tridactyl
     ublock-origin
