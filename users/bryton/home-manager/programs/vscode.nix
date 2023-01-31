@@ -116,8 +116,8 @@
     {
       name = "dendron";
       publisher = "dendron";
-      version = "0.115.1";
-      sha256 = "sha256-4fQRb2ubSrUtVFD2mVdrP/1dWTdYJ6anmXDKtCKglOc=";
+      version = "0.119.0";
+      sha256 = "sha256-fUL5f5Fw6PMc+92++Wj1UfJqRAVXb/MQ+b7grYs0E6M=";
     }
     {
       name = "dendron-paste-image";
