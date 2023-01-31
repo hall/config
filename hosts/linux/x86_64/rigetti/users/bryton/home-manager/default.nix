@@ -35,10 +35,16 @@
             PubkeyAcceptedKeyTypes = "+ssh-rsa";
           };
         };
-        pg = {
-          host = "pg";
+        bhall = {
+          host = "bhall";
           hostname = "bhall.pg.rigetti.com";
           user = "bhall";
+          identityFile = "/run/secrets/id_work";
+        };
+        bhall-uk = {
+          host = "bhall-uk";
+          hostname = "bhall-uk.pg.rigetti.com";
+          user = "bhall-uk";
           identityFile = "/run/secrets/id_work";
         };
       };
