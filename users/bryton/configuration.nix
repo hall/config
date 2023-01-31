@@ -48,6 +48,7 @@ in
     package = xonsh;
     config = with builtins; ''
       $BASH_COMPLETIONS = ["${pkgs.bash-completion}/share/bash-completion/bash_completion"]
+      $VI_MODE = True
 
       xontrib load direnv ${toString (map (x: replaceStrings [ "-" ] [ "_" ] x) xontribs)}
 
