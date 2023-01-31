@@ -251,5 +251,11 @@
       key = "ctrl+k";
       command = "-extension.vim_ctrl+k";
     }
+
+    # don't leave notebook cell with esc
+    {
+      key = "escape";
+      command = "-notebook.cell.quitEdit";
+    }
   ];
 }
