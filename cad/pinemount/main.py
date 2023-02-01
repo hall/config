@@ -4,13 +4,24 @@ from pathlib import Path
 dir = Path(__file__).resolve().parent
 
 thickness = 2
-angle = 80
+angle = 60
 
 phone = {
     "width": 80,
     "height": 160,
-    "depth": 14
+    "depth": 14,
+    "usb": {
+        "width": 12,
+        "height": 6,
+    }
 }
+
+watch = {
+    "width": 37,
+    "height": 40,
+    "offset": 50 # vertical location on base
+}
+
 earbuds = {
     "width": 48,
     "depth": 67,
@@ -22,12 +33,6 @@ earbuds = {
         "offset": 8, # distance from bottom of case to usb port
     }
 }
-watch = {
-    "width": 37,
-    "height": 40,
-    "offset": 30 # vertical location on base
-}
-
 attachment = {
     "spread": 10,
     "width": 30,
@@ -93,7 +98,7 @@ watch_obj = (
     # round the corners
     .edges("|Z").fillet(8)
     # create inset
-    .faces("+Z").shell(thickness/2)
+    .faces("+Z").shell(thickness)
 
     # locate notch for wire
     .faces(">Y").workplane()
@@ -114,7 +119,7 @@ base = (cq.Workplane('front')
     # tilt
     .transformed(rotate=cq.Vector(0, angle))
     # add back plane
-    .box(phone['height']/1.5, phone['width'], thickness)
+    .box(phone['height'], phone['width'], thickness)
     .tag('body')
     
     # add bottom support
@@ -126,20 +131,22 @@ base = (cq.Workplane('front')
 
     # draw charger hole
     .faces("<Z").workplane()
-    .rect(12,6).extrude(-thickness, combine="cut")
+    .rect(phone['usb']['width'],phone['usb']['height']).extrude(-thickness, combine="cut")
 
     # base
     .workplaneFromTagged('body')
     .transformed(
         rotate=cq.Vector(0, -angle, 0),
-        offset=cq.Vector(60, 0, -30)
+        offset=cq.Vector(phone['height']/2, 0, -30)
     )
     .box(phone['height']/2, phone['width'], thickness)
+    # front connection between base and back support
+    .faces(">X").workplane()
     .transformed(
-        rotate=cq.Vector(0, -angle, 0),
-        offset=cq.Vector(42, 0, 9)
+        rotate=cq.Vector(10, 0, 0),
+        offset=cq.Vector(0, 10, 0)
     )
-    .box(20, phone['width'], thickness)
+    .box(phone['width'], 20, thickness)
 
     # add attachment support brackets
     .workplaneFromTagged('body')
@@ -148,15 +155,16 @@ base = (cq.Workplane('front')
         (-watch["offset"],0),
         (earbuds['offset'],0)
     ])
-    .rect(attachment['thickness']+(thickness*3),attachment['width']/2)
-    .extrude(-thickness*2, taper=45)
+    .rect(attachment['thickness']+(thickness*4),attachment['width']/2)
+    .extrude(-thickness*4, taper=20)
     # cut attachment hole
     .pushPoints([
         (-watch["offset"],0),
         (earbuds['offset'],0)
     ])
-    .rect(attachment['thickness'],attachment['width']/2)
-    .extrude(-thickness, combine='cut')
+    # add 0.5mm for tolerance
+    .rect(attachment['thickness']+0.5,attachment['width']/2)
+    .extrude(-thickness*2, combine='cut')
 )
 cq.exporters.export(base, str(dir / 'base.stl'))
 # show_object(base)
@@ -164,7 +172,7 @@ cq.exporters.export(base, str(dir / 'base.stl'))
 assy = (
     cq.Assembly(base, name="base")
     .add(earbuds_obj, name='earbuds',
-        loc=cq.Location(cq.Vector(-16,-70,-40)), 
+        loc=cq.Location(cq.Vector(-16,-70,-38)), 
         color=cq.Color("pink")
     )
     .add(watch_obj, name='watch',

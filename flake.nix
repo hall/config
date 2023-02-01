@@ -75,43 +75,9 @@
           kube = channels.nixpkgs.mkShell {
           buildInputs = with channels.nixpkgs.pkgs; [
             kubernetes-helm
-          ];
-          };
-          cad = with channels.nixpkgs; let
-            libs = [
-              stdenv.cc.cc
-              gfortran.cc.lib
-              xorg.libX11
-              libGL
-              expat
-              zlib
             ];
-          in
-          mkShell {
-            buildInputs = [
-              (python3.withPackages (p: with p; [
-                autopep8
-              ]))
-              python3Packages.pip
-            ];
-            shellHook = ''
-              # Tells pip to put packages into $PIP_PREFIX instead of the usual locations.
-              # See https://pip.pypa.io/en/stable/user_guide/#environment-variables.
-              export PIP_PREFIX=$(pwd)/_build/pip_packages
-              export PYTHONPATH="$PIP_PREFIX/${pkgs.python3.sitePackages}:$PYTHONPATH"
-              export PATH="$PIP_PREFIX/bin:$PATH"
-              unset SOURCE_DATE_EPOCH
-
-              export LD_LIBRARY_PATH=${channels.nixpkgs.lib.makeLibraryPath libs}
-                
-                pip install \
-                  cadquery-server \
-                  cadquery==2.2.0b2 # cq-vscode \
-                  https://github.com/bernhard-42/vscode-cadquery-viewer/releases/download/v0.13.0/cq_vscode-0.13.0-py3-none-any.whl
-              
-              # cq-server run --ui-theme dark ./cad
-            '';
           };
+          cad = channels.nixpkgs.pkgs.callPackage ./cad { };
         };
       };
 

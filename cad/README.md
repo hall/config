@@ -4,6 +4,6 @@ Load the environment with
 
     nix develop '.#cad'
 
-Then start jupyterlab with
+Then start cq-server with
 
-    lab
+    cad ./path/to/source
