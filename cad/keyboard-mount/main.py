@@ -12,11 +12,11 @@ obj = (
         ("line", {"length": 60}),
         ("arc", {"radius": 10, "angle": 90}),
         # height
-        ("line", {"length": 80}),
+        ("line", {"length": 60}),
         # tenting angle
         ("arc", {"radius": 20, "angle": 90-30}),
         # length under keyboard
-        ("line", {"length": 110}),
+        ("line", {"length": 120}),
     ]).render().extrude(20)
 )
 
