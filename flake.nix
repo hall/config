@@ -113,11 +113,6 @@
             '';
           };
         };
-        apps.keyboard = inputs.utils.lib.mkApp {
-          drv = channels.nixpkgs.writeShellScriptBin "kbd" (with channels.nixpkgs; ''
-            ${gnumake}/bin/make QMK=${qmk}/bin/qmk -C keyboard
-          '');
-        };
       };
 
     };

@@ -12,7 +12,7 @@ A monorepo of all the things that aren't much use on their own to others.
 | [lib](./lib)           | library functions    |
 | [cluster](./cluster)   | kubernetes cluster   |
 | [cad](./cad)           | various design files |
-| [keyboard](./keyboard) | mechanical keyboards |
+| [keyboard](./packages/keyboard) | mechanical keyboards |
 | [website](./website)   | personal webpages    |
 
 Other projects I try to maintain or improve here and there:

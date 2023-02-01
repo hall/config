@@ -1,6 +1,16 @@
 #include QMK_KEYBOARD_H
 #include "keymap_dvorak.h"
 
+/* Disable unused features. */
+#define NO_ACTION_ONESHOT
+
+// docs.qmk.fm/using-qmk/software-features/tap_hold
+// bit.ly/tap-or-hold
+#define TAPPING_TERM 200
+#define TAPPING_FORCE_HOLD
+#define PERMISSIVE_HOLD
+#define IGNORE_MOD_TAP_INTERRUPT
+
 // redefine GASC as mod-tap variants
 #undef G
 #define G(kc) GUI_T(kc)
@@ -49,7 +59,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [LAYER_POINTER] = LAYOUT_charybdis_3x5(
     XXXXXXX, XXXXXXX, XXXXXXX, DPI_MOD, S_D_MOD,   S_D_MOD, DPI_MOD, XXXXXXX, XXXXXXX, XXXXXXX,
     KC_LGUI, KC_LALT, KC_LSFT, KC_LCTL, XXXXXXX,   XXXXXXX, KC_LCTL, KC_LSFT, KC_LALT, KC_LGUI,
-    _______, DRGSCRL, SNIPING, EEP_RST,   RESET,     RESET, EEP_RST, SNIPING, DRGSCRL, _______,
+    _______, DRGSCRL, SNIPING, _______, QK_BOOT,   QK_BOOT, _______, SNIPING, DRGSCRL, _______,
                       KC_BTN3, KC_BTN1, KC_BTN2,   KC_BTN2, KC_BTN1),
   [LAYER_MEDIA] = LAYOUT_charybdis_3x5(
     XXXXXXX,RGB_RMOD, RGB_TOG, RGB_MOD, TG(LAYER_EXTRA),   KC_BRIU, KC_BRID,RGB_RMOD, RGB_TOG, RGB_MOD,
@@ -156,51 +166,3 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   }
   return true;
 }
-
-// Automatically enable sniping-mode on the pointer layer.
-layer_state_t layer_state_set_kb(layer_state_t state) {
-    state = layer_state_set_user(state);
-    charybdis_set_pointer_sniping_enabled(layer_state_cmp(state, LAYER_POINTER));
-    return state;
-}
-
-// pointer layer active after pointer movement
-// #define CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
-// #define CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_TIMEOUT_MS 500
-// #define CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_THRESHOLD 2
-// static uint16_t auto_pointer_layer_timer = 0;
-
-// #ifdef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
-// #    include "timer.h"
-// #endif 
-
-
-// #ifdef POINTING_DEVICE_ENABLE
-// #    ifdef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
-// report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
-//     if (abs(mouse_report.x) > CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_THRESHOLD || abs(mouse_report.y) > CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_THRESHOLD) {
-//         if (auto_pointer_layer_timer == 0) {
-//             layer_on(LAYER_POINTER);
-// #        ifdef RGB_MATRIX_ENABLE
-//             rgb_matrix_mode_noeeprom(RGB_MATRIX_NONE);
-//             rgb_matrix_sethsv_noeeprom(HSV_GREEN);
-// #        endif  // RGB_MATRIX_ENABLE
-//         }
-//         auto_pointer_layer_timer = timer_read();
-//     }
-//     return mouse_report;
-// }
-
-// void matrix_scan_kb(void) {
-//     if (auto_pointer_layer_timer != 0 && TIMER_DIFF_16(timer_read(), auto_pointer_layer_timer) >= CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_TIMEOUT_MS) {
-//         auto_pointer_layer_timer = 0;
-//         layer_off(LAYER_POINTER);
-// #        ifdef RGB_MATRIX_ENABLE
-//         rgb_matrix_mode_noeeprom(RGB_MATRIX_STARTUP_MODE);
-// #        endif  // RGB_MATRIX_ENABLE
-//     }
-//     matrix_scan_user();
-// }
-// #    endif  // CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
-
-// #endif      // POINTING_DEVICE_ENABLE
