@@ -44,6 +44,7 @@ enum keycodes {
 #define BSP_SYM LT(LAYER_SYMBOLS, KC_BSPC)
 #define TAB_MED LT(LAYER_MEDIA, KC_TAB)
 #define ENT_MED LT(LAYER_MEDIA, KC_ENT)
+#define EXTRA   TG(LAYER_EXTRA)
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -56,19 +57,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      DV_GRV,    KC_7,    KC_8,    KC_9, DV_LBRC,   DV_RBRC, XXXXXXX, DPI_MOD,DPI_RMOD, KC_F12,
     DV_MINS,    KC_4,    KC_5,    KC_6, KC_0,      XXXXXXX, KC_LCTL, KC_LSFT, KC_LALT, KC_LGUI,
      DV_EQL,    KC_1,    KC_2,    KC_3, DV_SLSH,   DV_BSLS, XXXXXXX, XXXXXXX, XXXXXXX, QK_BOOT,
-                      XXXXXXX, KC_DEL, XXXXXXX,   XXXXXXX, KC_DEL),
+                      XXXXXXX,  KC_DEL, XXXXXXX,   XXXXXXX, KC_DEL),
   [LAYER_POINTER] = LAYOUT_charybdis_3x5( // mostly empty so auto-pointer layer falls through
     _______, _______, _______, _______, _______,   _______, _______, _______, _______, _______,
     _______, _______, _______, _______, _______,   _______, _______, _______, _______, _______,
     _______, _______, _______, _______, _______,   _______, _______, _______, DRGSCRL, _______,
                       KC_BTN3, KC_BTN1, KC_BTN2,   KC_BTN2, KC_BTN1),
   [LAYER_MEDIA] = LAYOUT_charybdis_3x5(
-    XXXXXXX,RGB_RMOD, RGB_TOG, RGB_MOD, TG(LAYER_EXTRA),   KC_BRIU, KC_BRID,RGB_RMOD, RGB_TOG, RGB_MOD,
+    XXXXXXX, RGB_MOD, RGB_RMOD, RGB_TOG,  EXTRA,   XXXXXXX, XXXXXXX, KC_BRID, KC_BRIU, XXXXXXX,
     KC_LGUI, KC_LALT, KC_LSFT, KC_LCTL, XXXXXXX,   KC_MUTE, KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT,
-    KC_MPRV, KC_VOLD, KC_MUTE, KC_VOLU, KC_MNXT,   KC_MPLY, KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT,
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,   KC_MPLY, KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT,
                       XXXXXXX, XXXXXXX, _______,   _______, XXXXXXX),
   [LAYER_EXTRA] = LAYOUT_charybdis_3x5(
-    WS_LEFT, XXXXXXX, XXXXXXX, WS_RGHT, TG(LAYER_EXTRA),   XXXXXXX, XXXXXXX,XXXXXXX, XXXXXXX, XXXXXXX,
+    WS_LEFT, XXXXXXX, XXXXXXX, WS_RGHT,   EXTRA,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
     KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT, XXXXXXX,   XXXXXXX, KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT,
     TB_LEFT, XXXXXXX, XXXXXXX, TB_RGHT, XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                       VD_OPEN, IM_OPEN, _______,   _______, XXXXXXX),
@@ -79,7 +80,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // auto pointer layer
 static uint16_t auto_pointer_layer_timer = 0;
 report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
-    if (abs(mouse_report.x) > 2 || abs(mouse_report.y) > 2) {
+    if (abs(mouse_report.x) > 1 || abs(mouse_report.y) > 1) {
         if (auto_pointer_layer_timer == 0) {
             layer_on(LAYER_POINTER);
         }
