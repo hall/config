@@ -1,6 +1,8 @@
 # keyboards
 
-    nix build '.#keyboard'
+Flash firmware with
+
+    nix run '.#keyboard'
 
 
 ## charybdis
