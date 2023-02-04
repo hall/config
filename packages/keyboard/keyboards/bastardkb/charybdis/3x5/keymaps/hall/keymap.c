@@ -61,7 +61,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [LAYER_POINTER] = LAYOUT_charybdis_3x5( // mostly empty so auto-pointer layer falls through
     _______, _______, _______, _______, _______,   _______, _______, _______, _______, _______,
     _______, _______, _______, _______, _______,   _______, _______, _______, _______, _______,
-    _______, _______, KC_BTN3, KC_BTN1, KC_BTN2,   KC_BTN2, KC_BTN1, KC_BTN3, DRGSCRL, _______,
+    _______, KC_BTN3, KC_BTN1, KC_BTN2, DRGSCRL,   DRGSCRL, KC_BTN2, KC_BTN1, KC_BTN3, _______,
                       _______, _______, _______,   _______,_______),
   [LAYER_MEDIA] = LAYOUT_charybdis_3x5(
     XXXXXXX, RGB_MOD, RGB_RMOD, RGB_TOG,  EXTRA,   XXXXXXX, XXXXXXX, KC_BRID, KC_BRIU, XXXXXXX,
