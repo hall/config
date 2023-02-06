@@ -34,7 +34,7 @@
 
       hostDefaults = {
         modules = [
-          inputs.agenix.nixosModule
+          inputs.agenix.nixosModules.default
           inputs.musnix.nixosModules.musnix
         ] ++ (import ./modules);
       };
