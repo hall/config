@@ -71,11 +71,8 @@
         };
 
         devShells = rec {
-          default = cad;
-          kube = channels.nixpkgs.mkShell {
-          buildInputs = with channels.nixpkgs.pkgs; [
-            kubernetes-helm
-            ];
+          default = channels.nixpkgs.mkShell {
+            buildInputs = with channels.nixpkgs.pkgs; [ ];
           };
           cad = channels.nixpkgs.pkgs.callPackage ./cad { };
         };
