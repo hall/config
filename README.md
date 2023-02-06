@@ -2,18 +2,18 @@
 
 A monorepo of all the things that aren't much use on their own to others.
 
-|                        |                      |
-| ---------------------- | -------------------- |
-| [hosts](./hosts)       | host configurations  |
-| [users](./users)       | user configurations  |
-| [modules](./modules)   | nixos modules        |
-| [packages](./packages) | nix packages         |
-| [overlays](./overlays) | nixpkgs overlays     |
-| [lib](./lib)           | library functions    |
-| [cluster](./cluster)   | kubernetes cluster   |
-| [cad](./cad)           | various design files |
+|                                 |                      |
+| ------------------------------- | -------------------- |
+| [hosts](./hosts)                | host configurations  |
+| [users](./users)                | user configurations  |
+| [modules](./modules)            | nixos modules        |
+| [packages](./packages)          | nix packages         |
+| [overlays](./overlays)          | nixpkgs overlays     |
+| [lib](./lib)                    | library functions    |
+| [cluster](./cluster)            | kubernetes cluster   |
+| [cad](./cad)                    | various design files |
 | [keyboard](./packages/keyboard) | mechanical keyboards |
-| [website](./website)   | personal webpages    |
+| [website](./website)            | personal webpages    |
 
 Other projects I try to maintain or improve here and there:
 
@@ -53,19 +53,13 @@ Secrets are managed with [agenix](https://github.com/ryantm/agenix):
 
 Build a [package](./packages) directly with
 
-    nix build '.#packages.${arch}.${package}'
+    nix build '.#${package}'
 
 ## cluster
 
 Deploy Kubernetes resources with
 
     nix run github:hall/kubenix -- apply
-
-## keyboard
-
-Flash firmware with
-
-    nix run '.#keyboard'
 
 ## debug
 
