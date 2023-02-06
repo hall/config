@@ -29,8 +29,7 @@ Build a host with either `ctrl-shift-b` (in `codium`) or
 
     deploy '.#${hostname}'
 
-> **NOTE**:
-> Update the lock file with
+> **NOTE**: Update the lock file with
 >
 >     nix flake update
 >
@@ -43,12 +42,6 @@ Build a host with either `ctrl-shift-b` (in `codium`) or
 Build a bootable image with:
 
     nix build '.#${hostname}'
-
-## packages
-
-Build a [package](./packages) directly with
-
-    nix build '.#${package}'
 
 ## debug
 
