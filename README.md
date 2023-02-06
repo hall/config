@@ -10,6 +10,7 @@ A monorepo of all the things that aren't much use on their own to others.
 | [packages](./packages)          | nix packages         |
 | [overlays](./overlays)          | nixpkgs overlays     |
 | [lib](./lib)                    | library functions    |
+| [secrets](./secrets)            | secrets management   |
 | [cluster](./cluster)            | kubernetes cluster   |
 | [cad](./cad)                    | various design files |
 | [keyboard](./packages/keyboard) | mechanical keyboards |
@@ -42,12 +43,6 @@ Build a host with either `ctrl-shift-b` (in `codium`) or
 Build a bootable image with:
 
     nix build '.#${hostname}'
-
-## secrets
-
-Secrets are managed with [agenix](https://github.com/ryantm/agenix):
-
-    nix run github:ryantm/agenix -- -e ${secret}.age
 
 ## packages
 
