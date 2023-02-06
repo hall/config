@@ -37,12 +37,6 @@ Build a host with either `ctrl-shift-b` (in `codium`) or
 >
 >     sudo nix-collect-garbage -d
 
-## images
-
-Build a bootable image with:
-
-    nix build '.#${hostname}'
-
 ## debug
 
 Inspect the evaluated config with
