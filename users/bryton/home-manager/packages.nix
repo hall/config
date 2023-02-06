@@ -40,6 +40,4 @@ with pkgs; [
   # tmuxPlugins.nord
   # tmuxPlugins.sensible
   # tmuxPlugins.vim-tmux-navigator
-] ++ (lib.optionals (pkgs.system != "aarch64-linux") [
-  flake.packages.openlens
-])
+]
