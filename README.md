@@ -55,12 +55,6 @@ Build a [package](./packages) directly with
 
     nix build '.#${package}'
 
-## cluster
-
-Deploy Kubernetes resources with
-
-    nix run github:hall/kubenix -- apply
-
 ## debug
 
 Inspect the evaluated config with
