@@ -17,10 +17,10 @@ A monorepo of all the things that aren't much use on their own to others.
 
 Other projects I try to maintain or improve here and there:
 
-|                                            |                                                |
-| ------------------------------------------ | ---------------------------------------------- |
-| [kubenix](https://github.com/hall/kubenix) | kubernetes management with nix                 |
-| [draw](https://gitlab.com/hall/draw)       | vscode extension for drawing (w/ math support) |
+|                                            |                                       |
+| ------------------------------------------ | ------------------------------------- |
+| [kubenix](https://github.com/hall/kubenix) | kubernetes management with nix        |
+| [draw](https://github.com/hall/draw)       | vscode extension for drawing and math |
 
 ## configuration
 
