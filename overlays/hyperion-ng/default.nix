@@ -9,4 +9,7 @@ super.hyperion-ng.overrideAttrs
       sha256 = "LbR9BjNQ83QiUj7iKBupfCPPqRGm7ixdDWY4i75GMSI=";
       fetchSubmodules = true;
     };
+    buildInputs = prev.buildInputs ++ (with super.pkgs; [
+      alsa-lib
+    ]);
   })
