@@ -70,12 +70,6 @@
           inherit (channels.nixpkgs.pkgs) lib;
         };
 
-        devShells = rec {
-          default = channels.nixpkgs.mkShell {
-            buildInputs = with channels.nixpkgs.pkgs; [ ];
-          };
-          cad = channels.nixpkgs.pkgs.callPackage ./cad { };
-        };
       };
 
     };

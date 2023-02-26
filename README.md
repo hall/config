@@ -12,7 +12,7 @@ A monorepo of all the things that aren't much use on their own to others.
 | [lib](./lib)                    | library functions    |
 | [secrets](./secrets)            | secrets management   |
 | [cluster](./cluster)            | kubernetes cluster   |
-| [cad](./cad)                    | various design files |
+| [cad](./packages/cad)           | various design files |
 | [keyboard](./packages/keyboard) | mechanical keyboards |
 | [website](./website)            | personal webpages    |
 
