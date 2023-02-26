@@ -12,8 +12,6 @@
       toml2json
       _1password-gui
       dasel
-
-      # flake.packages.crowdstrike
     ];
   };
 
