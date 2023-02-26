@@ -11,7 +11,7 @@ in
     };
     notes = {
       name = "Notes";
-      exec = codeExec + " notes/dendron.code-workspace";
+      exec = codeExec + " notes --profile notes";
       icon = ./notes.svg;
     };
   };

@@ -8,7 +8,7 @@
     };
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
       name = "notes";
-      command = "codium notes/dendron.code-workspace --touch-events";
+      command = "codium notes --profile notes --touch-events";
       binding = "<Super>apostrophe";
     };
     "org/gnome/mutter/wayland/keybindings" = {
