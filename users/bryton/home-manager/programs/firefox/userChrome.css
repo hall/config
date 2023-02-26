@@ -14,7 +14,7 @@
 }
 
 /*
- * Collapsable sidebar
+ * Collapsible sidebar
  */
 #main-window #sidebar-box {
     position: fixed;
@@ -45,9 +45,4 @@
 /* don't hide page content behind sidebar */
 #main-window #appcontent {
     margin-left: 30px;
-}
-
-/* center icons a bit better */
-#sidebar:not(:hover) {
-    margin-left: -4px;
 }
