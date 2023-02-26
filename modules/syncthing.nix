@@ -11,7 +11,7 @@ let
   groups = {
     personal = {
       devices = [ "x12" "pinephone" "server" ];
-      folders = [ "notes" "cloud" "library" "sessions" ".stash" ];
+      folders = [ "notes" "cloud" "library" "sessions" ".stash" "photoprism" "paperless" ];
     };
     work = {
       devices = [ "rigetti" ];
