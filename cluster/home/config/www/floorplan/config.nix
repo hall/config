@@ -86,11 +86,14 @@
       ###
       entities = [
         "light.office"
+        "light.office_light_switch"
         "light.bedroom"
         "light.bedroom_light_switch"
         "light.nightstand_light_left"
         "light.nightstand_light_right"
         "light.livingroom"
+        "light.livingroom_light_switch"
+        "light.guest_light_switch"
       ];
       tap_action = "toggle";
       hold_action = "more-info";
