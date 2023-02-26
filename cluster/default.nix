@@ -88,7 +88,7 @@ evalModules {
           '');
         };
       })
-      (builtins.filter (f: (f != "default.nix") && (!lib.strings.hasPrefix "_" f))
+      (builtins.filter (f: (f != "default.nix") && (!lib.strings.hasPrefix "_" f) && (lib.strings.hasSuffix ".nix" f))
         (builtins.attrNames (builtins.readDir ./.))
       )
     ));
