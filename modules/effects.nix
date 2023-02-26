@@ -29,10 +29,9 @@ in
           ${flake.packages.${name}}/bin/${name} &
         fi
 
-        dev=usb-IK_Multimedia_iRig_HD_2-00
-        in=alsa_input.$dev.mono-fallback
-        # digital output (or `analog-stereo` for analog output)
-        out=alsa_output.$dev.iec958-stereo
+        dev=usb-Generic_USB_HP_MIC_Adapter-00
+        in=alsa_input.$dev.iec958-stereo.2
+        out=alsa_output.$dev.iec958-stereo.3
 
         sleep 1  # wait for app to register with pw
 
