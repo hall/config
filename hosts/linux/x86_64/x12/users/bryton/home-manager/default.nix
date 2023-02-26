@@ -38,7 +38,6 @@
       nix-diff
     ] ++ (with flake.packages; [
       effects
-      # itd
     ]);
   };
 }
