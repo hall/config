@@ -108,25 +108,25 @@
           name = "vscode-kubernetes-tools";
           publisher = "ms-kubernetes-tools";
           version = "1.3.11";
-          sha256 = "sha256-I2ud9d4VtgiiIT0MeoaMThgjLYtSuftFVZHVJTMlJ8s=";
+          sha256 = "I2ud9d4VtgiiIT0MeoaMThgjLYtSuftFVZHVJTMlJ8s=";
         }
         {
           name = "hcl";
           publisher = "hashicorp";
-          version = "0.2.1";
-          sha256 = "sha256-5dBLDJ7Wgv7p3DY0klqxtgo2/ckAHoMOm8G1mDOlzZc=";
+          version = "0.3.2";
+          sha256 = "cxF3knYY29PvT3rkRS8SGxMn9vzt56wwBXpk2PqO0mo=";
         }
         {
           name = "atlascode";
           publisher = "atlassian";
-          version = "2.10.12";
-          sha256 = "sha256-6YAutknTJzCUwnZ6O4A8gAfCVJk3kpW05jacxA9j9/M=";
+          version = "3.0.1";
+          sha256 = "yBtMOFUoRfLxDzskL8VohJqKvOqP94SWzcTbZ8FxYXE=";
         }
         {
           name = "vscode-open-in-github";
-          publisher = "sysoev";
-          version = "1.17.0";
-          sha256 = "sha256-D0CQeoXsy1xhYCa7Voo+uYGMpDs9SkH1MEWTSIaVbhM=";
+          publisher = "ziyasal";
+          version = "1.3.6";
+          sha256 = "uJGCCvg6fj2He1HtKXC2XQLXYp0vTl4hQgVU9o5Uz5Q=";
         }
       ];
     };
