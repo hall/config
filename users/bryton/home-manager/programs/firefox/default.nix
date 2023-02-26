@@ -23,26 +23,26 @@
       };
       userChrome = builtins.readFile ./userChrome.css;
       userContent = builtins.readFile ./userContent.css;
+      extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+        # allow-right-click # TODO
+        # anchors-reveal
+        # auto-tab-discard
+        bitwarden
+        buster-captcha-solver
+        # bypass-paywalls-clean
+        # cast-kodi # TODO
+        darkreader
+        multi-account-containers
+        firefox-translations
+        floccus
+        gsconnect
+        i-dont-care-about-cookies
+        link-cleaner
+        # sidebery # TODO: need beta for search bar
+        temporary-containers
+        tridactyl
+        ublock-origin
+      ];
     };
   };
-  extensions = with pkgs.nur.repos.rycee.firefox-addons; [
-    # allow-right-click # TODO
-    # anchors-reveal
-    # auto-tab-discard
-    bitwarden
-    buster-captcha-solver
-    bypass-paywalls-clean
-    # cast-kodi # TODO
-    darkreader
-    multi-account-containers
-    firefox-translations
-    floccus
-    gsconnect
-    i-dont-care-about-cookies
-    link-cleaner
-    # sidebery # TODO: need beta for search bar
-    temporary-containers
-    tridactyl
-    ublock-origin
-  ];
 }
