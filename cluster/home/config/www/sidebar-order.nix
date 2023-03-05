@@ -1,8 +1,8 @@
 { ... }: {
   order = [
     { item = "overview"; }
-    { item = "browser"; hide = true; }
-    { item = "media"; }
+    { item = "media browser"; hide = true; }
+    { item = "media"; exact = true; }
     { item = "docs"; }
     { item = "photos"; }
     { item = "grocy"; }
