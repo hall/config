@@ -9,6 +9,7 @@
     "editor.fontFamily" = "Hack, monospace";
     "editor.formatOnSave" = true;
 
+    "autoReveal" = false;
     "explorer.confirmDelete" = false;
     "explorer.confirmDragAndDrop" = false;
 
