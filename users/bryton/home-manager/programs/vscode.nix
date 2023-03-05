@@ -67,20 +67,15 @@
     "window.autoDetectColorScheme" = true;
     "window.menuBarVisibility" = "toggle";
 
-    "workbench.colorTheme" = "Nord";
     # "workbench.experimental.sidePanel.enabled" = true;
     "workbench.experimental.panel.alignment" = "left";
 
     "zenMode.centerLayout" = false;
 
-    # make comments readable
-    # https://github.com/arcticicestudio/nord-visual-studio-code/issues/187
-    "editor.tokenColorCustomizations"."[Nord]"."comments" = "#81A1C1";
-    "workbench.colorCustomizations"."[Nord]"."diffEditor.insertedTextBackground" = "#5E81AC33";
   };
   extensions = (with pkgs.vscode-extensions; [
     alefragnani.project-manager
-    arcticicestudio.nord-visual-studio-code
+
     # asciidoctor.asciidoctor-vscode
     eamodio.gitlens
     editorconfig.editorconfig
