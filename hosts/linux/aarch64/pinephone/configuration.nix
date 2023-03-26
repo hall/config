@@ -2,15 +2,9 @@
 
   imports = [ (import "${flake.inputs.mobile}/lib/configuration.nix" { device = "pine64-pinephonepro"; }) ];
 
-  fileSystems = {
-    "/" = lib.mkForce {
-      device = "/dev/disk/by-label/NIXOS_SYSTEM";
-      fsType = "ext4";
-    };
-    "/home" = {
-      device = "/dev/disk/by-label/home";
-      fsType = "ext4";
-    };
+  fileSystems."/home" = {
+    device = "/dev/disk/by-label/home";
+    fsType = "ext4";
   };
 
   boot = {
