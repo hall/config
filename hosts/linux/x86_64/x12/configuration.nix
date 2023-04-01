@@ -5,10 +5,13 @@
   ];
 
   laptop.enable = true;
-  hardware.opengl.enable = true;
+  hardware = {
+    opengl.enable = true;
+    # autorotate
+    sensor.iio.enable = true;
+  };
 
   musnix.enable = true;
-  programs.steam.enable = true;
   # wireguard.enable = true;
 
   networking = {
