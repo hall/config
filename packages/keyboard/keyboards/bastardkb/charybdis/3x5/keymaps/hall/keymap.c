@@ -1,6 +1,5 @@
 #include QMK_KEYBOARD_H
 #include "keymap_dvorak.h"
-#include "timer.h" // for auto-pointer layer
 
 // Disable unused features.
 #define NO_ACTION_ONESHOT
@@ -76,24 +75,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 // clang-format on
 
-
-// auto pointer layer
-static uint16_t auto_pointer_layer_timer = 0;
-report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
-    if (abs(mouse_report.x) > 1 || abs(mouse_report.y) > 1) {
-        if (auto_pointer_layer_timer == 0) {
-            layer_on(LAYER_POINTER);
-        }
-        auto_pointer_layer_timer = timer_read();
-    }
-    return mouse_report;
-}
-void matrix_scan_user(void) {
-    if (auto_pointer_layer_timer != 0 && TIMER_DIFF_16(timer_read(), auto_pointer_layer_timer) >= 1000) {
-        auto_pointer_layer_timer = 0;
-        layer_off(LAYER_POINTER);
-    }
-}
 
 
 // custom keycodes
