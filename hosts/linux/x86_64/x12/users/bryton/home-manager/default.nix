@@ -35,6 +35,7 @@
       moserial
       cachix
 
+      watchmate
       nix-diff
     ] ++ (with flake.packages; [
       effects
