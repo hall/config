@@ -18,7 +18,6 @@
   # networking.interfaces.enp89s0.wakeOnLan.enable = true;
 
   hardware = {
-    video.hidpi.enable = true;
     # firmware = with pkgs; [
     #   firmwareLinuxNonfree
     # ];
