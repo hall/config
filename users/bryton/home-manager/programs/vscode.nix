@@ -2,8 +2,14 @@
 {
   enable = true;
   package = pkgs.vscodium;
-  mutableExtensionsDir = false;
+  # TODO: breaks multi-profile installs
+  # mutableExtensionsDir = false;
   userSettings = {
+    "3dpreview.hideControlsOnStart" = true;
+    "3dpreview.showMesh" = true;
+
+    "diffEditor.ignoreTrimWhitespace" = false;
+
     "draw.directory" = "assets";
 
     "editor.fontFamily" = "Hack, monospace";
@@ -23,17 +29,17 @@
     "latex-workshop.view.pdf.invertMode.enabled" = "auto";
     "latex-workshop.view.pdf.zoom" = "page-width";
 
-    "nix.enableLanguageServer" = true;
+    "[markdown]" = {
+      "editor.defaultFormatter" = "yzhang.markdown-all-in-one";
+    };
 
-    "projectManager.git.baseFolders" = [ "~/src" ];
-    "projectManager.git.maxDepthRecursion" = 5;
+    "nix.enableLanguageServer" = true;
 
     "redhat.telemetry.enabled" = false;
 
     "rest-client.enableTelemetry" = false;
     "rest-client.previewResponseInUntitledDocument" = true;
 
-    "revealjs.highlightTheme" = "nord";
     "revealjs.controls" = false;
 
     "todo-tree.regex.regex" = "(//|#|<!--|;|/\\*|^|^\\s*(-|\\d+.))\\s*($TAGS)";
@@ -64,24 +70,21 @@
 
     "update.mode" = "none";
 
+    "vs-kubernetes"."vs-kubernetes.kubeconfig" = "/run/secrets/kubeconfig";
+
     "window.autoDetectColorScheme" = true;
     "window.menuBarVisibility" = "toggle";
 
     # "workbench.experimental.sidePanel.enabled" = true;
-    "workbench.experimental.panel.alignment" = "left";
+    # "workbench.experimental.panel.alignment" = "left";
 
     "zenMode.centerLayout" = false;
 
   };
   extensions = (with pkgs.vscode-extensions; [
-    alefragnani.project-manager
-
     # asciidoctor.asciidoctor-vscode
     eamodio.gitlens
-    editorconfig.editorconfig
     esbenp.prettier-vscode
-    gitlab.gitlab-workflow
-    golang.go
     gruntfuggly.todo-tree
     # haskell.haskell
     humao.rest-client
@@ -93,8 +96,6 @@
     ms-toolsai.jupyter
     # ms-vscode-remote.remote-ssh
     # ms-vscode.cpptools
-    redhat.vscode-yaml
-    rust-lang.rust-analyzer
     ryu1kn.partial-diff
     # stkb.rewrap
     streetsidesoftware.code-spell-checker
@@ -103,37 +104,39 @@
   ] ++ (lib.optionals (pkgs.system != "aarch64-linux") [
     ms-python.python # unsupported
   ])) ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+    # TODO: move to dedicated profile
+    # {
+    #   name = "draw";
+    #   publisher = "hall";
+    #   version = "0.1.21";
+    #   sha256 = "sha256-pOZwuvUJWaEQn1zdHHTNvzK8KUS46Np5wuR7GDFGtis=";
+    # }
+    # {
+    #   name = "foam-vscode";
+    #   publisher = "foam";
+    #   version = "0.21.0";
+    #   sha256 = "sha256-X/vOqt6ijT+OHQNM5gTD8hapbi/PxpesnGy0vqVRQV0=";
+    # }
+    # {
+    #   name = "vscode-paste-image";
+    #   publisher = "mushan";
+    #   version = "1.0.4";
+    #   sha256 = "sha256-a6prHWZ8neNYJ+ZDE9ZvA79+5X0UlsFf8XSHYfOmd/I=";
+    # }
     {
-      name = "draw";
-      publisher = "hall";
-      version = "0.1.19";
-      sha256 = "sha256-9yfqNyE0s13xNOeP/iAE1fUPvXdDiBrHJhQ1AnkrHE0=";
-    }
-    {
-      name = "dendron";
-      publisher = "dendron";
-      version = "0.119.0";
-      sha256 = "sha256-fUL5f5Fw6PMc+92++Wj1UfJqRAVXb/MQ+b7grYs0E6M=";
-    }
-    {
-      name = "dendron-paste-image";
-      publisher = "dendron";
-      version = "1.1.0";
-      sha256 = "sha256-dhyTYsSVg3nXFdApTwRDC2ge5LYwVaX58uj5uJwoWqc=";
-    }
-    {
+      # too old in nixpkgs
       name = "direnv";
       publisher = "mkhl";
-      version = "0.6.1";
-      sha256 = "sha256-5/Tqpn/7byl+z2ATflgKV1+rhdqj+XMEZNbGwDmGwLQ=";
+      version = "0.10.1";
+      sha256 = "sha256-Da9Anme6eoKLlkdYaeLFDXx0aQgrtepuUnw2jEPXCVU=";
     }
-    {
-      # vscode-nix-ide dev uses this
-      name = "esbuild-problem-matchers";
-      publisher = "connor4312";
-      version = "0.0.2";
-      sha256 = "sha256-97Y+pJT/+MWOvyDwPqHoX3DnHhePaEvb0Mo+2bJvivE=";
-    }
+    # {
+    #   # vscode-nix-ide dev uses this
+    #   name = "esbuild-problem-matchers";
+    #   publisher = "connor4312";
+    #   version = "0.0.2";
+    #   sha256 = "sha256-97Y+pJT/+MWOvyDwPqHoX3DnHhePaEvb0Mo+2bJvivE=";
+    # }
     {
       # to generate conf hosts task list
       name = "tasks-shell-input";
@@ -141,13 +144,13 @@
       version = "1.7.0";
       sha256 = "sha256-s+kh3sFPmKTwyhumSeBnhFrdUV92CWvVjBMFUykipAE=";
     }
-    {
-      # for effects package
-      name = "vscode-faust";
-      publisher = "glen-anderson";
-      version = "1.1.0";
-      sha256 = "sha256-1aoyIN8qbMd2j3UnHUVe1YG9kmuCW/KXVkn5z7Z2SjU=";
-    }
+    # {
+    #   # for effects package
+    #   name = "vscode-faust";
+    #   publisher = "glen-anderson";
+    #   version = "1.1.0";
+    #   sha256 = "sha256-1aoyIN8qbMd2j3UnHUVe1YG9kmuCW/KXVkn5z7Z2SjU=";
+    # }
     {
       name = "vscode-reveal";
       publisher = "evilz";

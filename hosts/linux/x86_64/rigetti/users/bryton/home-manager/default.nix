@@ -98,9 +98,15 @@
             }
           ];
         "gitlab.customQueries" = [{ name = ""; type = "merge_requests"; }];
+        "gitlens.autolinks" = [{
+          "prefix" = "INFRA-";
+          "url" = "https://rigetti.atlassian.net/browse/INFRA-<num>";
+        }];
       };
       extensions = (with pkgs.vscode-extensions; [
         hashicorp.terraform
+        gitlab.gitlab-workflow
+        redhat.vscode-yaml
         # TODO: too old
         # ms-kubernetes-tools.vscode-kubernetes-tools # TODO: too old
       ]) ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
