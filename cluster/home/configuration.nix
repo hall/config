@@ -58,7 +58,6 @@
   history = { };
   logbook = { };
   stream = { };
-  updater = { };
   map = { };
   mobile_app = { };
   energy = { };
@@ -72,7 +71,8 @@
   python_script = { };
   recorder.db_url = "!secret postgresql";
 
-  automation = import ./automations.nix { };
+  automation = "!include automations.yaml";
+  scene = "!include scenes.yaml";
   script = import ./scripts.nix { inherit vars; };
 
   frontend = {
@@ -89,7 +89,6 @@
 
 
   lovelace = {
-    mode = "yaml";
     resources = [
       {
         url = "/hacsfiles/ha-floorplan/floorplan.js";
@@ -217,7 +216,8 @@
 
   switch = [{
     platform = "circadian_lighting";
-    lights_rgb = [ "light.lights" ];
+    lights_ct = [ "light.lights" ];
+    # lights_brightness = [ "light.switches" ];
     #prefer_rgb_color: true
     #min_color_temp: 1000
   }];
@@ -234,6 +234,16 @@
     }
     {
       platform = "group";
+      name = "switches";
+      entities = [
+        "light.livingroom_light_switch"
+        "light.bedroom_light_switch"
+        "light.office_light_switch"
+        "light.guest_light_switch"
+      ];
+    }
+    {
+      platform = "group";
       name = "nightstands";
       entities = [
         "light.nightstand_light_left"
@@ -245,6 +255,7 @@
       name = "livingroom";
       entities = [
         "light.livingroom_light"
+        "light.livingroom_lamp"
       ];
     }
     {
