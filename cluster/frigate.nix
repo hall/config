@@ -7,7 +7,7 @@ vars.simple {
   inherit kubenix pkgs;
   image = "blakeblackshear/frigate:0.11.1";
   port = 5000;
-  persistence.media.size = "100Gi";
+  persistence.media.size = "200Gi";
   values = {
     # required to access coral USB
     securityContext.privileged = true;
@@ -67,6 +67,7 @@ vars.simple {
           "123,0,335,0,376,62,138,135" # neighbor's yard
           "990,57,990,0,953,0,938,55" # lamppost across street
         ];
+        zones.yard.coordinates = "0,84,0,720,835,720,1256,434,1280,247,743,105,468,66,196,154";
         objects.filters.person.mask = [
           "193,368,565,367,533,93,178,105" # globe arborvitea
         ];
