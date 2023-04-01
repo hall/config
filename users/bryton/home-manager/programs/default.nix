@@ -64,7 +64,6 @@
     enable = true;
     viAlias = true;
     vimAlias = true;
-    plugins = with pkgs; [ nur.repos.m15a.vimExtraPlugins.firenvim ];
   };
 
 }
