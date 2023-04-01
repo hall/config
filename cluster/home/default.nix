@@ -22,7 +22,7 @@ in
     values = {
       image = {
         repository = "homeassistant/home-assistant";
-        tag = "2023.1.4";
+        tag = "2023.3";
       };
       service.main.ports.http.port = 8123;
       ingress.main = {
