@@ -8,15 +8,9 @@
   max-width: 700px;
 }
 
-/* SVG elements */
-
-svg * {
-  vector-effect: non-scaling-stroke !important;
-}
-
-path[id^="light."] {
-  stroke: black;
-  stroke-width: unset !important;
+path {
+  /* increase click area */
+  stroke-width: 3px !important;
 }
 
 

@@ -1,8 +1,14 @@
 { ... }: {
-  image = "/local/floorplan/blueprint.svg";
-  stylesheet = "/local/floorplan/style.css";
-  #log_level= info
-  #console_log_level= info
+  image = {
+    location = "/local/floorplan/blueprint.svg";
+    cache = false;
+  };
+  stylesheet = {
+    location = "/local/floorplan/style.css";
+    cache = false;
+  };
+  # log_level = "debug";
+  # console_log_level = "debug";
   defaults = {
     hover_action = "hover-info";
     hold_action = "toggle";
@@ -24,12 +30,12 @@
       entities = [
         "climate.thermostat"
         "cover.garage_door"
-        "media_player.kodi"
+        # "media_player.kodi"
         "camera.front_yard"
         "camera.back_yard"
         "camera.doorbell"
-        "binary_sensor.washing_machine_flood"
-        "binary_sensor.water_heater_flood"
+        # "binary_sensor.washing_machine_flood"
+        # "binary_sensor.water_heater_flood"
       ];
     }
 
@@ -37,41 +43,41 @@
       # inverse: tap to toggle
       entities = [
         "switch.printer_power_relay"
-        "switch.christmas_tree_power_relay"
+        # "switch.christmas_tree_power_relay"
       ];
       tap_action = "toggle";
       hold_action = "more-info";
     }
 
-    {
-      entities = [ "vacuum.roomba" ];
-      state_action = [{
-        action = "call-service";
-        service = "floorplan.class_set";
-        service_data = ''
-          >
-          var color = 'black'
+    # {
+    #   entities = [ "vacuum.roomba" ];
+    #   state_action = [{
+    #     action = "call-service";
+    #     service = "floorplan.class_set";
+    #     service_data = ''
+    #       >
+    #       var color = 'black'
 
-          if (entities["binary_sensor.roomba_bin_full"].state === 'on') {
-              return 'error'
-          else if (entities["binary_sensor.roomba_battery_level"].state < 30) {
-              return 'warning'
-          }
+    #       if (entities["binary_sensor.roomba_bin_full"].state === 'on') {
+    #           return 'error'
+    #       else if (entities["binary_sensor.roomba_battery_level"].state < 30) {
+    #           return 'warning'
+    #       }
 
-          return 'normal'
-        '';
-      }];
-    }
+    #       return 'normal'
+    #     '';
+    #   }];
+    # }
 
     {
       ###
       # text
       ###
       entities = [
-        "sensor.office_temperature"
-        "sensor.office_humidity"
-        "sensor.attic_temperature"
-        "sensor.attic_humidity"
+        # "sensor.office_temperature"
+        # "sensor.office_humidity"
+        # "sensor.attic_temperature"
+        # "sensor.attic_humidity"
       ];
       state_action = {
         action = "call-service";
@@ -85,13 +91,14 @@
       # lights
       ###
       entities = [
-        "light.office"
+        # "light.office"
         "light.office_light_switch"
-        "light.bedroom"
+        # "light.bedroom"
         "light.bedroom_light_switch"
         "light.nightstand_light_left"
         "light.nightstand_light_right"
-        "light.livingroom"
+        # "light.livingroom"
+        "light.livingroom_lamp"
         "light.livingroom_light_switch"
         "light.guest_light_switch"
       ];
@@ -101,20 +108,22 @@
         action = "call-service";
         service = "floorplan.style_set";
         service_data = ''
-          var color = 'black'
+          >
+          var color = 'black';
 
           if (entity.state === 'on') {
-            var rgb = [255,255,255]; 
+            var rgb = new Array(3).fill(entity.attributes.brightness);
+
             if (entity.attributes.rgb_color) {
-              rgb = entity.attributes.rgb_color
+              rgb = entity.attributes.rgb_color;
             }
             else if (entity.attributes.color_temp) {
-              rgb = util.color.miredToRGB(entity.attributes.color_temp)
+              rgb = util.color.miredToRGB(entity.attributes.color_temp);
             }
-              color = `rgb($${rgb[0]}, $${rgb[1]}, $${rgb[2]})`
+              color = `rgb(''${rgb.join(", ")})`;
           }
 
-          return `fill=$${color};`
+          return `fill: ''${color};`;
         '';
       }];
     }
