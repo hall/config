@@ -1,16 +1,6 @@
 #include QMK_KEYBOARD_H
 #include "keymap_dvorak.h"
 
-// Disable unused features.
-#define NO_ACTION_ONESHOT
-
-// docs.qmk.fm/using-qmk/software-features/tap_hold
-// bit.ly/tap-or-hold
-#define TAPPING_TERM 200
-#define TAPPING_FORCE_HOLD
-#define PERMISSIVE_HOLD
-#define IGNORE_MOD_TAP_INTERRUPT
-
 // redefine GASC as mod-tap variants
 #undef G
 #define G(kc) GUI_T(kc)
