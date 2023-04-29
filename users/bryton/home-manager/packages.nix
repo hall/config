@@ -2,7 +2,6 @@
 with pkgs; [
   nixpkgs-fmt
   wl-clipboard
-  xclip # some apps (e.g., tuple) want an x11 session
   dnsutils
   inetutils
 
@@ -29,10 +28,6 @@ with pkgs; [
   gnomeExtensions.night-theme-switcher
   gnomeExtensions.gesture-improvements
   ddcutil
-
-  # containers
-  kubectl
-  kubie
 
   rnix-lsp
 

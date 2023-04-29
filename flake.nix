@@ -70,6 +70,16 @@
           inherit (channels.nixpkgs.pkgs) lib;
         };
 
+        devShells.default = with channels.nixpkgs.pkgs; mkShell {
+          buildInputs = [
+            kubectl
+            kubie
+            kubernetes-helm
+          ];
+
+          KUBECONFIG = "/run/secrets/kubeconfig";
+        };
+
       };
 
     };
