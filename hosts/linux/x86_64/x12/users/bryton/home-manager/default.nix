@@ -5,7 +5,7 @@
       deploy-rs
       zotero
 
-      # pianobooster
+      pianobooster
       qjackctl
       #faust
       #faustlive
