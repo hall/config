@@ -22,7 +22,7 @@ flake.lib.recursiveMerge [
 
   (vars.simple {
     inherit kubenix;
-    image = "paperlessngx/paperless-ngx:1.11";
+    image = "paperlessngx/paperless-ngx:1.13";
     port = 8000;
     host = "docs";
     persistence = {
@@ -50,6 +50,9 @@ flake.lib.recursiveMerge [
         PAPERLESS_DBPASS = vars.secret "/postgresql/paperless";
 
         PAPERLESS_REDIS = "redis://paperless-redis-headless:6379";
+
+        PAPERLESS_CONSUMER_DELETE_DUPLICATES = "true";
+        PAPERLESS_AUTO_LOGIN_USERNAME = "hall";
       };
     };
   })
