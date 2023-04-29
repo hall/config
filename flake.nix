@@ -14,10 +14,11 @@
     kubenix.url = "github:hall/kubenix";
     # removes evalModules deprecation warning which is not yet included in any release
     utils.url = github:gytis-ivaskevicius/flake-utils-plus/be1be083af014720c14f3b574f57b6173b4915d0;
+    generators.url = github:nix-community/nixos-generators;
     mobile = {
       # https://github.com/NixOS/mobile-nixos/pull/445
-      url = github:nixos/mobile-nixos/pull/445/head;
-      # url = github:wentam/mobile-nixos-wip/wip/pinephone-pro;
+      # url = github:nixos/mobile-nixos/pull/535/head;
+      url = "/home/bryton/src/github.com/nixos/mobile-nixos";
       flake = false;
     };
   };
@@ -63,7 +64,29 @@
       ];
 
       outputsBuilder = channels: {
-        packages = ((import ./packages) { inherit lib channels; });
+        packages = ((import ./packages) { inherit lib channels; })
+          # // (builtins.mapAttrs
+          # (name: config:
+          #   let
+          #     sys = builtins.split "-" config.pkgs.system;
+          #     os = builtins.elemAt sys 2;
+          #     arch = builtins.elemAt sys 0;
+          #   in
+          #   inputs.generators.nixosGenerate rec {
+          #     inherit (config.pkgs) system;
+          #     format = if (arch == "aarch64") then "sd-aarch64" else "iso";
+          #     specialArgs = {
+          #       flake = self;
+          #       hostPath = ./hosts/${os}/${arch}/${name};
+          #     };
+          #     modules = hostDefaults.modules
+          #       ++ hosts.${name}.modules ++ [
+          #       ({ pkgs, ... }: { nixpkgs.overlays = sharedOverlays; })
+          #     ];
+          #   })
+          # self.nixosConfigurations)
+        ;
+
         kubenix = import ./cluster {
           flake = self;
           evalModules = inputs.kubenix.evalModules.${channels.nixpkgs.system};
