@@ -2,7 +2,7 @@
 flake.lib.recursiveMerge [
   (vars.simple {
     inherit kubenix;
-    image = "photoprism/photoprism:221116-jammy";
+    image = "photoprism/photoprism:221118-jammy";
     port = 2342;
     host = "photos";
     persistence = {
@@ -17,7 +17,7 @@ flake.lib.recursiveMerge [
         "traefik.ingress.kubernetes.io/router.middlewares" = "kube-system-home@kubernetescrd";
       };
       env = {
-        # PHOTOPRISM_AUTH_MODE = "public"; # disable auth
+        PHOTOPRISM_AUTH_MODE = "public"; # disable auth
         PHOTOPRISM_SPONSOR = "true";
         PHOTOPRISM_STORAGE_PATH = "/storage";
         PHOTOPRISM_ORIGINALS_PATH = "/originals";
