@@ -1,9 +1,4 @@
-{ config, pkgs, musnix, flake, ... }:
-{
-  boot.binfmt.emulatedSystems = [
-    "aarch64-linux"
-  ];
-
+{ config, pkgs, musnix, flake, ... }: {
   laptop.enable = true;
   hardware = {
     opengl.enable = true;
@@ -16,7 +11,7 @@
 
   networking = {
     firewall = {
-      checkReversePath = "loose";
+      # checkReversePath = "loose";
       allowedTCPPorts = [
         1716 # gsconnect
       ];
@@ -24,18 +19,18 @@
         51820 # wg
       ];
     };
-    wg-quick.interfaces.wg0 = {
-      address = [ "10.1.0.2/24" ];
-      dns = [ "10.0.0.1" ];
-      listenPort = 51820;
-      privateKeyFile = "/run/secrets/wg";
-      peers = [{
-        endpoint = "vpn.${flake.hostname}:51820";
-        allowedIPs = [ "0.0.0.0/0" ];
-        publicKey = "bt2nzOAO+ArOj5KQRI9c5pphmazcCZmiWvo/TeP3n3M=";
-        persistentKeepalive = 25;
-      }];
-    };
+    # wg-quick.interfaces.wg0 = {
+    #   address = [ "10.1.0.2/24" ];
+    #   dns = [ "10.0.0.1" ];
+    #   listenPort = 51820;
+    #   privateKeyFile = "/run/secrets/wg";
+    #   peers = [{
+    #     endpoint = "vpn.${flake.hostname}:51820";
+    #     allowedIPs = [ "0.0.0.0/0" ];
+    #     publicKey = "bt2nzOAO+ArOj5KQRI9c5pphmazcCZmiWvo/TeP3n3M=";
+    #     persistentKeepalive = 25;
+    #   }];
+    # };
     networkmanager.dispatcherScripts = [{
       source = pkgs.writeText "upHook" ''
         export PATH=$PATH:/run/current-system/sw/bin
