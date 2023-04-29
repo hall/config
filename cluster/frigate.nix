@@ -5,7 +5,7 @@ let
 in
 vars.simple {
   inherit kubenix pkgs;
-  image = "blakeblackshear/frigate:0.11.1";
+  image = "ghcr.io/blakeblackshear/frigate:0.12.0";
   port = 5000;
   persistence.media.size = "200Gi";
   values = {
