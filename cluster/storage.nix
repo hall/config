@@ -28,8 +28,8 @@ in
     chart = kubenix.lib.helm.fetch {
       repo = "https://charts.longhorn.io";
       chart = "longhorn";
-      version = "v1.4.1";
-      sha256 = "Tm5oRdz8dS7zKEVpVWFM/n1VJH/BSQpE0teqHyUON3Q=";
+      version = "v1.4.2";
+      sha256 = "wObUgcGMJtr8s5xpyfahjBm1roQyP4+nySeF/EkUWkg=";
     };
     namespace = ns;
     values = {
