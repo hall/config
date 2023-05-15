@@ -14,7 +14,7 @@ in
     systemd.user.services.hyperion = {
       enable = true;
       description = "Hyperion ambient light service";
-      serviceConfig.user = flake.username;
+      serviceConfig.user = flake.lib.username;
       documentation = [ "https://docs.hyperion-project.org" ];
       # requisite = [ "network.target" ];
       wants = [ "network-online.target" ];

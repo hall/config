@@ -73,7 +73,7 @@ in
 
     # allow binding kodi to port 80
     # security.wrappers.kodi = {
-    #   owner = flake.username;
+    #   owner = flake.lib.username;
     #   group = "root";
     #   capabilities = "cap_net_bind_service=+eip";
     #   source = "${kodi.outPath}/lib/kodi/kodi.bin";
@@ -100,8 +100,10 @@ in
         #   enable = true;
         # };
         displayManager = {
-          autoLogin.enable = true;
-          autoLogin.user = flake.username;
+          autoLogin = {
+            enable = true;
+            user = flake.lib.username;
+          };
           setupCommands = ''
             # ${pkgs.xorg.xset}/bin/xset -dpms
             ${pkgs.xorg.xset}/bin/xset s off
@@ -122,7 +124,7 @@ in
       # ];
     };
 
-    users.users.${flake.username}.extraGroups = [
+    users.users.${flake.lib.username}.extraGroups = [
       "audio"
       "sound"
       "video"

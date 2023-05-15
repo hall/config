@@ -19,7 +19,7 @@ let
     };
   };
 
-  home = config.users.users.${flake.username}.home;
+  home = config.users.users.${flake.lib.username}.home;
   # all resources which contain the current host
   shared = resource: (builtins.concatMap (group: group.${resource}) (builtins.filter
     (group: builtins.elem config.networking.hostName group.devices)
@@ -31,7 +31,7 @@ in
     syncthing = {
       # if host has an id
       enable = builtins.elem config.networking.hostName (builtins.attrNames ids);
-      user = flake.username;
+      user = flake.lib.username;
       openDefaultPorts = true;
       dataDir = home;
       devices = builtins.listToAttrs (builtins.map

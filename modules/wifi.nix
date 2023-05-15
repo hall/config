@@ -14,25 +14,11 @@ in
   };
 
   config = mkIf cfg.enable {
-    environment = {
-      etc = {
-        wifi = {
-          target = "NetworkManager/system-connections/${cfg.ssid}.nmconnection";
-          mode = "0400";
-          text = ''
-            [connection]
-            id=${cfg.ssid}
-            type=wifi
-
-            [wifi]
-            ssid=${cfg.ssid}
-
-            [wifi-security]
-            key-mgmt=wpa-psk
-            # psk=${flake.lib.pass "wifi"} # TODO: use file contents, not path
-          '';
-        };
-      };
+    age.secrets.wifi.file = ../secrets/wifi.age;
+    networking.wireless = {
+      environmentFile = "/run/secrets/wifi";
+      enable = true;
+      networks.${cfg.ssid}.psk = "@WIFI_PSK@";
     };
   };
 }
