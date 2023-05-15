@@ -4,14 +4,6 @@
     packages = with pkgs; [
       # azure-cli
       awscli2
-      google-cloud-sdk
-      tfswitch
-      nomad
-      slack
-      jwt-cli
-      toml2json
-      _1password-gui
-      dasel
     ];
   };
 
