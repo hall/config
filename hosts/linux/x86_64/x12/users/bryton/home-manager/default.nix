@@ -34,6 +34,7 @@
       siglo
       moserial
       cachix
+      koreader
 
       watchmate
       nix-diff
