@@ -33,16 +33,13 @@
       name = "Bryton Hall";
       email = "email@${hostname}";
 
-      hostDefaults = {
+      hosts = lib.mkHosts {
+        inherit self;
+        path = ./hosts;
         modules = [
           inputs.agenix.nixosModules.default
           inputs.musnix.nixosModules.musnix
         ] ++ (import ./modules);
-      };
-
-      hosts = lib.mkHosts {
-        inherit self;
-        hostsPath = ./hosts;
       };
 
       deploy.nodes = builtins.mapAttrs

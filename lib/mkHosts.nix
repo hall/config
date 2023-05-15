@@ -1,6 +1,6 @@
 { readDirNames }:
 let
-  mkHost = { self, hostsPath, system }: name:
+  mkHost = { self, path, modules, system }: name:
     let
       inherit (builtins) concatMap elemAt filter map pathExists split;
 
@@ -8,18 +8,18 @@ let
       platform = elemAt platformTuple 2;
       arch = elemAt platformTuple 0;
 
-      fullHostPath = /${hostsPath}/${platform}/${arch}/${name};
+      fullHostPath = /${path}/${platform}/${arch}/${name};
 
       usersPath = fullHostPath + /users;
       users = if pathExists usersPath then readDirNames usersPath else [ ];
 
       paths =
         map (user: ../users/${user}) users ++
-        map (user: usersPath + /${user}) users ++
+        map (user: /${usersPath}/${user}) users ++
         [
-          ../hosts
-          ../hosts/${platform}
-          ../hosts/${platform}/${arch}
+          /${path}
+          /${path}/${platform}
+          /${path}/${platform}/${arch}
           fullHostPath
         ];
     in
@@ -27,7 +27,7 @@ let
       inherit name;
       value = {
         inherit system;
-        modules = filter pathExists (map (path: path + /configuration.nix) paths);
+        modules = modules ++ (filter pathExists (map (path: path + /configuration.nix) paths));
         specialArgs = {
           flake = self // {
             packages = self.outputs.packages."${system}";
@@ -37,21 +37,21 @@ let
       };
     };
 
-  mkSystem = args@{ hostsPath, ... }: system:
+  mkSystem = args@{ path, ... }: system:
     let
       inherit (builtins) split elemAt;
       platformTuple = split "-" system;
       platform = elemAt platformTuple 2;
       arch = elemAt platformTuple 0;
-      hosts = readDirNames (hostsPath + /${platform}/${ arch});
+      hosts = readDirNames (path + /${platform}/${arch});
     in
     builtins.map (mkHost (args // { inherit system; })) hosts;
-  mkHosts = args@{ self, hostsPath }:
+  mkHosts = args@{ self, path, modules }:
     let
       inherit (builtins) concatMap listToAttrs;
-      platforms = readDirNames hostsPath;
+      platforms = readDirNames path;
       systems = concatMap
-        (platform: map (arch: arch + "-" + platform) (readDirNames /${ hostsPath}/${ platform}))
+        (platform: map (arch: arch + "-" + platform) (readDirNames /${path}/${platform}))
         platforms;
     in
     listToAttrs (concatMap (mkSystem args) systems);
