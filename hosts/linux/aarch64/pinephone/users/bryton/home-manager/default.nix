@@ -1,6 +1,13 @@
-{ pkgs, ... }:
+{ pkgs, flake, ... }:
 {
+  services.gammastep = {
+    enable = true;
+    # provider = "geoclue";
+    latitude = 40.0;
+    longitude = -77.0;
+  };
   programs = {
+    # firefox.package = flake.packages.firefox-mobile;
     vscode = {
       userSettings = {
         "editor.folding" = false;
