@@ -1,10 +1,5 @@
 { pkgs, flake, modulesPath, ... }: {
 
-  imports = [
-    flake.inputs.home.nixosModules.home-manager
-    (modulesPath + "/installer/scan/not-detected.nix")
-  ];
-
   hardware = {
     pulseaudio.enable = false;
     i2c.enable = true; # TODO: move?
@@ -30,7 +25,7 @@
   security = {
     sudo.extraRules = [
       {
-        users = [ flake.username ];
+        users = [ flake.lib.username ];
         commands = [{ command = "ALL"; options = [ "NOPASSWD" ]; }];
       }
     ];
@@ -38,7 +33,7 @@
   };
 
   users.users = {
-    ${flake.username} = {
+    ${flake.lib.username} = {
       isNormalUser = true;
       group = "users";
       extraGroups = [ "wheel" ];

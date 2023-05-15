@@ -37,6 +37,7 @@
         inherit self;
         path = ./hosts;
         modules = [
+          inputs.home.nixosModules.home-manager
           inputs.agenix.nixosModules.default
           inputs.musnix.nixosModules.musnix
         ] ++ (import ./modules);

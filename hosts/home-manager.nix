@@ -32,8 +32,10 @@ let
     };
 in
 {
-  home-manager.useGlobalPkgs = true;
-  home-manager.useUserPackages = true;
-  home-manager.users = mkUsers hostPath;
-  home-manager.extraSpecialArgs = specialArgs;
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    users = mkUsers hostPath;
+    extraSpecialArgs = specialArgs;
+  };
 }
