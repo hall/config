@@ -1,5 +1,4 @@
-{ pkgs, flake, lib, ... }:
-{
+{ pkgs, flake, lib, ... }: {
   laptop.enable = true;
 
   services = {
@@ -11,9 +10,17 @@
     globalprotect-openconnect
   ];
 
+  # TODO: latest kernel doesn't boot
+  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_5_15;
+
   age.secrets.id_work = {
     file = ../../../../secrets/id_work.age;
     owner = flake.username;
+  };
+
+  security.pam.services = {
+    login.u2fAuth = true;
+    sudo.u2fAuth = true;
   };
 
 }
