@@ -1,0 +1,18 @@
+stages:
+  - deploy
+
+pages:
+  image: nixpkgs/nix-flakes:nixos-22.11
+  stage: deploy
+  script:
+    - nix build '.#website'
+  artifacts:
+    paths:
+      - result
+  environment:
+    name: production
+    url: https://bryton.io
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      changes:
+        - packages/website/**
