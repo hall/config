@@ -4,7 +4,6 @@
   firefox = import ./firefox pkgs;
   ssh = import ./ssh.nix { inherit pkgs flake; };
   git = import ./git.nix { inherit flake; };
-  # grm = import ./grm.nix;
 
   rbw = {
     enable = true;
