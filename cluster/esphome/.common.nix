@@ -10,6 +10,6 @@
 
     ota.password = "!secret esphome";
 
-    mqtt.broker = "mqtt.${flake.hostname}";
+    mqtt.broker = "mqtt.${flake.lib.hostname}";
   };
 }

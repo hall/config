@@ -11,7 +11,7 @@
 
   monitor.enable = true;
 
-  users.users.${flake.username}.extraGroups = [ "audio" ];
+  users.users.${flake.lib.username}.extraGroups = [ "audio" ];
 
   hardware.deviceTree = {
     enable = true;

@@ -1,8 +1,8 @@
 { flake }:
 {
   enable = true;
-  userName = flake.name;
-  userEmail = flake.email;
+  userName = flake.lib.name;
+  userEmail = flake.lib.email;
   # difftastic.enable = true;
   lfs.enable = true;
   extraConfig = {

@@ -26,8 +26,8 @@
     country = "US";
     currency = "USD";
     time_zone = "!secret timezone";
-    external_url = "https://home.${flake.hostname}";
-    internal_url = "https://home.${flake.hostname}";
+    external_url = "https://home.${flake.lib.hostname}";
+    internal_url = "https://home.${flake.lib.hostname}";
 
     auth_providers = [{
       type = "trusted_networks";
@@ -197,17 +197,17 @@
     docs = {
       title = "Docs";
       icon = "mdi:file-document";
-      url = "https://docs.${flake.hostname}";
+      url = "https://docs.${flake.lib.hostname}";
     };
     photos = {
       title = "Photos";
       icon = "mdi:image";
-      url = "https://photos.${flake.hostname}";
+      url = "https://photos.${flake.lib.hostname}";
     };
     security = {
       title = "Security";
       icon = "mdi:security";
-      url = "https://frigate.${flake.hostname}";
+      url = "https://frigate.${flake.lib.hostname}";
     };
   };
 

@@ -10,7 +10,7 @@
         panel = true;
         cards = [{
           type = "iframe";
-          url = "https://${lower}.${flake.hostname}";
+          url = "https://${lower}.${flake.lib.hostname}";
         }];
 
       }) [ "Player" "Downloads" "Movies" "Shows" "Music" ];

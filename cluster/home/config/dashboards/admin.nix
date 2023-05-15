@@ -10,7 +10,7 @@
         panel = true;
         cards = [{
           type = "iframe";
-          url = "https://${lower}.${flake.hostname}";
+          url = "https://${lower}.${flake.lib.hostname}";
         }];
 
       }) [ "Grafana" "ESPHome" "Sync" "Longhorn" "Prometheus" "Alertmanager" "Octoprint" "Zigbee" "RSS" ];

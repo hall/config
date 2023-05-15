@@ -34,7 +34,7 @@
 
     xserver.desktopManager.phosh = {
       enable = true;
-      user = flake.username;
+      user = flake.lib.username;
       group = "users";
       phocConfig.xwayland = "immediate";
     };

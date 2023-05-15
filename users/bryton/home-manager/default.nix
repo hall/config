@@ -9,8 +9,8 @@
   xdg = import ./xdg.nix pkgs;
 
   home = {
-    username = flake.username;
-    homeDirectory = "/home/${flake.username}";
+    username = flake.lib.username;
+    homeDirectory = "/home/${flake.lib.username}";
     # https://nix-community.github.io/home-manager/release-notes.html
     stateVersion = "22.11";
     packages = import ./packages.nix { inherit config pkgs flake lib; };

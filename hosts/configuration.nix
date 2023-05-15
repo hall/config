@@ -80,14 +80,14 @@
       builders-use-substitutes = true
     '';
     settings = {
-      trusted-users = [ "root" flake.username ];
       experimental-features = "nix-command flakes";
+      trusted-users = [ "root" flake.lib.username ];
     };
 
     distributedBuilds = true;
     buildMachines = [{
       hostName = "tv";
-      sshUser = flake.username;
+      sshUser = flake.lib.username;
       sshKey = "/run/secrets/id_ed25519";
       systems = [ "x86_64-linux" "aarch64-linux" ];
       maxJobs = 8;

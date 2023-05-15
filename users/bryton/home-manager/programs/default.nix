@@ -8,7 +8,7 @@
   rbw = {
     enable = true;
     settings = {
-      email = flake.email;
+      email = flake.lib.email;
       pinentry = "gnome3";
     };
   };

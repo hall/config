@@ -25,13 +25,13 @@
   outputs = inputs@{ self, ... }:
     inputs.utils.lib.mkFlake rec {
       inherit self inputs;
-      lib = import ./lib { flake = self; };
 
-      username = "bryton";
-      hostname = "${username}.io";
-
-      name = "Bryton Hall";
-      email = "email@${hostname}";
+      lib = import ./lib { flake = self; } // rec {
+        username = "bryton";
+        hostname = "${username}.io";
+        name = "Bryton Hall";
+        email = "email@${hostname}";
+      };
 
       hosts = lib.mkHosts {
         inherit self;

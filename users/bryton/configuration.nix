@@ -26,7 +26,7 @@ let
   });
 in
 {
-  users.users.${flake.username} = {
+  users.users.${flake.lib.username} = {
     isNormalUser = true;
     shell = config.programs.xonsh.package;
     extraGroups = [
