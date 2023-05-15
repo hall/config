@@ -2,26 +2,25 @@
 
 A monorepo of all the things that aren't much use on their own to others.
 
-|                                 |                      |
-| ------------------------------- | -------------------- |
-| [hosts](./hosts)                | host configurations  |
-| [users](./users)                | user configurations  |
-| [modules](./modules)            | nixos modules        |
-| [packages](./packages)          | nix packages         |
-| [overlays](./overlays)          | nixpkgs overlays     |
-| [lib](./lib)                    | library functions    |
-| [secrets](./secrets)            | secrets management   |
-| [cluster](./cluster)            | kubernetes cluster   |
-| [cad](./packages/cad)           | various design files |
-| [keyboard](./packages/keyboard) | mechanical keyboards |
-| [website](./website)            | personal webpages    |
+|                        |                     |
+| ---------------------- | ------------------- |
+| [hosts](./hosts)       | host configurations |
+| [users](./users)       | user configurations |
+| [modules](./modules)   | nixos modules       |
+| [packages](./packages) | nix packages        |
+| [overlays](./overlays) | nixpkgs overlays    |
+| [lib](./lib)           | library functions   |
+| [secrets](./secrets)   | secrets management  |
+| [cluster](./cluster)   | kubernetes cluster  |
 
 Other projects I try to maintain or improve here and there:
 
-|                                            |                                       |
-| ------------------------------------------ | ------------------------------------- |
-| [kubenix](https://github.com/hall/kubenix) | kubernetes management with nix        |
-| [draw](https://github.com/hall/draw)       | vscode extension for drawing and math |
+|                                                      |                                       |
+| ---------------------------------------------------- | ------------------------------------- |
+| [draw](https://github.com/hall/draw)                 | vscode extension for drawing and math |
+| [kubenix](https://github.com/hall/kubenix)           | kubernetes management with nix        |
+| [midi.academy](https://github.com/hall/midi.academy) | interactive midi learning website     |
+
 
 ## configuration
 
