@@ -1,6 +1,5 @@
 { flake, ... }: rec {
-  mkHosts = import ./mkHosts.nix { inherit readDirNames; };
-
+  # create list of directories at path
   readDirNames = path:
     let
       files = builtins.readDir path;

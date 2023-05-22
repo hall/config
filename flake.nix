@@ -29,9 +29,8 @@
       email = "email@${hostname}";
     };
 
-    nixosConfigurations = lib.mkHosts {
-      inherit self;
-      path = ./hosts;
+    nixosConfigurations = import ./hosts {
+      inherit self lib;
       modules = [
         inputs.home.nixosModules.home-manager
         inputs.agenix.nixosModules.default

@@ -1,18 +1,17 @@
-{ readDirNames }:
 let
-  mkHost = { self, path, modules, platform, arch }: name:
+  mkHost = { self, lib, modules, platform, arch }: name:
     let
-      hostPath = /${path}/${platform}/${arch}/${name};
+      hostPath = ./${platform}/${arch}/${name};
       usersPath = hostPath + /users;
-      users = if builtins.pathExists usersPath then readDirNames usersPath else [ ];
+      users = if builtins.pathExists usersPath then lib.readDirNames usersPath else [ ];
 
       paths =
         map (user: ../users/${user}) users ++
         map (user: /${usersPath}/${user}) users ++
         [
-          /${path}
-          /${path}/${platform}
-          /${path}/${platform}/${arch}
+          ./.
+          ./${platform}
+          ./${platform}/${arch}
           hostPath
         ];
     in
@@ -34,14 +33,14 @@ let
     };
 in
 
-args@{ self, path, modules }: with builtins;
+args@{ self, lib, modules }: with builtins;
 listToAttrs (concatMap
   (platform: concatMap
     (arch: map
       (mkHost (args // { inherit platform arch; }))
-      (readDirNames /${path}/${platform}/${arch})
+      (lib.readDirNames ./${platform}/${arch})
     )
-    (readDirNames /${path}/${platform})
+    (lib.readDirNames ./${platform})
   )
-  (readDirNames /${path})
+  (lib.readDirNames ./.)
 )
