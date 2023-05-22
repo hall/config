@@ -25,7 +25,7 @@
     #   listenPort = 51820;
     #   privateKeyFile = "/run/secrets/wg";
     #   peers = [{
-    #     endpoint = "vpn.${flake.hostname}:51820";
+    #     endpoint = "vpn.${flake.lib.hostname}:51820";
     #     allowedIPs = [ "0.0.0.0/0" ];
     #     publicKey = "bt2nzOAO+ArOj5KQRI9c5pphmazcCZmiWvo/TeP3n3M=";
     #     persistentKeepalive = 25;
@@ -38,7 +38,7 @@
         if [[ nmcli -t -f SSID device wifi | grep hall ]]; then
           setting=false
         fi
-        su -l ${flake.username} -c "dbus-launch dconf write /org/gnome/desktop/screensaver/lock-enabled ''${setting:-true}"
+        su -l ${flake.lib.username} -c "dbus-launch dconf write /org/gnome/desktop/screensaver/lock-enabled ''${setting:-true}"
       '';
     }];
   };
@@ -58,35 +58,35 @@
     wg.file = ../../../../secrets/wg_${config.networking.hostName}.age;
     id_ed25519 = {
       file = ../../../../secrets/id_ed25519.age;
-      path = "${config.users.users.${flake.username}.home}/.ssh/id_ed25519";
-      owner = flake.username;
+      path = "${config.users.users.${flake.lib.username}.home}/.ssh/id_ed25519";
+      owner = flake.lib.username;
     };
 
     # openwrt doesn't support ed25519
     id_rsa = {
       file = ../../../../secrets/id_rsa.age;
-      path = "${config.users.users.${flake.username}.home}/.ssh/id_rsa";
-      owner = flake.username;
+      path = "${config.users.users.${flake.lib.username}.home}/.ssh/id_rsa";
+      owner = flake.lib.username;
     };
 
     github = {
       file = ../../../../secrets/github.age;
-      owner = flake.username;
+      owner = flake.lib.username;
     };
 
     gitlab = {
       file = ../../../../secrets/gitlab.age;
-      owner = flake.username;
+      owner = flake.lib.username;
     };
 
     kubeconfig = {
       file = ../../../../secrets/kubeconfig.age;
-      owner = flake.username;
+      owner = flake.lib.username;
     };
 
     kubenix = {
       file = ../../../../secrets/kubenix.age;
-      owner = flake.username;
+      owner = flake.lib.username;
     };
   };
 
