@@ -1,17 +1,10 @@
 { readDirNames }:
 let
-  mkHost = { self, path, modules, system }: name:
+  mkHost = { self, path, modules, platform, arch }: name:
     let
-      inherit (builtins) concatMap elemAt filter map pathExists split;
-
-      platformTuple = split "-" system;
-      platform = elemAt platformTuple 2;
-      arch = elemAt platformTuple 0;
-
-      fullHostPath = /${path}/${platform}/${arch}/${name};
-
-      usersPath = fullHostPath + /users;
-      users = if pathExists usersPath then readDirNames usersPath else [ ];
+      hostPath = /${path}/${platform}/${arch}/${name};
+      usersPath = hostPath + /users;
+      users = if builtins.pathExists usersPath then readDirNames usersPath else [ ];
 
       paths =
         map (user: ../users/${user}) users ++
@@ -20,43 +13,35 @@ let
           /${path}
           /${path}/${platform}
           /${path}/${platform}/${arch}
-          fullHostPath
+          hostPath
         ];
     in
     {
       inherit name;
       value = self.inputs.nixpkgs.lib.nixosSystem {
-        inherit system;
-        modules = modules ++ (filter pathExists (map (path: path + /configuration.nix) paths)) ++ [
+        system = "${arch}-${platform}";
+        modules = modules ++ [
           # TODO: not sure why the hostname gets set to `nixos`
           ({ ... }: { config.networking.hostName = name; })
-        ];
+        ] ++ (with builtins; filter pathExists (map (path: path + /configuration.nix) paths));
         specialArgs = {
+          inherit hostPath;
           flake = self // {
-            packages = self.outputs.packages."${system}";
+            packages = self.outputs.packages."${arch}-${platform}";
           };
-          hostPath = fullHostPath;
         };
       };
     };
-
-  mkSystem = args@{ path, ... }: system:
-    let
-      inherit (builtins) split elemAt;
-      platformTuple = split "-" system;
-      platform = elemAt platformTuple 2;
-      arch = elemAt platformTuple 0;
-      hosts = readDirNames (path + /${platform}/${arch});
-    in
-    builtins.map (mkHost (args // { inherit system; })) hosts;
-  mkHosts = args@{ self, path, modules }:
-    let
-      inherit (builtins) concatMap listToAttrs;
-      platforms = readDirNames path;
-      systems = concatMap
-        (platform: map (arch: arch + "-" + platform) (readDirNames /${path}/${platform}))
-        platforms;
-    in
-    listToAttrs (concatMap (mkSystem args) systems);
 in
-mkHosts
+
+args@{ self, path, modules }: with builtins;
+listToAttrs (concatMap
+  (platform: concatMap
+    (arch: map
+      (mkHost (args // { inherit platform arch; }))
+      (readDirNames /${path}/${platform}/${arch})
+    )
+    (readDirNames /${path}/${platform})
+  )
+  (readDirNames /${path})
+)

@@ -22,10 +22,12 @@
       );
     in f [ ] attrList;
 
+  # get list of systems present
+  supported = builtins.concatMap
+    (platform: map (arch: arch + "-" + platform) (readDirNames ../hosts/${platform}))
+    (readDirNames ../hosts);
+
   # create an attrset of supported systems to their corresponding nixpkgs
-  systems = function: flake.inputs.nixpkgs.lib.genAttrs [
-    "x86_64-linux"
-    "aarch64-linux"
-  ]
+  systems = function: flake.inputs.nixpkgs.lib.genAttrs supported
     (system: function flake.inputs.nixpkgs.legacyPackages.${system});
 }
