@@ -12,8 +12,6 @@
     musnix.url = github:musnix/musnix;
     mach.url = github:davhau/mach-nix/3.5.0;
     kubenix.url = "github:hall/kubenix";
-    # removes evalModules deprecation warning which is not yet included in any release
-    utils.url = github:gytis-ivaskevicius/flake-utils-plus/be1be083af014720c14f3b574f57b6173b4915d0;
     generators.url = github:nix-community/nixos-generators;
     mobile = {
       # https://github.com/NixOS/mobile-nixos/pull/445
@@ -22,86 +20,82 @@
       flake = false;
     };
   };
-  outputs = inputs@{ self, ... }:
-    inputs.utils.lib.mkFlake rec {
-      inherit self inputs;
+  outputs = inputs@{ self, ... }: rec {
 
-      lib = import ./lib { flake = self; } // rec {
-        username = "bryton";
-        hostname = "${username}.io";
-        name = "Bryton Hall";
-        email = "email@${hostname}";
-      };
-
-      hosts = lib.mkHosts {
-        inherit self;
-        path = ./hosts;
-        modules = [
-          inputs.home.nixosModules.home-manager
-          inputs.agenix.nixosModules.default
-          inputs.musnix.nixosModules.musnix
-        ] ++ (import ./modules);
-      };
-
-      deploy.nodes = builtins.mapAttrs
-        (name: config: {
-          hostname = name;
-          profiles.system = {
-            user = "root";
-            path = inputs.deploy.lib.${config.pkgs.system}.activate.nixos config;
-          };
-        })
-        self.nixosConfigurations
-      ;
-
-      checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) inputs.deploy.lib;
-
-      sharedOverlays = [
-        inputs.nur.overlay
-        (import ./overlays { inherit lib; })
-      ];
-
-      outputsBuilder = channels: {
-        packages = ((import ./packages) { inherit lib channels; })
-          # // (builtins.mapAttrs
-          # (name: config:
-          #   let
-          #     sys = builtins.split "-" config.pkgs.system;
-          #     os = builtins.elemAt sys 2;
-          #     arch = builtins.elemAt sys 0;
-          #   in
-          #   inputs.generators.nixosGenerate rec {
-          #     inherit (config.pkgs) system;
-          #     format = if (arch == "aarch64") then "sd-aarch64" else "iso";
-          #     specialArgs = {
-          #       flake = self;
-          #       hostPath = ./hosts/${os}/${arch}/${name};
-          #     };
-          #     modules = hostDefaults.modules
-          #       ++ hosts.${name}.modules ++ [
-          #       ({ pkgs, ... }: { nixpkgs.overlays = sharedOverlays; })
-          #     ];
-          #   })
-          # self.nixosConfigurations)
-        ;
-
-        kubenix = import ./cluster {
-          flake = self;
-          evalModules = inputs.kubenix.evalModules.${channels.nixpkgs.system};
-          inherit (channels.nixpkgs.pkgs) lib;
-        };
-
-        devShells.default = with channels.nixpkgs.pkgs; mkShell {
-          buildInputs = [
-            kubectl
-            kubie
-            kubernetes-helm
-          ];
-
-          KUBECONFIG = "/run/secrets/kubeconfig";
-        };
-
-      };
-
+    lib = import ./lib { flake = self; } // rec {
+      username = "bryton";
+      hostname = "${username}.io";
+      name = "Bryton Hall";
+      email = "email@${hostname}";
     };
+
+    nixosConfigurations = lib.mkHosts {
+      inherit self;
+      path = ./hosts;
+      modules = [
+        inputs.home.nixosModules.home-manager
+        inputs.agenix.nixosModules.default
+        inputs.musnix.nixosModules.musnix
+        ({ ... }: {
+          nixpkgs.overlays = [
+            inputs.nur.overlay
+            self.overlays.default
+          ];
+        })
+      ] ++ (with builtins;
+        map (x: ./modules/${x}) (attrNames (readDir ./modules)));
+    };
+
+    overlays.default = final: prev: with builtins; listToAttrs (map
+      (name: {
+        inherit name;
+        value = import ./overlays/${name} final prev;
+        # value = ./overlays/${name};
+      })
+      (attrNames (readDir ./overlays))
+    );
+
+    packages = lib.systems (pkgs:
+      pkgs.lib.trivial.pipe (lib.readDirNames ./packages) [
+        (map (name: {
+          inherit name;
+          value = pkgs.callPackage ./packages/${name} { };
+        }))
+        # remove unsupported packages
+        (builtins.filter (x: builtins.elem pkgs.system x.value.meta.platforms))
+        builtins.listToAttrs
+      ]
+    );
+
+    devShells = lib.systems (pkgs: {
+      default = with pkgs; mkShell {
+        buildInputs = [
+          kubectl
+          kubie
+          kubernetes-helm
+        ];
+        KUBECONFIG = "/run/secrets/kubeconfig";
+      };
+    });
+
+    checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) inputs.deploy.lib;
+
+    deploy.nodes = builtins.mapAttrs
+      (name: config: {
+        hostname = name;
+        profiles.system = {
+          user = "root";
+          path = inputs.deploy.lib.${config.pkgs.system}.activate.nixos config;
+        };
+      })
+      self.nixosConfigurations;
+
+
+    kubenix = lib.systems (pkgs: import ./cluster {
+      inherit (pkgs) lib;
+      flake = self;
+      evalModules = inputs.kubenix.evalModules.${pkgs.system};
+    });
+
+  };
 }

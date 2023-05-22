@@ -1,4 +1,4 @@
-{ ... }: rec {
+{ flake, ... }: rec {
   mkHosts = import ./mkHosts.nix { inherit readDirNames; };
 
   readDirNames = path:
@@ -21,4 +21,11 @@
         else lib.lists.last values
       );
     in f [ ] attrList;
+
+  # create an attrset of supported systems to their corresponding nixpkgs
+  systems = function: flake.inputs.nixpkgs.lib.genAttrs [
+    "x86_64-linux"
+    "aarch64-linux"
+  ]
+    (system: function flake.inputs.nixpkgs.legacyPackages.${system});
 }

@@ -42,4 +42,6 @@ stdenv.mkDerivation rec {
   '';
 
   dontFixup = true;
+
+  meta.platforms = [ "x86_64-linux" ];
 }

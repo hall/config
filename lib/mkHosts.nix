@@ -25,9 +25,12 @@ let
     in
     {
       inherit name;
-      value = {
+      value = self.inputs.nixpkgs.lib.nixosSystem {
         inherit system;
-        modules = modules ++ (filter pathExists (map (path: path + /configuration.nix) paths));
+        modules = modules ++ (filter pathExists (map (path: path + /configuration.nix) paths)) ++ [
+          # TODO: not sure why the hostname gets set to `nixos`
+          ({ ... }: { config.networking.hostName = name; })
+        ];
         specialArgs = {
           flake = self // {
             packages = self.outputs.packages."${system}";
