@@ -28,7 +28,7 @@ in
       ingress.main = {
         enabled = true;
         hosts = [{
-          host = "home.${flake.hostname}";
+          host = "home.${flake.lib.hostname}";
           paths = [{ path = "/"; }];
         }];
       };

@@ -34,7 +34,7 @@ in
     namespace = ns;
     values = {
       defaultSettings = {
-        backupTarget = "s3://backup.${flake.hostname}@nyc3/";
+        backupTarget = "s3://backup.${flake.lib.hostname}@nyc3/";
         backupTargetCredentialSecret = creds;
         replicaAutoBalance = "best-effort";
         orphanAutoDeletion = true;
@@ -42,7 +42,7 @@ in
       };
       ingress = {
         enabled = true;
-        host = "longhorn.${flake.hostname}";
+        host = "longhorn.${flake.lib.hostname}";
       };
       persistence = {
         defaultClass = false;

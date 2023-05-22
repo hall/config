@@ -57,7 +57,7 @@ in
       # ingress.main = {
       #   enabled = true;
       #   hosts = [{
-      #     host = "mqtt.${flake.hostname}";
+      #     host = "mqtt.${flake.lib.hostname}";
       #     paths = [{ path = "/"; }];
       #   }];
       # };

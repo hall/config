@@ -20,7 +20,7 @@ in
 
       prometheus = {
         prometheusSpec = {
-          externalUrl = "https://prometheus.${flake.hostname}";
+          externalUrl = "https://prometheus.${flake.lib.hostname}";
           serviceMonitorSelectorNilUsesHelmValues = false;
           podMonitorSelectorNilUsesHelmValues = false;
           storageSpec.volumeClaimTemplate.spec = {
@@ -43,16 +43,16 @@ in
         };
         ingress = {
           enabled = true;
-          hosts = [ "prometheus.${flake.hostname}" ];
+          hosts = [ "prometheus.${flake.lib.hostname}" ];
           pathType = "ImplementationSpecific";
         };
       };
 
       alertmanager = {
-        alertmanagerSpec.externalUrl = "https://alertmanager.${flake.hostname}";
+        alertmanagerSpec.externalUrl = "https://alertmanager.${flake.lib.hostname}";
         ingress = {
           enabled = true;
-          hosts = [ "alertmanager.${flake.hostname}" ];
+          hosts = [ "alertmanager.${flake.lib.hostname}" ];
           pathType = "ImplementationSpecific";
         };
         config = {
@@ -91,7 +91,7 @@ in
         };
         ingress = {
           enabled = true;
-          hosts = [ "grafana.${flake.hostname}" ];
+          hosts = [ "grafana.${flake.lib.hostname}" ];
           pathType = "ImplementationSpecific";
         };
         dashboardProviders."dashboardproviders.yaml" = {

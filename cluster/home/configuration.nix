@@ -50,48 +50,68 @@
     ];
   };
 
-  #media_source = {};
-  #logger.default= "debug";
-  weather = { };
-  sun = { };
-  config = { };
-  history = { };
-  logbook = { };
-  stream = { };
-  map = { };
-  mobile_app = { };
-  energy = { };
-  discovery = { };
-  system_health = { };
-  prometheus = { };
-  #transmission = {
-  #  host = "https://downloads.${flake.hostname}/transmission/rpc";
-  #  port = 443;
-  # };
-  python_script = { };
-  recorder.db_url = "!secret postgresql";
-
+  # https://www.home-assistant.io/integrations/default_config/
   automation = "!include automations.yaml";
-  scene = "!include scenes.yaml";
-  script = import ./scripts.nix { inherit vars; };
-
+  config = { };
+  energy = { };
   frontend = {
     # the `themes` directory is managed by HACS
     themes = "!include_dir_merge_named themes";
     extra_module_url = [
-      "/hacsfiles/custom-sidebar/custom-sidebar.js"
+      "/hacsfiles/custom-sidebar-v2/custom-sidebar-v2.js"
+      "/local/card-mod.js"
       # "/hacsfiles/stack-in-card/stack-in-card.js"
       # "/hacsfiles/mini-graph-card/mini-graph-card-bundle.js"
       # "/hacsfiles/bar-card/bar-card.js"
       # "/hacsfiles/lovelace-card-templater/lovelace-card-templater.js"
     ];
   };
+  history = { };
+  homeassistant_alerts = { };
+  logbook = { };
+  #logger.default= "debug";
+  map = { };
+  #media_source = {};
+  mobile_app = { };
+  person = [
+    {
+      name = "Bryton";
+      id = "bryton";
+      device_trackers = [ "device_tracker.sm_n950u1" ];
+    }
+    {
+      name = "Kristin";
+      id = "kristin";
+      device_trackers = [ "device_tracker.sm_g965u1" ];
+    }
+  ];
+  scene = "!include scenes.yaml";
+  script = "!include scripts.yaml";
+  sun = { };
+
+  weather = { };
+  stream = { };
+  discovery = { };
+  system_health = { };
+  prometheus = { };
+  input_boolean = { };
+  #transmission = {
+  #  host = "https://downloads.${flake.lib.hostname}/transmission/rpc";
+  #  port = 443;
+  # };
+  python_script = { };
+  recorder.db_url = "!secret postgresql";
+
 
 
   lovelace = {
     resources = [
       {
         url = "/hacsfiles/ha-floorplan/floorplan.js";
+        type = "module";
+      }
+      {
+        url = "/local/internal-iframe.js";
         type = "module";
       }
     ];
@@ -107,6 +127,12 @@
         filename = "dashboards/admin.yaml";
         title = "Admin";
         icon = "mdi:console-line";
+      };
+      lovelace-settings = {
+        mode = "yaml";
+        filename = "dashboards/settings.yaml";
+        title = "Settings";
+        icon = "mdi:cog";
       };
     };
   };
@@ -157,18 +183,6 @@
     # }
   ];
 
-  person = [
-    {
-      name = "Bryton";
-      id = "bryton";
-      device_trackers = [ "device_tracker.sm_n950u1" ];
-    }
-    {
-      name = "Kristin";
-      id = "kristin";
-      device_trackers = [ "device_tracker.sm_g965u1" ];
-    }
-  ];
   # device_tracker = [{
   #   platform = "luci";
   #   host = "router.lan";
@@ -179,7 +193,7 @@
   # }];
   # media_player = [{
   #   platform = "emby";
-  #   host = "player.${flake.hostname}";
+  #   host = "player.${flake.lib.hostname}";
   #   api_key = "!secret jellyfin";
   #   ssl = true;
   #   port = 443;

@@ -21,7 +21,7 @@ vars.simple {
       "traefik.ingress.kubernetes.io/router.middlewares" = "kube-system-home@kubernetescrd";
     };
     env.OCTOPRINT_PORT = "80";
-    nodeSelector."${flake.hostname}/printer" = "true";
+    nodeSelector."${flake.lib.hostname}/printer" = "true";
     securityContext.privileged = true;
   };
 }

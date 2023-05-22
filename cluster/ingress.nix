@@ -21,12 +21,12 @@ in
             kind = "Rule";
           }
           {
-            match = "Host(`home.${flake.hostname}`)";
+            match = "Host(`home.${flake.lib.hostname}`)";
             kind = "Rule";
             middlewares = [{ name = "home"; }];
           }
           {
-            match = "Host(`dav.${flake.hostname}`)";
+            match = "Host(`dav.${flake.lib.hostname}`)";
             kind = "Rule";
             middlewares = [{ name = "dav"; }];
           }
@@ -34,7 +34,7 @@ in
         tls = {
           certResolver = resolver;
           domains = [{
-            main = "*.${flake.hostname}";
+            main = "*.${flake.lib.hostname}";
           }];
         };
       };
@@ -58,7 +58,7 @@ in
         metadata.namespace = ns;
         spec = {
           headers = {
-            contentSecurityPolicy = "frame-src home.${flake.hostname}";
+            contentSecurityPolicy = "frame-src home.${flake.lib.hostname}";
             customResponseHeaders.x-frame-options = "";
           };
         };
@@ -133,7 +133,7 @@ in
       logs.general.level = "DEBUG";
 
       certResolvers.${resolver} = {
-        email = flake.email;
+        email = flake.lib.email;
         storage = "/data/acme.json";
         dnsChallenge = {
           provider = "digitalocean";

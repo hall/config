@@ -39,7 +39,7 @@ let
           ingress.main = {
             enabled = true;
             hosts = [{
-              host = "${if host != null then host else name}.${flake.hostname}";
+              host = "${if host != null then host else name}.${flake.lib.hostname}";
               paths = if (paths != null) then paths else [{ path = "/"; }];
             }];
           };

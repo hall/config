@@ -16,7 +16,7 @@ vars.simple {
       type = "hostPath";
       hostPath = "/dev/bus/usb";
     };
-    nodeSelector = { "${flake.hostname}/tpu" = "true"; };
+    nodeSelector = { "${flake.lib.hostname}/tpu" = "true"; };
   };
   config = {
     # ui.use_experimental = true;

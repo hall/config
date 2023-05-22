@@ -13,7 +13,7 @@
       ingress.main = {
         enabled = true;
         hosts = [{
-          host = "dav.${flake.hostname}";
+          host = "dav.${flake.lib.hostname}";
           paths = [{ path = "/"; }];
         }];
       };

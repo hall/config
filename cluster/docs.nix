@@ -40,7 +40,7 @@ flake.lib.recursiveMerge [
         "traefik.ingress.kubernetes.io/router.middlewares" = "kube-system-home@kubernetescrd";
       };
       env = {
-        PAPERLESS_URL = "https://docs.${flake.hostname}";
+        PAPERLESS_URL = "https://docs.${flake.lib.hostname}";
         PAPERLESS_CONSUMPTION_DIR = "/paperless/consume";
         PAPERLESS_DATA_DIR = "/paperless/data";
         PAPERLESS_MEDIA_ROOT = "/paperless/media";
