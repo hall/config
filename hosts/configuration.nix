@@ -57,10 +57,12 @@
       '';
     };
     xserver = {
+      enable = true;
       layout = "us";
       xkbVariant = "dvorak";
       autoRepeatInterval = 100;
       autoRepeatDelay = 200;
+      excludePackages = with pkgs; [ xterm ];
     };
   };
 
