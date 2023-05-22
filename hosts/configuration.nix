@@ -1,8 +1,6 @@
 { lib, pkgs, flake, age, ... }:
 {
-  imports = [
-    ./home-manager.nix
-  ];
+  imports = [ ./home-manager.nix ];
 
   # https://nixos.org/manual/nixos/stable/release-notes.html
   system.stateVersion = "22.11";
@@ -10,12 +8,10 @@
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "vscode-extension-ms-toolsai-jupyter"
     "vscode-extension-ms-vscode-cpptools"
-    "slack"
     "steam"
     "steam-original"
     "steam-runtime"
     "steam-run"
-    "1password"
   ];
 
   age.secretsDir = "/run/secrets";
