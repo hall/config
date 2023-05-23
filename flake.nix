@@ -80,8 +80,8 @@
     checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) inputs.deploy.lib;
 
     deploy.nodes = builtins.mapAttrs
-      (name: config: {
-        hostname = name;
+      (hostname: config: {
+        inherit hostname;
         profiles.system = {
           user = "root";
           path = inputs.deploy.lib.${config.pkgs.system}.activate.nixos config;
