@@ -10,4 +10,5 @@ prev.feedbackd.overrideAttrs (p: rec {
     sha256 = "l5rfMx3ElW25A5WVqzfKBp57ebaNC9msqV7mvnwv10s=";
     fetchSubmodules = true;
   };
+  patches = [ ];
 })
