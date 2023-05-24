@@ -1,5 +1,7 @@
 { pkgs, flake, modulesPath, ... }: {
 
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   hardware = {
     pulseaudio.enable = false;
     i2c.enable = true; # TODO: move?

@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 {
   boot = {
-    kernelPackages = pkgs.linuxPackages_latest;
     consoleLogLevel = 0;
     loader = {
       timeout = lib.mkForce 0; # set to 10 in isoImage
