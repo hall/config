@@ -49,7 +49,6 @@
       (name: {
         inherit name;
         value = import ./overlays/${name} final prev;
-        # value = ./overlays/${name};
       })
       (attrNames (readDir ./overlays))
     );

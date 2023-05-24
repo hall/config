@@ -17,7 +17,7 @@
     sessionVariables = {
       CALIBRE_USE_DARK_PALETTE = "1";
     };
-    file = let path = ../stage; in
+    file = let path = ./stage; in
       builtins.listToAttrs
         (map
           (file:

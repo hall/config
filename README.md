@@ -5,7 +5,6 @@ A monorepo of all the things that aren't much use on their own to others.
 |                        |                     |
 | ---------------------- | ------------------- |
 | [hosts](./hosts)       | host configurations |
-| [users](./users)       | user configurations |
 | [modules](./modules)   | nixos modules       |
 | [packages](./packages) | nix packages        |
 | [overlays](./overlays) | nixpkgs overlays    |

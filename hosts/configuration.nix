@@ -1,6 +1,41 @@
-{ lib, pkgs, flake, age, ... }:
+{ config, lib, pkgs, flake, age, specialArgs, ... }:
+let
+  xontribs = [
+    # "argcomplete" # tab completion of python and xonsh scripts
+    "sh" # prefix (ba)sh commands with "!"
+    # "onepath" # act on file/dir by only using its name # TODO: build failed
+    "pipeliner" # use "pl" to pipe a python expression
+    "zoxide"
+    "prompt-starship"
+    # "readable-traceback"
+  ];
+  pyenv = flake.inputs.mach.lib.${pkgs.system}.mkPython {
+    python = "python310";
+    requirements = ''
+      # black
+      # numpy
+      # pandas
+
+      xxh-xxh
+      # xxh-shell-xonsh
+      xonsh-direnv
+    '' + builtins.toString (map (x: "xontrib-" + x + "\n") xontribs);
+  };
+  xonsh = pkgs.xonsh.overrideAttrs (super: {
+    pythonPath = pyenv.selectPkgs pyenv.python.pkgs;
+  });
+in
 {
-  imports = [ ./home-manager.nix ];
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    users.${flake.lib.username} = with builtins; with lib.trivial; pipe
+      (filter pathExists [
+        ./home
+        /${specialArgs.hostPath}/home.nix
+      ]) [ (map import) lib.mkMerge ];
+    extraSpecialArgs = specialArgs;
+  };
 
   # https://nixos.org/manual/nixos/stable/release-notes.html
   system.stateVersion = "22.11";
@@ -29,15 +64,18 @@
     };
 
     gnome.excludePackages = with pkgs; [
-      gnome.cheese
-      gnome.gnome-music
-      gnome.gedit
+      epiphany # browser
       gnome-tour
       gnome-passwordsafe
-      epiphany # browser
-      gnome.seahorse # passwords
-      gnome.gnome-characters
-    ];
+    ] ++ (with gnome;[
+      cheese
+      gnome-music
+      gnome-notes
+      gedit
+      seahorse # passwords
+      gnome-characters
+      gnome-user-docs
+    ]);
   };
 
   services = {
@@ -107,4 +145,39 @@
 
   hardware.enableRedistributableFirmware = true;
 
+  programs.xonsh = {
+    enable = true;
+    package = xonsh;
+    config = with builtins; ''
+      $BASH_COMPLETIONS = ["${pkgs.bash-completion}/share/bash-completion/bash_completion"]
+      $VI_MODE = True
+
+      xontrib load direnv ${toString (map (x: replaceStrings [ "-" ] [ "_" ] x) xontribs)}
+
+      $GOPATH = $HOME
+      
+      aliases |= {
+          "k": ["kubectl"],
+          "cd": ["z"],
+      }
+    '';
+  };
+
+  users.users.${flake.lib.username} = {
+    isNormalUser = true;
+    shell = config.programs.xonsh.package;
+    extraGroups = [
+      "audio"
+      "dialout"
+      "docker"
+      "i2c"
+      "input"
+      "wheel"
+      #"wireshark"
+
+      "feedbackd"
+      "video"
+      "networkmanager"
+    ];
+  };
 }

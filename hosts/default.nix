@@ -1,19 +1,12 @@
 let
   mkHost = { self, lib, modules, platform, arch }: name:
     let
-      hostPath = ./${platform}/${arch}/${name};
-      usersPath = hostPath + /users;
-      users = if builtins.pathExists usersPath then lib.readDirNames usersPath else [ ];
-
-      paths =
-        map (user: ../users/${user}) users ++
-        map (user: /${usersPath}/${user}) users ++
-        [
-          ./.
-          ./${platform}
-          ./${platform}/${arch}
-          hostPath
-        ];
+      paths = [
+        ./.
+        ./${platform}
+        ./${platform}/${arch}
+        ./${platform}/${arch}/${name}
+      ];
     in
     {
       inherit name;
@@ -24,7 +17,7 @@ let
           ({ ... }: { config.networking.hostName = name; })
         ] ++ (with builtins; filter pathExists (map (path: path + /configuration.nix) paths));
         specialArgs = {
-          inherit hostPath;
+          hostPath = ./${platform}/${arch}/${name};
           flake = self // {
             packages = self.outputs.packages."${arch}-${platform}";
           };

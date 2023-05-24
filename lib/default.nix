@@ -1,11 +1,11 @@
 { flake, ... }: rec {
   # create list of directories at path
-  readDirNames = path:
+  readDirNames = with builtins; path:
     let
-      files = builtins.readDir path;
-      isDirectory = name: files."${name}" == "directory";
+      files = readDir path;
+      isDirectory = name: (files."${name}" == "directory") && (name != "home");
     in
-    builtins.filter isDirectory (builtins.attrNames files);
+    filter isDirectory (attrNames files);
 
   # merge a list of sets https://stackoverflow.com/a/54505212
   recursiveMerge = with builtins; attrList:

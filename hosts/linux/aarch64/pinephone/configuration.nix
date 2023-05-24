@@ -59,76 +59,8 @@
 
   location.provider = "geoclue2";
 
-  environment = {
-    variables = {
-      WEBKIT_FORCE_SANDBOX = "0"; # workaround for epiphany
-    };
-
-    systemPackages = with pkgs; [
-      # purple-matrix
-      # purple-slack
-      # tdlib-purple
-      pinentry-curses
-      pinentry-gnome
-
-      lingot
-
-      element-desktop
-      protonmail-bridge
-
-      chatty
-      megapixels
-      epiphany
-      newsflash
-
-      guitarix
-      spot
-      drawing
-      fragments
-      banking
-      tootle
-      # waydroid
-      tdesktop
-      pure-maps
-      siglo
-      # ardour
-
-      usbutils
-      libusb
-
-      gnome-podcasts
-      gnome-photos
-    ] ++ (with pkgs.gnome; [
-      geary # email
-      totem # videos
-      gedit # editor
-      nautilus # files
-      eog # images
-      fractal # matrix
-      giara # reddit
-
-      gnome-terminal
-      # gnome-connections
-      gnome-calendar
-      gnome-contacts
-      gnome-calculator
-      gnome-clocks
-      #gnome-documents # broken
-      gnome-maps
-      gnome-music
-      gnome-weather
-      gnome-system-monitor
-      gnome-sound-recorder
-      gnome-todo
-      gnome-notes
-      # gnome-books
-      gnome-screenshot
-      gnome-dictionary
-      gnome-disk-utility
-    ]) ++ (with flake.packages; [
-      effects
-      itd
-    ]);
+  environment.variables = {
+    WEBKIT_FORCE_SANDBOX = "0"; # workaround for epiphany
   };
 
 }
