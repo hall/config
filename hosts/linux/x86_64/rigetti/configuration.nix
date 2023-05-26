@@ -23,4 +23,9 @@
     sudo.u2fAuth = true;
   };
 
+  nixpkgs.config.permittedInsecurePackages = [
+    # TODO: remove when internal pypi is decomissioned
+    "python3.9-poetry-1.1.14"
+  ];
+
 }

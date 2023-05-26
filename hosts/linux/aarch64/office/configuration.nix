@@ -9,9 +9,11 @@
     })
   ];
 
+  environment.systemPackages = with pkgs;[ alsa-utils ];
+
   monitor.enable = true;
 
-  users.users.${flake.username}.extraGroups = [ "audio" ];
+  users.users.${flake.lib.username}.extraGroups = [ "audio" ];
 
   hardware.deviceTree = {
     enable = true;
@@ -59,7 +61,7 @@
   };
 
   boot = {
-    kernelPackages = pkgs.linuxPackages_rpi3;
+    kernelPackages = lib.mkForce pkgs.linuxPackages_rpi3;
     loader.generic-extlinux-compatible.enable = true;
   };
 
@@ -70,15 +72,27 @@
       streams = {
         all = {
           type = "meta";
-          location = "/turntable/spotify";
+          location = "/spotify";
         };
-        turntable = {
-          type = "tcp";
-          location = "0.0.0.0:49566";
-          query = {
-            sampleformat = "44100:16:2";
-          };
-        };
+        # turntable = {
+        #   type = "tcp";
+        #   location = "0.0.0.0:49566";
+        #   query = {
+        #     sampleformat = "44100:16:2";
+        #   };
+        # };
+        # turntable = {
+        #   type = "alsa";
+        #   location = "/";
+        #   query = {
+        #     name = "turntable";
+        #     device = "default";
+        #     send_silence = "true";
+        #     silence_threshold_percent = "0.1";
+        #     # sampleformat = "48000:32:2";
+        #     idle_threshold = "10";
+        #   };
+        # };
         spotify = {
           type = "librespot";
           location = "${pkgs.librespot}/bin/librespot";
@@ -108,16 +122,20 @@
         script = ''
           pactl load-module module-pipe-sink file=/run/snapserver/pipewire sink_name=Snapcast format=s16le rate=48000
         '';
+        # serviceConfig = {
+        # User = "snapserver";
+        # };
       };
-
       snapclient = {
         wantedBy = [
-          "multi-user.target" # enable on boot
+          "default.target" # enable on boot
+          "pipewire.service"
         ];
         after = [
           "pipewire.service"
         ];
         serviceConfig = {
+          # User = "snapserver";
           ExecStart = "${pkgs.snapcast}/bin/snapclient -h ::1";
         };
       };

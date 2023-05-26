@@ -30,7 +30,7 @@
           /plugin/;
 
           / {
-          	compatible = "brcm,bcm2835";
+          	compatible = "brcm,bcm2837";
 
           	fragment@0 {
           		target-path = "/";
@@ -96,7 +96,7 @@
   };
 
   boot = {
-    kernelPackages = pkgs.linuxPackages_rpi3;
+    kernelPackages = lib.mkForce pkgs.linuxPackages_rpi3;
     loader.generic-extlinux-compatible.enable = true;
   };
 

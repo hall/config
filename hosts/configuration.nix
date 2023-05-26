@@ -43,6 +43,7 @@ in
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "vscode-extension-ms-toolsai-jupyter"
     "vscode-extension-ms-vscode-cpptools"
+    "vscode-extension-github-copilot"
     "steam"
     "steam-original"
     "steam-runtime"

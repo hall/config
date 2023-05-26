@@ -7,8 +7,8 @@ in
     chart = kubenix.lib.helm.fetch {
       repo = "https://prometheus-community.github.io/helm-charts";
       chart = "kube-prometheus-stack";
-      version = "40.1.2";
-      sha256 = "sha256-fr+WtF61tiYSaMBf0zpG1oLhMcJyx+YizaPKyr2Vya0=";
+      version = "46.4.1";
+      sha256 = "s+uOIAQ36XHEKmTHwflZv8K3khm8u2/onacscgqgc2U=";
     };
     namespace = ns;
     values = {
@@ -30,13 +30,18 @@ in
           };
           additionalScrapeConfigs = [{
             job_name = "node-exporter";
+            relabel_configs = [{
+              regex = "(.*):(.*)";
+              source_labels = [ "__address__" ];
+              target_label = "instance";
+            }];
             static_configs = [{
               # TODO: don't hardcode
               targets = [
                 "router:9100"
                 "tv:9100"
                 "office:9100"
-                "bedroom:9100"
+                # "bedroom:9100"
               ];
             }];
           }];
@@ -109,16 +114,15 @@ in
         dashboards.default = {
           node-exporter-full = {
             gnetId = 1860;
-            revision = 29;
+            revision = 31;
             datasource = "Prometheus";
           };
         };
       };
 
-      nodeExporter.prometheus.monitor.relabelings = [{
+      prometheus-node-exporter.prometheus.monitor.relabelings = [{
         sourceLabels = [ "__meta_kubernetes_pod_node_name" ];
-        targetLabels = "instance";
-        action = "replace";
+        targetLabel = "instance";
       }];
 
     };

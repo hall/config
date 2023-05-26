@@ -1,6 +1,5 @@
 # NUC11PAHi7, 88:AE:DD:05:C9:46, F2 to enter bios
-{ lib, pkgs, musnix, flake, ... }:
-{
+{ lib, pkgs, musnix, flake, ... }: {
   imports = [ flake.inputs.hardware.nixosModules.intel-nuc-8i7beh ];
   boot.binfmt.emulatedSystems = [
     "aarch64-linux"
@@ -32,12 +31,9 @@
     };
   };
 
-  nixpkgs.config = {
-    #   allowUnfree = true;
-    packageOverrides = pkgs: {
-      vaapiIntel = pkgs.vaapiIntel.override {
-        enableHybridCodec = true;
-      };
+  nixpkgs.config.packageOverrides = pkgs: {
+    vaapiIntel = pkgs.vaapiIntel.override {
+      enableHybridCodec = true;
     };
   };
 }
