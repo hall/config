@@ -11,10 +11,17 @@ vars.simple {
   values = {
     # required to access coral USB
     securityContext.privileged = true;
-    persistence.usb = {
-      enabled = true;
-      type = "hostPath";
-      hostPath = "/dev/bus/usb";
+    persistence = {
+      usb = {
+        enabled = true;
+        type = "hostPath";
+        hostPath = "/dev/bus/usb";
+      };
+      gpu = {
+        enabled = true;
+        type = "hostPath";
+        hostPath = "/dev/video10";
+      };
     };
     nodeSelector = { "${flake.lib.hostname}/tpu" = "true"; };
   };
@@ -28,8 +35,7 @@ vars.simple {
     };
     ffmpeg = {
       # https://docs.frigate.video/configuration/hardware_acceleration#raspberry-pi-34-64-bit-os
-      # TODO: https://github.com/blakeblackshear/frigate/issues/3780
-      # hwaccel_args = [ "-c:v" "h264_v4l2m2m" ];
+      hwaccel_args = "preset-rpi-64-h264";
       # https://docs.frigate.video/faqs/#audio-in-recordings
       output_args.record = builtins.replaceStrings [ " -an" ] [ "" ] ffmpeg.default_args;
     };
