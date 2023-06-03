@@ -1,115 +1,109 @@
-{ lib, flake, pkgs, config, ... }: {
-  # $ cat /proc/device-tree/model 
-  #   Raspberry Pi 3 Model B
-  # https://www.hifiberry.com/docs/data-sheets/datasheet-amp2
+{ lib, flake, pkgs, config, modulesPath, ... }: {
 
-  nixpkgs.overlays = [
-    (_final: prev: {
-      deviceTree.applyOverlays = prev.callPackage ../apply-overlays-dtmerge.nix { };
-    })
+  imports = [
+    flake.inputs.hardware.nixosModules.raspberry-pi-4
+    (modulesPath + "/installer/sd-card/sd-image-aarch64.nix")
   ];
 
   monitor.enable = true;
+  boot = {
+    kernelPackages = lib.mkForce pkgs.linuxPackages_rpi4; # _6_1
+    loader.generic-extlinux-compatible.enable = true;
+    # > cat /proc/asound/modules
+    extraModprobeConfig = ''
+      options snd slots=snd_soc_rpi_simple_soundcard
+    '';
+  };
 
   users.users.${flake.lib.username}.extraGroups = [ "audio" ];
-
-  hardware.deviceTree = {
-    enable = true;
-    filter = lib.mkForce "*-rpi-3-b.dtb";
-    overlays = [
-      # {
-      #   name = "hifiberry-dacplus";
-      #   dtboFile = "${config.boot.kernelPackages.kernel}/dtbs/overlays/hifiberry-dacplus.dtbo";
-      # }
-      {
-        name = "hifiberry-dacplus";
-        # https://github.com/raspberrypi/linux/blob/rpi-5.15.y/arch/arm/boot/dts/overlays/hifiberry-dacplus-overlay.dts
-        dtsText = ''
-          // Definitions for HiFiBerry DAC+
-          /dts-v1/;
-          /plugin/;
-
-          / {
-          	compatible = "brcm,bcm2837";
-
-          	fragment@0 {
-          		target-path = "/";
-          		__overlay__ {
-          			dacpro_osc: dacpro_osc {
-          				compatible = "hifiberry,dacpro-clk";
-          				#clock-cells = <0>;
-          			};
-          		};
-          	};
-
-          	fragment@1 {
-          		target = <&i2s>;
-          		__overlay__ {
-          			status = "okay";
-          		};
-          	};
-
-          	fragment@2 {
-          		target = <&i2c1>;
-          		__overlay__ {
-          			#address-cells = <1>;
-          			#size-cells = <0>;
-          			status = "okay";
-
-          			pcm5122@4d {
-          				#sound-dai-cells = <0>;
-          				compatible = "ti,pcm5122";
-          				reg = <0x4d>;
-          				clocks = <&dacpro_osc>;
-          				AVDD-supply = <&vdd_3v3_reg>;
-          				DVDD-supply = <&vdd_3v3_reg>;
-          				CPVDD-supply = <&vdd_3v3_reg>;
-          				status = "okay";
-          			};
-          			hpamp: hpamp@60 {
-          				compatible = "ti,tpa6130a2";
-          				reg = <0x60>;
-          				status = "disabled";
-          			};
-          		};
-          	};
-
-          	fragment@3 {
-          		target = <&sound>;
-          		hifiberry_dacplus: __overlay__ {
-          			compatible = "hifiberry,hifiberry-dacplus";
-          			i2s-controller = <&i2s>;
-          			status = "okay";
-          		};
-          	};
-
-          	__overrides__ {
-          		24db_digital_gain =
-          			<&hifiberry_dacplus>,"hifiberry,24db_digital_gain?";
-          		slave = <&hifiberry_dacplus>,"hifiberry-dacplus,slave?";
-          		leds_off = <&hifiberry_dacplus>,"hifiberry-dacplus,leds_off?";
-          	};
-          };
-        '';
-      }
-    ];
+  users.users."snapserver" = {
+    isSystemUser = true;
+    group = "snapserver";
+    extraGroups = [ "audio" ];
   };
+  users.groups.snapserver = { };
+  environment.systemPackages = with pkgs;[
+    alsa-utils
+    dconf
+  ];
 
-  boot = {
-    kernelPackages = lib.mkForce pkgs.linuxPackages_rpi3;
-    loader.generic-extlinux-compatible.enable = true;
-  };
-
-  systemd.services.snapclient = {
-    wantedBy = [
-      "multi-user.target" # enable on boot
-    ];
-    after = [
-      "pipewire.service"
-    ];
-    serviceConfig = {
-      ExecStart = "${pkgs.snapcast}/bin/snapclient -h office";
+  hardware = {
+    pulseaudio.enable = lib.mkForce true;
+    raspberry-pi."4".apply-overlays-dtmerge.enable = true;
+    deviceTree = {
+      enable = true;
+      filter = "bcm2711-rpi-4-b*.dtb";
+      overlays = [{
+        # https://www.hifiberry.com/docs/data-sheets/datasheet-miniamp
+        name = "hifiberry-dac";
+        dtsText = with builtins; replaceStrings [ "bcm2835" ] [ "bcm2711" ] (readFile (fetchurl {
+          url = "https://raw.githubusercontent.com/raspberrypi/linux/rpi-6.1.y/arch/arm/boot/dts/overlays/hifiberry-dac-overlay.dts";
+          sha256 = "0ln9bdwyq9cx3nsn091wmy6a3ydqdnfqagg39v4qbpf6nik2v9fb";
+        }));
+      }];
     };
   };
 
+  services = {
+    pipewire = {
+      enable = lib.mkForce false;
+      systemWide = true;
+    };
+    snapserver = {
+      enable = true;
+      openFirewall = true;
+      streams = {
+        all = {
+          type = "meta";
+          location = "/turntable/spotify";
+        };
+        turntable = {
+          type = "alsa";
+          location = "/";
+          query = {
+            device = "hw:2";
+            sampleformat = "48000:16:2";
+            idle_threshold = "1000"; # ms
+          };
+        };
+        spotify = {
+          type = "librespot";
+          location = "${pkgs.librespot}/bin/librespot";
+          query = {
+            name = "spotify";
+            devicename = "home";
+            volume = "60";
+          };
+        };
+      };
+    };
+  };
+
+  age.secrets.spotify.file = ../../../../secrets/spotify.age;
+
+  systemd = {
+    services = {
+      snapserver.serviceConfig.EnvironmentFile = "/run/secrets/spotify";
+      snapclient = {
+        wantedBy = [ "multi-user.target" ]; # enable on boot
+        requires = [ "dbus.service" ];
+        wants = [ "avahi-daemon.service" ];
+        after = [
+          "network-online.target"
+          "time-sync.target"
+          "sound.target"
+          "avahi-daemon.service"
+          "pipewire.service"
+        ];
+        # for alsa device access
+        environment.XDG_RUNTIME_DIR = "/run/user/1000";
+        serviceConfig = {
+          User = flake.lib.username;
+          Group = "audio";
+          ExecStart = "${pkgs.snapcast}/bin/snapclient -h ::1";
+          Restart = "on-failure";
+        };
+      };
+    };
+  };
 }
