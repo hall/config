@@ -1,144 +1,39 @@
-{ flake, pkgs, config, lib, ... }: {
-  # $ cat /proc/device-tree/model 
-  #   Raspberry Pi 3 Model B+
-  # https://www.hifiberry.com/docs/data-sheets/datasheet-miniamp
+{ flake, pkgs, config, lib, modulesPath, ... }: {
 
-  nixpkgs.overlays = [
-    (_final: prev: {
-      deviceTree.applyOverlays = prev.callPackage ../apply-overlays-dtmerge.nix { };
-    })
+  imports = [
+    flake.inputs.hardware.nixosModules.raspberry-pi-4
+    (modulesPath + "/installer/sd-card/sd-image-aarch64.nix")
   ];
 
-  environment.systemPackages = with pkgs;[ alsa-utils ];
+  # monitor.enable = true;
 
-  monitor.enable = true;
+  services.k8s = {
+    enable = true;
+    role = "agent";
+  };
+
+  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_rpi4; # _6_1
+  boot.blacklistedKernelModules = [ "snd_pcsp" ];
+  boot.extraModprobeConfig = ''
+    options snd slots=sndrpihifiberry
+  '';
 
   users.users.${flake.lib.username}.extraGroups = [ "audio" ];
+  environment.systemPackages = with pkgs;[ alsa-utils dconf ];
 
-  hardware.deviceTree = {
-    enable = true;
-    filter = lib.mkForce "*-rpi-3-b-plus.dtb";
-    overlays = [{
-      name = "hifiberry-dac";
-      # https://github.com/raspberrypi/linux/blob/rpi-5.15.y/arch/arm/boot/dts/overlays/hifiberry-dac-overlay.dts
-      dtsText = ''
-         // Definitions for HiFiBerry DAC
-         /dts-v1/;
-         /plugin/;
-
-         / {
-          compatible = "brcm,bcm2837";
-
-         	fragment@0 {
-         		target = <&i2s>;
-         		__overlay__ {
-         			status = "okay";
-         		};
-         	};
-
-         	fragment@1 {
-         		target-path = "/";
-         		__overlay__ {
-         			pcm5102a-codec {
-         				#sound-dai-cells = <0>;
-         				compatible = "ti,pcm5102a";
-         				status = "okay";
-         			};
-         		};
-         	};
-
-         	fragment@2 {
-         		target = <&sound>;
-         		__overlay__ {
-         			compatible = "hifiberry,hifiberry-dac";
-         			i2s-controller = <&i2s>;
-         			status = "okay";
-         		};
-         	};
-        };
-      '';
-    }];
-  };
-
-  boot = {
-    kernelPackages = lib.mkForce pkgs.linuxPackages_rpi3;
-    loader.generic-extlinux-compatible.enable = true;
-  };
-
-  services = {
-    snapserver = {
+  hardware = {
+    raspberry-pi."4".apply-overlays-dtmerge.enable = true;
+    deviceTree = {
       enable = true;
-      openFirewall = true;
-      streams = {
-        all = {
-          type = "meta";
-          location = "/spotify";
-        };
-        # turntable = {
-        #   type = "tcp";
-        #   location = "0.0.0.0:49566";
-        #   query = {
-        #     sampleformat = "44100:16:2";
-        #   };
-        # };
-        # turntable = {
-        #   type = "alsa";
-        #   location = "/";
-        #   query = {
-        #     name = "turntable";
-        #     device = "default";
-        #     send_silence = "true";
-        #     silence_threshold_percent = "0.1";
-        #     # sampleformat = "48000:32:2";
-        #     idle_threshold = "10";
-        #   };
-        # };
-        spotify = {
-          type = "librespot";
-          location = "${pkgs.librespot}/bin/librespot";
-          query = {
-            name = "spotify";
-            devicename = "home";
-            volume = "60";
-          };
-        };
-      };
-    };
-  };
-
-  age.secrets.spotify.file = ../../../../secrets/spotify.age;
-
-  systemd = {
-    services.snapserver.serviceConfig.EnvironmentFile = "/run/secrets/spotify";
-    user.services = {
-      snapcast-sink = {
-        wantedBy = [ "pipewire.service" ];
-        after = [ "pipewire.service" ];
-        bindsTo = [ "pipewire.service" ];
-        path = with pkgs; [
-          gawk
-          pulseaudio
-        ];
-        script = ''
-          pactl load-module module-pipe-sink file=/run/snapserver/pipewire sink_name=Snapcast format=s16le rate=48000
-        '';
-        # serviceConfig = {
-        # User = "snapserver";
-        # };
-      };
-      snapclient = {
-        wantedBy = [
-          "default.target" # enable on boot
-          "pipewire.service"
-        ];
-        after = [
-          "pipewire.service"
-        ];
-        serviceConfig = {
-          # User = "snapserver";
-          ExecStart = "${pkgs.snapcast}/bin/snapclient -h ::1";
-        };
-      };
+      filter = "bcm2711-rpi-4-b.dtb";
+      overlays = [{
+        # https://www.hifiberry.com/docs/data-sheets/datasheet-amp2
+        name = "hifiberry-dacplus";
+        dtsText = with builtins; replaceStrings [ "bcm2835" ] [ "bcm2711" ] (readFile (fetchurl {
+          url = "https://raw.githubusercontent.com/raspberrypi/linux/rpi-6.1.y/arch/arm/boot/dts/overlays/hifiberry-dacplus-overlay.dts";
+          sha256 = "0sy57c8kkx04yzsy8r0p9n2fiv27c1vw46a668wjszir4y0147am";
+        }));
+      }];
     };
   };
 
