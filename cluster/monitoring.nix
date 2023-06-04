@@ -26,7 +26,7 @@ in
           storageSpec.volumeClaimTemplate.spec = {
             storageClassName = "longhorn-static";
             accessModes = [ "ReadWriteOnce" ];
-            resources.requests.storage = "50Gi";
+            resources.requests.storage = "100Gi";
           };
           additionalScrapeConfigs = [{
             job_name = "node-exporter";
