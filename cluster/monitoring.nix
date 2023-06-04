@@ -40,8 +40,7 @@ in
               targets = [
                 "router:9100"
                 "tv:9100"
-                "office:9100"
-                # "bedroom:9100"
+                "bedroom:9100"
               ];
             }];
           }];
