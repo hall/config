@@ -7,7 +7,7 @@
         realName = flake.lib.name;
         primary = true;
         userName = flake.lib.email;
-        passwordCommand = "rbw get protonmail";
+        # passwordCommand = "rbw get protonmail";
         imap = {
           host = "imap.${flake.lib.hostname}";
           port = 1143;

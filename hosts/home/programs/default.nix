@@ -5,14 +5,6 @@
   ssh = import ./ssh.nix { inherit pkgs flake; };
   git = import ./git.nix { inherit flake; };
 
-  rbw = {
-    enable = true;
-    settings = {
-      email = flake.lib.email;
-      pinentry = "gnome3";
-    };
-  };
-
   direnv = {
     enable = true;
     nix-direnv.enable = true;
@@ -37,7 +29,6 @@
   # obs-studio = { enable = true; };
   # font
   # keychain
-
 
   starship = {
     enable = true;
