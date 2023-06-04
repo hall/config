@@ -11,12 +11,11 @@ let
     k2 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJMmr6J1tAqfqkjEfLdB2KbOCJ2Okbudpb719G1Ext9n";
     k3 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILbZbcCFoFb82V/OCMpQqz2ttUKUCLcLY7ZckRIJnb8c";
     k4 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGZnPCtMQxUVZN+NemLHpxrRWbMPNUyWG4tWXDN67j9S";
-    # k5 = "ssh-ed25519 ";
+    office = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB+50RCKZt+fEogVvUaw0nfb8Wvc4g62DdLh5ebkQ5BH";
   };
 
   hosts = {
-    bedroom = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOFjdkSO9y85QQ0n6bmXI2RJLVYBsEVMPLtRoFCVHk39";
-    office = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBWyl3CXQJF7IWCdeWwpseg8eD6yY2HWBKrKQ/f8KgRo";
+    bedroom = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICsgKixPi4ys95A03K5nTT18OiMAXD9POq/EvnyDnznN";
     pinephone = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPHx6N0eSzOMJF9fa2WjftMedXnpCQvuSXCdaPsl63T1";
     router = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGh1Y9bVrHzswsKNXJIVefURm345gH0X1Tx1edzY617h";
     tv = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPBsVhSyPX8F3/WBo+W9w8lYAtfnFgQGg7k7w/8SINCa";
@@ -55,7 +54,7 @@ in
   "k3s.age".publicKeys = [ user ] ++ (members cluster);
 
   # password for librespot
-  "spotify.age".publicKeys = with hosts; [ user office ];
+  "spotify.age".publicKeys = with hosts; [ user bedroom ];
 
   # kubernetes
   "kubeconfig.age".publicKeys = main;
