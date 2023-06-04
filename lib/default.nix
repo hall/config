@@ -17,7 +17,7 @@
         then unique (concatLists values)
         else if all isAttrs values
         then f (attrPath ++ [ n ]) values
-        else lib.lists.last values
+        else elemAt values ((length values) - 1)
       );
     in f [ ] attrList;
 
