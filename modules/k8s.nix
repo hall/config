@@ -9,8 +9,13 @@ in
     enable = lib.mkEnableOption "kubernetes node";
     role = lib.mkOption {
       description = "server or agent node";
-      default = "server";
+      default = "agent";
       type = lib.types.str;
+    };
+    config = lib.mkOption {
+      description = "extra configuration options";
+      default = { };
+      type = lib.types.attrs;
     };
 
   };
@@ -19,6 +24,7 @@ in
     boot.kernelParams = [
       "cgroup_memory=1"
       "cgroup_enable=memory"
+      "cgroup_enable=cpuset"
     ];
 
     networking.firewall = {
@@ -41,19 +47,12 @@ in
       k3s = {
         enable = true;
         role = cfg.role;
-        extraFlags = mkIf (cfg.role == "server") (toString [
-          "--tls-san=k"
-          "--disable-helm-controller"
-          "--disable-cloud-controller"
-          "--disable-network-policy"
-          "--disable traefik"
-          "--disable local-storage"
-          # "--disable servicelb"
-          # coredns, metrics-server
-        ]);
         tokenFile = "/run/secrets/k3s";
         clusterInit = mkIf (config.networking.hostName == "k0") true;
-        serverAddr = "https://k:6443";
+        serverAddr =
+          # TODO: auto ignore on k0 bootstrap
+          # mkIf (config.networking.hostName != "k0")
+          "https://k:6443";
       };
       openiscsi = {
         enable = true;
@@ -61,11 +60,27 @@ in
       };
     };
     environment = {
-      etc."rancher/k3s/registries.yaml".text = builtins.readFile ((pkgs.formats.yaml { }).generate "." {
-        mirrors."docker.io".endpoint = [
-          "http://registry:5000"
-        ];
-      });
+      etc = {
+        "rancher/k3s/registries.yaml".text = builtins.toJSON {
+          mirrors."docker.io".endpoint = [
+            "http://registry:5000"
+          ];
+        };
+        "rancher/k3s/config.yaml.d/custom.yaml".text = builtins.toJSON cfg.config;
+        "rancher/k3s/config.yaml" = mkIf (cfg.role == "server") {
+          text = builtins.toJSON {
+            tls-san = [ "k" ];
+            flannel-backend = "wireguard-native";
+            disable = [
+              "traefik"
+              "local-storage"
+            ];
+            disable-helm-controller = true;
+            disable-cloud-controller = true;
+            etcd-expose-metrics = true;
+          };
+        };
+      };
       systemPackages = with pkgs; [
         libcgroup
         usbutils
@@ -78,5 +93,42 @@ in
     };
 
     age.secrets.k3s.file = ../secrets/k3s.age;
+
+    # each node has a single 1TB SSD attached over USB
+    # disko.devices.disk.sda = {
+    #   device = "/dev/sda";
+    #   type = "disk";
+    #   content = {
+    #     type = "table";
+    #     format = "gpt";
+    #     partitions = [{
+    #       name = "root";
+    #       part-type = "primary";
+    #       bootable = true;
+    #       start = "1M";
+    #       end = "100%";
+    #       content = {
+    #         type = "filesystem";
+    #         format = "ext4";
+    #         mountpoint = "/";
+    #       };
+    #     }];
+    #   };
+    # };
+
+    # TODO: implement ephemeral storage with persistent mount
+    # environment.persistence."/persistent" = {
+    #   hideMounts = true;
+    #   directories = [
+    #     "/var/lib/cni"
+    #     "/var/lib/kubelet"
+    #     "/var/lib/longhorn"
+    #     "/var/lib/rancher/k3s"
+    #     "/var/log/containers"
+    #     "/var/log/journal"
+    #     "/var/log/pods"
+    #   ];
+    # };
+
   };
 }

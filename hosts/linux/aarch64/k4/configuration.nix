@@ -1,13 +1,12 @@
-{ flake, ... }:
-{
-  imports = [
-    flake.inputs.hardware.nixosModules.raspberry-pi-4
-  ];
-
+{ flake, ... }: {
+  imports = [ flake.inputs.hardware.nixosModules.raspberry-pi-4 ];
   services.k8s = {
     enable = true;
-    role = "agent";
+    config = {
+      node-label = [
+        "${flake.lib.hostname}/ups=true"
+      ];
+    };
   };
 
-  # k label node k4 bryton.io/ups=true
 }
