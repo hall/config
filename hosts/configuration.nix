@@ -122,9 +122,11 @@ in
       experimental-features = "nix-command flakes";
       trusted-users = [ "root" flake.lib.username ];
       trusted-public-keys = [
+        "hydra.nixos.org-1:CNHJZBh9K4tP3EKF6FkkgeVYsS3ohTl+oS0Qa8bezVs="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       ];
-      substituters = [
+      trusted-substituters = [
+        "https://hydra.nixos.org"
         "https://cache.nixos.org"
         "https://nix-community.cachix.org"
       ];
