@@ -26,16 +26,17 @@ let
   });
 in
 {
-  home-manager = {
-    useGlobalPkgs = true;
-    useUserPackages = true;
-    users.${flake.lib.username} = with builtins; with lib.trivial; pipe
-      (filter pathExists [
-        ./home
-        /${specialArgs.hostPath}/home.nix
-      ]) [ (map import) lib.mkMerge ];
-    extraSpecialArgs = specialArgs;
-  };
+  home-manager = let homeFile = /${specialArgs.hostPath}/home.nix; in
+    if (builtins.pathExists homeFile) then {
+      useGlobalPkgs = true;
+      useUserPackages = true;
+      users.${flake.lib.username} =
+        with builtins; with lib.trivial; pipe [
+          ./home
+          /${specialArgs.hostPath}/home.nix
+        ] [ (map import) lib.mkMerge ];
+      extraSpecialArgs = specialArgs;
+    } else { };
 
   # https://nixos.org/manual/nixos/stable/release-notes.html
   system.stateVersion = "22.11";
