@@ -3,7 +3,6 @@
   boot = {
     consoleLogLevel = 0;
     loader = {
-      timeout = lib.mkForce 0; # set to 10 in isoImage
       systemd-boot.enable = true;
       generic-extlinux-compatible.enable = false;
     };

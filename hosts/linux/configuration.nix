@@ -1,6 +1,7 @@
 { pkgs, flake, modulesPath, ... }: {
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # don't wait to pick a boot entry (press enter to activate prompt)
+  boot.loader.timeout = 1; # TODO: 0 waits forever?
   hardware = {
     pulseaudio.enable = false;
     i2c.enable = true; # TODO: move?
