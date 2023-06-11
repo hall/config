@@ -18,15 +18,6 @@ with pkgs; [
   # gnome.gnome-boxes
   # gnome3.gnome-tweaks
   # gnome.gnome-remote-desktop
-  gnomeExtensions.bluetooth-quick-connect
-  gnomeExtensions.brightness-control-using-ddcutil
-  gnomeExtensions.gsconnect
-  gnomeExtensions.nasa-apod
-  gnomeExtensions.syncthing-icon
-  gnomeExtensions.unite
-  # gnomeExtensions.improved-osk
-  gnomeExtensions.night-theme-switcher
-  gnomeExtensions.gesture-improvements
   ddcutil
 
   rnix-lsp
@@ -35,4 +26,14 @@ with pkgs; [
   # tmuxPlugins.nord
   # tmuxPlugins.sensible
   # tmuxPlugins.vim-tmux-navigator
-]
+] ++ (with gnomeExtensions; [
+  bluetooth-quick-connect
+  brightness-control-using-ddcutil
+  gsconnect
+  nasa-apod
+  syncthing-icon
+  unite
+  # improved-osk
+  night-theme-switcher
+  gesture-improvements
+])
