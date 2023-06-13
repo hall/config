@@ -130,5 +130,13 @@ in
     #   ];
     # };
 
+    # TODO: undo temp symlinks for longhorn
+    # https://github.com/longhorn/longhorn/issues/2166
+    system.activationScripts.longhorn.text = ''
+      for app in bash flock stat lsblk mount iscsiadm; do
+        ln -fs /run/current-system/sw/bin/$app /bin/$app
+      done
+    '';
+
   };
 }
