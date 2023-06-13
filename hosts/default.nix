@@ -1,4 +1,12 @@
 let
+  # create list of directories at path
+  readDirNames = with builtins; path:
+    let
+      files = readDir path;
+      isDirectory = name: (files."${name}" == "directory") && (name != "home");
+    in
+    filter isDirectory (attrNames files);
+
   mkHost = { self, lib, modules, platform, arch }: name:
     let
       paths = [
@@ -31,9 +39,9 @@ listToAttrs (concatMap
   (platform: concatMap
     (arch: map
       (mkHost (args // { inherit platform arch; }))
-      (lib.readDirNames ./${platform}/${arch})
+      (readDirNames ./${platform}/${arch})
     )
-    (lib.readDirNames ./${platform})
+    (readDirNames ./${platform})
   )
-  (lib.readDirNames ./.)
+  (readDirNames ./.)
 )

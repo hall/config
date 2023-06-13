@@ -18,11 +18,14 @@
   };
   outputs = inputs@{ self, ... }: rec {
 
-    lib = import ./lib { flake = self; } // rec {
+    lib = rec {
       username = "bryton";
       hostname = "${username}.io";
       name = "Bryton Hall";
       email = "email@${hostname}";
+      # create an attrset of supported systems to their corresponding nixpkgs
+      systems = function: inputs.nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ]
+        (system: function inputs.nixpkgs.legacyPackages.${system});
     };
 
     nixosConfigurations = import ./hosts {
