@@ -6,24 +6,8 @@
     };
   };
 
-  swapDevices = [ ];
-
   powerManagement.cpuFreqGovernor = lib.mkDefault "ondemand";
-
-  boot = {
-    loader.grub.enable = false;
-    initrd.availableKernelModules = [ "xhci_pci" "usb_storage" "usbhid" ];
-  };
-
-  services = {
-    openssh = {
-      enable = true;
-      # passwordAuthentication = false;
-      # permitRootLogin = "no";
-      # allowSFTP = false;
-    };
-  };
-
+  boot.initrd.availableKernelModules = [ "xhci_pci" ]; #"usb_storage" "usbhid" ];
 
   # https://github.com/NixOS/nixpkgs/issues/126755
   nixpkgs.overlays = [
