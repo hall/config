@@ -24,16 +24,6 @@ let
 
   work = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAl/FhVda1Cr2CMOpvr67C4F3n9Fw07oAL7SorUAZdbl";
 
-  # readDirNames = path:
-  #   let
-  #     files = builtins.readDir path;
-  #     isDirectory = name: files."${name}" == "directory";
-  #   in
-  #   builtins.filter isDirectory (map (x: path + ./${x}) (builtins.attrNames files));
-
-  # # hosts = readDirNames ../hosts;
-  # arches = builtins.concatMap (x: readDirNames ./hosts/${x}) (readDirNames ./hosts);
-
   main = [ user hosts.x12 ];
 in
 {
