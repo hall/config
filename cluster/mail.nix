@@ -1,64 +1,51 @@
-{ kubenix, flake, vars, ... }:
-let
-  ns = "default";
-in
-{
-  resources.ingressroutetcp = {
-    imap = {
-      metadata.namespace = ns;
-      spec = {
-        entryPoints = [ "imap" ];
-        tls = { };
-        routes = [{
-          match = "HostSNI(`*`)";
-          services = [{
-            name = "protonmail-bridge";
-            port = 143;
-            namespace = ns;
-          }];
+{ kubenix, flake, vars, ... }: {
+  kubernetes.resources.ingressroutetcp = {
+    imap.spec = {
+      entryPoints = [ "imap" ];
+      tls = { };
+      routes = [{
+        match = "HostSNI(`*`)";
+        services = [{
+          name = "protonmail-bridge";
+          port = 143;
         }];
-      };
+      }];
     };
-    smtp = {
-      metadata.namespace = ns;
-      spec = {
-        entryPoints = [ "smtp" ];
-        tls = { };
-        routes = [{
-          match = "HostSNI(`*`)";
-          services = [{
-            name = "protonmail-bridge";
-            port = 25;
-            namespace = ns;
-          }];
+    smtp.spec = {
+      entryPoints = [ "smtp" ];
+      tls = { };
+      routes = [{
+        match = "HostSNI(`*`)";
+        services = [{
+          name = "protonmail-bridge";
+          port = 25;
         }];
-      };
+      }];
     };
   };
-  helm.releases.protonmail-bridge = {
-    chart = vars.template { inherit kubenix; };
-    namespace = ns;
-    values = {
-      image = {
-        repository = "shenxn/protonmail-bridge";
-        tag = "2.4.5-build";
-      };
-      service.main.ports = {
-        http.enabled = false;
-        smtp = {
-          enabled = true;
-          primary = true;
-          port = 25;
+
+  submodules.instances.protonmail-bridge = {
+    submodule = "release";
+    args = {
+      image = "shenxn/protonmail-bridge:2.4.5-build";
+      values = {
+        service.main.ports = {
+          http.enabled = false;
+          smtp = {
+            enabled = true;
+            primary = true;
+            port = 25;
+          };
+          imap = {
+            enabled = true;
+            port = 143;
+          };
         };
-        imap = {
+        persistence.config = {
           enabled = true;
-          port = 143;
+          mountPath = "/root";
+          storageClass = "longhorn-static";
         };
-      };
-      persistence.config = {
-        enabled = true;
-        mountPath = "/root";
-        storageClass = "longhorn-static";
       };
     };
   };

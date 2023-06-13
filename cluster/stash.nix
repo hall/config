@@ -1,16 +1,21 @@
-{ kubenix, vars, ... }:
-vars.simple {
-  inherit kubenix;
-  image = "stashapp/stash:v0.20.1";
-  port = 9999;
-  persistence = {
-    media = {
-      size = "50Gi";
-      accessMode = "ReadWriteMany";
-    };
-    config = {
-      size = "10Gi";
-      mountPath = "/root/.stash";
+{ ... }: {
+  submodules.instances.stash = {
+    submodule = "release";
+    args = {
+      image = "stashapp/stash:v0.20.2";
+      port = 9999;
+      host = "stash";
+      persistence = {
+        media = {
+          size = "50Gi";
+          mountPath = "/media";
+          accessMode = "ReadWriteMany";
+        };
+        config = {
+          size = "10Gi";
+          mountPath = "/root/.stash";
+        };
+      };
     };
   };
 }

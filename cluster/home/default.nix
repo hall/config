@@ -16,60 +16,54 @@ let
     );
 in
 {
-  helm.releases.home-assistant = {
-    chart = vars.template { inherit kubenix; };
-    namespace = "default";
-    values = {
-      image = {
-        repository = "homeassistant/home-assistant";
-        tag = "2023.5";
-      };
-      service.main.ports.http.port = 8123;
-      ingress.main = {
-        enabled = true;
-        hosts = [{
-          host = "home.${flake.lib.hostname}";
-          paths = [{ path = "/"; }];
-        }];
-      };
-      persistence = {
-        config = {
-          enabled = true;
-          mountPath = "/config";
-          storageClass = "longhorn-static";
-        };
-        secrets = {
-          enabled = true;
-          type = "secret";
-          subPath = "secrets.yaml";
-          mountPath = "/config/secrets.yaml";
-          name = "home-assistant";
-          readOnly = true;
-        };
-        configuration = {
-          enabled = true;
-          type = "configMap";
-          mountPath = "/config/configuration.yaml";
-          subPath = "configuration.yaml";
-          name = "home-assistant-config";
-          readOnly = true;
-        };
-      } // (with builtins; (mapAttrs
-        (name: value: {
-          enabled = true;
-          type = "configMap";
-          mountPath = "${builtins.replaceStrings [ "---" "--" ] [ "." "/" ] name}";
-          subPath = name;
-          name = "home-assistant-config";
-          readOnly = true;
-        })
-        (configMap ./config))
-      );
+  submodules.instances.home-assistant = {
+    submodule = "release";
+    args = {
+      image = "homeassistant/home-assistant:2023.5";
+      port = 8123;
+      host = "home";
 
-      secret."secrets.yaml" = vars.secret "/home";
+      values = {
+        persistence = {
+          config = {
+            enabled = true;
+            mountPath = "/config";
+            storageClass = "longhorn-static";
+          };
+          secrets = {
+            enabled = true;
+            type = "secret";
+            subPath = "secrets.yaml";
+            mountPath = "/config/secrets.yaml";
+            name = "home-assistant-secret";
+            readOnly = true;
+          };
+          configuration = {
+            enabled = true;
+            type = "configMap";
+            mountPath = "/config/configuration.yaml";
+            subPath = "configuration.yaml";
+            name = "home-assistant-config";
+            readOnly = true;
+          };
+        } // (with builtins; (mapAttrs
+          (name: value: {
+            enabled = true;
+            type = "configMap";
+            mountPath = "${builtins.replaceStrings [ "---" "--" ] [ "." "/" ] name}";
+            subPath = name;
+            name = "home-assistant-config";
+            readOnly = true;
+          })
+          (configMap ./config))
+        );
 
-      configmap = {
-        config = {
+        secrets.secret = {
+          enabled = true;
+          stringData."secrets.yaml" = vars.secret "/home";
+        };
+
+        configMaps.config = {
           enabled = true;
           data = (configMap ./config) // {
             "configuration.yaml" = vars.config (import ./configuration.nix { inherit flake vars; });

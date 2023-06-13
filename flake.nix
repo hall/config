@@ -1,18 +1,14 @@
 {
   inputs = {
-    nixpkgs.url = github:nixos/nixpkgs/nixos-unstable;
-    hardware.url = github:nixos/nixos-hardware/master;
-    nur.url = github:nix-community/nur;
-    home = {
-      url = github:nix-community/home-manager;
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    hardware.url = "github:nixos/nixos-hardware/master";
+    nur.url = "github:nix-community/nur";
+    home.url = "github:nix-community/home-manager";
     agenix.url = "github:ryantm/agenix";
     deploy.url = "github:serokell/deploy-rs";
-    musnix.url = github:musnix/musnix;
-    mach.url = github:davhau/mach-nix/3.5.0;
-    kubenix.url = "github:hall/kubenix";
-    generators.url = github:nix-community/nixos-generators;
+    musnix.url = "github:musnix/musnix";
+    mach.url = "github:davhau/mach-nix/3.5.0";
+    kubenix.url = "github:hall/kubenix/helmless-cli";
     mobile = {
       # https://github.com/NixOS/mobile-nixos/pull/445
       # url = github:nixos/mobile-nixos/pull/535/head;
@@ -31,10 +27,10 @@
 
     nixosConfigurations = import ./hosts {
       inherit self lib;
-      modules = [
-        inputs.home.nixosModules.home-manager
-        inputs.agenix.nixosModules.default
-        inputs.musnix.nixosModules.musnix
+      modules = with inputs; [
+        home.nixosModules.home-manager
+        agenix.nixosModules.default
+        musnix.nixosModules.musnix
         ({ ... }: {
           nixpkgs.overlays = [
             inputs.nur.overlay
@@ -53,25 +49,29 @@
       (attrNames (readDir ./overlays))
     );
 
-    packages = lib.systems (pkgs:
-      pkgs.lib.trivial.pipe (lib.readDirNames ./packages) [
+    packages = with builtins; lib.systems (pkgs:
+      (pkgs.lib.trivial.pipe
+        # remove accessory files
+        (filter (name: !elem name [ "README.md" ])
+          (attrNames (readDir ./packages))) [
         (map (name: {
           inherit name;
           value = pkgs.callPackage ./packages/${name} { };
         }))
         # remove unsupported packages
-        (builtins.filter (x: builtins.elem pkgs.system x.value.meta.platforms))
-        builtins.listToAttrs
-      ]
+        (filter (x: elem pkgs.system x.value.meta.platforms))
+        listToAttrs
+      ]) // {
+        kubenix = inputs.kubenix.packages.${pkgs.system}.default.override (prev: {
+          module = import ./cluster;
+          specialArgs = { flake = self; };
+        });
+      }
     );
 
     devShells = lib.systems (pkgs: {
       default = with pkgs; mkShell {
-        buildInputs = [
-          kubectl
-          kubie
-          kubernetes-helm
-        ];
+        buildInputs = [ kubectl ];
         KUBECONFIG = "/run/secrets/kubeconfig";
       };
     });
@@ -87,13 +87,6 @@
         };
       })
       self.nixosConfigurations;
-
-
-    kubenix = lib.systems (pkgs: import ./cluster {
-      inherit (pkgs) lib;
-      flake = self;
-      evalModules = inputs.kubenix.evalModules.${pkgs.system};
-    });
 
   };
 }
