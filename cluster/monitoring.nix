@@ -8,6 +8,7 @@
         sha256 = "s+uOIAQ36XHEKmTHwflZv8K3khm8u2/onacscgqgc2U=";
       };
       # includeCRDs = true; # fails
+      noHooks = true;
       values = {
         kubeControllerManager.enabled = false;
         kubeScheduler.enabled = false;
