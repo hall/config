@@ -29,8 +29,9 @@ in
     submodule = "release";
     args = {
 
-      image = "esphome/esphome:2022.11";
+      image = "esphome/esphome:2023.5";
       port = 6052;
+      host = "esphome";
       persistence = {
         data = {
           size = "5Gi";
