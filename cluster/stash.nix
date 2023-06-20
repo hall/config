@@ -2,7 +2,7 @@
   submodules.instances.stash = {
     submodule = "release";
     args = {
-      image = "stashapp/stash:v0.20.2";
+      image = "stashapp/stash:v0.21.0";
       port = 9999;
       host = "stash";
       persistence = {
