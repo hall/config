@@ -45,12 +45,20 @@
           update_interval = "50ms";
           lambda = ''
             while ((Serial.available()) > 0) {
-              int line = atoi(Serial.readStringUntil('\n').c_str());
-              Serial.println(line);
-              if(it[line].get().is_on()) {
-                it[line] = Color::BLACK;
-              } else {
-                it[line] = Color(50,50,50,50);
+              int inp = atoi(Serial.readStringUntil('\n').c_str());
+              switch (inp) {
+                case 0 ... 87:
+                  if (it[inp].get().is_on()) {
+                    it[inp] = Color::BLACK;
+                  } else {
+                    it[inp] = Color(50,50,50,50);
+                  }
+                  break;
+                case 88:
+                  it.all() = Color::BLACK;
+                  break;
+                default: 
+                  ESP_LOGI("midi", "invalid input: %i", inp);
               }
             }
           '';
@@ -60,7 +68,6 @@
     # move logger off usb uart port
     logger.hardware_uart = "UART1";
     uart = {
-      id = "uart";
       tx_pin = "GPIO1";
       rx_pin = "GPIO3";
       baud_rate = 9600;
