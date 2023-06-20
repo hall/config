@@ -90,4 +90,61 @@
     };
   };
 
+  home = {
+    enable = true;
+    # TODO: required for secrets module
+    # programs.rbw = {
+    #   enable = true;
+    #   settings = {
+    #     inherit (flake.lib) email;
+    #     pinentry = "gtk2"; # gnome3
+    #   };
+    # };
+
+    packages = with pkgs; [
+      carla
+      deploy-rs
+      zotero
+      transmission-gtk
+      foliate
+      okular
+
+      pianobooster
+      qjackctl
+      #faust
+      #faustlive
+      #gimp
+      #siril
+      ardour
+      calibre
+      guitarix
+      inkscape
+      krita
+      blender
+      musescore
+      prusa-slicer
+      xournalpp
+      element-desktop
+      gnome.gnome-boxes
+
+      wireshark
+
+      talosctl
+      newsflash
+      sof-firmware
+      gnome.gnome-todo
+      yt-dlp
+      bitwarden-cli
+      siglo
+      moserial
+      cachix
+      koreader
+
+      watchmate
+      nix-diff
+    ] ++ (with flake.packages; [
+      effects
+    ]);
+  };
+
 }

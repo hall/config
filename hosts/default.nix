@@ -3,7 +3,7 @@ let
   readDirNames = with builtins; path:
     let
       files = readDir path;
-      isDirectory = name: (files."${name}" == "directory") && (name != "home");
+      isDirectory = name: (files."${name}" == "directory");
     in
     filter isDirectory (attrNames files);
 
