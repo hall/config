@@ -6,7 +6,10 @@
     ./_modules/release.nix
   ];
   config = lib.mkMerge ([{
-    kubernetes.kubeconfig = "/run/secrets/kubeconfig";
+    kubernetes = {
+      kubeconfig = "/run/secrets/kubeconfig";
+      version = "1.26";
+    };
   }] ++ (builtins.map
     (f: import ./${f} {
       inherit kubenix flake lib pkgs;
