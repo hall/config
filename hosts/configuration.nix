@@ -1,26 +1,25 @@
 { config, lib, pkgs, flake, age, specialArgs, ... }:
 let
-  xontribs = [
-    # "argcomplete" # tab completion of python and xonsh scripts
-    "sh" # prefix (ba)sh commands with "!"
-    # "onepath" # act on file/dir by only using its name # TODO: build failed
-    "pipeliner" # use "pl" to pipe a python expression
-    "zoxide"
-    "prompt-starship"
-    # "readable-traceback"
-  ];
+  # map of xontrib name to package name
+  xontribs = {
+    # argcomplete = "xontrib-argcomplete"; # tab completion of python and xonsh scripts
+    sh = "xontrib-sh"; # prefix (ba)sh commands with "!"
+    # onepath = "xontrib-onepath" # act on file/dir by only using its name # TODO: build failed
+    pipeliner = "xontrib-pipeliner"; # use "pl" to pipe a python expression
+    # readable-traceback = "xotrib-readable-traceback";
+
+    # some xontribs require external tools which are not available on all hosts
+  } // (if config.home.enable then {
+    zoxide = "xontrib-zoxide";
+    prompt_starship = "xontrib-prompt-starship";
+    direnv = "xonsh-direnv";
+  } else { });
+
   pyenv = flake.inputs.mach.lib.${pkgs.system}.mkPython {
     python = "python310";
-    requirements = ''
-      # black
-      # numpy
-      # pandas
-
-      xxh-xxh
-      # xxh-shell-xonsh
-      xonsh-direnv
-    '' + builtins.toString (map (x: "xontrib-" + x + "\n") xontribs);
+    requirements = lib.concatStringsSep "\n" (builtins.attrValues xontribs);
   };
+
   xonsh = pkgs.xonsh.overrideAttrs (super: {
     pythonPath = pyenv.selectPkgs pyenv.python.pkgs;
   });
@@ -50,6 +49,7 @@ in
     ]);
     sessionVariables = {
       MOZ_USE_XINPUT2 = "1";
+      MOZ_ENABLE_WAYLAND = "1";
       EDITOR = "vim";
     };
 
@@ -144,8 +144,7 @@ in
       $BASH_COMPLETIONS = ["${pkgs.bash-completion}/share/bash-completion/bash_completion"]
       $VI_MODE = True
 
-      xontrib load direnv ${toString (map (x: replaceStrings [ "-" ] [ "_" ] x) xontribs)}
-
+      xontrib load ${lib.concatStringsSep " " (builtins.attrNames xontribs)}
       $GOPATH = $HOME
       
       aliases |= {
