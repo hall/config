@@ -47,6 +47,8 @@
             while ((Serial.available()) > 0) {
               int inp = atoi(Serial.readStringUntil('\n').c_str());
               switch (inp) {
+
+                // toggle key
                 case 0 ... 87:
                   if (it[inp].get().is_on()) {
                     it[inp] = Color::BLACK;
@@ -54,9 +56,12 @@
                     it[inp] = Color(50,50,50,50);
                   }
                   break;
+
+                // reset all
                 case 88:
                   it.all() = Color::BLACK;
                   break;
+
                 default: 
                   ESP_LOGI("midi", "invalid input: %i", inp);
               }
