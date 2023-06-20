@@ -65,10 +65,10 @@
         (filter (x: elem pkgs.system x.value.meta.platforms))
         listToAttrs
       ]) // {
-        kubenix = inputs.kubenix.packages.${pkgs.system}.default.override (prev: {
+        kubenix = inputs.kubenix.packages.${pkgs.system}.default.override {
           module = import ./cluster;
           specialArgs = { flake = self; };
-        });
+        };
       }
     );
 
