@@ -21,6 +21,12 @@ in
       device = "/dev/vg/swap";
     }];
 
+    qt = {
+      enable = true;
+      style = "adwaita-dark";
+      platformTheme = "gnome";
+    };
+
     programs.dconf.enable = true;
     services = {
       ddccontrol.enable = true;
