@@ -44,8 +44,14 @@ in
         };
         record = {
           enabled = true;
-          retain.days = 2;
-          # events.retain.days = 30;
+          retain = {
+            days = 2;
+            mode = "motion"; # vs "all"
+          };
+          events.retain = {
+            days = 14;
+            mode = "active_objects";
+          };
         };
         snapshots.enabled = true;
         # h264 video
