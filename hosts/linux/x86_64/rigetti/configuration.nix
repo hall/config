@@ -10,9 +10,6 @@
     globalprotect-openconnect
   ];
 
-  # TODO: latest kernel doesn't boot
-  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_5_15;
-
   age.secrets.id_work = {
     file = ../../../../secrets/id_work.age;
     owner = flake.lib.username;
