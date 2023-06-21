@@ -50,6 +50,7 @@ in
           replicaAutoBalance = "best-effort";
           orphanAutoDeletion = true;
           concurrentAutomaticEngineUpgradePerNodeLimit = 3;
+          taintToleration = "node-role.kubernetes.io/control-plane=effect:NoSchedule";
         };
         ingress = {
           enabled = true;
@@ -63,6 +64,11 @@ in
         longhornConversionWebhook.replicas = 1;
         longhornAdmissionWebhook.replicas = 1;
         longhornRecoveryBackend.replicas = 1;
+        longhornManager.tolerations = [{
+          key = "node-role.kubernetes.io/control-plane";
+          operator = "Exists";
+          effect = "NoSchedule";
+        }];
       };
     };
     customTypes = {

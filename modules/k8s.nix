@@ -78,6 +78,7 @@ in
             disable-helm-controller = true;
             disable-cloud-controller = true;
             etcd-expose-metrics = true;
+            node-taint = [ "node-role.kubernetes.io/control-plane=effect:NoSchedule" ];
           };
         };
       };
