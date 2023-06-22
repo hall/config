@@ -49,7 +49,7 @@ in
             mode = "motion"; # vs "all"
           };
           events.retain = {
-            days = 14;
+            default = 14;
             mode = "active_objects";
           };
         };
