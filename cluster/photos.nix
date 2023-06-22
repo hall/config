@@ -27,7 +27,7 @@
           "traefik.ingress.kubernetes.io/router.middlewares" = "kube-system-home@kubernetescrd";
         };
         env = {
-          PHOTOPRISM_AUTH_MODE = "public"; # disable auth
+          # PHOTOPRISM_AUTH_MODE = "public"; # disable auth
           PHOTOPRISM_SPONSOR = "true";
           PHOTOPRISM_STORAGE_PATH = "/storage";
           PHOTOPRISM_ORIGINALS_PATH = "/originals";
