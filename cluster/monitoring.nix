@@ -1,5 +1,6 @@
 { kubenix, flake, ... }: {
   kubernetes = {
+    resources.namespaces.monitoring = { };
     helm.releases.kube-prometheus-stack = {
       chart = kubenix.lib.helm.fetch {
         repo = "https://prometheus-community.github.io/helm-charts";
@@ -7,6 +8,7 @@
         version = "46.4.1";
         sha256 = "s+uOIAQ36XHEKmTHwflZv8K3khm8u2/onacscgqgc2U=";
       };
+      namespace = "monitoring";
       # includeCRDs = true; # fails
       noHooks = true;
       values = {
@@ -130,6 +132,12 @@
         group = "monitoring.coreos.com";
         version = "v1";
         kind = "ServiceMonitor";
+      };
+      podmonitors = {
+        attrName = "podmonitors";
+        group = "monitoring.coreos.com";
+        version = "v1";
+        kind = "PodMonitor";
       };
       alertmanagers = {
         attrName = "alertmanagers";
