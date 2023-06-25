@@ -5,6 +5,7 @@
     esphome = {
       platform = "ESP8266";
       board = "esp01_1m";
+      esp8266_restore_from_flash = true;
     };
 
     logger.baud_rate = 0; # (UART logging interferes with cse7766)
