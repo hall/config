@@ -38,7 +38,7 @@ in
       submodule = "release";
       args = {
         image = "linuxserver/sonarr:3.0.9";
-        host = "movies";
+        host = "shows";
         port = 8989;
         persistence = {
           config.enabled = true;
@@ -51,7 +51,7 @@ in
       submodule = "release";
       args = {
         image = "linuxserver/radarr:4.3.2";
-        host = "shows";
+        host = "movies";
         port = 7878;
         persistence = {
           config.enabled = true;
@@ -66,6 +66,19 @@ in
         image = "linuxserver/lidarr:1.0.2";
         host = "music";
         port = 8686;
+        persistence = {
+          config.enabled = true;
+          media.existingClaim = pvc;
+        };
+      };
+    };
+
+    readarr = {
+      submodule = "release";
+      args = {
+        image = "linuxserver/readarr:develop";
+        host = "books";
+        port = 8787;
         persistence = {
           config.enabled = true;
           media.existingClaim = pvc;

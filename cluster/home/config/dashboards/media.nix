@@ -13,6 +13,6 @@
           url = "https://${lower}.${flake.lib.hostname}";
         }];
 
-      }) [ "Player" "Downloads" "Movies" "Shows" "Music" ];
+      }) [ "Player" "Downloads" "Movies" "Shows" "Music" "Books" ];
   # bitwarden adguard
 }
