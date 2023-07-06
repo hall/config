@@ -23,8 +23,6 @@
     geoclue.extraGroups = [ "networkmanager" ];
     ${flake.lib.username}.initialPassword = "1234";
   };
-  # TODO: currently fails to start systemd service
-  networking.firewall.enable = false;
   musnix.enable = true;
 
   xdg.portal.enable = true;
