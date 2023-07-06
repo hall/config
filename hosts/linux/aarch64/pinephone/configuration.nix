@@ -85,6 +85,7 @@
       # purple-slack
       # tdlib-purple
       pinentry-gnome
+      jellyfin-media-player
 
       lingot
       itd
@@ -140,6 +141,7 @@
       gnome-screenshot
       gnome-dictionary
       gnome-disk-utility
+      firefox-mobile
     ]) ++ (with flake.packages; [
       effects
     ]);
@@ -152,7 +154,7 @@
     };
 
     programs = {
-      # firefox.package = lib.mkForce flake.packages.firefox-mobile;
+      firefox.enable = lib.mkForce false;
       vscode = {
         userSettings = {
           "editor.folding" = false;
