@@ -18,6 +18,15 @@ in
             accessMode = "ReadWriteMany";
           };
         };
+        values.addons.vpn = {
+          enabled = true;
+          env = {
+            VPN_SERVICE_PROVIDER = "protonvpn";
+            OPENVPN_USER = vars.secret "/vpn/user";
+            OPENVPN_PASSWORD = vars.secret "/vpn/pass";
+            SERVER_COUNTRIES = "United States";
+          };
+        };
       };
     };
 
