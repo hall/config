@@ -13,5 +13,5 @@
           url = "https://${lower}.${flake.lib.hostname}";
         }];
 
-      }) [ "Player" "Downloads" "Movies" "Shows" "Music" "Books" "Indexer" ];
+      }) [ "Player" "Requests" "Downloads" "Movies" "Shows" "Music" "Books" "Indexer" ];
 }
