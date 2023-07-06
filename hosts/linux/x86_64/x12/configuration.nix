@@ -108,6 +108,7 @@
       transmission-gtk
       foliate
       okular
+      jellyfin-media-player
 
       pianobooster
       qjackctl
