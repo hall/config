@@ -2,7 +2,7 @@
   submodules.instances.photoprism = {
     submodule = "release";
     args = {
-      image = "photoprism/photoprism:230615";
+      image = "photoprism/photoprism:230625";
       port = 2342;
       host = "photos";
       persistence = {
