@@ -6,7 +6,10 @@ in
 {
   kubernetes = {
     resources = {
-      namespaces.${ns} = { };
+      namespaces.${ns}.metadata.labels = {
+        "goldilocks.fairwinds.com/enabled" = "true";
+        "goldilocks.fairwinds.com/vpa-update-mode" = "auto";
+      };
       secrets.${creds} = {
         metadata.namespace = ns;
         stringData = {

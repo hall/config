@@ -1,6 +1,9 @@
 { kubenix, flake, ... }: {
   kubernetes = {
-    resources.namespaces.monitoring = { };
+    resources.namespaces.monitoring.metadata.labels = {
+      "goldilocks.fairwinds.com/enabled" = "true";
+      "goldilocks.fairwinds.com/vpa-update-mode" = "auto";
+    };
     helm.releases.kube-prometheus-stack = {
       chart = kubenix.lib.helm.fetch {
         repo = "https://prometheus-community.github.io/helm-charts";
@@ -10,7 +13,7 @@
       };
       namespace = "monitoring";
       # includeCRDs = true; # fails
-      noHooks = true;
+      # noHooks = true;
       values = {
         kubeControllerManager.enabled = false;
         kubeScheduler.enabled = false;
