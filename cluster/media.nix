@@ -33,7 +33,7 @@ in
     jellyfin = {
       submodule = "release";
       args = {
-        image = "jellyfin/jellyfin:10.8.8";
+        image = "jellyfin/jellyfin:10.8.10";
         host = "player";
         port = 8096;
         persistence = {
