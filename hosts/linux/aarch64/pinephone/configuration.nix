@@ -1,6 +1,9 @@
-{ pkgs, musnix, flake, lib, ... }: {
+{ pkgs, musnix, flake, lib, modulesPath, ... }: {
 
-  imports = [ (import "${flake.inputs.mobile}/lib/configuration.nix" { device = "pine64-pinephonepro"; }) ];
+  imports = [
+    (import "${flake.inputs.mobile}/lib/configuration.nix" { device = "pine64-pinephonepro"; })
+    (modulesPath + "/installer/sd-card/sd-image-aarch64.nix")
+  ];
 
   fileSystems."/home" = {
     device = "/dev/disk/by-label/home";
@@ -25,7 +28,10 @@
   };
   musnix.enable = true;
 
-  xdg.portal.enable = true;
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [ xdg-desktop-portal-gnome ];
+  };
 
   services = {
     gnome.gnome-keyring.enable = true;
