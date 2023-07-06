@@ -1,6 +1,6 @@
 { kubenix, vars, flake, ... }:
 let
-  pvc = "transmission-downloads";
+  pvc = "transmission-media";
 in
 {
   submodules.instances = {
@@ -12,8 +12,8 @@ in
         host = "downloads";
         port = 9091;
         persistence = {
-          config = { };
-          downloads = {
+          config.enabled = true;
+          media = {
             size = "200Gi";
             accessMode = "ReadWriteMany";
           };
