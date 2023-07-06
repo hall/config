@@ -86,5 +86,15 @@ in
       };
     };
 
+    prowlarr = {
+      submodule = "release";
+      args = {
+        image = "linuxserver/prowlarr:1.5.2";
+        host = "indexer";
+        port = 9696;
+        persistence.config.enabled = true;
+      };
+    };
+
   };
 }
