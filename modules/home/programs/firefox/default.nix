@@ -20,7 +20,7 @@
         "@testpilot-containers" = "multi-account-containers";
       }) // {
       "{3c078156-979c-498b-8990-85f7987dd929}" = {
-        installation_mode = "forced_installed";
+        installation_mode = "force_installed";
         # need beta for search bar
         install_url = "https://github.com/mbnuqw/sidebery/releases/download/v5.0.0b31/sidebery-5.0.0b31.xpi";
       };
