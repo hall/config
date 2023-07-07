@@ -8,7 +8,7 @@
     deploy.url = "github:serokell/deploy-rs";
     musnix.url = "github:musnix/musnix";
     mach.url = "github:davhau/mach-nix/3.5.0";
-    kubenix.url = "github:hall/kubenix/helmless-cli";
+    kubenix.url = "github:hall/kubenix";
     mobile = {
       # https://github.com/NixOS/mobile-nixos/pull/445
       # url = github:nixos/mobile-nixos/pull/535/head;
