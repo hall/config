@@ -69,7 +69,7 @@ in
         values = {
           controller = {
             inherit tolerations nodeSelector;
-            resources.limits.cpu = "50m";
+            resources.limits.cpu = null; #"400m";
             rbac.extraRules = [
               {
                 apiGroups = [ "batch" ];
@@ -86,7 +86,7 @@ in
           dashboard = {
             inherit tolerations nodeSelector;
             replicaCount = 1;
-            resources.limits.cpu = "50m";
+            resources.limits.cpu = "100m";
             ingress = {
               enabled = true;
               hosts = [{
