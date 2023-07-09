@@ -3,12 +3,30 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     hardware.url = "github:nixos/nixos-hardware/master";
     nur.url = "github:nix-community/nur";
-    home.url = "github:nix-community/home-manager";
-    agenix.url = "github:ryantm/agenix";
-    deploy.url = "github:serokell/deploy-rs";
-    musnix.url = "github:musnix/musnix";
-    mach.url = "github:davhau/mach-nix/3.5.0";
-    kubenix.url = "github:hall/kubenix";
+    home = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    deploy = {
+      url = "github:serokell/deploy-rs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    musnix = {
+      url = "github:musnix/musnix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    mach = {
+      url = "github:davhau/mach-nix/3.5.0";
+      # inputs.nixpkgs.follows = "nixpkgs";
+    };
+    kubenix = {
+      url = "github:hall/kubenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     mobile = {
       # https://github.com/NixOS/mobile-nixos/pull/445
       # url = github:nixos/mobile-nixos/pull/535/head;
