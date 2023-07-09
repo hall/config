@@ -30,7 +30,7 @@
     mobile = {
       # https://github.com/NixOS/mobile-nixos/pull/445
       # url = github:nixos/mobile-nixos/pull/535/head;
-      url = "/home/bryton/src/github.com/nixos/mobile-nixos";
+      url = "github:aszlig/mobile-nixos/pinephonepro";
       flake = false;
     };
   };

@@ -217,14 +217,18 @@
     "mobile": {
       "flake": false,
       "locked": {
-        "lastModified": 1686064469,
-        "narHash": "sha256-UtOZVpp10cjwW4ZW5Yk56TJBmu4TYbcUOQU9kuINmFQ=",
-        "path": "/home/bryton/src/github.com/nixos/mobile-nixos",
-        "type": "path"
+        "lastModified": 1686099081,
+        "narHash": "sha256-stUP8b54VQ6PaagU5QqJTXPZ8Sp8c32I/W9vbL7vqfQ=",
+        "owner": "aszlig",
+        "repo": "mobile-nixos",
+        "rev": "e182899bb0c3e9da501f60d30f89fa81f16397ae",
+        "type": "github"
       },
       "original": {
-        "path": "/home/bryton/src/github.com/nixos/mobile-nixos",
-        "type": "path"
+        "owner": "aszlig",
+        "ref": "pinephonepro",
+        "repo": "mobile-nixos",
+        "type": "github"
       }
     },
     "musnix": {
