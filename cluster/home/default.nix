@@ -19,7 +19,7 @@ in
   submodules.instances.home-assistant = {
     submodule = "release";
     args = {
-      image = "homeassistant/home-assistant:2023.7";
+      image = "homeassistant/home-assistant:2023.7.1";
       port = 8123;
       host = "home";
 
