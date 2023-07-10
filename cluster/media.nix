@@ -37,6 +37,39 @@ in
         persistence = {
           config.enabled = true;
         } // data;
+        values = {
+          persistence.settings = {
+            enabled = true;
+            type = "configMap";
+            name = "transmission-settings";
+            mountPath = "/config/settings.json";
+            subPath = "settings.json";
+            readOnly = true;
+          };
+          configMaps.settings = {
+            enabled = true;
+            data."settings.json" = builtins.toJSON {
+              download-dir = "/data";
+              # download-queue-size = 5;
+              idle-seeding-limit-enabled = true;
+              # queue-stalled-enabled = true;
+              # queue-stalled-minutes = 30;
+              # ratio-limit = 2;
+              # ratio-limit-enabled = false;
+              rpc-host-whitelist-enabled = false;
+              rpc-whitelist-enabled = false;
+              # seed-queue-enabled = false;
+              # trash-original-torrent-files = false;
+            };
+          };
+          addons.vpn = {
+            enabled = true;
+            env = {
+              VPN_SERVICE_PROVIDER = "protonvpn";
+              OPENVPN_USER = vars.secret "/vpn/user";
+              OPENVPN_PASSWORD = vars.secret "/vpn/pass";
+              SERVER_COUNTRIES = "United States";
+            };
           };
         };
       };
