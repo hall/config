@@ -1,6 +1,29 @@
 { kubenix, vars, flake, ... }:
 let
-  pvc = "transmission-media";
+  # /data             # appear as one fs (e.g., hardlinking)
+  # └── ${type}       # volume mount points
+  #    ├── .downloads # downloaded files from torrent
+  #    └── ...        # imported files ready for consumption
+
+  # torrent and player need access to everything
+  data = {
+    shows = {
+      existingClaim = "sonarr-data";
+      mountPath = "/data/shows";
+    };
+    movies = {
+      existingClaim = "radarr-data";
+      mountPath = "/data/movies";
+    };
+    music = {
+      existingClaim = "lidarr-data";
+      mountPath = "/data/music";
+    };
+    books = {
+      existingClaim = "readarr-data";
+      mountPath = "/data/books";
+    };
+  };
 in
 {
   submodules.instances = {
@@ -13,18 +36,7 @@ in
         port = 9091;
         persistence = {
           config.enabled = true;
-          media = {
-            size = "200Gi";
-            accessMode = "ReadWriteMany";
-          };
-        };
-        values.addons.vpn = {
-          enabled = true;
-          env = {
-            VPN_SERVICE_PROVIDER = "protonvpn";
-            OPENVPN_USER = vars.secret "/vpn/user";
-            OPENVPN_PASSWORD = vars.secret "/vpn/pass";
-            SERVER_COUNTRIES = "United States";
+        } // data;
           };
         };
       };
@@ -38,8 +50,7 @@ in
         port = 8096;
         persistence = {
           config.enabled = true;
-          media.existingClaim = pvc;
-        };
+        } // data;
       };
     };
 
@@ -61,7 +72,12 @@ in
         port = 8989;
         persistence = {
           config.enabled = true;
-          media.existingClaim = pvc;
+          data = {
+            enabled = true;
+            size = "100Gi";
+            accessMode = "ReadWriteMany";
+            mountPath = "/data/shows";
+          };
         };
       };
     };
@@ -74,7 +90,12 @@ in
         port = 7878;
         persistence = {
           config.enabled = true;
-          media.existingClaim = pvc;
+          data = {
+            enabled = true;
+            size = "100Gi";
+            accessMode = "ReadWriteMany";
+            mountPath = "/data/movies";
+          };
         };
       };
     };
@@ -87,7 +108,12 @@ in
         port = 8686;
         persistence = {
           config.enabled = true;
-          media.existingClaim = pvc;
+          data = {
+            enabled = true;
+            size = "100Gi";
+            accessMode = "ReadWriteMany";
+            mountPath = "/data/music";
+          };
         };
       };
     };
@@ -100,7 +126,12 @@ in
         port = 8787;
         persistence = {
           config.enabled = true;
-          media.existingClaim = pvc;
+          data = {
+            enabled = true;
+            size = "10Gi";
+            accessMode = "ReadWriteMany";
+            mountPath = "/data/books";
+          };
         };
       };
     };
