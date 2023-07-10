@@ -31,7 +31,7 @@ in
     transmission = {
       submodule = "release";
       args = {
-        image = "linuxserver/transmission:version-3.00-r6";
+        image = "linuxserver/transmission:4.0.3";
         host = "downloads";
         port = 9091;
         persistence = {
@@ -100,7 +100,7 @@ in
     sonarr = {
       submodule = "release";
       args = {
-        image = "linuxserver/sonarr:3.0.9";
+        image = "linuxserver/sonarr:3.0.10";
         host = "shows";
         port = 8989;
         persistence = {
@@ -118,7 +118,7 @@ in
     radarr = {
       submodule = "release";
       args = {
-        image = "linuxserver/radarr:4.3.2";
+        image = "linuxserver/radarr:4.6.4";
         host = "movies";
         port = 7878;
         persistence = {
@@ -136,7 +136,7 @@ in
     lidarr = {
       submodule = "release";
       args = {
-        image = "linuxserver/lidarr:1.0.2";
+        image = "linuxserver/lidarr:1.2.6";
         host = "music";
         port = 8686;
         persistence = {
@@ -172,7 +172,7 @@ in
     prowlarr = {
       submodule = "release";
       args = {
-        image = "linuxserver/prowlarr:1.5.2";
+        image = "linuxserver/prowlarr:1.6.3";
         host = "indexer";
         port = 9696;
         persistence.config.enabled = true;
