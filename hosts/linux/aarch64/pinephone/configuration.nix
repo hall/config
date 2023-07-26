@@ -85,6 +85,8 @@
   home = {
     enable = true;
     packages = with pkgs; [
+      # logseq # TODO: add arch support
+      phosh-mobile-settings
       # purple-matrix
       # purple-slack
       # tdlib-purple
