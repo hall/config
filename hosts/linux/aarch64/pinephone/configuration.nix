@@ -1,7 +1,7 @@
 { pkgs, musnix, flake, lib, modulesPath, ... }: {
 
   imports = [
-    (import "${flake.inputs.mobile}/lib/configuration.nix" { device = "pine64-pinephonepro"; })
+    (import "${flake.inputs.mobile}/lib/configuration.nix" { device = "pine64-pinephone"; })
     (modulesPath + "/installer/sd-card/sd-image-aarch64.nix")
   ];
 
@@ -126,7 +126,7 @@
       gedit # editor
       nautilus # files
       eog # images
-      # fractal-next # matrix
+      fractal-next # matrix
       giara # reddit
 
       gnome-terminal
