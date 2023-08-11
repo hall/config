@@ -19,7 +19,7 @@
   submodules.instances.paperless = {
     submodule = "release";
     args = {
-      image = "paperlessngx/paperless-ngx:1.13";
+      image = "paperlessngx/paperless-ngx:1.17";
       port = 8000;
       host = "docs";
       persistence = {
