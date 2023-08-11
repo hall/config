@@ -87,16 +87,6 @@ in
       };
     };
 
-    ombi = {
-      submodule = "release";
-      args = {
-        image = "linuxserver/ombi:4.39.1";
-        host = "requests";
-        port = 3579;
-        persistence.config.enabled = true;
-      };
-    };
-
     sonarr = {
       submodule = "release";
       args = {
