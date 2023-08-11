@@ -50,10 +50,9 @@ in
             enabled = true;
             data."settings.json" = builtins.toJSON {
               download-dir = "/data";
-              # download-queue-size = 5;
+              download-queue-size = 10;
+              # idle-seeding-limit = 30; # minutes
               idle-seeding-limit-enabled = true;
-              # queue-stalled-enabled = true;
-              # queue-stalled-minutes = 30;
               # ratio-limit = 2;
               # ratio-limit-enabled = false;
               rpc-host-whitelist-enabled = false;
@@ -68,7 +67,7 @@ in
               VPN_SERVICE_PROVIDER = "protonvpn";
               OPENVPN_USER = vars.secret "/vpn/user";
               OPENVPN_PASSWORD = vars.secret "/vpn/pass";
-              SERVER_COUNTRIES = "United States";
+              SERVER_CITIES = "Washington DC,New York City";
             };
           };
         };
