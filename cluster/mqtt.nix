@@ -27,6 +27,7 @@
           data.config = ''
             listener 1883
             allow_anonymous true
+            connection_messages false
           '';
 
           # persistence true
