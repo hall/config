@@ -59,4 +59,74 @@
       ];
     }];
   };
+  # TODO: deploy
+  power-monitor = {
+    packages.common = "!include .wifi.yaml";
+    substitutions.name = "power-monitor";
+    esphome = {
+      platform = "ESP32";
+      board = "nodemcu-32s";
+    };
+    spi = {
+      clk_pin = 18;
+      miso_pin = 19;
+      mosi_pin = 23;
+    };
+    sensor = [
+      {
+        platform = "atm90e32";
+        cs_pin = 5;
+        phase_a = {
+          voltage.name = "EMON Line Voltage A";
+          current.name = "EMON CT1 Current";
+          power.name = "EMON Active Power CT1";
+          gain_voltage = 7305;
+          gain_ct = 12577;
+        };
+        phase_b = {
+          current.name = "EMON CT2 Current";
+          power.name = "EMON Active Power CT2";
+          gain_voltage = 7305;
+          gain_ct = 12577;
+        };
+        phase_c = {
+          current.name = "EMON CT3 Current";
+          power.name = "EMON Active Power CT3";
+          gain_voltage = 7305;
+          gain_ct = 12577;
+        };
+        frequency.name = "EMON Line Frequency";
+        line_frequency = "50Hz";
+        current_phases = 3;
+        gain_pga = "1X";
+        update_interval = "60s";
+      }
+      {
+        platform = "atm90e32";
+        cs_pin = 4;
+        phase_a = {
+          current.name = "EMON CT4 Current";
+          power.name = "EMON Active Power CT4";
+          gain_voltage = 7305;
+          gain_ct = 12577;
+        };
+        phase_b = {
+          current.name = "EMON CT5 Current";
+          power.name = "EMON Active Power CT5";
+          gain_voltage = 7305;
+          gain_ct = 12577;
+        };
+        phase_c = {
+          current.name = "EMON CT6 Current";
+          power.name = "EMON Active Power CT6";
+          gain_voltage = 7305;
+          gain_ct = 12577;
+        };
+        line_frequency = "50Hz";
+        current_phases = 3;
+        gain_pga = "1X";
+        update_interval = "60s";
+      }
+    ];
+  };
 }
