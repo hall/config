@@ -4,7 +4,14 @@
     substitutions.name = "space-heater-power";
   };
   tv-light = {
-    packages.temphumid = "!include .temphumid.yaml";
+    # TODO: fix env sensor readings
+    # packages.temphumid = "!include .temphumid.yaml";
+    packages.wifi = "!include .wifi.yaml";
+    esphome = {
+      platform = "ESP8266";
+      board = "nodemcuv2";
+    };
+
     substitutions.name = "tv-light";
     e131 = { }; # port 5568
     light = [{
