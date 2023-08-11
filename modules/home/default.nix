@@ -32,7 +32,7 @@ in
         # cfg.home
         {
           accounts = import ./accounts.nix { inherit flake; };
-          dconf = import ./dconf.nix;
+          dconf = import ./dconf.nix { inherit flake; };
           gtk = import ./gtk.nix pkgs;
           programs = lib.mkMerge [ (import ./programs { inherit pkgs flake; }) cfg.programs ];
           services = lib.mkMerge [ (import ./services.nix) cfg.services ];
