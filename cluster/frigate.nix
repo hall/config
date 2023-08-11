@@ -45,7 +45,7 @@ in
         record = {
           enabled = true;
           retain = {
-            days = 2;
+            days = 1;
             mode = "motion"; # vs "all"
           };
           events.retain = {
