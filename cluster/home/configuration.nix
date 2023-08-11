@@ -268,8 +268,9 @@
       platform = "group";
       name = "livingroom";
       entities = [
-        "light.livingroom_light"
+        "light.livingroom_light_switch"
         "light.livingroom_lamp"
+        "light.livingroom_table_lamp"
       ];
     }
     {

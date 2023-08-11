@@ -99,6 +99,7 @@
         "light.nightstand_light_right"
         # "light.livingroom"
         "light.livingroom_lamp"
+        "light.livingroom_table_lamp"
         "light.livingroom_light_switch"
         "light.guest_light_switch"
       ];
