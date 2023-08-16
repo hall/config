@@ -7,7 +7,7 @@ in
   submodules.instances.frigate = {
     submodule = "release";
     args = {
-      image = "ghcr.io/blakeblackshear/frigate:0.12.0";
+      image = "ghcr.io/blakeblackshear/frigate:0.12.1";
       port = 5000;
       host = "frigate";
       persistence.media.size = "200Gi";
