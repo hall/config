@@ -141,7 +141,7 @@
       gnome-weather
       gnome-system-monitor
       gnome-sound-recorder
-      gnome-todo
+      # gnome-todo
       gnome-notes
       # gnome-books
       gnome-screenshot
