@@ -91,6 +91,9 @@
         buildInputs = [ kubectl ];
         KUBECONFIG = "/run/secrets/kubeconfig";
       };
+      shellHook = ''
+        alias k=kubectl
+      '';
     });
 
     checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) inputs.deploy.lib;
