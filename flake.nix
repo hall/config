@@ -19,10 +19,6 @@
       url = "github:musnix/musnix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    mach = {
-      url = "github:davhau/mach-nix/3.5.0";
-      # inputs.nixpkgs.follows = "nixpkgs";
-    };
     kubenix = {
       url = "github:hall/kubenix";
       inputs.nixpkgs.follows = "nixpkgs";

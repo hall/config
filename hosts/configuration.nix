@@ -1,30 +1,4 @@
-{ config, lib, pkgs, flake, age, specialArgs, ... }:
-let
-  # map of xontrib name to package name
-  xontribs = {
-    # argcomplete = "xontrib-argcomplete"; # tab completion of python and xonsh scripts
-    sh = "xontrib-sh"; # prefix (ba)sh commands with "!"
-    # onepath = "xontrib-onepath" # act on file/dir by only using its name # TODO: build failed
-    pipeliner = "xontrib-pipeliner"; # use "pl" to pipe a python expression
-    # readable-traceback = "xotrib-readable-traceback";
-
-    # some xontribs require external tools which are not available on all hosts
-  } // (if config.home.enable then {
-    zoxide = "xontrib-zoxide";
-    prompt_starship = "xontrib-prompt-starship";
-    direnv = "xonsh-direnv";
-  } else { });
-
-  pyenv = flake.inputs.mach.lib.${pkgs.system}.mkPython {
-    python = "python310";
-    requirements = lib.concatStringsSep "\n" (builtins.attrValues xontribs);
-  };
-
-  xonsh = pkgs.xonsh.overrideAttrs (super: {
-    pythonPath = pyenv.selectPkgs pyenv.python.pkgs;
-  });
-in
-{
+{ config, lib, pkgs, flake, age, specialArgs, ... }: {
   # https://nixos.org/manual/nixos/stable/release-notes.html
   system.stateVersion = "22.11";
 
@@ -137,26 +111,8 @@ in
 
   hardware.enableRedistributableFirmware = true;
 
-  programs.xonsh = {
-    enable = true;
-    package = xonsh;
-    config = with builtins; ''
-      $BASH_COMPLETIONS = ["${pkgs.bash-completion}/share/bash-completion/bash_completion"]
-      $VI_MODE = True
-
-      xontrib load ${lib.concatStringsSep " " (builtins.attrNames xontribs)}
-      $GOPATH = $HOME
-      
-      aliases |= {
-          "k": ["kubectl"],
-          "cd": ["z"],
-      }
-    '';
-  };
-
   users.users.${flake.lib.username} = {
     isNormalUser = true;
-    shell = config.programs.xonsh.package;
     extraGroups = [
       "audio"
       "dialout"
