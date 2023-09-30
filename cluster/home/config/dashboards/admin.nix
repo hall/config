@@ -13,5 +13,5 @@
           url = "https://${lower}.${flake.lib.hostname}";
         }];
 
-      }) [ "Dashboard" "Grafana" "ESPHome" "Sync" "Longhorn" "Prometheus" "Alertmanager" "Octoprint" "Zigbee" "RSS" ];
+      }) [ "Grafana" "ESPHome" "Sync" "Longhorn" "Prometheus" "Alertmanager" "Octoprint" "Zigbee" ];
 }
