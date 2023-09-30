@@ -26,11 +26,6 @@ in
               kind = "Rule";
               middlewares = [{ name = "home"; }];
             }
-            {
-              match = "Host(`dav.${flake.lib.hostname}`)";
-              kind = "Rule";
-              middlewares = [{ name = "dav"; }];
-            }
           ];
           tls = {
             certResolver = resolver;
@@ -41,26 +36,25 @@ in
         };
       };
       middlewares = {
-        dav = {
-          metadata.namespace = ns;
-          spec = {
-            # allow using the nexcloud integration until a generic one is available
-            # https://gitlab.gnome.org/GNOME/gnome-online-accounts/-/issues/1
-            stripPrefix = {
-              prefixes = [
-                "/remote.php/caldav"
-                "/remote.php/carddav"
-                "/remote.php/webdav"
-              ];
-            };
-          };
-        };
         home = {
           metadata.namespace = ns;
+          spec.headers = {
+            contentSecurityPolicy = "frame-src home.${flake.lib.hostname}";
+            customResponseHeaders.x-frame-options = "";
+          };
+        };
+        cloud = {
+          metadata.namespace = ns;
           spec = {
-            headers = {
-              contentSecurityPolicy = "frame-src home.${flake.lib.hostname}";
-              customResponseHeaders.x-frame-options = "";
+            # headers = {
+            #   stsSeconds = 15552000;
+            #   # stsIncludeSubdomains = "";
+            #   # stsPreload = true;
+            # };
+            redirectRegex = {
+              permanent = true;
+              regex = "https://(.*)/.well-known/(?:card|cal)dav";
+              replacement = "https://\${1}/remote.php/dav";
             };
           };
         };
