@@ -72,4 +72,36 @@ in
       };
     };
   };
+  kubernetes.helm.releases = {
+    wyoming-whisper = {
+      chart = kubenix.lib.helm.fetch {
+        repo = "https://charts.truecharts.org/";
+        chart = "wyoming-whisper";
+        version = "1.0.2";
+        sha256 = "sha256-YIGHKfyyO09/OKOK8dAprTsaTDhtzBelvdhxQoxb5G0=";
+      };
+      values = {
+        image = {
+          repository = "rhasspy/wyoming-whisper";
+          tag = "1.0.0";
+        };
+        fallbackDefaults.storageClass = "longhorn-static";
+      };
+    };
+    wyoming-piper = {
+      chart = kubenix.lib.helm.fetch {
+        repo = "https://charts.truecharts.org/";
+        chart = "wyoming-piper";
+        version = "1.0.5";
+        sha256 = "sha256-1Wye4L109Kh68QGk1nhuQjiA+ifZyMc+UqVymIIr4EQ=";
+      };
+      values = {
+        image = {
+          repository = "rhasspy/wyoming-piper";
+          tag = "1.3.2";
+        };
+        fallbackDefaults.storageClass = "longhorn-static";
+      };
+    };
+  };
 }
