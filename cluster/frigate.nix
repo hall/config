@@ -79,8 +79,8 @@ in
               }
             ];
             motion.mask = [
-              "123,0,335,0,376,62,138,135" # neighbor's yard
-              "990,57,990,0,953,0,938,55" # lamppost across street
+              "123,0,335,0,480,50,143,165" # neighbor's yard
+              "1280,142,1280,0,641,0,974,54" # sidewalk across street
             ];
             zones.yard.coordinates = "0,84,0,720,835,720,1256,434,1280,247,743,105,468,66,196,154";
             objects.filters.person.mask = [
