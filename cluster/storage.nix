@@ -41,8 +41,8 @@ in
       chart = kubenix.lib.helm.fetch {
         repo = "https://charts.longhorn.io";
         chart = "longhorn";
-        version = "v1.4.2";
-        sha256 = "wObUgcGMJtr8s5xpyfahjBm1roQyP4+nySeF/EkUWkg=";
+        version = "v1.5.1";
+        sha256 = "J8rrygBavwa0c2J8jWa+9VuUwczBOewBui5KzP5YRMw=";
       };
       noHooks = true;
       namespace = ns;
@@ -64,9 +64,6 @@ in
           reclaimPolicy = "Retain";
         };
         longhornUI.replicas = 1;
-        longhornConversionWebhook.replicas = 1;
-        longhornAdmissionWebhook.replicas = 1;
-        longhornRecoveryBackend.replicas = 1;
         longhornManager.tolerations = [{
           key = "node-role.kubernetes.io/control-plane";
           operator = "Exists";
@@ -74,13 +71,11 @@ in
         }];
       };
     };
-    customTypes = {
-      recurringjobs = {
-        attrName = "recurringjobs";
-        group = "longhorn.io";
-        version = "v1beta1";
-        kind = "RecurringJob";
-      };
+    customTypes.recurringjobs = {
+      attrName = "recurringjobs";
+      group = "longhorn.io";
+      version = "v1beta1";
+      kind = "RecurringJob";
     };
   };
 }
