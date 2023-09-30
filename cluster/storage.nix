@@ -18,14 +18,33 @@ in
           AWS_ENDPOINTS = "https://nyc3.digitaloceanspaces.com";
         };
       };
-      recurringjobs.default = {
-        metadata.namespace = ns;
-        spec = {
-          cron = "0 0 * * *";
-          task = "backup";
-          groups = [ "default" ];
-          retain = 1;
-          concurrency = 5;
+      recurringjobs = {
+        backup = {
+          metadata.namespace = ns;
+          spec = {
+            cron = "0 0 1 * *"; # monthly
+            task = "backup";
+            groups = [ "default" ];
+            retain = 12; # 1 year
+            concurrency = 5;
+          };
+        };
+        snapshot = {
+          metadata.namespace = ns;
+          spec = {
+            cron = "0 0 * * *"; # daily
+            task = "snapshot";
+            groups = [ "default" ];
+            retain = 30; # ~1 month
+            concurrency = 5;
+          };
+        };
+        # opt out with an annotation on the volume:
+        #   recurring-job.longhorn.io/disabled=enabled
+        disabled = {
+          metadata.namespace = ns;
+          # https://stackoverflow.com/a/13938155
+          spec.cron = "0 0 31 2 ?";
         };
       };
       # TODO: workaround
