@@ -40,19 +40,14 @@ in
   # 3rd party providers
   "github.age".publicKeys = main;
   "gitlab.age".publicKeys = main;
-  "nixbuild.age".publicKeys = main;
 
   # k3s node token
   "k3s.age".publicKeys = [ user ] ++ (members cluster);
-
-  # password for librespot
-  "spotify.age".publicKeys = with hosts; [ user bedroom ];
 
   # kubernetes
   "kubeconfig.age".publicKeys = main;
   "kubenix.age".publicKeys = main;
 
-  # wireguard
-  "wg_router.age".publicKeys = main ++ [ hosts.router ];
-  "wg_x12.age".publicKeys = main ++ [ hosts.x12 ];
+  # acme DNS validation
+  "namecheap.age".publicKeys = main ++ [ hosts.tv ];
 }
