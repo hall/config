@@ -6,10 +6,6 @@ in
 {
   kubernetes = {
     resources = {
-      namespaces.${ns}.metadata.labels = {
-        "goldilocks.fairwinds.com/enabled" = "true";
-        "goldilocks.fairwinds.com/vpa-update-mode" = "auto";
-      };
       secrets.${creds} = {
         metadata.namespace = ns;
         stringData = {
@@ -22,10 +18,10 @@ in
         backup = {
           metadata.namespace = ns;
           spec = {
-            cron = "0 0 1 * *"; # monthly
+            cron = "0 0 * * Sun"; # weekly
             task = "backup";
             groups = [ "default" ];
-            retain = 12; # 1 year
+            retain = 12; # 3 months
             concurrency = 5;
           };
         };

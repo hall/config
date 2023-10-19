@@ -9,10 +9,6 @@
     kubernetes = {
       kubeconfig = "/run/secrets/kubeconfig";
       version = "1.27";
-      resources.namespaces.default.metadata.labels = {
-        "goldilocks.fairwinds.com/enabled" = "true";
-        "goldilocks.fairwinds.com/vpa-update-mode" = "auto";
-      };
     };
   }] ++ (builtins.map
     (f: import ./${f} {

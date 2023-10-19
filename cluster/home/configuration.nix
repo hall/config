@@ -95,14 +95,8 @@
   system_health = { };
   prometheus = { };
   input_boolean = { };
-  #transmission = {
-  #  host = "https://downloads.${flake.lib.hostname}/transmission/rpc";
-  #  port = 443;
-  # };
   python_script = { };
   recorder.db_url = "!secret postgresql";
-
-
 
   lovelace = {
     resources = [
@@ -110,34 +104,16 @@
         url = "/hacsfiles/ha-floorplan/floorplan.js";
         type = "module";
       }
-      {
-        url = "/local/internal-iframe.js";
-        type = "module";
-      }
     ];
     dashboards = {
-      lovelace-media = {
-        mode = "yaml";
-        filename = "dashboards/media.yaml";
-        title = "Media";
-        icon = "mdi:bookshelf";
-      };
       lovelace-admin = {
         mode = "yaml";
         filename = "dashboards/admin.yaml";
         title = "Admin";
         icon = "mdi:console-line";
       };
-      lovelace-settings = {
-        mode = "yaml";
-        filename = "dashboards/settings.yaml";
-        title = "Settings";
-        icon = "mdi:cog";
-      };
     };
   };
-
-  #telegram-bot
 
   matrix = {
     homeserver = "https://matrix.org";
@@ -155,8 +131,8 @@
       name = "phones";
       platform = "group";
       services = [
-        { service = "mobile_app_sm_n950u1"; }
-        { service = "mobile_app_sm_g965u1"; }
+        { service = "mobile_app_phone"; }
+        { service = "mobile_app_pixel_8_pro"; }
       ];
     }
     {
@@ -171,41 +147,7 @@
       username = "kodi";
       password = "!secret kodi";
     }
-    # {
-    #   name = "gotify";
-    #   platform = "rest";
-    #   resource = "http://gotify/message";
-    #   method = "POST_JSON";
-    #   headers.X-Gotify-Key = "!secret gotify_key";
-    #   message_param_name = "message";
-    #   title_param_name = "title";
-    #   data.extras."client::display".contentType = "text/markdown";
-    # }
   ];
-
-  # device_tracker = [{
-  #   platform = "luci";
-  #   host = "router.lan";
-  #   username = "root";
-  #   password = "!secret router";
-  #   ssl = true;
-  #   verify_ssl = false;
-  # }];
-  # media_player = [{
-  #   platform = "emby";
-  #   host = "player.${flake.lib.hostname}";
-  #   api_key = "!secret jellyfin";
-  #   ssl = true;
-  #   port = 443;
-  # }];
-  # roomba = [{
-  #   host = "vacuum";
-  #   # continuous = false;
-  #   blid = "!secret roomba_user";
-  #   password = "!secret roomba_pass";
-  # }];
-
-  #mycroft.host= "picroft.lan";
 
   panel_iframe = {
     docs = {
@@ -291,13 +233,6 @@
   ];
 
   sensor = [
-    # {
-    #   platform = "dahua_vto";
-    #   name = "doorbell";
-    #   host = "doorbell";
-    #   username = "admin";
-    #   password = "!secret doorbell";
-    # }
     {
       platform = "worxlandroid";
       host = "robotic-mower";

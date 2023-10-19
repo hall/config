@@ -6,8 +6,6 @@
       port = 8384;
       host = "sync";
       persistence = {
-        paperless.existingClaim = "paperless-consume";
-        photoprism.existingClaim = "photoprism-import";
         stash.existingClaim = "stash-media";
         notes.size = "5Gi";
         cloud.size = "60Gi";
