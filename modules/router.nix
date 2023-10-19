@@ -12,7 +12,6 @@ let
     465 # smtp
     993 # imap
   ];
-  wgInterface = "wg0";
 in
 {
   options.${name} = {
@@ -49,7 +48,7 @@ in
       nat = {
         enable = true;
         externalInterface = cfg.external;
-        internalInterfaces = [ cfg.internal wgInterface ];
+        internalInterfaces = [ cfg.internal ];
         internalIPs = [ "${prefix}.0/${builtins.toString mask}" ];
       };
 
@@ -70,81 +69,12 @@ in
         {
           # don't allow anything by default
           allowedTCPPorts = lib.mkForce [ ];
-          allowedUDPPorts = lib.mkForce [
-            config.networking.wireguard.interfaces.${wgInterface}.listenPort
-          ];
+          allowedUDPPorts = lib.mkForce [ ];
           interfaces = {
             ${cfg.internal} = internal;
-            ${wgInterface} = internal;
           };
         };
 
-      # firewall
-      # nftables = {
-      #   enable = false;
-      #   ruleset = ''
-      #     table ip filter {
-      #       # chain output {
-      #       #   type filter hook output priority 100; policy accept;
-      #       # }
-
-      #       chain input {
-      #         type filter hook input priority filter; policy drop;
-
-      #         iifname { "${cfg.internal}" } counter accept comment "allow local network"
-      #         iifname "${cfg.external}" ct state { established , related } counter accept comment "allow established traffic"
-      #         iifname "${cfg.external}" icmp type { echo-request, destination-unreachable, time-exceeded } counter accept
-      #         iifname "${cfg.external}" drop comment "drop all other from wan"
-      #       }
-
-      #       chain forward {
-      #         type filter hook forward priority filter; policy drop;
-      #         iifname { "${cfg.internal}" } oifname { "${cfg.external}" } counter accept comment "allow trusted lan to wan"
-      #         iifname { "${cfg.external}" } oifname { "${cfg.internal}" } ct state { established, related } counter accept comment "allow established back to lan"
-      #       }
-
-      #     }
-
-      #     table ip nat {
-      #       chain prerouting {
-      #         type nat hook output priority filter; policy accept;
-      #       }
-      #       chain postrouting {
-      #         type nat hook postrouting priority filter; policy accept;
-      #         oifname "${cfg.external}" masquerade
-      #       }
-      #     }
-      #   '';
-      # };
-
-      wireguard.interfaces.${wgInterface} =
-        let
-          prefix = "10.1.0";
-          iptables = action: ''
-            ${pkgs.iptables}/bin/iptables -t nat -${action} POSTROUTING -s ${prefix}.0/${builtins.toString mask} -o ${cfg.internal} -j MASQUERADE
-          '';
-        in
-        {
-          ips = [ "${prefix}.1/${builtins.toString mask}" ];
-          listenPort = 51820;
-          privateKeyFile = "/run/secrets/wg";
-
-          postSetup = iptables "A";
-          postShutdown = iptables "D";
-
-          peers = [
-            {
-              # x12
-              publicKey = "U8bSsL1x09mjWir8atah4TRTAaXvIynjn6AvNKPRKic=";
-              allowedIPs = [ "${prefix}.2/32" ];
-            }
-            {
-              # note8
-              publicKey = "AMBCZ+7WoCT3zqitsnf2kkf+vT9MzmnBdRF2+cJpmUE=";
-              allowedIPs = [ "${prefix}.3/32" ];
-            }
-          ];
-        };
     };
 
     age.secrets.wg.file = ../secrets/wg_${config.networking.hostName}.age;
@@ -159,10 +89,10 @@ in
           bogus-priv = true; # don't forward unroutable addresses
           # no-resolv = true; # use dnsmasq exclusively
           no-hosts = true; # ignore /etc/hosts
-          interface = [ cfg.internal wgInterface ];
+          interface = [ cfg.internal wgInternal ];
           address = [
             "/${config.networking.hostName}/${gateway}"
-            "/${flake.hostname}/${gateway}" # k8s svc;
+            "/${flake.lib.hostname}/${gateway}" # k8s svc
             "/k/${gateway}" # k8s api
             "/doorbell/${prefix}.10" # not dhcp capable
           ];
@@ -182,7 +112,6 @@ in
       # k8s api lb
       nginx = {
         enable = true;
-        validateConfig = false;
         config = ''
           events {
             worker_connections 1024;
@@ -214,7 +143,6 @@ in
       # hostapd = {
       #   enable = true;
       # };
-
 
       # speed/bandwidth testing
       # iperf3 = {
