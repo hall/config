@@ -1,4 +1,10 @@
-# images
+## deploy
+
+Build a host with either `ctrl-shift-b` (in `codium`) or
+
+    deploy '.#${hostname}'
+
+## images
 
 Build a bootable image with:
 
