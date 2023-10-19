@@ -2,14 +2,12 @@
 
 An opinionated [flake](https://nixos.wiki/wiki/Flakes) to configure the world.
 
-|                        |                     |
-| ---------------------- | ------------------- |
-| [hosts](./hosts)       | host configurations |
-| [modules](./modules)   | nixos modules       |
-| [packages](./packages) | nix packages        |
-| [overlays](./overlays) | nixpkgs overlays    |
-| [secrets](./secrets)   | secrets management  |
-| [cluster](./cluster)   | kubernetes cluster  |
+- [hosts](./hosts) configuration
+- nixos [modules](./modules)
+- nix [packages](./packages)
+- nixpkgs [overlays](./overlays)
+- [secrets](./secrets) management
+- kubernetes [cluster](./cluster)
 
 
 ## notes
