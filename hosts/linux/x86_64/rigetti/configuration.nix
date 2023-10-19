@@ -2,7 +2,7 @@
   laptop.enable = true;
 
   services = {
-    flatpak.enable = true;
+    # flatpak.enable = true;
     globalprotect.enable = true;
     # udev.packages = with pkgs; [ yubikey-personalization ];
   };
@@ -29,6 +29,7 @@
     enable = true;
     packages = with pkgs; [
       awscli2
+      logseq
     ];
 
     programs = {
@@ -74,6 +75,7 @@
             { name = "merges"; type = "merge_requests"; }
             { name = "issues"; type = "issues"; }
           ];
+          "gitlens.plusFeatures.enabled" = false;
         };
         extensions = (with pkgs.vscode-extensions; [
           github.copilot
