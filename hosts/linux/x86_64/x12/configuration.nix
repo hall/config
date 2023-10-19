@@ -7,7 +7,6 @@
   };
 
   musnix.enable = true;
-  # wireguard.enable = true;
 
   networking = {
     firewall = {
@@ -19,18 +18,6 @@
         51820 # wg
       ];
     };
-    # wg-quick.interfaces.wg0 = {
-    #   address = [ "10.1.0.2/24" ];
-    #   dns = [ "10.0.0.1" ];
-    #   listenPort = 51820;
-    #   privateKeyFile = "/run/secrets/wg";
-    #   peers = [{
-    #     endpoint = "vpn.${flake.lib.hostname}:51820";
-    #     allowedIPs = [ "0.0.0.0/0" ];
-    #     publicKey = "bt2nzOAO+ArOj5KQRI9c5pphmazcCZmiWvo/TeP3n3M=";
-    #     persistentKeepalive = 25;
-    #   }];
-    # };
     networkmanager.dispatcherScripts = [{
       source = pkgs.writeText "upHook" ''
         export PATH=$PATH:/run/current-system/sw/bin
@@ -44,6 +31,7 @@
   };
 
   services = {
+    tailscale.enable = true;
     printing.enable = true;
     effects = {
       enable = true;
@@ -55,7 +43,6 @@
   };
 
   age.secrets = {
-    wg.file = ../../../../secrets/wg_${config.networking.hostName}.age;
     id_ed25519 = {
       file = ../../../../secrets/id_ed25519.age;
       path = "${config.users.users.${flake.lib.username}.home}/.ssh/id_ed25519";
@@ -102,13 +89,14 @@
     # };
 
     packages = with pkgs; [
-      carla
+      logseq
       deploy-rs
       zotero
       transmission-gtk
       foliate
       okular
       jellyfin-media-player
+      carla
 
       pianobooster
       qjackctl
@@ -133,7 +121,7 @@
       talosctl
       newsflash
       sof-firmware
-      gnome.gnome-todo
+      endeavour # todo
       yt-dlp
       bitwarden-cli
       siglo
@@ -143,6 +131,11 @@
 
       watchmate
       nix-diff
+      gnome.nautilus # files
+      gnome.totem # video
+      gnome.cheese
+      vlc
+      baobab # disk usage
     ] ++ (with flake.packages; [
       effects
     ]);
