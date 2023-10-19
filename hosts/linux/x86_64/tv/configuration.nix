@@ -1,39 +1,65 @@
 # NUC11PAHi7, 88:AE:DD:05:C9:46, F2 to enter bios
-{ lib, pkgs, musnix, flake, ... }: {
+{ lib, pkgs, flake, ... }: {
   imports = [ flake.inputs.hardware.nixosModules.intel-nuc-8i7beh ];
-  boot.binfmt.emulatedSystems = [
-    "aarch64-linux"
-  ];
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
-  kodi.enable = true;
-  monitor.enable = true;
-  registry.enable = true;
   hyperion.enable = true;
 
-  # TODO: figure out a stable sound config
-  services.pipewire.enable = lib.mkForce false;
-  sound.enable = true;
+  age.secrets.namecheap.file = ../../../../secrets/namecheap.age;
+  security.acme = {
+    acceptTerms = true;
+    defaults = {
+      email = flake.lib.email;
+      dnsProvider = "namecheap";
+      credentialsFile = "/run/secrets/namecheap";
+    };
+    certs."${flake.lib.hostname}" = {
+      domain = "*.${flake.lib.hostname}";
+    };
+  };
 
-  # networking.interfaces.enp89s0.wakeOnLan.enable = true;
+  services = {
 
-  hardware = {
-    # firmware = with pkgs; [
-    #   firmwareLinuxNonfree
-    # ];
-    opengl = {
+    nginx = {
       enable = true;
-      extraPackages = with pkgs; [
-        intel-media-driver
-        vaapiIntel
-        vaapiVdpau
-        libvdpau-va-gl
-      ];
+      virtualHosts = {
+        "esphome.${flake.lib.hostname}" = {
+          enableACME = true;
+          acmeRoot = null;
+          locations."/".proxyPass = "http://127.0.0.1:${config.services.esphome.port}";
+        };
+      };
+    };
+
+    esphome.enable = true;
+
+    mosquitto = {
+      # /var/lib/mosquitto
+      # enable = true;
+      settings = {
+        listener = 1883;
+        allow_anonymous = true;
+        connection_messages = false;
+      };
+    };
+    zigbee2mqtt = {
+      # /var/lib/zigbee2mqtt
+      # enable = true;
+      # settings = {
+      #   homeassistant = config.services.home-assistant.enable;
+      #   permit_join = true;
+      #   serial = {
+      #     port = "/dev/ttyACM1";
+      #   };
+      # };
+    };
+
+    iperf3 = {
+      enable = true;
+      openFirewall = true;
     };
   };
 
-  nixpkgs.config.packageOverrides = pkgs: {
-    vaapiIntel = pkgs.vaapiIntel.override {
-      enableHybridCodec = true;
-    };
-  };
+  environment.systemPackages = with pkgs; [ iperf ];
+
 }
