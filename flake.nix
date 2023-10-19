@@ -24,9 +24,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     mobile = {
-      # https://github.com/NixOS/mobile-nixos/pull/445
-      # url = github:nixos/mobile-nixos/pull/535/head;
-      url = "github:aszlig/mobile-nixos/pinephonepro";
+      url = "github:nixos/mobile-nixos";
       flake = false;
     };
   };
