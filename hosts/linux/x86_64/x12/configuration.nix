@@ -90,7 +90,6 @@
 
     packages = with pkgs; [
       logseq
-      deploy-rs
       zotero
       transmission-gtk
       foliate
