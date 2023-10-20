@@ -1,5 +1,5 @@
 # NUC11PAHi7, 88:AE:DD:05:C9:46, F2 to enter bios
-{ lib, pkgs, flake, ... }: {
+{ lib, pkgs, flake, config, ... }: {
   imports = [ flake.inputs.hardware.nixosModules.intel-nuc-8i7beh ];
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
@@ -26,7 +26,8 @@
         "esphome.${flake.lib.hostname}" = {
           enableACME = true;
           acmeRoot = null;
-          locations."/".proxyPass = "http://127.0.0.1:${config.services.esphome.port}";
+          locations."/".proxyPass = "http://127.0.0.1:${builtins.toString config.services.esphome.port}";
+          # locations."/".proxyPass = "http://127.0.0.1:${config.services.esphome.port}";
         };
       };
     };

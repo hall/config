@@ -89,7 +89,7 @@ in
           bogus-priv = true; # don't forward unroutable addresses
           # no-resolv = true; # use dnsmasq exclusively
           no-hosts = true; # ignore /etc/hosts
-          interface = [ cfg.internal wgInternal ];
+          interface = [ cfg.internal ];
           address = [
             "/${config.networking.hostName}/${gateway}"
             "/${flake.lib.hostname}/${gateway}" # k8s svc
@@ -97,7 +97,7 @@ in
             "/doorbell/${prefix}.10" # not dhcp capable
           ];
           cname = [
-            "registry,tv" # docker registry TODO: don't hardcode hostname
+            "registry,server" # docker registry TODO: don't hardcode hostname
           ];
 
           dhcp-authoritative = true;

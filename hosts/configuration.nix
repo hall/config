@@ -97,7 +97,7 @@
 
     distributedBuilds = true;
     buildMachines = [{
-      hostName = "tv";
+      hostName = "server";
       sshUser = flake.lib.username;
       sshKey = "/run/secrets/id_ed25519";
       systems = [ "x86_64-linux" "aarch64-linux" ];

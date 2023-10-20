@@ -20,7 +20,7 @@ let
     bedroom = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICsgKixPi4ys95A03K5nTT18OiMAXD9POq/EvnyDnznN";
     pinephone = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPHx6N0eSzOMJF9fa2WjftMedXnpCQvuSXCdaPsl63T1";
     router = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGh1Y9bVrHzswsKNXJIVefURm345gH0X1Tx1edzY617h";
-    tv = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPBsVhSyPX8F3/WBo+W9w8lYAtfnFgQGg7k7w/8SINCa";
+    server = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPBsVhSyPX8F3/WBo+W9w8lYAtfnFgQGg7k7w/8SINCa";
     x12 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP70uIe/+6FtPWkuA7qiNRAoe2uvY+Qj/zGtU34HOccd";
   };
 
@@ -49,5 +49,5 @@ in
   "kubenix.age".publicKeys = main;
 
   # acme DNS validation
-  "namecheap.age".publicKeys = main ++ [ hosts.tv ];
+  "namecheap.age".publicKeys = main ++ [ hosts.server ];
 }
