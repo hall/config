@@ -8,30 +8,12 @@
 
   musnix.enable = true;
 
-  networking = {
-    firewall = {
-      # checkReversePath = "loose";
-      allowedTCPPorts = [
-        1716 # gsconnect
-      ];
-      allowedUDPPorts = [
-        51820 # wg
-      ];
-    };
-    networkmanager.dispatcherScripts = [{
-      source = pkgs.writeText "upHook" ''
-        export PATH=$PATH:/run/current-system/sw/bin
-        # if in range of home network
-        if [[ nmcli -t -f SSID device wifi | grep hall ]]; then
-          setting=false
-        fi
-        su -l ${flake.lib.username} -c "dbus-launch dconf write /org/gnome/desktop/screensaver/lock-enabled ''${setting:-true}"
-      '';
-    }];
-  };
+  networking.firewall.allowedTCPPorts = [
+    1716 # gsconnect
+  ];
 
   services = {
-    tailscale.enable = true;
+    # tailscale.enable = true;
     printing.enable = true;
     effects = {
       enable = true;
