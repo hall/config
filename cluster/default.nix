@@ -9,6 +9,7 @@
     kubernetes = {
       kubeconfig = "/run/secrets/kubeconfig";
       version = "1.27";
+      resources.namespaces.default = { };
     };
   }] ++ (builtins.map
     (f: import ./${f} {

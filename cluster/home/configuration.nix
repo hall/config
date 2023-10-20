@@ -140,32 +140,7 @@
       platform = "matrix";
       default_room = "!secret matrix_room";
     }
-    {
-      name = "tv";
-      platform = "kodi";
-      host = "tv";
-      username = "kodi";
-      password = "!secret kodi";
-    }
   ];
-
-  panel_iframe = {
-    docs = {
-      title = "Docs";
-      icon = "mdi:file-document";
-      url = "https://docs.${flake.lib.hostname}";
-    };
-    photos = {
-      title = "Photos";
-      icon = "mdi:image";
-      url = "https://photos.${flake.lib.hostname}";
-    };
-    security = {
-      title = "Security";
-      icon = "mdi:security";
-      url = "https://frigate.${flake.lib.hostname}";
-    };
-  };
 
   # adaptive_lighting https://github.com/basnijholt/adaptive-lighting/issues/85
   circadian_lighting = { };

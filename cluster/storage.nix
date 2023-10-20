@@ -6,6 +6,7 @@ in
 {
   kubernetes = {
     resources = {
+      namespaces.${ns} = { };
       secrets.${creds} = {
         metadata.namespace = ns;
         stringData = {
