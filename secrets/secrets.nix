@@ -44,10 +44,6 @@ in
   # k3s node token
   "k3s.age".publicKeys = [ user ] ++ (members cluster);
 
-  # kubernetes
-  "kubeconfig.age".publicKeys = main;
-  "kubenix.age".publicKeys = main;
-
   # acme DNS validation
   "namecheap.age".publicKeys = main ++ [ hosts.server ];
 }

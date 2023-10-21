@@ -70,8 +70,6 @@
 
     "update.mode" = "none";
 
-    "vs-kubernetes"."vs-kubernetes.kubeconfig" = "/run/secrets/kubeconfig";
-
     "window.autoDetectColorScheme" = true;
     "window.menuBarVisibility" = "toggle";
 
@@ -92,7 +90,6 @@
     jnoortheen.nix-ide
     jock.svg
     # llvm-vs-code-extensions.vscode-clangd
-    # ms-kubernetes-tools.vscode-kubernetes-tools
     ms-toolsai.jupyter
     # ms-vscode-remote.remote-ssh
     # ms-vscode.cpptools

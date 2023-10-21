@@ -19,10 +19,6 @@
       url = "github:musnix/musnix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    kubenix = {
-      url = "github:hall/kubenix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     mobile = {
       url = "github:nixos/mobile-nixos";
       flake = false;
@@ -76,12 +72,7 @@
         # remove unsupported packages
         (filter (x: elem pkgs.system x.value.meta.platforms))
         listToAttrs
-      ]) // {
-        kubenix = inputs.kubenix.packages.${pkgs.system}.default.override {
-          module = import ./cluster;
-          specialArgs = { flake = self; };
-        };
-      }
+      ])
     );
 
     devShells = lib.systems (pkgs: {

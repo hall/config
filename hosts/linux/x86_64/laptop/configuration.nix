@@ -47,16 +47,6 @@
       file = ../../../../secrets/gitlab.age;
       owner = flake.lib.username;
     };
-
-    kubeconfig = {
-      file = ../../../../secrets/kubeconfig.age;
-      owner = flake.lib.username;
-    };
-
-    kubenix = {
-      file = ../../../../secrets/kubenix.age;
-      owner = flake.lib.username;
-    };
   };
 
   home = {
