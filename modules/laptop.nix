@@ -49,14 +49,14 @@ in
         ];
         # https://github.com/NixOS/nixpkgs/issues/126681
         udevmonConfig = with pkgs; ''
-          # x12
+          # laptop
           - JOB: "${interception-tools}/bin/intercept -g $DEVNODE | ${interception-tools-plugins.caps2esc}/bin/caps2esc | ${interception-tools}/bin/uinput -d $DEVNODE"
             DEVICE:
               # only target built-in keyboard
               LINK: /dev/input/by-path/pci-0000:00:14.0-usb-0:1:1.0-event-kbd
               EVENTS:
                 EV_KEY: [KEY_CAPSLOCK, KEY_ESC]
-          # rigetti
+          # work
           - JOB: "${interception-tools}/bin/intercept -g $DEVNODE | ${interception-tools-plugins.caps2esc}/bin/caps2esc | ${interception-tools}/bin/uinput -d $DEVNODE"
             DEVICE:
               # only target built-in keyboard
