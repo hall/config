@@ -7,7 +7,6 @@ An opinionated [flake](https://nixos.wiki/wiki/Flakes) to configure the world.
 - nix [packages](./packages)
 - nixpkgs [overlays](./overlays)
 - [secrets](./secrets) management
-- kubernetes [cluster](./cluster)
 
 
 ## notes

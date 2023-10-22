@@ -77,14 +77,7 @@
 
     devShells = lib.systems (pkgs: {
       default = with pkgs; mkShell {
-        buildInputs = [ 
-          deploy-rs
-          kubectl 
-          ];
-        KUBECONFIG = "/run/secrets/kubeconfig";
-        shellHook = ''
-          alias k=kubectl
-        '';
+        buildInputs = [ deploy-rs ];
       };
     });
 
