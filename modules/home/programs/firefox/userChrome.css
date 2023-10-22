@@ -42,7 +42,119 @@
     width: 250px !important;
 }
 
+/* show on focus */
+#main-window #sidebar-box:focus,
+#main-window #sidebar-box:focus #sidebar {
+    width: 250px !important;
+}
+
 /* don't hide page content behind sidebar */
 #main-window #appcontent {
     margin-left: 30px;
+}
+
+#tracking-protection-icon-box {
+    display: none !important;
+}
+
+
+
+/* Reduce minimum window width */
+:root {
+    min-width: 300px !important;
+}
+
+
+/* sidebar */
+
+
+/* Reduce minimum window width */
+#urlbar-container {
+    min-width: 150px !important;
+}
+
+@media (max-width: 700px) {
+    /* Remove various buttons left and right of the URL bar:
+       - forward-button: also reachable via longpress of back button
+       - home-button: not important enough
+       - customizableui-special-spring: empty space
+       - library-button: also reachable via PanelUI-menu-button
+       - sidebar-button: not useful on mobile (we try to gain horizontal space)
+       - fxa-toolbar-menu-button: firefox cloud stuff, also reachable via
+         #PanelUI-menu-button
+    */
+    /* #back-button */
+    #forward-button,
+    /* #reload-button */
+    #home-button,
+    #customizableui-special-spring1,
+    /* (urlbar) */
+    #customizableui-special-spring2,
+    #library-button,
+    #sidebar-button,
+    #fxa-toolbar-menu-button
+    /* #PanelUI-menu-button */ {
+        display: none !important;
+    }
+
+    #urlbar {
+        padding: 0px 5px;
+    }
+
+    /* Smaller font: show more of the URL */
+    #urlbar-input {
+        font-size: 9pt !important;
+    }
+
+    /* Focused urlbar: hide all icons around it, so we have more space to edit the URL */
+    #urlbar[focused] #remote-control-box,
+    #urlbar[focused] #identity-box,
+    #urlbar[focused] #tracking-protection-icon-container,
+    /* #urlbar-input */
+    #urlbar[focused] #reader-mode-button,
+    #urlbar[focused] #page-action-buttons {
+        display: none;
+    }
+
+    /* Label of "identity icons", e.g. firefox specific pages look weird
+     * when ellipsed, e.g. "F..x" instead of "Firefox". So just hide this
+     * label. The icon itself is still visible. */
+    #identity-icon-label {
+        display: none;
+    }
+
+    /* Move urlbar results to cover the whole displayed website, instead of
+     * being below the urlbar. */
+    .urlbarView {
+        position: fixed !important;
+        inset: 0px 0px 84px 0px;
+        width: 100% !important;
+
+        background: var(--arrowpanel-background);
+
+        margin: 0px !important;
+        margin-inline: 0px !important;
+        border-inline: 0px !important;
+
+        overflow-y:  auto !important;
+        overflow-x: none !important;
+        scrollbar-width: none;
+    }
+
+    /* Bookmarks toolbar. Firefox shows it for some reason when opening a
+     * private browsing window, even if it is not enabled in the normal
+     * window view. Hide it for mobile, it eats precious space and can't be
+     * organized properly on mobile anyway. Using the searchbar to filter
+     * through bookmarks is much more efficient. */
+    #PersonalToolbar {
+        display: none;
+    }
+}
+
+/* Even though amazon is removed as search engine in policies.json, it gets
+ * installed when FF starts for the first time. Hide the button in "This time,
+ * search with" inside the urlbar. Match localizations like Amazon.de with this
+ * regex. */
+button[id^='urlbar-engine-one-off-item-Amazon'] {
+    display: none !important;
 }

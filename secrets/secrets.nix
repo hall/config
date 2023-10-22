@@ -41,8 +41,7 @@ in
   "github.age".publicKeys = main;
   "gitlab.age".publicKeys = main;
 
-  # k3s node token
-  "k3s.age".publicKeys = [ user ] ++ (members cluster);
+  "wifi.age".publicKeys = main ++ [ hosts.server ];
 
   # acme DNS validation
   "namecheap.age".publicKeys = main ++ [ hosts.server ];

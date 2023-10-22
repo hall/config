@@ -31,7 +31,6 @@ in
       users.${flake.lib.username} = { pkgs, ... }: #lib.mkMerge [
         # cfg.home
         {
-          accounts = import ./accounts.nix { inherit flake; };
           dconf = import ./dconf.nix { inherit flake; };
           gtk = import ./gtk.nix pkgs;
           programs = lib.mkMerge [ (import ./programs { inherit pkgs flake; }) cfg.programs ];

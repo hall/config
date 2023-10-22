@@ -5,35 +5,37 @@
       enableGnomeExtensions = true;
       enableTridactylNative = true;
     };
-    extraPolicies.ExtensionSettings = (builtins.mapAttrs
-      (name: value: {
-        installation_mode = "force_installed";
-        install_url = "https://addons.mozilla.org/firefox/downloads/latest/${value}/latest.xpi";
-      })
-      {
-        "{446900e4-71c2-419f-a6a7-df9c091e268b}" = "bitwarden-password-manager";
-        "{278b0ae0-da9d-4cc6-be81-5aa7f3202672}" = "re-enable-right-click";
-        "{c607c8df-14a7-4f28-894f-29e8722976af}" = "temporary-containers";
-        "uBlock0@raymondhill.net" = "ublock-origin";
-        "addon@darkreader.org" = "darkreader";
-        "tridactyl.vim@cmcaine.co.uk" = "tridactyl-vim";
-        "@testpilot-containers" = "multi-account-containers";
-      }) // {
-      "{3c078156-979c-498b-8990-85f7987dd929}" = {
-        installation_mode = "force_installed";
-        # need beta for search bar
-        install_url = "https://github.com/mbnuqw/sidebery/releases/download/v5.0.0b31/sidebery-5.0.0b31.xpi";
+    extraPolicies = {
+      ExtensionSettings = (builtins.mapAttrs
+        (name: value: {
+          installation_mode = "force_installed";
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/${value}/latest.xpi";
+        })
+        {
+          "{446900e4-71c2-419f-a6a7-df9c091e268b}" = "bitwarden-password-manager";
+          "{278b0ae0-da9d-4cc6-be81-5aa7f3202672}" = "re-enable-right-click";
+          "{c607c8df-14a7-4f28-894f-29e8722976af}" = "temporary-containers";
+          "uBlock0@raymondhill.net" = "ublock-origin";
+          "addon@darkreader.org" = "darkreader";
+          "tridactyl.vim@cmcaine.co.uk" = "tridactyl-vim";
+          "@testpilot-containers" = "multi-account-containers";
+        }) // {
+        "{3c078156-979c-498b-8990-85f7987dd929}" = {
+          installation_mode = "force_installed";
+          # need beta for search bar
+          install_url = "https://github.com/mbnuqw/sidebery/releases/download/v5.0.0b31/sidebery-5.0.0b31.xpi";
+        };
       };
+      # "Containers": {
+      #   "Default": [
+      #     {
+      #       "name": "My container",
+      #       "icon": "pet",
+      #       "color": "turquoise"
+      #     }
+      #   ]
+      # }
     };
-    # "Containers": {
-    #   "Default": [
-    #     {
-    #       "name": "My container",
-    #       "icon": "pet",
-    #       "color": "turquoise"
-    #     }
-    #   ]
-    # }
   };
   profiles.default = {
     userChrome = builtins.readFile ./userChrome.css;
@@ -56,23 +58,23 @@
     # ];
     settings = {
       "browser.aboutConfig.showWarning" = false;
+      "browser.display.use_system_colors" = true;
       "browser.newtabpage.enabled" = false;
       "browser.search.defaultenginename" = "duckduckgo";
       "browser.startup.homepage" = "about:blank";
-      "browser.display.use_system_colors" = true;
-      # restore previous session
-      "browser.startup.page" = 3;
+      "browser.startup.page" = 3; # restore previous session
       "browser.tabs.drawInTitlebar" = false;
       "browser.toolbars.bookmarks.visibility" = "never";
       "browser.uidensity" = 1; # compact
-      "print.tab_modal.enabled" = false;
+      "extensions.pocket.enabled" = false;
       "geo.enabled" = false;
+      "print.tab_modal.enabled" = false;
       "signon.rememberSignons" = false;
       "svg.context-properties.content.enabled" = true;
       "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
-      # do not allow websites to steal keyboard input
-      "permissions.default.shortcuts" = 2;
-      "extensions.pocket.enabled" = false;
+
+      # "permissions.default.shortcuts" = 2; # do not allow websites to steal keyboard input
+
       # customize the toolbar
       # TODO: can this be cleaned up?
       # "browser.uiCustomization.state" = {

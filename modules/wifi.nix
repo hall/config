@@ -16,9 +16,9 @@ in
   config = mkIf cfg.enable {
     age.secrets.wifi.file = ../secrets/wifi.age;
     networking.wireless = {
-      environmentFile = "/run/secrets/wifi";
       enable = true;
-      networks.${cfg.ssid}.psk = "@WIFI_PSK@";
+      environmentFile = "/run/secrets/wifi";
+      networks.${cfg.ssid}.psk = "@PSK@";
     };
   };
 }

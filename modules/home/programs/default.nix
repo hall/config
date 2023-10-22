@@ -1,7 +1,5 @@
-{ pkgs, flake, ... }:
-{
+{ pkgs, flake, ... }: {
   vscode = import ./vscode.nix pkgs;
-
   firefox = import ./firefox pkgs;
 
   ssh = {
@@ -51,19 +49,13 @@
     nix-direnv.enable = true;
   };
 
-  gnome-terminal = {
-    profile.default = { };
-  };
+  gnome-terminal.profile.default = { };
 
-  fzf = {
-    enable = true;
-  };
+  fzf.enable = true;
 
   gh = {
     enable = true;
-    settings = {
-      git_protocol = "ssh";
-    };
+    settings.git_protocol = "ssh";
   };
   # htop = { enable = true; };
   jq = { enable = true; };
@@ -71,14 +63,25 @@
   # font
   # keychain
 
-  starship = {
+  bash = {
     enable = true;
-    settings = {
-      kubernetes = {
-        disabled = false;
-      };
+    shellAliases = {
+      cd = "z";
+      awsp = ''export AWS_PROFILE=$(sed -n "s/\[profile \(.*\)\]/\1/gp" ~/.aws/config | ${pkgs.fzf}/bin/fzf)'';
     };
+    # initExtra = ''
+    #   set -o vi
+    # '';
   };
+
+  readline = {
+    enable = true;
+    extraConfig = ''
+      set keymap vi
+    '';
+  };
+
+  starship.enable = true;
 
   zoxide.enable = true;
 
