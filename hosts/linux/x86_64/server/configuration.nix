@@ -3,7 +3,15 @@
   imports = [ flake.inputs.hardware.nixosModules.intel-nuc-8i7beh ];
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
-  hyperion.enable = true;
+  services.wifi.enable = true;
+
+  networking = {
+    firewall.allowedTCPPorts = [
+      80 # http redirect
+      443 # https
+      # 1883 # mqtt
+    ];
+  };
 
   age.secrets.namecheap.file = ../../../../secrets/namecheap.age;
   security.acme = {
