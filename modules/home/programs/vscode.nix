@@ -34,6 +34,7 @@
     };
 
     "nix.enableLanguageServer" = true;
+    "nix.serverPath" = "rnix-lsp";
 
     "redhat.telemetry.enabled" = false;
 
@@ -86,9 +87,9 @@
     gruntfuggly.todo-tree
     # haskell.haskell
     humao.rest-client
-    james-yu.latex-workshop
+    # james-yu.latex-workshop
     jnoortheen.nix-ide
-    jock.svg
+    # jock.svg
     # llvm-vs-code-extensions.vscode-clangd
     ms-toolsai.jupyter
     # ms-vscode-remote.remote-ssh
@@ -107,18 +108,6 @@
     #   publisher = "hall";
     #   version = "0.1.21";
     #   sha256 = "sha256-pOZwuvUJWaEQn1zdHHTNvzK8KUS46Np5wuR7GDFGtis=";
-    # }
-    # {
-    #   name = "foam-vscode";
-    #   publisher = "foam";
-    #   version = "0.21.0";
-    #   sha256 = "sha256-X/vOqt6ijT+OHQNM5gTD8hapbi/PxpesnGy0vqVRQV0=";
-    # }
-    # {
-    #   name = "vscode-paste-image";
-    #   publisher = "mushan";
-    #   version = "1.0.4";
-    #   sha256 = "sha256-a6prHWZ8neNYJ+ZDE9ZvA79+5X0UlsFf8XSHYfOmd/I=";
     # }
     {
       # too old in nixpkgs
@@ -148,18 +137,12 @@
     #   version = "1.1.0";
     #   sha256 = "sha256-1aoyIN8qbMd2j3UnHUVe1YG9kmuCW/KXVkn5z7Z2SjU=";
     # }
-    {
-      name = "vscode-reveal";
-      publisher = "evilz";
-      version = "4.3.3";
-      sha256 = "sha256-KqvQi0DMfHppX96qKHIkO9zIueBdGGV+6dYkpFEzFBo=";
-    }
-    {
-      name = "xonsh";
-      publisher = "jnoortheen";
-      version = "0.2.6";
-      sha256 = "sha256-EhpIzYLn5XdvR5gAd129+KuyTcKFswXtO6WgVT8b+xA=";
-    }
+    # {
+    #   name = "vscode-reveal";
+    #   publisher = "evilz";
+    #   version = "4.3.3";
+    #   sha256 = "sha256-KqvQi0DMfHppX96qKHIkO9zIueBdGGV+6dYkpFEzFBo=";
+    # }
   ];
   keybindings = [
     {

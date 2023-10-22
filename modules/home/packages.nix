@@ -31,9 +31,9 @@ with pkgs; [
   brightness-control-using-ddcutil
   gsconnect
   nasa-apod
-  syncthing-icon
   unite
   # improved-osk
+  just-perfection
   night-theme-switcher
   gesture-improvements
 ])
