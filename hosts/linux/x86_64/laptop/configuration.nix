@@ -31,13 +31,6 @@
       owner = flake.lib.username;
     };
 
-    # openwrt doesn't support ed25519
-    id_rsa = {
-      file = ../../../../secrets/id_rsa.age;
-      path = "${config.users.users.${flake.lib.username}.home}/.ssh/id_rsa";
-      owner = flake.lib.username;
-    };
-
     github = {
       file = ../../../../secrets/github.age;
       owner = flake.lib.username;
