@@ -1,7 +1,6 @@
 { pkgs, lib, ... }:
 {
   enable = true;
-  package = pkgs.vscodium;
   # TODO: breaks multi-profile installs
   # mutableExtensionsDir = false;
   userSettings = {

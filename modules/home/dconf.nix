@@ -6,11 +6,6 @@
     "org/gnome/settings-daemon/plugins/power" = {
       sleep-inactive-ac-timeout = 2400;
     };
-    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
-      name = "notes";
-      command = "codium notes --profile notes --touch-events";
-      binding = "<Super>apostrophe";
-    };
     "org/gnome/mutter/wayland/keybindings" = {
       restore-shortcuts = [ ]; # bound to meta+esc by default which conflicts with stylus tail button
     };

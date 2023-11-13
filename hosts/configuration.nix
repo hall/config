@@ -3,6 +3,7 @@
   system.stateVersion = "22.11";
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "vscode"
     "vscode-extension-ms-toolsai-jupyter"
     "vscode-extension-ms-vscode-cpptools"
     "vscode-extension-github-copilot"

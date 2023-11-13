@@ -36,7 +36,6 @@ in
           programs = lib.mkMerge [ (import ./programs { inherit pkgs flake; }) cfg.programs ];
           services = lib.mkMerge [ (import ./services.nix) cfg.services ];
           systemd = import ./systemd.nix pkgs;
-          xdg = import ./xdg.nix pkgs;
 
           home = {
             username = flake.lib.username;

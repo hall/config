@@ -1,6 +1,6 @@
 ## deploy
 
-Build a host with either `ctrl-shift-b` (in `codium`) or
+Build a host with either `ctrl-shift-b` (in `vscode`) or
 
     deploy '.#${hostname}'
 
