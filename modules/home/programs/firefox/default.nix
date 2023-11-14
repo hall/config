@@ -3,7 +3,7 @@
   package = with pkgs; wrapFirefox firefox-unwrapped {
     cfg = {
       enableGnomeExtensions = true;
-      enableTridactylNative = true;
+      nativeMessagingHosts = [ tridactyl-native ];
     };
     extraPolicies = {
       ExtensionSettings = (builtins.mapAttrs
