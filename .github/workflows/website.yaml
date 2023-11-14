@@ -1,0 +1,41 @@
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - packages/website/**
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      - name: install nix
+        uses: cachix/install-nix-action@v20
+
+      - name: configure cache
+        uses: DeterminateSystems/magic-nix-cache-action@v1
+
+      - name: build
+        run: nix build '.#website'
+
+      - name: upload
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: './result'
+
+      - name: deploy
+        id: deployment
+        uses: actions/deploy-pages@v2
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
