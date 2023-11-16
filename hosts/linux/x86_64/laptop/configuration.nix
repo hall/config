@@ -2,11 +2,11 @@
   laptop.enable = true;
   hardware = {
     opengl.enable = true;
-    # autorotate
-    sensor.iio.enable = true;
+    sensor.iio.enable = true; # autorotate
   };
 
   musnix.enable = true;
+  programs.adb.enable = true;
 
   networking.firewall.allowedTCPPorts = [
     1716 # gsconnect
@@ -44,65 +44,32 @@
 
   home = {
     enable = true;
-    # TODO: required for secrets module
-    # programs.rbw = {
-    #   enable = true;
-    #   settings = {
-    #     inherit (flake.lib) email;
-    #     pinentry = "gtk2"; # gnome3
-    #   };
-    # };
-
     packages = with pkgs; [
+      # comms
+      element-desktop
       logseq
-      zotero
-      transmission-gtk
-      foliate
-      okular
-      jellyfin-media-player
-      carla
+      xournalpp
 
-      pianobooster
-      qjackctl
-      #faust
-      #faustlive
-      #gimp
-      #siril
-      ardour
-      calibre
-      guitarix
+      # design
+      blender
       inkscape
       krita
-      blender
-      musescore
       prusa-slicer
-      xournalpp
-      element-desktop
-      gnome.gnome-boxes
 
-      wireshark
+      # music
+      ardour
+      flake.packages.effects
+      guitarix
+      musescore
+      pianobooster
+      qjackctl
 
-      talosctl
-      newsflash
-      sof-firmware
-      endeavour # todo
-      yt-dlp
-      bitwarden-cli
-      siglo
-      moserial
-      cachix
-      koreader
-
-      watchmate
-      nix-diff
+      # utitilies
+      baobab # disk usage
+      gnome.cheese # webcam
       gnome.nautilus # files
       gnome.totem # video
-      gnome.cheese
-      vlc
-      baobab # disk usage
-    ] ++ (with flake.packages; [
-      effects
-    ]);
+    ];
   };
 
 }
