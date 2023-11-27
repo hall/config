@@ -8,7 +8,6 @@
 #   - power monitoring?
 #   - mailbox?
 { lib, pkgs, flake, config, ... }: {
-  imports = [ flake.inputs.hardware.nixosModules.intel-nuc-8i7beh ];
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   networking = {
