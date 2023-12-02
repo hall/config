@@ -3,19 +3,15 @@ let
   ids = {
     laptop = "FXVXWO2-GRRKEDH-3R6ZP3V-PPUYUTM-6FFHCNR-3YYRFJU-QOUHAMG-X27JJQB";
     phone = "LGVEZX6-TYKLGEY-JJWU3ND-Y7TWKWX-U4FHOAG-MY2PK3J-3YQW3HI-BYADJAX";
-    server = "ANMYOD4-QYYMMN6-ZECPS5E-PM4F7BG-UUCBAVJ-QJS2R5C-5BMPN3W-HCLRSAB";
-    work = "B5FZE7E-6HH43KW-BC2EI3A-FMORTYY-TOKOM66-Z7G5KX6-R4IIJXL-ULN6KQL";
+    server = "QYLMEYI-BN5XJTZ-JQOMEGQ-TSGKWUA-6L3UN62-RRZ6QSM-6TGY4VM-3EOL5AU";
+    work = "Y3NZ6BJ-6V4NGYM-CBL63XV-EE67Y4A-AYL2ZTI-MIUWRH6-TIEKFPS-AVR5HQ5";
   };
 
   # only share with those in your group (names are arbitrary)
   groups = {
     personal = {
-      devices = [ "laptop" "server" ];
+      devices = [ "laptop" "phone" "server" ];
       folders = [ "notes" "library" "sessions" "stash" ];
-    };
-    mobile = {
-      devices = [ "phone" ];
-      folders = [ "notes" "stash" ];
     };
     work = {
       devices = [ "work" ];
