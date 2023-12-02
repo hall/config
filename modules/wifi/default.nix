@@ -15,10 +15,35 @@ in
 
   config = mkIf cfg.enable {
     age.secrets.wifi.rekeyFile = ./wifi.age;
-    networking.wireless = {
+    networking.networkmanager = {
       enable = true;
-      environmentFile = config.age.secrets.wifi.path;
-      networks.${cfg.ssid}.psk = "@PSK@";
+      ensureProfiles = {
+        environmentFiles = [ config.age.secrets.wifi.path ];
+        profiles = {
+          hall = {
+            connection = {
+              id = "hall";
+              type = "wifi";
+            };
+            ipv4 = {
+              method = "auto";
+            };
+            ipv6 = {
+              addr-gen-mode = "stable-privacy";
+              method = "auto";
+            };
+            wifi = {
+              mode = "infrastructure";
+              ssid = "hall";
+            };
+            wifi-security = {
+              auth-alg = "open";
+              key-mgmt = "wpa-psk";
+              psk = "$PSK";
+            };
+          };
+        };
+      };
     };
   };
 }

@@ -2,6 +2,7 @@
   laptop.enable = true;
 
   services = {
+    wifi.enable = true;
     # flatpak.enable = true;
     globalprotect.enable = true;
   };
@@ -10,7 +11,7 @@
   ];
 
   age = {
-    rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJS6pMXU51y9a+3CHrxtQDSNzZiBfoGmfMgKSpEIX4xX";
+    rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHyh7nW5RmY4r5UBTYiuKuNhTR4DccA8wvsKnqZLpCBn";
     secrets.id_work = {
       rekeyFile = ./id_work.age;
       owner = flake.lib.username;
