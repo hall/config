@@ -50,14 +50,21 @@
 
     adguardhome = {
       enable = true;
-      # mutableSettings = false;
+      mutableSettings = false;
       settings = {
-        bind_host = "127.0.0.1";
-        # bootstrap_dns
-        filtering.rewrites = [{
-          domain = "*.${flake.lib.hostname}";
-          answer = "10.0.0.2";
-        }];
+        dns = {
+          bind_host = "127.0.0.1";
+          bootstrap_dns = [
+            "9.9.9.10"
+            "149.112.112.10"
+            "2620:fe::10"
+            "2620:fe::fe:10"
+          ];
+          rewrites = [{
+            domain = "*.${flake.lib.hostname}";
+            answer = "10.0.0.2";
+          }];
+        };
         dhcp = {
           enabled = true;
           interface_name = "wlo1";
