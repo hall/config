@@ -17,3 +17,9 @@ The layout here automatically sets host config based on the directory structure;
     /hosts/${platform}/${arch}/${hostname}
 
 A `configuration.nix` at any level applies to all hosts within its directory.
+
+## install
+
+Boot to the NixOS installer, set a `passwd` for SSH access then
+
+    nixos-anywhere -f '.#${hostname}' nixos@${hostname}
