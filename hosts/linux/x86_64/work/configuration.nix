@@ -1,18 +1,20 @@
-{ pkgs, flake, lib, ... }: {
+{ config, pkgs, flake, lib, ... }: {
   laptop.enable = true;
 
   services = {
     # flatpak.enable = true;
     globalprotect.enable = true;
-    # udev.packages = with pkgs; [ yubikey-personalization ];
   };
   environment.systemPackages = with pkgs; [
     globalprotect-openconnect
   ];
 
-  age.secrets.id_work = {
-    file = ../../../../secrets/id_work.age;
-    owner = flake.lib.username;
+  age = {
+    rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJS6pMXU51y9a+3CHrxtQDSNzZiBfoGmfMgKSpEIX4xX";
+    secrets.id_work = {
+      rekeyFile = ./id_work.age;
+      owner = flake.lib.username;
+    };
   };
 
   security.pam.services = {
@@ -40,26 +42,24 @@
         };
 
         matchBlocks = {
-          gitlab.identityFile = lib.mkForce "/run/secrets/id_work";
+          gitlab.identityFile = lib.mkForce config.age.secrets.id_work.path;
           lab = {
             host = "*.lab.rigetti.com";
             user = "ansible";
             identityFile = "~/.ssh/infra-shared.pem";
-            extraOptions = {
-              PubkeyAcceptedKeyTypes = "+ssh-rsa";
-            };
+            extraOptions.PubkeyAcceptedKeyTypes = "+ssh-rsa";
           };
           bhall = {
             host = "bhall";
             hostname = "bhall.pg.rigetti.com";
             user = "bhall";
-            identityFile = "/run/secrets/id_work";
+            identityFile = config.age.secrets.id_work.path;
           };
           bhall-uk = {
             host = "bhall-uk";
             hostname = "bhall-uk.pg.rigetti.com";
             user = "bhall-uk";
-            identityFile = "/run/secrets/id_work";
+            identityFile = config.age.secrets.id_work.path;
           };
         };
       };
@@ -90,12 +90,6 @@
             publisher = "hashicorp";
             version = "0.3.2";
             sha256 = "cxF3knYY29PvT3rkRS8SGxMn9vzt56wwBXpk2PqO0mo=";
-          }
-          {
-            name = "vscode-open-in-github";
-            publisher = "ziyasal";
-            version = "1.3.6";
-            sha256 = "uJGCCvg6fj2He1HtKXC2XQLXYp0vTl4hQgVU9o5Uz5Q=";
           }
         ];
       };

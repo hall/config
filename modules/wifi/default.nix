@@ -14,10 +14,10 @@ in
   };
 
   config = mkIf cfg.enable {
-    age.secrets.wifi.file = ../secrets/wifi.age;
+    age.secrets.wifi.rekeyFile = ./wifi.age;
     networking.wireless = {
       enable = true;
-      environmentFile = "/run/secrets/wifi";
+      environmentFile = config.age.secrets.wifi.path;
       networks.${cfg.ssid}.psk = "@PSK@";
     };
   };

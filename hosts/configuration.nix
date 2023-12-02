@@ -13,7 +13,10 @@
     "steam-run"
   ];
 
-  age.secretsDir = "/run/secrets";
+  age.rekey = {
+    masterIdentities = [ "/home/bryton/.ssh/id_ed25519" ];
+    derivation = flake.nixosConfigurations.${config.networking.hostName}.config.age.rekey.derivation;
+  };
 
   security.sudo.execWheelOnly = true;
 

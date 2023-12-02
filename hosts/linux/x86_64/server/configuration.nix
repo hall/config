@@ -1,4 +1,4 @@
-# NUC11PAHi7, 88:AE:DD:05:C9:46, F2 to enter bios
+# NUC11PAHi7, 88:AE:DD:05:C9:46, F2 and/or ESC to enter bios
 # TODO
 # - circadian lighting
 # - connect
@@ -25,14 +25,22 @@
     };
   };
 
-  age.secrets.namecheap.file = ../../../../secrets/namecheap.age;
+  age = {
+    rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK1+fv5iArRVaNIIE9rA+IO7z14YgPvZnEHOtM5xrkL7";
+    secrets = {
+      namecheap.rekeyFile = ./namecheap.age;
+      restic.rekeyFile = ./restic.age;
+      rclone.rekeyFile = ./rclone.age;
+    };
+  };
+
   security.acme = {
     acceptTerms = true;
     defaults = {
       email = flake.lib.email;
       group = "nginx";
       dnsProvider = "namecheap";
-      credentialsFile = "/run/secrets/namecheap";
+      environmentFile = config.age.secrets.namecheap.path;
     };
     certs."${flake.lib.hostname}".domain = "*.${flake.lib.hostname}";
   };

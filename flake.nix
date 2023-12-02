@@ -10,6 +10,10 @@
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    rekey = {
+      url = "github:oddlama/agenix-rekey";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     deploy = {
       url = "github:serokell/deploy-rs";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -42,10 +46,11 @@
         modules = with inputs; [
           home.nixosModules.home-manager
           agenix.nixosModules.default
+          rekey.nixosModules.default
           musnix.nixosModules.musnix
           ({ ... }: {
             nixpkgs.overlays = [
-              inputs.nur.overlay
+              rekey.overlays.default
               self.overlays.default
             ];
           })
@@ -78,7 +83,10 @@
 
       devShells = eachSystem (pkgs: {
         default = with pkgs; mkShell {
-          buildInputs = [ deploy-rs ];
+          buildInputs = [
+            deploy-rs
+            inputs.rekey.packages.${system}.default
+          ];
         };
       });
 
@@ -93,6 +101,11 @@
           };
         })
         self.nixosConfigurations;
+
+      agenix-rekey = inputs.rekey.configure {
+        userFlake = self;
+        nodes = self.nixosConfigurations;
+      };
 
     };
 }

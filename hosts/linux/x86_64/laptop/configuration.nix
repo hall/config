@@ -24,21 +24,24 @@
     udev.packages = [ pkgs.qmk-udev-rules ];
   };
 
-  age.secrets = {
-    id_ed25519 = {
-      file = ../../../../secrets/id_ed25519.age;
-      path = "${config.users.users.${flake.lib.username}.home}/.ssh/id_ed25519";
-      owner = flake.lib.username;
-    };
+  age = {
+    rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP70uIe/+6FtPWkuA7qiNRAoe2uvY+Qj/zGtU34HOccd";
+    secrets = {
+      id_ed25519 = {
+        rekeyFile = ./id_ed25519.age;
+        path = "${config.users.users.${flake.lib.username}.home}/.ssh/id_ed25519";
+        owner = flake.lib.username;
+      };
 
-    github = {
-      file = ../../../../secrets/github.age;
-      owner = flake.lib.username;
-    };
+      github = {
+        rekeyFile = ./github.age;
+        owner = flake.lib.username;
+      };
 
-    gitlab = {
-      file = ../../../../secrets/gitlab.age;
-      owner = flake.lib.username;
+      gitlab = {
+        rekeyFile = ./gitlab.age;
+        owner = flake.lib.username;
+      };
     };
   };
 
@@ -70,6 +73,19 @@
       gnome.nautilus # files
       gnome.totem # video
     ];
+
+    programs.ssh.matchBlocks = {
+      gitlab = {
+        host = "gitlab.com";
+        user = "git";
+        identityFile = config.age.secrets.gitlab.path;
+      };
+      github = {
+        host = "github.com";
+        user = "git";
+        identityFile = config.age.secrets.github.path;
+      };
+    };
   };
 
 }

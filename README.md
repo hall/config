@@ -6,7 +6,6 @@ An opinionated [flake](https://nixos.wiki/wiki/Flakes) to configure the world.
 - nixos [modules](./modules)
 - nix [packages](./packages)
 - nixpkgs [overlays](./overlays)
-- [secrets](./secrets) management
 
 
 ## notes
@@ -23,3 +22,9 @@ Inspect the evaluated config with
 
     nix repl
     nix-repl> :lf .
+
+## secrets
+
+Managed with [agenix-rekey](https://github.com/oddlama/agenix-rekey).
+
+    agenix edit ${secret}
