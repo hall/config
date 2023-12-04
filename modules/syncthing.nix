@@ -11,7 +11,7 @@ let
   groups = {
     personal = {
       devices = [ "laptop" "phone" "server" ];
-      folders = [ "notes" "library" "sessions" "stash" ];
+      folders = [ "drawings" "notes" "library" "sessions" "stash" ];
     };
     work = {
       devices = [ "work" ];
