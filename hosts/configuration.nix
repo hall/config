@@ -11,6 +11,7 @@
     "steam-original"
     "steam-runtime"
     "steam-run"
+    "google-chrome"
   ];
 
   age.rekey = {

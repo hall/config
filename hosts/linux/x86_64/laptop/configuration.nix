@@ -52,6 +52,7 @@
       element-desktop
       logseq
       xournalpp
+      google-chrome
 
       # design
       blender
