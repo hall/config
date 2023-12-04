@@ -26,6 +26,10 @@
       url = "github:nixos/mobile-nixos";
       flake = false;
     };
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs = inputs@{ self, systems, ... }:
     let
@@ -47,9 +51,11 @@
           home.nixosModules.home-manager
           agenix.nixosModules.default
           rekey.nixosModules.default
+          disko.nixosModules.disko
           musnix.nixosModules.musnix
           ({ ... }: {
             nixpkgs.overlays = [
+              nur.overlay
               rekey.overlays.default
               self.overlays.default
             ];
@@ -86,6 +92,7 @@
           buildInputs = [
             deploy-rs
             inputs.rekey.packages.${system}.default
+            nixos-anywhere
           ];
         };
       });

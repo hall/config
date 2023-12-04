@@ -15,21 +15,59 @@
     kernelModules = [ "kvm-intel" ];
   };
 
-
-  fileSystems = {
-    "/" = {
-      device = "/dev/disk/by-label/nixos";
-      fsType = "ext4";
-    };
-    "/boot" = {
-      device = "/dev/disk/by-label/boot";
-      fsType = "vfat";
-    };
-  };
-  swapDevices = [{
-    device = "/dev/disk/by-label/swap";
-  }];
-
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   hardware.cpu.intel.updateMicrocode = true;
+
+  disko.devices = {
+    disk.nvme0n1 = {
+      type = "disk";
+      device = "/dev/nvme0n1";
+      content = {
+        type = "gpt";
+        partitions = {
+          ESP = {
+            size = "500M";
+            type = "EF00";
+            content = {
+              type = "filesystem";
+              format = "vfat";
+              mountpoint = "/boot";
+            };
+          };
+          luks = {
+            size = "100%";
+            content = {
+              type = "luks";
+              name = "crypt";
+              settings = {
+                # keyFile = "/tmp/keyfile";
+                allowDiscards = true;
+              };
+              content = {
+                type = "lvm_pv";
+                vg = "pool";
+              };
+            };
+          };
+        };
+      };
+    };
+    lvm_vg.pool = {
+      type = "lvm_vg";
+      lvs = {
+        swap = {
+          size = "16G";
+          content.type = "swap";
+        };
+        root = {
+          size = "100%FREE";
+          content = {
+            type = "filesystem";
+            format = "ext4";
+            mountpoint = "/";
+          };
+        };
+      };
+    };
+  };
 }

@@ -8,17 +8,7 @@ in
     enable = lib.mkEnableOption "laptop-specific settings like disk encryption";
   };
   config = lib.mkIf cfg.enable {
-    boot.initrd.luks.devices."crypt".device = "/dev/disk/by-partlabel/crypt";
-
     hardware.bluetooth.enable = true;
-
-    fileSystems."/" = lib.mkForce {
-      device = "/dev/vg/root";
-      fsType = "ext4";
-    };
-    swapDevices = lib.mkForce [{
-      device = "/dev/vg/swap";
-    }];
 
     qt = {
       enable = true;
