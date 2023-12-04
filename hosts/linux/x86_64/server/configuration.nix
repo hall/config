@@ -124,10 +124,25 @@
     stash = {
       # /var/lib/stash  # app data
       enable = true;
+      user = flake.lib.username;
       group = "syncthing";
     };
 
     syncthing.settings.folders.stash.path = lib.mkForce "/var/lib/stash";
+
+    # manually trigger with: `systemctl start restic-backups-remote`
+    # restic -r rclone:remote:/backups restore <id> --target <path>
+    # restic mount ...
+    # rclone about remote:
+    restic.backups.remote = {
+      initialize = true;
+      paths = lib.mapAttrsToList (name: folder: folder.path) config.services.syncthing.settings.folders;
+      repository = "rclone:gdrive:/backup";
+      passwordFile = config.age.secrets.rclone.path;
+      environmentFile = config.age.secrets.restic.path;
+      extraBackupArgs = [ "--fast-list" ];
+      timerConfig.OnCalendar = "sunday 23:00";
+    };
 
     iperf3 = {
       enable = true;
