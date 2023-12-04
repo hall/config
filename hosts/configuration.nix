@@ -46,7 +46,14 @@
     ]);
   };
 
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = true;
+  };
+
   services = {
+    pcscd.enable = true;
+    udev.packages = with pkgs; [ yubikey-personalization ];
     openssh = {
       enable = true;
       settings = {
@@ -103,7 +110,8 @@
     buildMachines = [{
       hostName = "server";
       sshUser = flake.lib.username;
-      sshKey = "/run/secrets/id_ed25519";
+      # TODO: sshKey = config.age.secrets.id_ed25519.path;
+      sshKey = "/home/bryton/.ssh/id_ed25519";
       systems = [ "x86_64-linux" "aarch64-linux" ];
       maxJobs = 8;
       supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
