@@ -19,7 +19,7 @@
       enable = true;
       kernel = "controlC1";
     };
-    # wifi.enable = true;
+    wifi.enable = true;
     xserver.wacom.enable = true;
     udev.packages = [ pkgs.qmk-udev-rules ];
   };
