@@ -16,6 +16,7 @@ in
       platformTheme = "gnome";
     };
 
+
     programs.dconf.enable = true;
     services = {
       ddccontrol.enable = true;
