@@ -23,7 +23,7 @@
             "type": "command",
             "command": "shellCommand.execute",
             "args": {
-                "command": "find ./hosts -maxdepth 3 -mindepth 3 -type d -exec basename {} \\; | sort -h | sed -e \"s/$HOSTNAME//1;1i$HOSTNAME\"",
+                "command": "find ./hosts -maxdepth 3 -mindepth 3 -type d -exec basename {} \\; | sort -h | grep -v '^\\.' | sed -e \"s/$HOSTNAME//1;1i$HOSTNAME\"",
                 "cwd": "${workspaceFolder}",
                 "description": "Target Host"
             }
