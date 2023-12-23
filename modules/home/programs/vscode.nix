@@ -1,8 +1,7 @@
-{ pkgs, lib, ... }:
-{
+{ pkgs, lib, ... }: {
   enable = true;
   # TODO: breaks multi-profile installs
-  # mutableExtensionsDir = false;
+  mutableExtensionsDir = false;
   userSettings = {
     "3dpreview.hideControlsOnStart" = true;
     "3dpreview.showMesh" = true;
@@ -80,21 +79,18 @@
 
   };
   extensions = (with pkgs.vscode-extensions; [
-    # asciidoctor.asciidoctor-vscode
+    # james-yu.latex-workshop
     eamodio.gitlens
     esbenp.prettier-vscode
+    github.copilot
+    github.copilot-chat
     gruntfuggly.todo-tree
-    # haskell.haskell
     humao.rest-client
-    # james-yu.latex-workshop
     jnoortheen.nix-ide
-    # jock.svg
-    # llvm-vs-code-extensions.vscode-clangd
+    jock.svg
+    mkhl.direnv
     ms-toolsai.jupyter
-    # ms-vscode-remote.remote-ssh
-    # ms-vscode.cpptools
     ryu1kn.partial-diff
-    # stkb.rewrap
     streetsidesoftware.code-spell-checker
     vscodevim.vim
     yzhang.markdown-all-in-one
@@ -107,20 +103,6 @@
     #   publisher = "hall";
     #   version = "0.1.21";
     #   sha256 = "sha256-pOZwuvUJWaEQn1zdHHTNvzK8KUS46Np5wuR7GDFGtis=";
-    # }
-    {
-      # too old in nixpkgs
-      name = "direnv";
-      publisher = "mkhl";
-      version = "0.10.1";
-      sha256 = "sha256-Da9Anme6eoKLlkdYaeLFDXx0aQgrtepuUnw2jEPXCVU=";
-    }
-    # {
-    #   # vscode-nix-ide dev uses this
-    #   name = "esbuild-problem-matchers";
-    #   publisher = "connor4312";
-    #   version = "0.0.2";
-    #   sha256 = "sha256-97Y+pJT/+MWOvyDwPqHoX3DnHhePaEvb0Mo+2bJvivE=";
     # }
     {
       # to generate conf hosts task list
