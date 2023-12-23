@@ -50,18 +50,6 @@
             identityFile = "~/.ssh/infra-shared.pem";
             extraOptions.PubkeyAcceptedKeyTypes = "+ssh-rsa";
           };
-          bhall = {
-            host = "bhall";
-            hostname = "bhall.pg.rigetti.com";
-            user = "bhall";
-            identityFile = config.age.secrets.id_work.path;
-          };
-          bhall-uk = {
-            host = "bhall-uk";
-            hostname = "bhall-uk.pg.rigetti.com";
-            user = "bhall-uk";
-            identityFile = config.age.secrets.id_work.path;
-          };
         };
       };
 
