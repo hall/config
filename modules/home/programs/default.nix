@@ -2,7 +2,19 @@
   vscode = import ./vscode.nix pkgs;
   firefox = import ./firefox pkgs;
 
-  ssh.enable = true;
+  ssh = {
+    enable = true;
+    matchBlocks = {
+      gitlab = {
+        host = "gitlab.com";
+        user = "git";
+      };
+      github = {
+        host = "github.com";
+        user = "git";
+      };
+    };
+  };
 
   git = {
     enable = true;
