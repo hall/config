@@ -25,7 +25,7 @@
   };
 
   age = {
-    rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP70uIe/+6FtPWkuA7qiNRAoe2uvY+Qj/zGtU34HOccd";
+    rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA1UTeWel4Cnb5h8VuGxl0aOmhS0xkHVXAFIltfOaTt0";
     secrets = {
       id_ed25519 = {
         rekeyFile = ./id_ed25519.age;
@@ -71,16 +71,8 @@
     ];
 
     programs.ssh.matchBlocks = {
-      gitlab = {
-        host = "gitlab.com";
-        user = "git";
-        identityFile = config.age.secrets.gitlab.path;
-      };
-      github = {
-        host = "github.com";
-        user = "git";
-        identityFile = config.age.secrets.github.path;
-      };
+      gitlab.identityFile = config.age.secrets.gitlab.path;
+      github.identityFile = config.age.secrets.github.path;
     };
   };
 
