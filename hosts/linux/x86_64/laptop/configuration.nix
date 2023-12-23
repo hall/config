@@ -68,11 +68,6 @@
       pianobooster
       qjackctl
 
-      # utitilies
-      baobab # disk usage
-      gnome.cheese # webcam
-      gnome.nautilus # files
-      gnome.totem # video
     ];
 
     programs.ssh.matchBlocks = {
