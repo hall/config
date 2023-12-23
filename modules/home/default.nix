@@ -46,6 +46,7 @@ in
             sessionVariables = {
               CALIBRE_USE_DARK_PALETTE = "1";
             };
+            sessionPath = [ "$HOME/.bin" ];
             file = let path = ./stage; in
               builtins.listToAttrs
                 (map
