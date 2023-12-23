@@ -2,17 +2,21 @@
   # https://nixos.org/manual/nixos/stable/release-notes.html
   system.stateVersion = "22.11";
 
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "vscode"
-    "vscode-extension-ms-toolsai-jupyter"
-    "vscode-extension-ms-vscode-cpptools"
-    "vscode-extension-github-copilot"
-    "steam"
-    "steam-original"
-    "steam-runtime"
-    "steam-run"
-    "google-chrome"
-  ];
+  nixpkgs.config = {
+    allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+      "google-chrome"
+      "vscode"
+      "vscode-extension-github-copilot"
+      "vscode-extension-github-copilot-chat"
+      "vscode-extension-ms-toolsai-jupyter"
+      "vscode-extension-ms-vscode-cpptools"
+      "vscode-extension-ms-vsliveshare-vsliveshare"
+    ];
+
+    permittedInsecurePackages = [
+      "electron-25.9.0" # https://github.com/NixOS/nixpkgs/pull/274180
+    ];
+  };
 
   age.rekey = {
     masterIdentities = [ "/home/bryton/.ssh/id_ed25519" ];
