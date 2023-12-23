@@ -1,40 +1,27 @@
 { pkgs, ... }: {
   enable = true;
-  package = with pkgs; wrapFirefox firefox-unwrapped {
-    cfg = {
-      enableGnomeExtensions = true;
-      nativeMessagingHosts = [ tridactyl-native ];
-    };
-    extraPolicies = {
-      ExtensionSettings = (builtins.mapAttrs
-        (name: value: {
-          installation_mode = "force_installed";
-          install_url = "https://addons.mozilla.org/firefox/downloads/latest/${value}/latest.xpi";
-        })
-        {
-          "{446900e4-71c2-419f-a6a7-df9c091e268b}" = "bitwarden-password-manager";
-          "{278b0ae0-da9d-4cc6-be81-5aa7f3202672}" = "re-enable-right-click";
-          "{c607c8df-14a7-4f28-894f-29e8722976af}" = "temporary-containers";
-          "uBlock0@raymondhill.net" = "ublock-origin";
-          "addon@darkreader.org" = "darkreader";
-          "tridactyl.vim@cmcaine.co.uk" = "tridactyl-vim";
-          "@testpilot-containers" = "multi-account-containers";
-        }) // {
-        "{3c078156-979c-498b-8990-85f7987dd929}" = {
-          installation_mode = "force_installed";
-          # need beta for search bar
-          install_url = "https://github.com/mbnuqw/sidebery/releases/download/v5.0.0b31/sidebery-5.0.0b31.xpi";
-        };
+  policies = {
+    ExtensionSettings = (builtins.mapAttrs
+      (name: value: {
+        installation_mode = "force_installed";
+        install_url = "https://addons.mozilla.org/firefox/downloads/latest/${value}/latest.xpi";
+        default_area = "menupanel";
+      })
+      {
+        "{446900e4-71c2-419f-a6a7-df9c091e268b}" = "bitwarden-password-manager";
+        "{278b0ae0-da9d-4cc6-be81-5aa7f3202672}" = "re-enable-right-click";
+        "{c607c8df-14a7-4f28-894f-29e8722976af}" = "temporary-containers";
+        "uBlock0@raymondhill.net" = "ublock-origin";
+        "addon@darkreader.org" = "darkreader";
+        "tridactyl.vim@cmcaine.co.uk" = "tridactyl-vim";
+        "@testpilot-containers" = "multi-account-containers";
+      }) // {
+      "{3c078156-979c-498b-8990-85f7987dd929}" = {
+        installation_mode = "force_installed";
+        # need beta for search bar
+        install_url = "https://github.com/mbnuqw/sidebery/releases/download/v5.0.0b31/sidebery-5.0.0b31.xpi";
+        default_area = "menupanel";
       };
-      # "Containers": {
-      #   "Default": [
-      #     {
-      #       "name": "My container",
-      #       "icon": "pet",
-      #       "color": "turquoise"
-      #     }
-      #   ]
-      # }
     };
   };
   profiles.default = {
@@ -44,14 +31,38 @@
       default = "DuckDuckGo";
       force = true; # prevent ff from overwriting
     };
+    containers = {
+      github = {
+        id = 1;
+        name = "github";
+        color = "blue";
+        icon = "circle";
+      };
+      google = {
+        id = 2;
+        name = "google";
+        color = "blue";
+        icon = "circle";
+      };
+      work = {
+        id = 3;
+        name = "work";
+        color = "green";
+        icon = "circle";
+      };
+      amazon = {
+        id = 4;
+        name = "amazon";
+        color = "orange";
+        icon = "circle";
+      };
+    };
     # extensions = with pkgs.nur.repos.rycee.firefox-addons; [
     #   # anchors-reveal
     #   # auto-tab-discard
     #   buster-captcha-solver
     #   # bypass-paywalls-clean
-    #   # cast-kodi # TODO
     #   firefox-translations
-    #   floccus
     #   gsconnect
     #   i-dont-care-about-cookies
     #   link-cleaner
@@ -72,6 +83,7 @@
       "signon.rememberSignons" = false;
       "svg.context-properties.content.enabled" = true;
       "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+      "browser.tabs.warnOnCloseOtherTabs" = false;
 
       # "permissions.default.shortcuts" = 2; # do not allow websites to steal keyboard input
 
