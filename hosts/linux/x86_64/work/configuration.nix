@@ -67,12 +67,12 @@
           "gitlens.plusFeatures.enabled" = false;
         };
         extensions = (with pkgs.vscode-extensions; [
-          github.copilot
           gitlab.gitlab-workflow
           hashicorp.terraform
           ms-kubernetes-tools.vscode-kubernetes-tools
           redhat.vscode-yaml
           tamasfe.even-better-toml
+          ms-vsliveshare.vsliveshare
         ]) ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
           {
             name = "hcl";
