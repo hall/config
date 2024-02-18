@@ -47,6 +47,10 @@
 
   services = {
     wifi.enable = true;
+    tailscale = {
+      enable = true;
+      extraUpFlags = [ "--ssh" ];
+    };
 
     adguardhome = {
       enable = true;

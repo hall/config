@@ -13,7 +13,10 @@
   ];
 
   services = {
-    # tailscale.enable = true;
+    tailscale = {
+      enable = true;
+      extraUpFlags = [ "--ssh" ];
+    };
     printing.enable = true;
     effects = {
       enable = true;
