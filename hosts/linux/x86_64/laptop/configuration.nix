@@ -71,6 +71,9 @@
       pianobooster
       qjackctl
 
+      # media
+      transmission-gtk
+      youtube-music
     ];
 
     programs.ssh.matchBlocks = {
