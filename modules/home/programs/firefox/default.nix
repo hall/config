@@ -8,6 +8,7 @@
         default_area = "menupanel";
       })
       {
+        # about:debugging#/runtime/this-firefox
         "{446900e4-71c2-419f-a6a7-df9c091e268b}" = "bitwarden-password-manager";
         "{278b0ae0-da9d-4cc6-be81-5aa7f3202672}" = "re-enable-right-click";
         "{c607c8df-14a7-4f28-894f-29e8722976af}" = "temporary-containers";
@@ -15,6 +16,7 @@
         "addon@darkreader.org" = "darkreader";
         "tridactyl.vim@cmcaine.co.uk" = "tridactyl-vim";
         "@testpilot-containers" = "multi-account-containers";
+        "firefox@tampermonkey.net" = "tampermonkey";
       }) // {
       "{3c078156-979c-498b-8990-85f7987dd929}" = {
         installation_mode = "force_installed";
