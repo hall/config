@@ -8,6 +8,7 @@
   };
   environment.systemPackages = with pkgs; [
     globalprotect-openconnect
+    rancher
   ];
 
   age = {
@@ -36,6 +37,11 @@
     ];
 
     programs = {
+      bash.shellAliases = {
+        k = "rancher kubectl";
+        r = "rancher";
+      };
+
       ssh = {
         extraOptionOverrides = {
           CanonicalizeHostname = "yes";
