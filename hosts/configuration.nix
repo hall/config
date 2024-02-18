@@ -40,11 +40,11 @@
       epiphany # browser
       gnome-tour
       gnome-passwordsafe
+      gedit
     ] ++ (with gnome;[
       cheese
       gnome-music
       gnome-notes
-      gedit
       seahorse # passwords
       gnome-characters
       gnome-user-docs
