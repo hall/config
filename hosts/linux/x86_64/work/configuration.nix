@@ -2,6 +2,10 @@
   laptop.enable = true;
 
   services = {
+    tailscale = {
+      enable = true;
+      useRoutingFeatures = "client";
+    };
     wifi.enable = true;
     # flatpak.enable = true;
     globalprotect.enable = true;
