@@ -1,7 +1,6 @@
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nur.url = "github:nix-community/nur";
     home = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -55,13 +54,11 @@
           musnix.nixosModules.musnix
           ({ ... }: {
             nixpkgs.overlays = [
-              nur.overlay
               rekey.overlays.default
               self.overlays.default
             ];
           })
-        ] ++ (with builtins;
-          map (x: ./modules/${x}) (attrNames (readDir ./modules)));
+        ] ++ (with builtins; map (x: ./modules/${x}) (attrNames (readDir ./modules)));
       };
 
       overlays.default = final: prev: with builtins; listToAttrs (map
