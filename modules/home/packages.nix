@@ -27,13 +27,10 @@ with pkgs; [
   # tmuxPlugins.sensible
   # tmuxPlugins.vim-tmux-navigator
 ] ++ (with gnomeExtensions; [
-  bluetooth-quick-connect
   brightness-control-using-ddcutil
   gsconnect
   nasa-apod
-  unite
   # improved-osk
-  just-perfection
   night-theme-switcher
   gesture-improvements
 ])
