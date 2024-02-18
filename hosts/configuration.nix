@@ -75,9 +75,10 @@
       '';
     };
     xserver = {
-      enable = true;
-      layout = "us";
-      xkbVariant = "dvorak";
+      xkb = {
+        layout = "us";
+        variant = "dvorak";
+      };
       autoRepeatInterval = 100;
       autoRepeatDelay = 200;
       excludePackages = with pkgs; [ xterm ];
