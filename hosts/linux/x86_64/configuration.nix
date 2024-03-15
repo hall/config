@@ -8,7 +8,7 @@
     };
     initrd = {
       availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usbhid" "ahci" "rtsx_pci_sdmmc" ];
-      kernelModules = [ "dm-snapshot" ];
+      kernelModules = [ "dm-snapshot" "usb_storage" ];
       verbose = false;
     };
     kernelParams = [ "quiet" ]; #"udev.log_priority=3"
@@ -40,8 +40,12 @@
               type = "luks";
               name = "crypt";
               settings = {
-                # keyFile = "/tmp/keyfile";
                 allowDiscards = true;
+                # dd if=/dev/random of=secret.key bs=2048 count=1
+                # dd if=secret.key of=/dev/sda
+                keyFile = "/dev/sda";
+                keyFileSize = 2048;
+                fallbackToPassword = true;
               };
               content = {
                 type = "lvm_pv";
