@@ -45,6 +45,8 @@ in
             packages = (import ./packages.nix { inherit config pkgs flake lib; }) ++ cfg.packages;
             sessionVariables = {
               CALIBRE_USE_DARK_PALETTE = "1";
+              MOZ_USE_XINPUT2 = "1";
+              MOZ_ENABLE_WAYLAND = "1";
             };
             sessionPath = [ "$HOME/.bin" ];
             file = let path = ./stage; in
