@@ -33,7 +33,10 @@
     };
 
     "nix.enableLanguageServer" = true;
-    "nix.serverPath" = "rnix-lsp";
+    "nix.serverPath" = "${pkgs.nil}/bin/nil";
+    "nix.serverSettings" = {
+      nil.formatting.command = [ "${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt" ];
+    };
 
     "redhat.telemetry.enabled" = false;
 
