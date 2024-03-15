@@ -90,6 +90,7 @@
             deploy-rs
             inputs.rekey.packages.${system}.default
             nixos-anywhere
+            nvd
           ];
         };
       });
