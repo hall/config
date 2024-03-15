@@ -116,6 +116,8 @@
     distributedBuilds = true;
     buildMachines = [{
       hostName = "server";
+      # TODO: move to host config and pull from there?
+      publicHostKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFt04Q7AY48Q5tJxFPxjJ3BZpBaR++R0jHRq7JVtBbkL";
       sshUser = flake.lib.username;
       # TODO: sshKey = config.age.secrets.id_ed25519.path;
       sshKey = "/home/${flake.lib.username}/.ssh/id_ed25519";
