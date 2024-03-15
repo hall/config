@@ -21,6 +21,8 @@
   age.rekey = {
     masterIdentities = [ "/home/bryton/.ssh/id_ed25519" ];
     derivation = flake.nixosConfigurations.${config.networking.hostName}.config.age.rekey.derivation;
+    # TODO: switch to `local`?
+    storageMode = "derivation";
   };
 
   security.sudo.execWheelOnly = true;
