@@ -66,17 +66,17 @@
           ];
           rewrites = [{
             domain = "*.${flake.lib.hostname}";
-            answer = "10.0.0.2";
+            answer = "192.168.86.2";
           }];
         };
         dhcp = {
           enabled = true;
           interface_name = "wlo1";
           dhcpv4 = {
-            gateway_ip = "10.0.0.1";
+            gateway_ip = "192.168.86.1";
             subnet_mask = "255.255.255.0";
-            range_start = "10.0.0.10";
-            range_end = "10.0.0.254";
+            range_start = "192.168.86.10";
+            range_end = "192.168.86.254";
           };
         };
       };
