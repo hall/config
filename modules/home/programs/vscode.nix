@@ -18,6 +18,7 @@
     "explorer.confirmDragAndDrop" = false;
 
     "git.confirmSync" = false;
+    "git.pruneOnFetch" = true;
 
     "jupyter.askForKernelRestart" = false;
     "jupyter.themeMatplotlibPlots" = true;
@@ -80,6 +81,9 @@
   };
   extensions = (with pkgs.vscode-extensions; [
     # james-yu.latex-workshop
+    ms-vscode-remote.remote-containers
+    ms-azuretools.vscode-docker
+
     eamodio.gitlens
     esbenp.prettier-vscode
     github.copilot
@@ -124,6 +128,12 @@
     #   version = "4.3.3";
     #   sha256 = "sha256-KqvQi0DMfHppX96qKHIkO9zIueBdGGV+6dYkpFEzFBo=";
     # }
+    {
+      name = "QML";
+      publisher = "bbenoist";
+      version = "1.0.0";
+      sha256 = "sha256-tphnVlD5LA6Au+WDrLZkAxnMJeTCd3UTyTN1Jelditk=";
+    }
   ];
   keybindings = [
     {
