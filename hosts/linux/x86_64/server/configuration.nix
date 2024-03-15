@@ -26,7 +26,7 @@
   };
 
   age = {
-    rekey.hostPubkey = (builtins.head config.nix.buildMachines).publicHostKey;
+    rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFt04Q7AY48Q5tJxFPxjJ3BZpBaR++R0jHRq7JVtBbkL";
     secrets = {
       namecheap.rekeyFile = ./namecheap.age;
       restic.rekeyFile = ./restic.age;

@@ -117,8 +117,6 @@
     buildMachines = [{
       hostName = "server";
       sshUser = flake.lib.username;
-      # TODO: swap to pull from host's `rekey` block?
-      publicHostKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFt04Q7AY48Q5tJxFPxjJ3BZpBaR++R0jHRq7JVtBbkL";
       # TODO: sshKey = config.age.secrets.id_ed25519.path;
       sshKey = "/home/${flake.lib.username}/.ssh/id_ed25519";
       systems = [ "x86_64-linux" "aarch64-linux" ];
