@@ -15,6 +15,9 @@ in
 
   config = mkIf cfg.enable {
     age.secrets.wifi.rekeyFile = ./wifi.age;
+    # TODO: fails for some reason
+    systemd.services.NetworkManager-wait-online.enable = false;
+
     networking.networkmanager = {
       enable = true;
 
@@ -29,28 +32,26 @@ in
 
       ensureProfiles = {
         environmentFiles = [ config.age.secrets.wifi.path ];
-        profiles = {
-          hall = {
-            connection = {
-              id = "hall";
-              type = "wifi";
-            };
-            ipv4 = {
-              method = "auto";
-            };
-            ipv6 = {
-              addr-gen-mode = "stable-privacy";
-              method = "auto";
-            };
-            wifi = {
-              mode = "infrastructure";
-              ssid = "hall";
-            };
-            wifi-security = {
-              auth-alg = "open";
-              key-mgmt = "wpa-psk";
-              psk = "$PSK";
-            };
+        profiles.hall = {
+          connection = {
+            id = "hall";
+            type = "wifi";
+          };
+          ipv4 = {
+            method = "auto";
+          };
+          ipv6 = {
+            addr-gen-mode = "stable-privacy";
+            method = "auto";
+          };
+          wifi = {
+            mode = "infrastructure";
+            ssid = "hall";
+          };
+          wifi-security = {
+            auth-alg = "open";
+            key-mgmt = "wpa-psk";
+            psk = "$PSK";
           };
         };
       };
