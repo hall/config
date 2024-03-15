@@ -20,8 +20,6 @@ with pkgs; [
   # gnome.gnome-remote-desktop
   ddcutil
 
-  rnix-lsp
-
   # tmux
   # tmuxPlugins.nord
   # tmuxPlugins.sensible
