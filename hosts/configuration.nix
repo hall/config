@@ -88,6 +88,7 @@
 
 
   nix = {
+    package = pkgs.nixVersions.nix_2_21;
     gc = {
       automatic = false;
       options = "--delete-older-than 30d";
