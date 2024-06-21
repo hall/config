@@ -64,6 +64,8 @@
             "2620:fe::10"
             "2620:fe::fe:10"
           ];
+        };
+        filtering = {
           rewrites = [{
             domain = "*.${flake.lib.hostname}";
             answer = "192.168.86.2";
