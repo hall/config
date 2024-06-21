@@ -7,12 +7,13 @@
       useRoutingFeatures = "client";
     };
     wifi.enable = true;
-    # flatpak.enable = true;
-    globalprotect.enable = true;
   };
+
   environment.systemPackages = with pkgs; [
     globalprotect-openconnect
     rancher
+    _1password-gui
+    google-chrome
   ];
 
   age = {
