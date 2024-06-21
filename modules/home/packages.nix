@@ -15,6 +15,7 @@ with pkgs; [
 
   # gnome
   gnome.dconf-editor
+  gnome.gnome-sound-recorder
   # gnome.gnome-boxes
   # gnome3.gnome-tweaks
   # gnome.gnome-remote-desktop
