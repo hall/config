@@ -28,11 +28,11 @@ in
     home-manager = {
       useGlobalPkgs = true;
       useUserPackages = true;
+      backupFileExtension = "bak";
       users.${flake.lib.username} = { pkgs, ... }: #lib.mkMerge [
         # cfg.home
         {
           dconf = import ./dconf.nix { inherit flake; };
-          gtk = import ./gtk.nix pkgs;
           programs = lib.mkMerge [ (import ./programs { inherit pkgs flake config; }) cfg.programs ];
           services = lib.mkMerge [ (import ./services.nix) cfg.services ];
           systemd = import ./systemd.nix pkgs;

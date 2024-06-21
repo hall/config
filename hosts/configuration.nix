@@ -29,6 +29,19 @@
 
   security.sudo.execWheelOnly = true;
 
+  stylix = {
+    image = config.lib.stylix.pixel "base0A";
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/ocean.yaml";
+    fonts = {
+      serif = config.stylix.fonts.monospace;
+      sansSerif = config.stylix.fonts.monospace;
+      monospace = {
+        package = pkgs.hack-font;
+        name = "Hack";
+      };
+    };
+  };
+
   environment = {
     defaultPackages = lib.mkForce (with pkgs; [
       vim

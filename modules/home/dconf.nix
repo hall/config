@@ -11,7 +11,6 @@
     };
     "org/gnome/desktop/interface" = {
       enable-hot-corners = false;
-      font-name = "Hack Regular";
     };
     "org/gnome/desktop/screensaver" = {
       lock-delay = flake.inputs.home.lib.hm.gvariant.mkUint32 3600;

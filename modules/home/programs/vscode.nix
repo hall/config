@@ -10,7 +10,6 @@
 
     "draw.directory" = "assets";
 
-    "editor.fontFamily" = "Hack, monospace";
     "editor.formatOnSave" = true;
 
     "autoReveal" = false;
@@ -70,6 +69,7 @@
       "-workbench.action.quickOpen" # ctrl-p
     ];
     "terminal.integrated.scrollback" = 5000;
+    "terminal.integrated.showExitAlert" = false;
 
     "update.mode" = "none";
 

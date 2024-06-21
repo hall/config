@@ -29,6 +29,10 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    stylix = {
+      url = "github:danth/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs = inputs@{ self, systems, ... }:
     let
@@ -46,17 +50,20 @@
 
       nixosConfigurations = import ./hosts {
         inherit self lib;
-        modules = with inputs; [
-          home.nixosModules.home-manager
-          agenix.nixosModules.default
-          rekey.nixosModules.default
-          disko.nixosModules.disko
-          musnix.nixosModules.musnix
+        modules = with inputs; (map (i: i.nixosModules.default) [
+          agenix
+          disko
+          home
+          musnix
+          nixarr
+          rekey
+        ]) ++ [
+          stylix.nixosModules.stylix
           ({ ... }: {
-            nixpkgs.overlays = [
-              rekey.overlays.default
-              self.overlays.default
-            ];
+            nixpkgs.overlays = (map (o: o.overlays.default) [
+              rekey
+              self
+            ]);
           })
         ] ++ (with builtins; map (x: ./modules/${x}) (attrNames (readDir ./modules)));
       };
