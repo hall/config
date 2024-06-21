@@ -1,6 +1,7 @@
-{ config, lib, pkgs, flake, age, specialArgs, ... }: {
+{ config, lib, pkgs, flake, ... }: {
   # https://nixos.org/manual/nixos/stable/release-notes.html
-  system.stateVersion = "22.11";
+  # https://nix-community.github.io/home-manager/release-notes.xhtml
+  system.stateVersion = "24.05";
 
   nixpkgs.config = {
     allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [

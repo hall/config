@@ -1,4 +1,4 @@
-{ config, lib, pkgs, modulesPath, ... }:
+{ config, lib, pkgs, ... }:
 let
   name = "laptop";
   cfg = config.${name};
@@ -10,16 +10,9 @@ in
   config = lib.mkIf cfg.enable {
     hardware.bluetooth.enable = true;
 
-    qt = {
-      enable = true;
-      style = "adwaita-dark";
-      platformTheme = "gnome";
-    };
-
     environment.systemPackages = with pkgs;[
       # utitilies
       baobab # disk usage
-      gnome.cheese # webcam
       gnome.nautilus # files
       gnome.totem # video
       gnome.file-roller # archive
@@ -33,12 +26,12 @@ in
         enable = true;
         desktopManager.gnome.enable = true;
         displayManager.gdm.enable = true;
-        libinput = {
-          touchpad = {
-            tapping = true;
-            naturalScrolling = true;
-            middleEmulation = false;
-          };
+      };
+      libinput = {
+        touchpad = {
+          tapping = true;
+          naturalScrolling = true;
+          middleEmulation = false;
         };
       };
       interception-tools = {
