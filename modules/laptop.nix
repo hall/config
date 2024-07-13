@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, flake, ... }:
 let
   name = "laptop";
   cfg = config.${name};
@@ -13,9 +13,9 @@ in
     environment.systemPackages = with pkgs;[
       # utitilies
       baobab # disk usage
-      gnome.nautilus # files
-      gnome.totem # video
-      gnome.file-roller # archive
+      nautilus # files
+      totem # video
+      file-roller # archive
       dpkg
     ];
 

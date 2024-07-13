@@ -47,20 +47,19 @@
       vim
       tmux
     ]);
-    sessionVariables = {
-      EDITOR = "vim";
-    };
+    sessionVariables.EDITOR = "vim";
 
     gnome.excludePackages = with pkgs; [
       epiphany # browser
       gnome-tour
       gnome-passwordsafe
       gedit
-    ] ++ (with gnome;[
+      geary
       cheese
+      seahorse # passwords
+    ] ++ (with gnome;[
       gnome-music
       gnome-notes
-      seahorse # passwords
       gnome-characters
       gnome-user-docs
     ]);

@@ -14,22 +14,21 @@ with pkgs; [
   gh
 
   # gnome
-  gnome.dconf-editor
+  dconf-editor
   gnome.gnome-sound-recorder
   # gnome.gnome-boxes
   # gnome3.gnome-tweaks
   # gnome.gnome-remote-desktop
   ddcutil
 
-  # tmux
-  # tmuxPlugins.nord
-  # tmuxPlugins.sensible
-  # tmuxPlugins.vim-tmux-navigator
+  gtop
 ] ++ (with gnomeExtensions; [
+  astra-monitor
+  bluetooth-battery-meter
   brightness-control-using-ddcutil
   gsconnect
   nasa-apod
   # improved-osk
   night-theme-switcher
-  gesture-improvements
+  just-perfection
 ])
