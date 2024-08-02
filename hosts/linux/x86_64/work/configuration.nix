@@ -14,10 +14,11 @@
     rancher
     _1password-gui
     google-chrome
+    seabird
   ];
 
   age = {
-    rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHyh7nW5RmY4r5UBTYiuKuNhTR4DccA8wvsKnqZLpCBn";
+    rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB80brNCqbutgIAOGzQE+akObz/LM/IbAUCScXTpiIs5";
     secrets.id_work = {
       rekeyFile = ./id_work.age;
       owner = flake.lib.username;
@@ -55,6 +56,7 @@
 
         matchBlocks = {
           gitlab.identityFile = lib.mkForce config.age.secrets.id_work.path;
+          github.identityFile = lib.mkForce config.age.secrets.id_work.path;
           lab = {
             host = "*.lab.rigetti.com";
             user = "ansible";

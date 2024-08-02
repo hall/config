@@ -8,7 +8,8 @@ Build a host with either `ctrl-shift-b` (in `vscode`) or
 
 Build a bootable image with:
 
-    nix build '.#${hostname}'
+    <!-- nix build '.#${hostname}' -->
+    sudo nix run 'github:nix-community/disko#disko-install' -- --flake '.#${hostname}' --disk main /dev/sda
 
 ## layout
 
@@ -22,4 +23,8 @@ A `configuration.nix` at any level applies to all hosts within its directory.
 
 Boot to the NixOS installer, set a `passwd` for SSH access then
 
+    scp -r /tmp/agenix-rekey.1000/ ${hostname}:/tmp/agenix-rekey.1000
     nixos-anywhere -f '.#${hostname}' nixos@${hostname}
+    # set `age.rekey.hostPubKey`
+    ssh-keyscan ${hostname} | grep ed25519 | wl-copy
+    agenix rekey
