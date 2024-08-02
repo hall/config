@@ -1,11 +1,11 @@
-{ config, pkgs, musnix, flake, ... }: {
+{ config, pkgs, flake, ... }: {
   laptop.enable = true;
   hardware = {
-    opengl.enable = true;
+    graphics.enable = true;
     sensor.iio.enable = true; # autorotate
   };
 
-  musnix.enable = true;
+  # musnix.enable = true;
   programs.adb.enable = true;
 
   networking.firewall.allowedTCPPorts = [
@@ -13,15 +13,15 @@
   ];
 
   services = {
-    tailscale = {
-      enable = true;
-      extraUpFlags = [ "--ssh" ];
-    };
+    # tailscale = {
+    #   enable = true;
+    #   extraUpFlags = [ "--ssh" ];
+    # };
     printing.enable = true;
-    effects = {
-      enable = true;
-      kernel = "controlC1";
-    };
+    # effects = {
+    #   enable = true;
+    #   kernel = "controlC1";
+    # };
     wifi.enable = true;
     xserver.wacom.enable = true;
     udev.packages = [ pkgs.qmk-udev-rules ];
@@ -65,15 +65,19 @@
 
       # music
       ardour
-      flake.packages.effects
+      # flake.packages.effects
       guitarix
       musescore
       pianobooster
       qjackctl
 
       # media
-      transmission-gtk
+      # transmission_4-gtk
       youtube-music
+      boatswain
+      obs-studio
+      sonic-pi
+      supercollider
     ];
 
     programs.ssh.matchBlocks = {
