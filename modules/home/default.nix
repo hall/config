@@ -22,17 +22,22 @@ in
       default = { };
       type = lib.types.attrs;
     };
+    file = lib.mkOption {
+      description = "extra configuration options";
+      default = { };
+      type = lib.types.attrs;
+    };
 
   };
   config = mkIf cfg.enable {
     home-manager = {
       useGlobalPkgs = true;
       useUserPackages = true;
-      backupFileExtension = "bak";
+      backupFileExtension = "backup";
       users.${flake.lib.username} = { pkgs, ... }: #lib.mkMerge [
         # cfg.home
         {
-          dconf = import ./dconf.nix { inherit flake; };
+          dconf = import ./dconf.nix { inherit flake config lib; };
           programs = lib.mkMerge [ (import ./programs { inherit pkgs flake config; }) cfg.programs ];
           services = lib.mkMerge [ (import ./services.nix) cfg.services ];
           systemd = import ./systemd.nix pkgs;
@@ -48,23 +53,24 @@ in
               MOZ_ENABLE_WAYLAND = "1";
             };
             sessionPath = [ "$HOME/.bin" ];
-            file = let path = ./stage; in
-              builtins.listToAttrs
-                (map
-                  (file:
-                    let
-                      # get relative filename
-                      filename = lib.strings.removePrefix "${(builtins.toString path)}/" (builtins.toString file);
-                    in
-                    {
-                      name = filename;
-                      value = {
-                        source = path + "/${filename}";
-                        target = filename;
-                      };
-                    })
-                  (lib.filesystem.listFilesRecursive path)
-                );
+            file = cfg.file;
+            # file = let path = ./stage; in
+            #   builtins.listToAttrs
+            #     (map
+            #       (file:
+            #         let
+            #           # get relative filename
+            #           filename = lib.strings.removePrefix "${(builtins.toString path)}/" (builtins.toString file);
+            #         in
+            #         {
+            #           name = filename;
+            #           value = {
+            #             source = path + "/${filename}";
+            #             target = filename;
+            #           };
+            #         })
+            #       (lib.filesystem.listFilesRecursive path)
+            #     );
           };
         };
       # ];
