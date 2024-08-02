@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ ... }:
 {
   boot = {
     consoleLogLevel = 0;
@@ -13,13 +13,14 @@
     };
     kernelParams = [ "quiet" ]; #"udev.log_priority=3"
     kernelModules = [ "kvm-intel" ];
+    # kernelPackages = pkgs.linuxPackages_latest;
   };
 
-  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
+  # powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   hardware.cpu.intel.updateMicrocode = true;
 
   disko.devices = {
-    disk.nvme0n1 = {
+    disk.main = {
       type = "disk";
       device = "/dev/nvme0n1";
       content = {
@@ -39,10 +40,10 @@
             content = {
               type = "luks";
               name = "crypt";
+              askPassword = true;
               settings = {
                 allowDiscards = true;
-                # dd if=/dev/random of=secret.key bs=2048 count=1
-                # dd if=secret.key of=/dev/sda
+                # dd if=/dev/random of=/dev/sda bs=2048 count=1
                 keyFile = "/dev/sda";
                 keyFileSize = 2048;
                 fallbackToPassword = true;

@@ -1,7 +1,7 @@
 { pkgs, lib, ... }: {
   enable = true;
   # TODO: breaks multi-profile installs
-  # mutableExtensionsDir = false;
+  mutableExtensionsDir = false;
   userSettings = {
     "3dpreview.hideControlsOnStart" = true;
     "3dpreview.showMesh" = true;

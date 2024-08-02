@@ -1,37 +1,30 @@
-{ pkgs, flake, modulesPath, ... }: {
+{ flake, lib, ... }: {
 
   # don't wait to pick a boot entry (press enter to activate prompt)
-  boot.loader.timeout = 1; # TODO: 0 waits forever?
+  boot.loader.timeout = lib.mkForce 0; # TODO: 0 waits forever?
   hardware = {
-    pulseaudio.enable = false;
+    # pulseaudio.enable = false;
     i2c.enable = true; # TODO: move?
   };
 
-  console = {
-    useXkbConfig = true;
-  };
+  console.useXkbConfig = true;
 
-  services = {
-    # avahi = {
-    #   enable = true;
-    #   nssmdns = true;
-    # };
-    pipewire = {
-      enable = true;
-      alsa.enable = true;
-      pulse.enable = true;
-      jack.enable = true;
-    };
-  };
+  # services = {
+  #   pipewire = {
+  #     enable = true;
+  #     alsa.enable = true;
+  #     alsa.support32Bit = true;
+  #     pulse.enable = true;
+  #     jack.enable = true;
+  #   };
+  # };
 
   security = {
-    sudo.extraRules = [
-      {
-        users = [ flake.lib.username ];
-        commands = [{ command = "ALL"; options = [ "NOPASSWD" ]; }];
-      }
-    ];
     rtkit.enable = true;
+    sudo.extraRules = [{
+      users = [ flake.lib.username ];
+      commands = [{ command = "ALL"; options = [ "NOPASSWD" ]; }];
+    }];
   };
 
   users.users = {

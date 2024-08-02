@@ -18,6 +18,7 @@ in
     # TODO: fails for some reason
     systemd.services.NetworkManager-wait-online.enable = false;
 
+    networking.wireless.enable = false;
     networking.networkmanager = {
       enable = true;
 

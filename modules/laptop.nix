@@ -1,4 +1,4 @@
-{ config, lib, pkgs, flake, ... }:
+{ config, lib, pkgs, ... }:
 let
   name = "laptop";
   cfg = config.${name};

@@ -5,7 +5,11 @@
 
   nixpkgs.config = {
     allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+      "1password"
       "google-chrome"
+      "steam"
+      "steam-original"
+      "steam-run"
       "vscode"
       "vscode-extension-github-copilot"
       "vscode-extension-github-copilot-chat"
@@ -16,9 +20,12 @@
     ];
 
     permittedInsecurePackages = [
-      "electron-25.9.0" # https://github.com/NixOS/nixpkgs/pull/274180
+      "electron-27.3.11"
     ];
   };
+
+  # TODO: don't enable by default
+  vpnnamespaces = { };
 
   age.rekey = {
     masterIdentities = [ "/home/bryton/.ssh/id_ed25519" ];
@@ -32,6 +39,10 @@
   stylix = {
     image = config.lib.stylix.pixel "base0A";
     base16Scheme = "${pkgs.base16-schemes}/share/themes/ocean.yaml";
+    cursor = {
+      package = pkgs.material-cursors;
+      # name = "";
+    };
     fonts = {
       serif = config.stylix.fonts.monospace;
       sansSerif = config.stylix.fonts.monospace;
@@ -101,7 +112,7 @@
 
 
   nix = {
-    package = pkgs.nixVersions.nix_2_21;
+    package = pkgs.nixVersions.latest;
     gc = {
       automatic = false;
       options = "--delete-older-than 30d";
@@ -114,6 +125,8 @@
       builders-use-substitutes = true
     '';
     settings = {
+      # extra-sandbox-paths = [ "/tmp/agenix-rekey.${config.users.users.${flake.lib.username}.uid}" ];
+      extra-sandbox-paths = [ "/tmp/agenix-rekey.1000" ];
       experimental-features = "nix-command flakes";
       trusted-users = [ "root" flake.lib.username ];
       trusted-public-keys = [
@@ -131,11 +144,12 @@
     buildMachines = [{
       hostName = "server";
       # TODO: move to host config and pull from there?
-      publicHostKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFt04Q7AY48Q5tJxFPxjJ3BZpBaR++R0jHRq7JVtBbkL";
+      # publicHostKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFt04Q7AY48Q5tJxFPxjJ3BZpBaR++R0jHRq7JVtBbkL";
       sshUser = flake.lib.username;
       # TODO: sshKey = config.age.secrets.id_ed25519.path;
       sshKey = "/home/${flake.lib.username}/.ssh/id_ed25519";
-      systems = [ "x86_64-linux" "aarch64-linux" ];
+      # TODO: dynamically generate based on fs heirarchy
+      systems = [ "x86_64-linux" ];
       maxJobs = 8;
       supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
     }];
@@ -150,6 +164,7 @@
     isNormalUser = true;
     extraGroups = [
       "audio"
+      "media"
       "dialout"
       "docker"
       "i2c"
