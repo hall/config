@@ -1,4 +1,4 @@
-{ ... }:
+{ config, ... }:
 {
   boot = {
     consoleLogLevel = 0;
@@ -40,9 +40,8 @@
             content = {
               type = "luks";
               name = "crypt";
-              askPassword = true;
+              additionalKeyFiles = [ config.age.secrets.luks.path ];
               settings = {
-                allowDiscards = true;
                 # dd if=/dev/random of=/dev/sda bs=2048 count=1
                 keyFile = "/dev/sda";
                 keyFileSize = 2048;

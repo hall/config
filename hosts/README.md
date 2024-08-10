@@ -23,8 +23,7 @@ A `configuration.nix` at any level applies to all hosts within its directory.
 
 Boot to the NixOS installer, set a `passwd` for SSH access then
 
-    scp -r /tmp/agenix-rekey.1000/ ${hostname}:/tmp/agenix-rekey.1000
-    nixos-anywhere -f '.#${hostname}' nixos@${hostname}
+    nixos-anywhere -f '.#${hostname}' nixos@nixos
     # set `age.rekey.hostPubKey`
-    ssh-keyscan ${hostname} | grep ed25519 | wl-copy
+    ssh-keyscan nixos | grep ed25519 | wl-copy
     agenix rekey

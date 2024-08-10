@@ -29,6 +29,7 @@
 
   age.rekey = {
     masterIdentities = [ "/home/bryton/.ssh/id_ed25519" ];
+    # force secrets to be copied to remote host
     derivation = flake.nixosConfigurations.${config.networking.hostName}.config.age.rekey.derivation;
     # TODO: switch to `local`?
     storageMode = "derivation";
@@ -125,8 +126,7 @@
       builders-use-substitutes = true
     '';
     settings = {
-      # extra-sandbox-paths = [ "/tmp/agenix-rekey.${config.users.users.${flake.lib.username}.uid}" ];
-      extra-sandbox-paths = [ "/tmp/agenix-rekey.1000" ];
+      extra-sandbox-paths = [ "/var/tmp/agenix-rekey" ];
       experimental-features = "nix-command flakes";
       trusted-users = [ "root" flake.lib.username ];
       trusted-public-keys = [

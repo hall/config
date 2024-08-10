@@ -19,6 +19,11 @@
   #   };
   # };
 
+  age.secrets.luks = {
+    rekeyFile = ./luks.age;
+    owner = flake.lib.username;
+  };
+
   security = {
     rtkit.enable = true;
     sudo.extraRules = [{
@@ -27,14 +32,18 @@
     }];
   };
 
-  users.users = {
-    ${flake.lib.username} = {
-      isNormalUser = true;
-      group = "users";
-      extraGroups = [ "wheel" ];
-      openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE/nxzI9MwJC1gMWCNDzdGUZsRvsCdNBqaH5iJwreqHc" # /secrets/id_ed25519.age
-      ];
+  users = {
+    mutableUsers = false;
+    users = {
+      ${flake.lib.username} = {
+        isNormalUser = true;
+        hashedPassword = "$y$j9T$fUivdhuwqeMf6/iNYRX92/$sbxbgkQRAoD0uB9bcmYYC/7gssMAu.ZRk.JLU4qfmpA"; # `mkpasswd`
+        group = "users";
+        extraGroups = [ "wheel" ];
+        openssh.authorizedKeys.keys = [
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE/nxzI9MwJC1gMWCNDzdGUZsRvsCdNBqaH5iJwreqHc" # /secrets/id_ed25519.age
+        ];
+      };
     };
   };
 }
