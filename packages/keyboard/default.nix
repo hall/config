@@ -7,6 +7,7 @@
 let
   keymap = "hall";
   keyboard = "bastardkb/charybdis/3x5/v1/elitec";
+  # keyboard = "atreus";
 in
 stdenv.mkDerivation rec {
   name = "keyboard";
