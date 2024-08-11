@@ -1,38 +1,46 @@
-{ pkgs, ... }: {
-  hardware.bluetooth.enable = true;
+{ pkgs, ... }:
+let
+  kodi = pkgs.kodi.withPackages (pkgs: with pkgs; [
+    # artic: zephyr - reloaded
+    netflix
+    # disney+
+    # hulu
+    # crunchyroll
+    joystick
+    youtube
+    steam-library
+    # steam-launcher # doesn't work?
+    libretro
+  ]);
+in
+{
+  # hardware.bluetooth.enable = true;
+  # services.xserver = {
+  #   enable = true;
+  #   # This may be needed to force Lightdm into 'autologin' mode.
+  #   # Setting an integer for the amount of time lightdm will wait
+  #   # between attempts to try to autologin again. 
+  #   # displayManager.startx.enable = true;
+  #   displayManager.lightdm = {
+  #     enable = true;
+  #     autoLogin.timeout = 3;
+  #   };
 
-  services.xserver = {
-    enable = true;
+  #   desktopManager.kodi = {
+  #     enable = true;
+  #     package = kodi;
+  #   };
+  # };
 
-    # This may be needed to force Lightdm into 'autologin' mode.
-    # Setting an integer for the amount of time lightdm will wait
-    # between attempts to try to autologin again. 
-    # displayManager.startx.enable = true;
-    displayManager.lightdm = {
-      enable = true;
-      autoLogin.timeout = 3;
-    };
-    # services.xserver.displayManager.gdm.enable = true;
 
-    desktopManager.kodi = {
-      enable = true;
-      package = pkgs.kodi.withPackages (pkgs: with pkgs; [
-        # artic: zephyr - reloaded
-        netflix
-        # disney+
-        # hulu
-        # crunchyroll
-        joystick
-        youtube
-        steam-library
-        # steam-launcher # doesn't work?
-        libretro
-      ]);
-    };
-  };
+  laptop.enable = true;
+
+  environment.systemPackages = [ kodi ];
+
   home = {
     enable = true;
     file = {
+      ".config/autostart/kodi.desktop".source = kodi + "/share/applications/kodi.desktop";
       # TODO: this file keeps reverting
       # https://github.com/xbmc/xbmc/blob/d212b0a65700fdfa958f87c9617be3117bd89f16/xbmc/peripherals/devices/PeripheralCecAdapter.cpp#L48
       ".kodi/userdata/peripheral_data/usb_2548_1002_CEC_Adapter.xml".text = ''

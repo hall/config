@@ -24,9 +24,6 @@
     ];
   };
 
-  # TODO: don't enable by default
-  vpnnamespaces = { };
-
   age.rekey = {
     masterIdentities = [ "/home/bryton/.ssh/id_ed25519" ];
     # force secrets to be copied to remote host
