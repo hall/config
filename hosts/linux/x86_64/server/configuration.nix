@@ -30,7 +30,7 @@
   environment.sessionVariables = {
     # Force intel-media-driver
     LIBVA_DRIVER_NAME = "iHD";
-    KODI_AE_SINK = "PULSE";
+    # KODI_AE_SINK = "PULSE";
   };
 
   systemd.services = {
@@ -191,7 +191,7 @@
       logError = "stderr debug";
       # recommendedGzipSettings = true;
       # recommendedOptimisation = true;
-      # recommendedProxySettings = true;
+      recommendedProxySettings = true;
       # recommendedTlsSettings = true;
 
       virtualHosts = {
@@ -231,7 +231,6 @@
     };
 
     stash = {
-      # /var/lib/stash  # app data
       enable = true;
       user = flake.lib.username;
       group = "syncthing";
@@ -252,19 +251,9 @@
       extraBackupArgs = [ "--fast-list" ];
       timerConfig.OnCalendar = "sunday 23:00";
     };
-
-    # iperf3 = {
-    #   enable = true;
-    #   openFirewall = true;
-    # };
-    # input-remapper = {
-    #   enable = true;
-    # };
   };
 
   environment.systemPackages = with pkgs; [
-    # iperf
-    # htop
     libcec
     # for steam-launcher
     wmctrl
@@ -272,18 +261,6 @@
     dconf
     # / for steam-launcher
     lutris
-    # (pkgs.kodi-wayland.passthru.withPackages (kodiPkgs: with kodiPkgs; [
-    #   # artic: zephyr - reloaded
-    #   netflix
-    #   # disney+
-    #   # hulu
-    #   # crunchyroll
-    #   joystick
-    #   youtube
-    #   steam-library
-    #   # steam-launcher # doesn't work?
-    #   libretro
-    # ]))
   ];
 
 }
