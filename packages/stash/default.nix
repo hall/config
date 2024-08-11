@@ -10,7 +10,7 @@
 }:
 
 let
-  version = "0.25.1";
+  version = "0.26.2";
 
   platforms = {
     # TODO: out of date
@@ -36,7 +36,7 @@ let
     # };
     x86_64-linux = {
       name = "linux";
-      sha256 = "sha256-BOAVgb5uZltlvgVI1WNsJTG0NEmsePr9nczceKeKbCE=";
+      sha256 = "4ZP83dMEHK3CTpUC5XYuZ2gCBdlfW7gpXYCbZsWAAB8=";
     };
   };
 
