@@ -6,6 +6,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hardware.url = "github:nixos/nixos-hardware";
+    nur.url = "github:nix-community/NUR";
     agenix = {
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -28,10 +29,6 @@
     };
     disko = {
       url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nixarr = {
-      url = "github:rasmus-kirk/nixarr";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     stylix = {
@@ -60,10 +57,10 @@
           disko
           home
           # musnix
-          nixarr
           rekey
         ]) ++ [
           stylix.nixosModules.stylix
+          nur.nixosModules.nur
           ({ ... }: {
             nixpkgs.overlays = (map (o: o.overlays.default) [
               rekey
