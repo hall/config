@@ -1,4 +1,4 @@
-{ config, pkgs, flake, ... }: {
+{ pkgs, flake, ... }: {
   vscode = import ./vscode.nix pkgs;
   firefox = import ./firefox pkgs;
 
@@ -34,15 +34,13 @@
     nix-direnv.enable = true;
   };
 
-  gnome-terminal.profile.default = { };
-
   fzf.enable = true;
 
   gh = {
     enable = true;
     settings.git_protocol = "ssh";
   };
-  # htop = { enable = true; };
+  htop = { enable = true; };
   jq = { enable = true; };
   # obs-studio = { enable = true; };
   # font
@@ -82,6 +80,5 @@
     viAlias = true;
     vimAlias = true;
   };
-
 }
  
