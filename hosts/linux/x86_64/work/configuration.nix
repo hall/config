@@ -1,10 +1,18 @@
 { config, pkgs, flake, lib, ... }: {
   laptop.enable = true;
 
+  hardware.nvidia = {
+    modesetting.enable = true;
+    open = true;
+  };
   services = {
     tailscale = {
       enable = true;
       useRoutingFeatures = "client";
+      extraSetFlags = [
+        "--accept-routes"
+        "--operator=${flake.lib.username}"
+      ];
     };
     wifi.enable = true;
   };
@@ -13,12 +21,11 @@
     globalprotect-openconnect
     rancher
     _1password-gui
-    google-chrome
     seabird
   ];
 
   age = {
-    rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB80brNCqbutgIAOGzQE+akObz/LM/IbAUCScXTpiIs5";
+    rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHSHGkxslr1dbDgHyvEhaeOvBG8rj9+fve+tJt+x4BLb";
     secrets.id_work = {
       rekeyFile = ./id_work.age;
       owner = flake.lib.username;
@@ -29,11 +36,6 @@
     login.u2fAuth = true;
     sudo.u2fAuth = true;
   };
-
-  nixpkgs.config.permittedInsecurePackages = [
-    # TODO: remove when internal pypi is decomissioned
-    "python3.9-poetry-1.1.14"
-  ];
 
   home = {
     enable = true;
