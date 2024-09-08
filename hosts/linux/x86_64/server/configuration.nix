@@ -19,27 +19,26 @@
     intel-vaapi-driver = pkgs.intel-vaapi-driver.override { enableHybridCodec = true; };
     vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
   };
-  hardware.graphics = {
-    enable = true;
-    extraPackages = with pkgs; [
-      intel-media-driver # LIBVA_DRIVER_NAME=iHD
-      intel-vaapi-driver # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
-      vaapiVdpau
-      intel-compute-runtime
-      vpl-gpu-rt
-      libvdpau-va-gl
-      vpl-gpu-rt
-    ];
+  hardware = {
+    xpadneo.enable = true;
+    steam-hardware.enable = true;
+    graphics = {
+      enable = true;
+      extraPackages = with pkgs; [
+        intel-media-driver # LIBVA_DRIVER_NAME=iHD
+        intel-vaapi-driver # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
+        vaapiVdpau
+        intel-compute-runtime
+        vpl-gpu-rt
+        libvdpau-va-gl
+        vpl-gpu-rt
+      ];
+    };
   };
   environment.sessionVariables = {
     # Force intel-media-driver
     LIBVA_DRIVER_NAME = "iHD";
     # KODI_AE_SINK = "PULSE";
-  };
-
-  systemd.services = {
-    "getty@tty1".enable = false;
-    "autovt@tty1".enable = false;
   };
 
   imports = [
@@ -95,6 +94,9 @@
   };
 
   systemd.services = {
+    "getty@tty1".enable = false;
+    "autovt@tty1".enable = false;
+
     cec-toggle.serviceConfig = {
       Type = "oneshot";
       ExecStart = pkgs.writeShellScript "cec-toggle" ''
@@ -117,13 +119,9 @@
       '';
     };
   };
-  hardware = {
-    xpadneo.enable = true;
-    steam-hardware.enable = true;
-  };
 
   services = {
-    udev.packages = with pkgs;[
+    udev.packages = with pkgs; [
       # for 8bit pro 2 in switch mode
       game-devices-udev-rules
     ];
@@ -145,16 +143,20 @@
         };
       };
     };
-    displayManager.autoLogin = {
-      enable = true;
-      user = flake.lib.username;
-    };
 
     wifi.enable = true;
-    # tailscale = {
-    #   enable = true;
-    #   extraUpFlags = [ "--ssh" ];
-    # };
+
+    tailscale = {
+      enable = true;
+      useRoutingFeatures = "both";
+      extraSetFlags = [
+        "--operator=${flake.lib.username}"
+        "--ssh"
+        # "--advertise-exit-node"
+        # "--exit-node-allow-lan-access"
+        # "--exit-node=us-nyc-wg-303.mullvad.ts.net."
+      ];
+    };
 
     adguardhome = {
       enable = true;
