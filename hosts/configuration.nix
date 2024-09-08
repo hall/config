@@ -56,22 +56,11 @@
       vim
       tmux
     ]);
-    sessionVariables.EDITOR = "vim";
+    sessionVariables = {
+      EDITOR = "vim";
+      NIXOS_OZONE_WL = "1";
+    };
 
-    gnome.excludePackages = with pkgs; [
-      epiphany # browser
-      gnome-tour
-      gnome-passwordsafe
-      gedit
-      geary
-      cheese
-      seahorse # passwords
-    ] ++ (with gnome;[
-      gnome-music
-      gnome-notes
-      gnome-characters
-      gnome-user-docs
-    ]);
   };
 
   programs.gnupg.agent = {
@@ -104,10 +93,8 @@
       };
       autoRepeatInterval = 100;
       autoRepeatDelay = 200;
-      excludePackages = with pkgs; [ xterm ];
     };
   };
-
 
   nix = {
     package = pkgs.nixVersions.latest;
