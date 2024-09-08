@@ -13,22 +13,8 @@ with pkgs; [
   yq
   gh
 
-  # gnome
-  dconf-editor
-  gnome.gnome-sound-recorder
-  # gnome.gnome-boxes
-  # gnome3.gnome-tweaks
-  # gnome.gnome-remote-desktop
+  gnome-sound-recorder
   ddcutil
 
   gtop
-] ++ (with gnomeExtensions; [
-  astra-monitor
-  bluetooth-battery-meter
-  brightness-control-using-ddcutil
-  gsconnect
-  nasa-apod
-  # improved-osk
-  night-theme-switcher
-  just-perfection
-])
+]
