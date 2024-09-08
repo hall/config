@@ -48,6 +48,9 @@
         hostname = "${username}.io";
         name = "Bryton Hall";
         email = "email@${hostname}";
+
+        # https://discourse.nixos.org/t/nix-function-to-merge-attributes-records-recursively-and-concatenate-arrays/2030
+        recursiveMergeAttrs = with inputs.nixpkgs.lib; fold (attrset: acc: recursiveUpdate attrset acc) { };
       };
 
       nixosConfigurations = import ./hosts {
