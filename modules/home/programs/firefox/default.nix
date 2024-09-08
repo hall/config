@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, config, ... }: {
   enable = true;
   policies = {
     ExtensionSettings = (builtins.mapAttrs
@@ -12,18 +12,14 @@
         "{446900e4-71c2-419f-a6a7-df9c091e268b}" = "bitwarden-password-manager";
         "{278b0ae0-da9d-4cc6-be81-5aa7f3202672}" = "re-enable-right-click";
         "{c607c8df-14a7-4f28-894f-29e8722976af}" = "temporary-containers";
+        "{3c078156-979c-498b-8990-85f7987dd929}" = "sidebery";
         "uBlock0@raymondhill.net" = "ublock-origin";
         "addon@darkreader.org" = "darkreader";
         "tridactyl.vim@cmcaine.co.uk" = "tridactyl-vim";
         "@testpilot-containers" = "multi-account-containers";
         "firefox@tampermonkey.net" = "tampermonkey";
-      }) // {
-      "{3c078156-979c-498b-8990-85f7987dd929}" = {
-        installation_mode = "force_installed";
-        install_url = "https://github.com/mbnuqw/sidebery/releases/download/v5.2.0/sidebery-5.2.0.xpi";
-        default_area = "menupanel";
-      };
-    };
+        "jid1-KKzOGWgsW3Ao4Q@jetpack" = "i-dont-care-about-cookies";
+      });
   };
   profiles.default = {
     userChrome = builtins.readFile ./userChrome.css;
@@ -32,6 +28,7 @@
       default = "DuckDuckGo";
       force = true; # prevent ff from overwriting
     };
+    containersForce = true;
     containers = {
       github = {
         id = 1;
@@ -58,7 +55,7 @@
         icon = "circle";
       };
     };
-    # extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+    # extensions = with config.nur.repos.rycee.firefox-addons; [
     #   # anchors-reveal
     #   # auto-tab-discard
     #   buster-captcha-solver
@@ -85,6 +82,8 @@
       "svg.context-properties.content.enabled" = true;
       "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
       "browser.tabs.warnOnCloseOtherTabs" = false;
+      # auto-enable extensions
+      "extensions.autoDisableScopes" = 0;
 
       # "permissions.default.shortcuts" = 2; # do not allow websites to steal keyboard input
 
