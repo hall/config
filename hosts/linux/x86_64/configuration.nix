@@ -1,4 +1,4 @@
-{ config, ... }:
+{ pkgs, config, ... }:
 {
   boot = {
     consoleLogLevel = 0;
@@ -13,7 +13,7 @@
     };
     kernelParams = [ "quiet" ]; #"udev.log_priority=3"
     kernelModules = [ "kvm-intel" ];
-    # kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = pkgs.linuxPackages_latest;
   };
 
   # powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
