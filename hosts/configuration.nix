@@ -6,7 +6,6 @@
   nixpkgs.config = {
     allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
       "1password"
-      "google-chrome"
       "steam"
       "steam-original"
       "steam-run"
@@ -17,6 +16,10 @@
       "vscode-extension-ms-vscode-cpptools"
       "vscode-extension-ms-vsliveshare-vsliveshare"
       "vscode-extension-ms-vscode-remote-remote-containers"
+      "onepassword-password-manager"
+      "nvidia-x11"
+      "nvidia-settings"
+      "nvidia-persistenced"
     ];
 
     permittedInsecurePackages = [

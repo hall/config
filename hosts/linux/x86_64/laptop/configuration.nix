@@ -13,10 +13,15 @@
   ];
 
   services = {
-    # tailscale = {
-    #   enable = true;
-    #   extraUpFlags = [ "--ssh" ];
-    # };
+    acpid.enable = true;
+    tailscale = {
+      enable = true;
+      extraSetFlags = [
+        "--ssh"
+        # "--exit-node=server"
+        "--operator=${flake.lib.username}"
+      ];
+    };
     printing.enable = true;
     # effects = {
     #   enable = true;
@@ -51,11 +56,11 @@
   home = {
     enable = true;
     packages = with pkgs; [
+      alsa-utils
       # comms
       element-desktop
       logseq
       xournalpp
-      google-chrome
 
       # design
       blender
