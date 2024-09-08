@@ -40,7 +40,7 @@ in
           dconf = import ./dconf.nix { inherit flake config lib; };
           programs = lib.mkMerge [ (import ./programs { inherit pkgs flake config; }) cfg.programs ];
           services = lib.mkMerge [ (import ./services.nix) cfg.services ];
-          systemd = import ./systemd.nix pkgs;
+
 
           home = {
             username = flake.lib.username;
