@@ -144,21 +144,28 @@
 
   hardware.enableRedistributableFirmware = true;
 
-  users.users.${flake.lib.username} = {
-    isNormalUser = true;
-    extraGroups = [
-      "audio"
-      "media"
-      "dialout"
-      "docker"
-      "i2c"
-      "input"
-      "wheel"
-      #"wireshark"
-
-      "feedbackd"
-      "video"
-      "networkmanager"
-    ];
+  users = {
+    mutableUsers = false;
+    users.${flake.lib.username} = {
+      isNormalUser = true;
+      hashedPassword = "$y$j9T$fUivdhuwqeMf6/iNYRX92/$sbxbgkQRAoD0uB9bcmYYC/7gssMAu.ZRk.JLU4qfmpA"; # `mkpasswd`
+      openssh.authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE/nxzI9MwJC1gMWCNDzdGUZsRvsCdNBqaH5iJwreqHc" # /secrets/id_ed25519.age
+      ];
+      group = "users";
+      extraGroups = [
+        "audio"
+        "video"
+        "media"
+        "input"
+        "data"
+        "dialout"
+        "docker"
+        "i2c"
+        "wheel"
+        "feedbackd"
+        "networkmanager"
+      ];
+    };
   };
 }
