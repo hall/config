@@ -1,96 +1,38 @@
-{ flake, pkgs, config, ... }: {
-  services = {
-    jellyfin = {
-      enable = true;
-      user = flake.lib.username;
-    };
-    nginx.virtualHosts = {
-      "player.${flake.lib.hostname}" = {
+{ flake, pkgs, config, ... }:
+let
+  expose = svcs: flake.lib.recursiveMergeAttrs (map
+    (service: {
+      services.${service.name} = {
+        enable = true;
+        ${if (builtins.hasAttr "user" config.services.${service.name}) then "user" else null} = flake.lib.username;
+      };
+      services.nginx.virtualHosts."${service.domain}.${flake.lib.hostname}" = {
         useACMEHost = flake.lib.hostname;
         acmeRoot = null;
         forceSSL = true;
-        locations."/".proxyPass = "http://127.0.0.1:8096";
+        locations."/".proxyPass = "http://127.0.0.1:${builtins.toString service.port}";
       };
-    };
-
-    jellyseerr.enable = true;
-    nginx.virtualHosts = {
-      "requests.${flake.lib.hostname}" = {
-        useACMEHost = flake.lib.hostname;
-        acmeRoot = null;
-        forceSSL = true;
-        locations."/".proxyPass = "http://127.0.0.1:${toString config.services.jellyseerr.port}";
-      };
-    };
-
-    transmission = {
-      enable = true;
+    })
+    svcs);
+in
+flake.lib.recursiveMergeAttrs [
+  (expose [
+    { name = "jellyfin"; domain = "player"; port = 8096; }
+    { name = "jellyseerr"; domain = "requests"; port = config.services.jellyseerr.port; }
+    { name = "transmission"; domain = "downloads"; port = config.services.transmission.settings.rpc-port; }
+    { name = "sonarr"; domain = "shows"; port = 8989; }
+    { name = "lidarr"; domain = "music"; port = 8686; }
+    { name = "radarr"; domain = "movies"; port = 7878; }
+    { name = "prowlarr"; domain = "indexer"; port = 9696; }
+  ])
+  {
+    services.transmission = {
       package = pkgs.transmission_4;
-      user = flake.lib.username;
       webHome = pkgs.flood-for-transmission;
-      settings = {
+      settings = rec {
         download-dir = "/var/lib/media/downloads";
+        incomplete-dir = "${download-dir}/incomplete";
       };
     };
-    nginx.virtualHosts = {
-      "downloads.${flake.lib.hostname}" = {
-        useACMEHost = flake.lib.hostname;
-        acmeRoot = null;
-        forceSSL = true;
-        locations."/".proxyPass = "http://127.0.0.1:${toString config.services.transmission.settings.rpc-port}";
-      };
-    };
-
-    sonarr = {
-      enable = true;
-      user = flake.lib.username;
-    };
-    nginx.virtualHosts = {
-      "shows.${flake.lib.hostname}" = {
-        useACMEHost = flake.lib.hostname;
-        acmeRoot = null;
-        forceSSL = true;
-        locations."/".proxyPass = "http://127.0.0.1:8989";
-      };
-    };
-
-    radarr = {
-      enable = true;
-      user = flake.lib.username;
-    };
-    nginx.virtualHosts = {
-      "movies.${flake.lib.hostname}" = {
-        useACMEHost = flake.lib.hostname;
-        acmeRoot = null;
-        forceSSL = true;
-        locations."/".proxyPass = "http://127.0.0.1:7878";
-      };
-    };
-
-    lidarr = {
-      enable = true;
-      user = flake.lib.username;
-    };
-    nginx.virtualHosts = {
-      "music.${flake.lib.hostname}" = {
-        useACMEHost = flake.lib.hostname;
-        acmeRoot = null;
-        forceSSL = true;
-        locations."/".proxyPass = "http://127.0.0.1:8686";
-      };
-    };
-
-    prowlarr = {
-      enable = true;
-      # user = flake.lib.username;
-    };
-    nginx.virtualHosts = {
-      "indexer.${flake.lib.hostname}" = {
-        useACMEHost = flake.lib.hostname;
-        acmeRoot = null;
-        forceSSL = true;
-        locations."/".proxyPass = "http://127.0.0.1:9696";
-      };
-    };
-  };
-}
+  }
+]
