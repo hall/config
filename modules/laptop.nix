@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ flake, config, lib, pkgs, ... }:
 let
   name = "laptop";
   cfg = config.${name};
@@ -8,32 +8,45 @@ in
     enable = lib.mkEnableOption "laptop-specific settings like disk encryption";
   };
   config = lib.mkIf cfg.enable {
-    hardware.bluetooth.enable = true;
+    hardware = {
+      graphics.enable = true;
+      bluetooth.enable = true;
+    };
+
+    xdg.portal.config.common.default = "wlr";
 
     environment.systemPackages = with pkgs;[
-      # utitilies
-      baobab # disk usage
-      nautilus # files
-      totem # video
-      file-roller # archive
-      dpkg
+      dunst
+      wmenu
+      foot
+      waylock
     ];
 
-    programs.dconf.enable = true;
-    services = {
-      ddccontrol.enable = true;
-      xserver = {
+    programs = {
+      dconf.enable = true;
+      light = {
         enable = true;
-        desktopManager.gnome.enable = true;
-        displayManager.gdm.enable = true;
+        brightnessKeys.enable = true;
       };
-      libinput = {
-        touchpad = {
-          tapping = true;
-          naturalScrolling = true;
-          middleEmulation = false;
-        };
+    };
+    services = {
+      actkbd = {
+        enable = true;
+        bindings =
+          let
+            wpctl = cmd: "${pkgs.sudo}/bin/sudo -u ${flake.lib.username} env XDG_RUNTIME_DIR=/run/user/1000 ${pkgs.busybox}/bin/sh -c '${pkgs.wireplumber}/bin/wpctl ${cmd} && ${pkgs.sox}/bin/play -q -n synth 0.05 sin 400'";
+          in
+          [
+            { keys = [ 190 ]; events = [ "key" ]; command = wpctl "set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
+            { keys = [ 113 ]; events = [ "key" ]; command = wpctl "set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
+            { keys = [ 114 ]; events = [ "key" "rep" ]; command = wpctl "set-volume @DEFAULT_AUDIO_SINK@ 5%- -l 0.0"; }
+            { keys = [ 115 ]; events = [ "key" "rep" ]; command = wpctl "set-volume @DEFAULT_AUDIO_SINK@ 5%+ -l 1.0"; }
+          ];
       };
+      ddccontrol.enable = true;
+      upower.enable = true;
+      libinput.touchpad.naturalScrolling = true;
+
       interception-tools = {
         enable = true; # TODO: device-specific activation
         plugins = with pkgs.interception-tools-plugins; [

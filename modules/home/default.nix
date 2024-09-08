@@ -1,4 +1,4 @@
-{ lib, config, pkgs, flake, specialArgs, ... }:
+{ lib, config, flake, specialArgs, ... }:
 with lib;
 let
   name = "home";
@@ -37,10 +37,16 @@ in
       users.${flake.lib.username} = { pkgs, ... }: #lib.mkMerge [
         # cfg.home
         {
-          dconf = import ./dconf.nix { inherit flake config lib; };
+          # dconf = import ./dconf.nix { inherit flake config lib; };
           programs = lib.mkMerge [ (import ./programs { inherit pkgs flake config; }) cfg.programs ];
           services = lib.mkMerge [ (import ./services.nix) cfg.services ];
-
+          xsession = {
+            enable = true;
+            windowManager.command = ''
+              # ${pkgs.slstatus}/bin/slstatus -s | ${pkgs.dwl}/bin/dwl
+              ${flake.packages.someblocks}/bin/someblocks -p | ${pkgs.dwl}/bin/dwl
+            '';
+          };
 
           home = {
             username = flake.lib.username;
