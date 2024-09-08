@@ -11,12 +11,15 @@
       extraPackages = python3Packages: with python3Packages; [
         # recorder postgresql support
         psycopg2
+        androidtvremote2
+        brother
         pychromecast
         python-otbr-api
         gtts
         roombapy
         ibeacon-ble
         aiogithubapi
+        pyipp
       ];
       # `/var/lib` is harder to write to declaratively :/
       configDir = "/etc/home-assistant";
@@ -44,6 +47,32 @@
             icon = "mdi:bookshelf";
           };
         };
+        notify = [{
+          platform = "group";
+          name = "phones";
+          services = [
+            { action = "mobile_app_phone"; }
+            { action = "mobile_app_pixel_8_pro"; }
+          ];
+        }];
+        automation = [
+          {
+            alias = "notify of new media";
+            trigger = [{
+              platform = "webhook";
+              webhook_id = "media";
+              allowed_methods = [ "POST" ];
+              local_only = true;
+            }];
+            action = [{
+              service = "notify.phones";
+              data = {
+                title = "{{ trigger.json.title }}";
+                message = "{{ trigger.json.message }}";
+              };
+            }];
+          }
+        ];
       };
     };
 
