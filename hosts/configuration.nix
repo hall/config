@@ -37,6 +37,8 @@
 
   security.sudo.execWheelOnly = true;
 
+  fonts.packages = with pkgs; [ hack-font ];
+
   stylix = {
     image = config.lib.stylix.pixel "base0A";
     base16Scheme = "${pkgs.base16-schemes}/share/themes/ocean.yaml";
