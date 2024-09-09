@@ -32,11 +32,6 @@
     };
   };
 
-  security.pam.services = {
-    login.u2fAuth = true;
-    sudo.u2fAuth = true;
-  };
-
   home = {
     enable = true;
     packages = with pkgs; [

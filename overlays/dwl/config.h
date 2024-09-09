@@ -27,13 +27,11 @@ static uint32_t colors[][3]                = {
 
 static char *tags[] = { "1", "2", "3" };
 
-/* logging */
 static int log_level = WLR_ERROR;
 
 /* NOTE: ALWAYS keep a rule declared even if you don't use rules (e.g leave at least one example) */
 static const Rule rules[] = {
     /* app_id             title       tags mask     isfloating   monitor */
-    /* examples: */
     { "Gimp_EXAMPLE",     NULL,       0,            1,           -1 }, /* Start on currently visible tags floating, not tiled */
     { "firefox_EXAMPLE",  NULL,       1 << 8,       0,           -1 }, /* Start on ONLY tag "9" */
 };
@@ -96,27 +94,26 @@ static const char *menucmd[] = { "wmenu-run", NULL };
 static const char *lockcmd[] = { "waylock", NULL };
 
 static const Key keys[] = {
-    /* Note that Shift changes certain key codes: c -> C, 2 -> at, etc. */
     /* modifier                     key                       function        argument */
     { MODKEY,                    XKB_KEY_p,          spawn,          {.v = menucmd} },
     { MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_Return,     spawn,          {.v = termcmd} },
-    { MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_p,          spawn,          {.v = lockcmd} },
+    { MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_P,          spawn,          {.v = lockcmd} },
     { MODKEY,                    XKB_KEY_b,          togglebar,      {0} },
-    { MODKEY,                    XKB_KEY_j,           focusstack,     {.i = +1} },
+    { MODKEY,                    XKB_KEY_j,          focusstack,     {.i = +1} },
     { MODKEY,                    XKB_KEY_k,          focusstack,     {.i = -1} },
-    { MODKEY,                    XKB_KEY_i,           incnmaster,     {.i = +1} },
+    { MODKEY,                    XKB_KEY_i,          incnmaster,     {.i = +1} },
     { MODKEY,                    XKB_KEY_d,          incnmaster,     {.i = -1} },
     { MODKEY,                    XKB_KEY_h,          setmfact,       {.f = -0.05f} },
-    { MODKEY,                    XKB_KEY_l,           setmfact,       {.f = +0.05f} },
-    { MODKEY,                    XKB_KEY_Return,  zoom,           {0} },
+    { MODKEY,                    XKB_KEY_l,          setmfact,       {.f = +0.05f} },
+    { MODKEY,                    XKB_KEY_Return,     zoom,           {0} },
     { MODKEY,                    XKB_KEY_Tab,        view,           {0} },
     { MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_C,          killclient,     {0} },
     { MODKEY,                    XKB_KEY_t,          setlayout,      {.v = &layouts[0]} },
     { MODKEY,                    XKB_KEY_f,          setlayout,      {.v = &layouts[1]} },
-    { MODKEY,                    XKB_KEY_m,        setlayout,      {.v = &layouts[2]} },
-    { MODKEY,                    XKB_KEY_space,  setlayout,      {0} },
+    { MODKEY,                    XKB_KEY_m,          setlayout,      {.v = &layouts[2]} },
+    { MODKEY,                    XKB_KEY_space,      setlayout,      {0} },
     { MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_space,      togglefloating, {0} },
-    { MODKEY,                    XKB_KEY_e,         togglefullscreen, {0} },
+    { MODKEY,                    XKB_KEY_e,          togglefullscreen, {0} },
     { MODKEY,                    XKB_KEY_0,          view,           {.ui = ~0} },
     { MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_parenright, tag,            {.ui = ~0} },
     { MODKEY,                    XKB_KEY_comma,      focusmon,       {.i = WLR_DIRECTION_LEFT} },
@@ -148,7 +145,7 @@ static const Button buttons[] = {
 //	{ MODKEY, BTN_RIGHT,  moveresize,     {.ui = CurResize} },
     { ClkLtSymbol, 0,      BTN_LEFT,   setlayout,      {.v = &layouts[0]} },
     { ClkLtSymbol, 0,      BTN_RIGHT,  setlayout,      {.v = &layouts[2]} },
-    { ClkTitle,        0,      BTN_MIDDLE, zoom,           {0} },
+    { ClkTitle,    0,      BTN_MIDDLE, zoom,           {0} },
     { ClkStatus,   0,      BTN_MIDDLE, spawn,          {.v = termcmd} },
     { ClkClient,   MODKEY, BTN_LEFT,   moveresize,     {.ui = CurMove} },
     { ClkClient,   MODKEY, BTN_MIDDLE, togglefloating, {0} },
