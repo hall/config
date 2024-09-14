@@ -161,14 +161,11 @@
       extraGroups = [
         "audio"
         "video"
-        "media"
         "input"
-        "data"
         "dialout"
         "docker"
         "i2c"
         "wheel"
-        "feedbackd"
         "networkmanager"
       ];
     };
