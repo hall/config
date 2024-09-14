@@ -9,17 +9,19 @@
         "isal"
       ];
       extraPackages = python3Packages: with python3Packages; [
-        # recorder postgresql support
-        psycopg2
+        aiogithubapi
         androidtvremote2
         brother
-        pychromecast
-        python-otbr-api
+        govee-ble
         gtts
-        roombapy
         ibeacon-ble
-        aiogithubapi
+        ical
+        psycopg2
+        pychromecast
         pyipp
+        python-otbr-api
+        roombapy
+        zeroconf
       ];
       # `/var/lib` is harder to write to declaratively :/
       configDir = "/etc/home-assistant";
