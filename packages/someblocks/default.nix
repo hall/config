@@ -5,14 +5,9 @@
 , wayland
 , wayland-protocols
 , wayland-scanner
-, conf ? null
-}:
-
-let
-  configFile = if lib.isDerivation conf || builtins.isPath conf then conf else "blocks.def.h";
-in
-
-stdenv.mkDerivation rec {
+  # TODO: overlay local packages to nixpkgs
+, conf ? ../../overlays/someblocks/config.h #null
+}: stdenv.mkDerivation rec {
   pname = "someblocks";
   version = "1.0.1";
 
@@ -26,8 +21,8 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ pkg-config wayland-scanner ];
   buildInputs = [ wayland wayland-protocols ];
 
-  prePatch = ''
-    cp ${configFile} blocks.h
+  postPatch = ''
+    cp ${if lib.isDerivation conf || builtins.isPath conf then conf else "blocks.def.h"} blocks.def.h
   '';
 
   installPhase = ''
