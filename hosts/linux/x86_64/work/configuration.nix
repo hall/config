@@ -25,7 +25,7 @@
   ];
 
   age = {
-    rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHSHGkxslr1dbDgHyvEhaeOvBG8rj9+fve+tJt+x4BLb";
+    rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILHMMzIlTFJ050LOC+3G0gC65pxrHf1TvPtgvAApXiUq";
     secrets.id_work = {
       rekeyFile = ./id_work.age;
       owner = flake.lib.username;
