@@ -1,10 +1,11 @@
 { config, pkgs, flake, lib, ... }: {
   laptop.enable = true;
 
-  hardware.nvidia = {
-    modesetting.enable = true;
-    open = true;
-  };
+  imports = [
+    flake.inputs.hardware.nixosModules.lenovo-thinkpad-p1
+    ./nvidia.nix
+  ];
+
   services = {
     tailscale = {
       enable = true;
