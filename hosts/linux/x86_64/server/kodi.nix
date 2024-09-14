@@ -15,18 +15,31 @@ let
   ]);
 in
 {
+
+  environment.systemPackages = [ kodi ];
   hardware.bluetooth.enable = true;
-  systemd.user.services.kodi = {
+
+  systemd.services.kodi = {
     description = "Kodi media center";
-    wantedBy = [ "default.target" ];
+    after = [ "network.target" ];
+    wantedBy = [ "multi-user.target" ];
+    environment = {
+      HOME = "%S/kodi";
+      LIBVA_DRIVER_NAME = "iHD";
+    };
     serviceConfig = {
       Type = "simple";
-      ExecStart = "${kodi}/bin/kodi-standalone";
       Restart = "always";
-      TimeoutStopSec = "15s";
-      TimeoutStopFailureMode = "kill";
+      DynamicUser = true;
+      SupplementaryGroups = "audio dialout input video";
+      AmbientCapabilities = [ "CAP_NET_BIND_SERVICE" ];
+      StateDirectory = "kodi";
+      RuntimeDirectory = "kodi";
+      ExecStart = "${kodi}/bin/kodi-standalone";
+      ExecStop = "${pkgs.procps}/bin/pkill kodi";
     };
   };
+
   services = {
     upower.enable = true;
     # lirc.enable = true;
@@ -35,8 +48,9 @@ in
   home = {
     enable = true;
     programs.kodi = {
-      enable = true;
+      # enable = true;
       package = kodi;
+      datadir = "/var/lib/kodi";
       addonSettings = {
         "skin.artic.zephyr.mod" = {
           "focuscolor.name" = "22000000";
