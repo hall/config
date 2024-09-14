@@ -43,8 +43,7 @@ in
           xsession = {
             enable = true;
             windowManager.command = ''
-              # ${pkgs.slstatus}/bin/slstatus -s | ${pkgs.dwl}/bin/dwl
-              ${flake.packages.someblocks}/bin/someblocks -p | ${pkgs.dwl}/bin/dwl
+              ${flake.packages.someblocks}/bin/someblocks -p | ${pkgs.dwl}/bin/dwl &
             '';
           };
 
