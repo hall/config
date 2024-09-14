@@ -69,6 +69,10 @@
         contents.user.email = "bhall@rigetti.com";
       }];
 
+      firefox.profiles.default.extensions = with config.nur.repos.rycee.firefox-addons; [
+        onepassword-password-manager
+      ];
+
       vscode = {
         userSettings = {
           "gitlab.customQueries" = [
