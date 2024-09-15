@@ -26,6 +26,7 @@ in
     environment = {
       HOME = "%S/kodi";
       LIBVA_DRIVER_NAME = "iHD";
+      KODI_DATA = "%S/kodi"; # $STATE_DIRECTORY
     };
     serviceConfig = {
       Type = "simple";
@@ -35,7 +36,9 @@ in
       AmbientCapabilities = [ "CAP_NET_BIND_SERVICE" ];
       StateDirectory = "kodi";
       RuntimeDirectory = "kodi";
-      ExecStart = "${kodi}/bin/kodi-standalone";
+      # tODO: fails to start so manually created for now
+      # ExecStartPre = "ln -fs /dev/null $STATE_DIRECTORY/temp/kodi.log";
+      ExecStart = "${kodi}/bin/kodi-standalone --logging=console";
       ExecStop = "${pkgs.procps}/bin/pkill kodi";
     };
   };
