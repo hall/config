@@ -2,10 +2,8 @@
 with lib;
 let
   cfg = config.services.stash;
-  opt = options.services.stash;
 in
 {
-
   options.services.stash = {
     enable = mkEnableOption (mdDoc "Stash");
 
@@ -33,10 +31,13 @@ in
       description = mdDoc "Port on which to start webserver.";
     };
 
-    externalHost = mkOption {
-      type = types.str;
-      default = "";
-      description = mdDoc "Needed in some cases when you use a reverse proxy.";
+    environment = mkOption {
+      type = types.attrs;
+      default = { };
+      description = mdDoc "Extra environment variables.";
+      example = {
+        STASH_EXTERNAL_HOST = "my.hostname";
+      };
     };
 
     dataDir = mkOption {
@@ -44,20 +45,17 @@ in
       default = "/var/lib/stash";
       description = mdDoc "Path where to store data files.";
     };
-
   };
 
   config = mkIf cfg.enable (
     let
-      stashPython = pkgs.python3.withPackages (ps: with ps;
-        [
+      stashPackages = with pkgs; [
+        (python3.withPackages (ps: with ps; [
           cloudscraper
           configparser
           progressbar
           requests
-        ]);
-      stashPackages = with pkgs; [
-        stashPython
+        ]))
         bashInteractive
         openssl
         sqlite
@@ -69,34 +67,21 @@ in
         description = "Stash daemon";
         after = [ "network.target" ];
         wantedBy = [ "multi-user.target" ];
+        path = stashPackages;
         environment = {
           HOME = "%S/stash";
-          STASH_GENERATED = "/var/lib/stash/generated";
-          STASH_METADATA = "/var/lib/stash/metadata";
-          STASH_CACHE = "/var/lib/stash/cache";
-          STASH_CONFIG_FILE = "/var/lib/stash/config.yml";
+          STASH_GENERATED = "${cfg.dataDir}/generated";
+          STASH_METADATA = "${cfg.dataDir}/metadata";
+          STASH_CACHE = "${cfg.dataDir}/cache";
+          STASH_CONFIG_FILE = "${cfg.dataDir}/config.yml";
           STASH_HOST = cfg.host;
           STASH_PORT = toString cfg.port;
-          STASH_EXTERNAL_HOST = toString cfg.externalHost;
-        };
-
-        path = with pkgs; [
-          (pkgs.python3.withPackages (ps: with ps; [
-            cloudscraper
-            configparser
-            progressbar
-            requests
-          ]))
-          bashInteractive
-          openssl
-          sqlite
-          ffmpeg
-        ];
+        } // cfg.environment;
 
         preStart = ''
           # mkdir -p ~/.stash && chmod 0700 ~/.stash
-          ln -sf ${pkgs.ffmpeg}/bin/ffmpeg /var/lib/stash/ffmpeg
-          ln -sf ${pkgs.ffmpeg}/bin/ffprobe /var/lib/stash/ffprobe
+          ln -sf ${pkgs.ffmpeg}/bin/ffmpeg ${cfg.dataDir}/ffmpeg
+          ln -sf ${pkgs.ffmpeg}/bin/ffprobe ${cfg.dataDir}/ffprobe
         '';
 
         serviceConfig = {
@@ -110,20 +95,19 @@ in
         };
       };
 
-      users.users = mkMerge [
-        (mkIf (cfg.user == "stash") {
+      users = {
+        users = mkIf (cfg.user == "stash") {
           stash = {
             isSystemUser = true;
             group = cfg.group;
             home = cfg.dataDir;
             createHome = true;
           };
-        })
-        (attrsets.setAttrByPath [ cfg.user "packages" ] ([ flake.packages.stash ] ++ stashPackages))
-      ];
+        };
 
-      users.groups = optionalAttrs (cfg.group == "stash") {
-        stash = { };
+        groups = optionalAttrs (cfg.group == "stash") {
+          stash = { };
+        };
       };
     }
   );

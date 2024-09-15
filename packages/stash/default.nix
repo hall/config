@@ -8,51 +8,13 @@
 , sqlite
 , makeWrapper
 }:
-
-let
+stdenv.mkDerivation rec {
+  name = "stash-bin";
   version = "0.26.2";
 
-  platforms = {
-    # TODO: out of date
-    # aarch64-darwin = {
-    #   name = "macos-applesilicon";
-    #   sha256 = "sha256-UehAXV6aUNTkoymDmh7qSY+uuqLhkgzjL2TPYsZrNUs=";
-    # };
-    # aarch64-linux = {
-    #   name = "linux-arm64v8";
-    #   sha256 = "sha256-us5TJ0fajhi81HRQ7hI8bvh/KRKcXlNoXLQRxGqpbt8=";
-    # };
-    # armv6l-linux = {
-    #   name = "linux-arm32v6";
-    #   sha256 = "sha256-97EQHNFAzCfBA1uI593M+eyIomU1BUgRWiXpKTEWckw=";
-    # };
-    # armv7l-linux = {
-    #   name = "linux-arm32v7";
-    #   sha256 = "sha256-y/yhgzids6TJ4CxqJa3OtDjbeWUB0jaXqS9skLb9oYg=";
-    # };
-    # x86_64-darwin = {
-    #   name = "macos-intel";
-    #   sha256 = "sha256-iR4s+aI8rwLjDtEHEgsiB3tgAxTMMEcUNcF4bwUv1yI=";
-    # };
-    x86_64-linux = {
-      name = "linux";
-      sha256 = "4ZP83dMEHK3CTpUC5XYuZ2gCBdlfW7gpXYCbZsWAAB8=";
-    };
-  };
-
-  plat =
-    if (lib.hasAttrByPath [ stdenv.hostPlatform.system ] platforms)
-    then platforms.${stdenv.hostPlatform.system}
-    else throw "Unsupported architecture: ${stdenv.hostPlatform.system}";
-in
-stdenv.mkDerivation rec {
-  inherit version;
-
-  name = "stash-bin";
-
   executable = fetchurl {
-    inherit (plat) sha256;
-    url = "https://github.com/stashapp/stash/releases/download/v${version}/stash-${plat.name}";
+    sha256 = "4ZP83dMEHK3CTpUC5XYuZ2gCBdlfW7gpXYCbZsWAAB8=";
+    url = "https://github.com/stashapp/stash/releases/download/v${version}/stash-linux";
     executable = true;
   };
 
