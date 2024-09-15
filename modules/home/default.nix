@@ -34,53 +34,42 @@ in
       useGlobalPkgs = true;
       useUserPackages = true;
       backupFileExtension = "backup";
-      users.${flake.lib.username} = { pkgs, ... }: #lib.mkMerge [
-        # cfg.home
-        {
-          # dconf = import ./dconf.nix { inherit flake config lib; };
-          programs = lib.mkMerge [ (import ./programs { inherit pkgs flake config; }) cfg.programs ];
-          services = lib.mkMerge [ (import ./services.nix) cfg.services ];
-          xsession = {
-            enable = true;
-            windowManager.command = ''
-              ${flake.packages.someblocks}/bin/someblocks -p | ${pkgs.dwl}/bin/dwl &
-            '';
-          };
-
-          home = {
-            username = flake.lib.username;
-            homeDirectory = "/home/${flake.lib.username}";
-            stateVersion = config.system.stateVersion;
-            packages = (import ./packages.nix { inherit config pkgs flake lib; }) ++ cfg.packages;
-            sessionVariables = {
-              CALIBRE_USE_DARK_PALETTE = "1";
-              MOZ_USE_XINPUT2 = "1";
-              MOZ_ENABLE_WAYLAND = "1";
-            };
-            sessionPath = [ "$HOME/.bin" ];
-            file = cfg.file;
-            # file = let path = ./stage; in
-            #   builtins.listToAttrs
-            #     (map
-            #       (file:
-            #         let
-            #           # get relative filename
-            #           filename = lib.strings.removePrefix "${(builtins.toString path)}/" (builtins.toString file);
-            #         in
-            #         {
-            #           name = filename;
-            #           value = {
-            #             source = path + "/${filename}";
-            #             target = filename;
-            #           };
-            #         })
-            #       (lib.filesystem.listFilesRecursive path)
-            #     );
-          };
-        };
-      # ];
       extraSpecialArgs = specialArgs;
-    };
+      users.${flake.lib.username} = { pkgs, ... }: {
+        programs = lib.mkMerge [ (import ./programs { inherit pkgs flake config; }) cfg.programs ];
+        services = cfg.services;
+        xsession = {
+          enable = true;
+          windowManager.command = ''
+            ${flake.packages.someblocks}/bin/someblocks -p | ${pkgs.dwl}/bin/dwl &
+          '';
+        };
 
+        home = {
+          username = flake.lib.username;
+          homeDirectory = "/home/${flake.lib.username}";
+          stateVersion = config.system.stateVersion;
+          packages = with pkgs; cfg.packages ++ [
+            nixpkgs-fmt
+            wl-clipboard
+            dnsutils
+            inetutils
+
+            pciutils
+
+            gnome-sound-recorder
+            ddcutil
+
+            gtop
+          ];
+          sessionVariables = {
+            MOZ_USE_XINPUT2 = "1";
+            MOZ_ENABLE_WAYLAND = "1";
+          };
+          file = cfg.file;
+        };
+      };
+
+    };
   };
 }

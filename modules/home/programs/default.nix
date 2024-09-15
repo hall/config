@@ -35,6 +35,7 @@
   };
 
   fzf.enable = true;
+  ripgrep.enable = true;
 
   gh = {
     enable = true;
