@@ -11,7 +11,6 @@
     "draw.directory" = "assets";
 
     "editor.formatOnSave" = true;
-    "editor.renderWhitespace" = "all";
 
     "autoReveal" = false;
     "explorer.confirmDelete" = false;
