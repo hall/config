@@ -49,6 +49,7 @@
             icon = "mdi:bookshelf";
           };
         };
+        frontend.themes = "!include_dir_merge_named themes";
         notify = [{
           platform = "group";
           name = "phones";
@@ -57,7 +58,8 @@
             { action = "mobile_app_pixel_8_pro"; }
           ];
         }];
-        automation = [
+        "automation ui" = "!include automations.yaml";
+        "automation manual" = [
           {
             alias = "notify of new media";
             trigger = [{
@@ -73,6 +75,17 @@
                 message = "{{ trigger.json.message }}";
               };
             }];
+          }
+          {
+            alias = "set default theme";
+            trigger = {
+              platform = "homeassistant";
+              event = "start";
+            };
+            action = {
+              service = "frontend.set_theme";
+              data.name = "midnight";
+            };
           }
         ];
       };
