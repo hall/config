@@ -90,6 +90,7 @@
     ms-vscode-remote.remote-containers
     ms-azuretools.vscode-docker
 
+    naumovs.color-highlight
     eamodio.gitlens
     esbenp.prettier-vscode
     github.copilot
