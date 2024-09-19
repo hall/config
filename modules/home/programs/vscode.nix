@@ -79,6 +79,9 @@
 
     # "workbench.experimental.sidePanel.enabled" = true;
     # "workbench.experimental.panel.alignment" = "left";
+    "workbench.colorTheme" = "Stylix";
+    "workbench.preferredDarkColorTheme" = "Stylix";
+    "workbench.preferredLightColorTheme" = "Stylix";
 
     "zenMode.centerLayout" = false;
 
