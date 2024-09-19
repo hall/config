@@ -28,7 +28,7 @@
   };
 
   age.rekey = {
-    masterIdentities = [ "/home/bryton/.ssh/id_ed25519" ];
+    masterIdentities = [ "/home/${flake.lib.username}/.ssh/id_ed25519" ];
     # force secrets to be copied to remote host
     derivation = flake.nixosConfigurations.${config.networking.hostName}.config.age.rekey.derivation;
     # TODO: switch to `local`?
@@ -40,11 +40,25 @@
   fonts.packages = with pkgs; [ hack-font ];
 
   stylix = {
-    image = config.lib.stylix.pixel "base0A";
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/ocean.yaml";
-    cursor = {
-      package = pkgs.material-cursors;
-      # name = "";
+    enable = true;
+    image = config.lib.stylix.pixel "base0E";
+    base16Scheme.palette = {
+      base00 = "#2b303b";
+      base01 = "#343d46"; # TODO: secondary bg color, needs to be a little less green?
+      base02 = "#4f5b66";
+      base03 = "#65737e";
+      base04 = "#a7adba";
+      base05 = "#c0c5ce";
+      base06 = "#dfe1e8";
+      base07 = "#eff1f5";
+      base08 = "#bf616a";
+      base09 = "#d08770";
+      base0A = "#ebcb8b";
+      base0B = "#a3be8c";
+      base0C = "#96b5b4";
+      base0D = "#8fa1b3";
+      base0E = "#b48ead";
+      base0F = "#ab7967";
     };
     fonts = {
       serif = config.stylix.fonts.monospace;
@@ -64,6 +78,9 @@
     sessionVariables = {
       EDITOR = "vim";
       NIXOS_OZONE_WL = "1";
+      # krita fails to open
+      #https://github.com/NixOS/nixpkgs/issues/82959#issuecomment-657306112
+      QT_XCB_GL_INTEGRATION = "none";
     };
 
   };
@@ -167,6 +184,8 @@
         "i2c"
         "wheel"
         "networkmanager"
+
+        "libvirtd"
       ];
     };
   };
