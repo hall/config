@@ -68,6 +68,7 @@
         name = "Hack";
       };
     };
+    targets.logseq.path = "notes";
   };
 
   environment = {
