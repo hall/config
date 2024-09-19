@@ -41,6 +41,7 @@ in
         xsession = {
           enable = true;
           windowManager.command = ''
+            systemctl --user set-environment WAYLAND_DISPLAY=wayland-0
             ${flake.packages.someblocks}/bin/someblocks -p | ${pkgs.dwl}/bin/dwl &
           '';
         };
