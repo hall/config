@@ -1,4 +1,4 @@
-{ pkgs, config, ... }: {
+{ config, ... }: {
   enable = true;
   policies = {
     ExtensionSettings = (builtins.mapAttrs
@@ -20,6 +20,15 @@
         "firefox@tampermonkey.net" = "tampermonkey";
         "jid1-KKzOGWgsW3Ao4Q@jetpack" = "i-dont-care-about-cookies";
       });
+    # "3rdparty".Extensions = {
+    #   "uBlock0@raymondhill.net".adminSettings = { };
+    # };
+    NoDefaultBookmarks = true;
+    PasswordManagerEnabled = false;
+    ShowHomeButton = false;
+    DisableFirefoxAccounts = true;
+    DisableSetDesktopBackground = true;
+    DisablePocket = true;
   };
   profiles.default = {
     userChrome = builtins.readFile ./userChrome.css;
@@ -74,6 +83,9 @@
       "browser.startup.page" = 3; # restore previous session
       "browser.tabs.drawInTitlebar" = false;
       "browser.toolbars.bookmarks.visibility" = "never";
+      # use theme for browser content and toolbar
+      "browser.theme.content-theme" = 0;
+      "browser.theme.toolbar-theme" = 0;
       "browser.uidensity" = 1; # compact
       "extensions.pocket.enabled" = false;
       "geo.enabled" = false;
@@ -84,8 +96,9 @@
       "browser.tabs.warnOnCloseOtherTabs" = false;
       # auto-enable extensions
       "extensions.autoDisableScopes" = 0;
-
-      # "permissions.default.shortcuts" = 2; # do not allow websites to steal keyboard input
+      # don't allow sites to steal keyboard input
+      # TODO: breaks tridactyl `esc` :/
+      # "permissions.default.shortcuts" = 2;
 
       # customize the toolbar
       # TODO: can this be cleaned up?
