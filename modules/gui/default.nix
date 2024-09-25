@@ -97,6 +97,8 @@ in
           };
           floating.titlebar = false;
           keybindings = with pkgs; lib.mkOptionDefault {
+            # re-bind to circumvent swaynag
+            "${modifier}+Shift+e" = "exec sway exit";
             "${modifier}+p" = "exec ${slurp}/bin/slurp | ${grim}/bin/grim -g - - | ${wl-clipboard}/bin/wl-copy";
           };
           input = {
