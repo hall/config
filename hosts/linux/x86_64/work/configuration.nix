@@ -15,7 +15,6 @@
         "--operator=${flake.lib.username}"
       ];
     };
-    wifi.enable = true;
   };
 
   environment.systemPackages = with pkgs; [
@@ -30,6 +29,25 @@
     secrets.id_work = {
       rekeyFile = ./id_work.age;
       owner = flake.lib.username;
+    };
+  };
+
+
+  home-manager.users.${flake.lib.username} = {
+    wayland.windowManager.sway.config = {
+      output = {
+        eDP-1.scale = "1.5";
+        DP-3.pos = "0 -1080";
+        DP-4 = {
+          pos = "-1080 -1080";
+          transform = "90";
+        };
+      };
+      workspaceOutputAssign = [
+        { workspace = "notes"; output = "eDP-1"; }
+        { workspace = "ide"; output = "DP-6"; }
+        { workspace = "web"; output = "DP-5"; }
+      ];
     };
   };
 

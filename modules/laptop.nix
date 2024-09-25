@@ -13,14 +13,39 @@ in
       bluetooth.enable = true;
     };
 
-    xdg.portal.config.common.default = "wlr";
+    home = {
+      services = {
+        mako = {
+          enable = true;
+          # settings = { };
+        };
+        wlsunset = {
+          enable = true;
+          sunrise = "08:00";
+          sunset = "20:00";
+        };
+      };
+    };
 
-    environment.systemPackages = with pkgs;[
-      dunst
-      wmenu
-      foot
-      waylock
-    ];
+    xdg.portal = {
+      enable = true;
+      wlr = {
+        enable = true;
+        settings = {
+          screencast = {
+            output_name = "eDP-1";
+            chooser_type = "simple";
+            chooser_cmd = "${pkgs.slurp}/bin/slurp -f %o -or";
+          };
+        };
+      };
+      config.common.default = "wlr";
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-wlr
+        xdg-desktop-portal-gtk
+      ];
+      xdgOpenUsePortal = true;
+    };
 
     programs = {
       dconf.enable = true;
@@ -30,11 +55,19 @@ in
       };
     };
     services = {
+      wifi.enable = true;
+      acpid.enable = true;
+      # use FDE as password
+      getty.autologinUser = flake.lib.username;
+      fwupd.enable = true;
+      hardware.bolt.enable = true;
+      geoclue2.enable = true;
+      gnome.gnome-keyring.enable = true;
       actkbd = {
         enable = true;
         bindings =
           let
-            wpctl = cmd: "${pkgs.sudo}/bin/sudo -u ${flake.lib.username} env XDG_RUNTIME_DIR=/run/user/1000 ${pkgs.busybox}/bin/sh -c '${pkgs.wireplumber}/bin/wpctl ${cmd} && ${pkgs.sox}/bin/play -q -n synth 0.05 sin 400'";
+            wpctl = cmd: "${pkgs.sudo}/bin/sudo -u ${flake.lib.username} env XDG_RUNTIME_DIR=/run/user/1000 ${pkgs.busybox}/bin/sh -c '${pkgs.wireplumber}/bin/wpctl ${cmd}'";
           in
           [
             { keys = [ 190 ]; events = [ "key" ]; command = wpctl "set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }

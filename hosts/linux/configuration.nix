@@ -29,9 +29,7 @@
     pam.services = {
       login.u2fAuth = true;
       sudo.u2fAuth = true;
-      waylock.text = ''
-        auth include login
-      '';
+      swaylock = { };
     };
     rtkit.enable = true;
     sudo.extraRules = [{
