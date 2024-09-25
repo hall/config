@@ -1,5 +1,5 @@
 { config, pkgs, flake, ... }: {
-  laptop.enable = true;
+  gui.enable = true;
   hardware.sensor.iio.enable = true; # autorotate
 
   # musnix.enable = true;
@@ -49,9 +49,8 @@
     };
   };
 
-  home = {
-    enable = true;
-    packages = with pkgs; [
+  home-manager.users.${flake.lib.username} = {
+    home.packages = with pkgs; [
       alsa-utils
       # comms
       element-desktop

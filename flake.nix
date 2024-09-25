@@ -102,6 +102,7 @@
             deploy-rs
             inputs.rekey.packages.${system}.default
             nixos-anywhere
+            # nixos-rebuild build "$@" && nvd diff /run/current-system result
             nvd
           ];
         };

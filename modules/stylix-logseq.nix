@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, flake, ... }:
 let
   cfg = config.stylix.targets.logseq;
 in
@@ -13,7 +13,7 @@ in
 
   config = lib.mkIf (config.stylix.enable && config.stylix.targets.logseq.enable) {
     # https://github.com/logseq/logseq-plugin-samples/blob/461d559b03e28119994126a13fc0e910bbd21197/logseq-base16-themes/css/base16-ocean.css
-    home.file."${cfg.path}/logseq/custom.css".text = with config.lib.stylix.colors; ''
+    home-manager.users.${flake.lib.username}.home.file."${cfg.path}/logseq/custom.css".text = with config.lib.stylix.colors; ''
       :root {
         --base00: #${base00};
         --base01: #${base01};

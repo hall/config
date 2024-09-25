@@ -1,4 +1,4 @@
-{ config, lib, pkgs, flake, ... }: {
+{ config, lib, pkgs, flake, specialArgs, ... }: {
   # https://nixos.org/manual/nixos/stable/release-notes.html
   # https://nix-community.github.io/home-manager/release-notes.xhtml
   system.stateVersion = "24.05";
@@ -37,43 +37,6 @@
 
   security.sudo.execWheelOnly = true;
 
-  fonts.packages = with pkgs; [
-    hack-font
-    font-awesome
-  ];
-
-  stylix = {
-    enable = true;
-    image = config.lib.stylix.pixel "base0E";
-    base16Scheme.palette = {
-      base00 = "#2b303b";
-      base01 = "#343d46"; # TODO: secondary bg color, needs to be a little less green?
-      base02 = "#4f5b66";
-      base03 = "#65737e";
-      base04 = "#a7adba";
-      base05 = "#c0c5ce";
-      base06 = "#dfe1e8";
-      base07 = "#eff1f5";
-      base08 = "#bf616a";
-      base09 = "#d08770";
-      base0A = "#ebcb8b";
-      base0B = "#a3be8c";
-      base0C = "#96b5b4";
-      base0D = "#8fa1b3";
-      base0E = "#b48ead";
-      base0F = "#ab7967";
-    };
-    fonts = {
-      serif = config.stylix.fonts.monospace;
-      sansSerif = config.stylix.fonts.monospace;
-      monospace = {
-        package = pkgs.hack-font;
-        name = "Hack";
-      };
-    };
-    targets.logseq.path = "notes";
-  };
-
   environment = {
     defaultPackages = lib.mkForce (with pkgs; [
       vim
@@ -86,7 +49,6 @@
       #https://github.com/NixOS/nixpkgs/issues/82959#issuecomment-657306112
       QT_XCB_GL_INTEGRATION = "none";
     };
-
   };
 
   programs.gnupg.agent = {
@@ -192,5 +154,24 @@
         "libvirtd"
       ];
     };
+  };
+
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    backupFileExtension = "backup";
+    extraSpecialArgs = specialArgs;
+    users.${flake.lib.username}.home = {
+      username = flake.lib.username;
+      homeDirectory = "/home/${flake.lib.username}";
+      stateVersion = config.system.stateVersion;
+      # packages = with pkgs; [
+      #   dnsutils
+      #   inetutils
+      #   pciutils
+      # ];
+      # file.logseq".source = flake.nixosConfigurations.${}.lib.file.mkOutOfStoreSymlink "/home/${flake.lib.username}/notes/data";
+    };
+
   };
 }

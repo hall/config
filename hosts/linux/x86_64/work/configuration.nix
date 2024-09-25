@@ -1,5 +1,5 @@
 { config, pkgs, flake, lib, ... }: {
-  laptop.enable = true;
+  gui.enable = true;
 
   imports = [
     flake.inputs.hardware.nixosModules.lenovo-thinkpad-p1

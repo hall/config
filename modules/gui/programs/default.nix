@@ -1,4 +1,4 @@
-{ pkgs, flake, lib, config, ... }: {
+{ pkgs, flake, ... }: {
   vscode = import ./vscode.nix pkgs;
   firefox = import ./firefox pkgs;
 
@@ -128,7 +128,7 @@
   readline = {
     enable = true;
     extraConfig = ''
-      set keymap vi
+      set editing-mode vi
     '';
   };
 

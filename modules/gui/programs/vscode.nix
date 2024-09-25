@@ -95,6 +95,7 @@
     esbenp.prettier-vscode
     github.copilot
     github.copilot-chat
+    github.vscode-github-actions
     gruntfuggly.todo-tree
     humao.rest-client
     jnoortheen.nix-ide
