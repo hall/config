@@ -1,9 +1,6 @@
 { config, pkgs, flake, ... }: {
   laptop.enable = true;
-  hardware = {
-    graphics.enable = true;
-    sensor.iio.enable = true; # autorotate
-  };
+  hardware.sensor.iio.enable = true; # autorotate
 
   # musnix.enable = true;
   programs.adb.enable = true;
@@ -13,13 +10,13 @@
   ];
 
   services = {
-    acpid.enable = true;
     tailscale = {
       enable = true;
       extraSetFlags = [
         "--ssh"
         # "--exit-node=server"
         "--operator=${flake.lib.username}"
+        "--accept-routes"
       ];
     };
     printing.enable = true;
@@ -27,7 +24,6 @@
     #   enable = true;
     #   kernel = "controlC1";
     # };
-    wifi.enable = true;
     xserver.wacom.enable = true;
     udev.packages = [ pkgs.qmk-udev-rules ];
   };

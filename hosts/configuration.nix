@@ -37,7 +37,10 @@
 
   security.sudo.execWheelOnly = true;
 
-  fonts.packages = with pkgs; [ hack-font ];
+  fonts.packages = with pkgs; [
+    hack-font
+    font-awesome
+  ];
 
   stylix = {
     enable = true;

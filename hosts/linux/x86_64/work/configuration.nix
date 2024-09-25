@@ -3,6 +3,7 @@
 
   imports = [
     flake.inputs.hardware.nixosModules.lenovo-thinkpad-p1
+    flake.inputs.hardware.nixosModules.common-gpu-nvidia
     ./nvidia.nix
   ];
 
@@ -32,6 +33,16 @@
     };
   };
 
+
+  # TEMP
+  # virtualisation.libvirtd = {
+  #   enable = true;
+  #   allowedBridges = [ "tailscale0" "br0" ];
+  #   qemu.runAsRoot = true;
+  # };
+  # programs.virt-manager.enable = true;
+  # users.extraGroups.vboxusers.members = [ flake.lib.username ];
+  # /TEMP
 
   home-manager.users.${flake.lib.username} = {
     wayland.windowManager.sway.config = {
