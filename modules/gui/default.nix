@@ -52,7 +52,7 @@ in
     };
 
     home-manager.users.${flake.lib.username} = {
-      programs = import ./programs { inherit pkgs flake config lib; };
+      programs = import ./programs.nix { inherit pkgs flake config lib; };
       services = {
         mako = {
           enable = true;

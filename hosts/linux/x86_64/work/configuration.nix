@@ -7,21 +7,21 @@
     ./nvidia.nix
   ];
 
-  services = {
-    tailscale = {
-      enable = true;
-      useRoutingFeatures = "client";
-      extraSetFlags = [
-        "--accept-routes"
-        "--operator=${flake.lib.username}"
-      ];
-    };
+  services.tailscale = {
+    enable = true;
+    useRoutingFeatures = "client";
+    extraSetFlags = [
+      "--accept-routes"
+      "--operator=${flake.lib.username}"
+    ];
   };
 
   environment.systemPackages = with pkgs; [
-    globalprotect-openconnect
-    rancher
     _1password-gui
+    awscli2
+    globalprotect-openconnect
+    logseq
+    rancher
     seabird
   ];
 
@@ -60,14 +60,6 @@
         { workspace = "web"; output = "DP-5"; }
       ];
     };
-  };
-
-  home = {
-    enable = true;
-    packages = with pkgs; [
-      awscli2
-      logseq
-    ];
 
     programs = {
       bash.shellAliases = {
@@ -128,5 +120,4 @@
       };
     };
   };
-
 }
