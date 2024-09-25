@@ -55,9 +55,9 @@
         };
       };
       workspaceOutputAssign = [
-        { workspace = "notes"; output = "eDP-1"; }
-        { workspace = "ide"; output = "DP-6"; }
-        { workspace = "web"; output = "DP-5"; }
+        { workspace = "1"; output = "eDP-1"; }
+        { workspace = "2"; output = "DP-6"; }
+        { workspace = "3"; output = "DP-5"; }
       ];
     };
 

@@ -124,14 +124,14 @@ in
             { command = "firefox"; }
           ];
           assigns = {
-            "1: notes" = [{ class = "^Logseq$"; }];
-            "2: web" = [{ class = "^Firefox$"; }];
-            "3: ide" = [{ class = "^Code$"; }];
+            "1" = [{ app_id = "Logseq"; }];
+            "2" = [{ app_id = "firefox"; }];
+            "3" = [{ app_id = "^code"; }];
           };
           workspaceOutputAssign = [
-            { output = "eDP-1"; workspace = "notes"; }
-            { output = "DP-6"; workspace = "web"; }
-            { output = "DP-5"; workspace = "ide"; }
+            { workspace = "1"; output = "eDP-1"; }
+            { workspace = "2"; output = "DP-6"; }
+            { workspace = "3"; output = "DP-5"; }
           ];
           output = {
             eDP-1.pos = "0 0";
