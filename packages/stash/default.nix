@@ -10,10 +10,10 @@
 }:
 stdenv.mkDerivation rec {
   name = "stash-bin";
-  version = "0.26.2";
+  version = "0.27.0";
 
   executable = fetchurl {
-    sha256 = "4ZP83dMEHK3CTpUC5XYuZ2gCBdlfW7gpXYCbZsWAAB8=";
+    hash = "sha256-1M32AKWz0ViobVnoZjsfXRW1aBI+WnudKh6wPFDOLcc=";
     url = "https://github.com/stashapp/stash/releases/download/v${version}/stash-linux";
     executable = true;
   };
