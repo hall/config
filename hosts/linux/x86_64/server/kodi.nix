@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, flake, ... }:
 let
   kodi = pkgs.kodi-gbm.withPackages (p: with p; [
     # artic: zephyr - reloaded
@@ -7,7 +7,7 @@ let
     # hulu
     # crunchyroll
     jellyfin
-    joystick
+    # joystick
     # youtube
     steam-library
     # steam-launcher # doesn't work?
@@ -38,7 +38,7 @@ in
       RuntimeDirectory = "kodi";
       # tODO: fails to start so manually created for now
       # ExecStartPre = "ln -fs /dev/null $STATE_DIRECTORY/temp/kodi.log";
-      ExecStart = "${kodi}/bin/kodi-standalone --logging=console";
+      ExecStart = "${kodi}/bin/kodi-standalone --logging=console --audio-backend=alsa";
       ExecStop = "${pkgs.procps}/bin/pkill kodi";
     };
   };
@@ -48,8 +48,7 @@ in
     # lirc.enable = true;
   };
 
-  home = {
-    enable = true;
+  home-manager.users.${flake.lib.username} = {
     programs.kodi = {
       # enable = true;
       package = kodi;
@@ -61,7 +60,7 @@ in
       };
       # settings = {};
     };
-    file = {
+    home.file = {
       # TODO: this file keeps reverting
       # https://github.com/xbmc/xbmc/blob/d212b0a65700fdfa958f87c9617be3117bd89f16/xbmc/peripherals/devices/PeripheralCecAdapter.cpp#L48
       ".kodi/userdata/peripheral_data/usb_2548_1002_CEC_Adapter.xml".text = ''
