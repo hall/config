@@ -1,0 +1,25 @@
+prometheus.remote_write "default" {
+  endpoint {
+    url = "https://prometheus-prod-13-prod-us-east-0.grafana.net/api/prom/push"
+    basic_auth {
+      username = sys.env("PROMETHEUS_USERNAME")
+      password = sys.env("GRAFANA_PASSWORD")
+    }
+  }
+}
+
+prometheus.relabel "all" {
+  forward_to = [prometheus.remote_write.default.receiver]
+  rule {
+    action       = "replace"
+    target_label = "instance"
+    replacement  = constants.hostname
+  }
+}
+
+prometheus.exporter.unix "localhost" {}
+
+prometheus.scrape "node" {
+  forward_to = [prometheus.relabel.all.receiver]
+  targets    = prometheus.exporter.unix.localhost.targets
+}

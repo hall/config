@@ -114,33 +114,39 @@
     #   name = "draw";
     #   publisher = "hall";
     #   version = "0.1.21";
-    #   sha256 = "sha256-pOZwuvUJWaEQn1zdHHTNvzK8KUS46Np5wuR7GDFGtis=";
+    #   hash = "sha256-pOZwuvUJWaEQn1zdHHTNvzK8KUS46Np5wuR7GDFGtis=";
     # }
     {
       # to generate conf hosts task list
       name = "tasks-shell-input";
       publisher = "augustocdias";
       version = "1.7.0";
-      sha256 = "sha256-s+kh3sFPmKTwyhumSeBnhFrdUV92CWvVjBMFUykipAE=";
+      hash = "sha256-s+kh3sFPmKTwyhumSeBnhFrdUV92CWvVjBMFUykipAE=";
     }
     # {
     #   # for effects package
     #   name = "vscode-faust";
     #   publisher = "glen-anderson";
     #   version = "1.1.0";
-    #   sha256 = "sha256-1aoyIN8qbMd2j3UnHUVe1YG9kmuCW/KXVkn5z7Z2SjU=";
+    #   hash = "sha256-1aoyIN8qbMd2j3UnHUVe1YG9kmuCW/KXVkn5z7Z2SjU=";
     # }
     # {
     #   name = "vscode-reveal";
     #   publisher = "evilz";
     #   version = "4.3.3";
-    #   sha256 = "sha256-KqvQi0DMfHppX96qKHIkO9zIueBdGGV+6dYkpFEzFBo=";
+    #   hash = "sha256-KqvQi0DMfHppX96qKHIkO9zIueBdGGV+6dYkpFEzFBo=";
     # }
     {
       name = "QML";
       publisher = "bbenoist";
       version = "1.0.0";
-      sha256 = "sha256-tphnVlD5LA6Au+WDrLZkAxnMJeTCd3UTyTN1Jelditk=";
+      hash = "sha256-tphnVlD5LA6Au+WDrLZkAxnMJeTCd3UTyTN1Jelditk=";
+    }
+    {
+      name = "grafana-alloy";
+      publisher = "Grafana";
+      version = "0.2.0";
+      hash = "sha256-XcoiEDCPp6GzYQDhJArZBEWxSnZrSTHofIyLFegsbh0=";
     }
   ];
   keybindings = [

@@ -1,0 +1,24 @@
+loki.write "default" {
+  endpoint {
+    url = "https://logs-prod-006.grafana.net/loki/api/v1/push"
+    
+    basic_auth {
+      username = sys.env("LOKI_USERNAME")
+      password = sys.env("GRAFANA_PASSWORD")
+    }
+  }
+}
+
+loki.relabel "journal" {
+  forward_to = []
+  rule {
+    source_labels = ["__journal__systemd_unit"]
+    target_label  = "unit"
+  }
+}
+
+loki.source.journal "default" {
+  forward_to    = [loki.write.default.receiver]
+  relabel_rules = loki.relabel.journal.rules
+  labels        = { instance = constants.hostname }
+}

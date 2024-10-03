@@ -1,0 +1,11 @@
+otelcol.exporter.otlp "default" {
+  client {
+    endpoint = "tempo-prod-04-prod-us-east-0.grafana.net:443"
+    auth = otelcol.auth.basic.default.handler
+  }
+}
+
+otelcol.auth.basic "default" {
+  username = sys.env("OTELCOL_USERNAME")
+  password = sys.env("GRAFANA_PASSWORD")
+}

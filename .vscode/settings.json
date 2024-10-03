@@ -9,6 +9,7 @@
         "disko",
         "luks",
         "nixos",
+        "otelcol",
         "touchpad",
         "tridactyl",
     ]

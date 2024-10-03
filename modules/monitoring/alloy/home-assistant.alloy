@@ -1,0 +1,21 @@
+discovery.relabel "metrics_integrations_integrations_hass" {
+	targets = [{
+		__address__ = "localhost:8123",
+	}]
+	rule {
+		target_label = "instance"
+		replacement  = constants.hostname
+	}
+}
+    
+prometheus.scrape "metrics_integrations_integrations_hass" {
+	targets      = discovery.relabel.metrics_integrations_integrations_hass.output
+	forward_to   = [prometheus.remote_write.default.receiver]
+	job_name     = "integrations/hass"
+	metrics_path = "/api/prometheus"
+	scheme       = "http"
+	authorization {
+		type        = "Bearer"
+		credentials = sys.env("HASS_TOKEN")
+	}
+}

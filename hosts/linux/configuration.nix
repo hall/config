@@ -1,8 +1,5 @@
 { flake, lib, ... }: {
-
-  imports = [
-    ./monitoring.nix
-  ];
+  monitoring.enable = true;
 
   # don't wait to pick a boot entry (press enter to activate prompt)
   boot.loader.timeout = lib.mkForce 0; # TODO: 0 waits forever?
