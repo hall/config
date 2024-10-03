@@ -21,6 +21,7 @@
         pyipp
         python-otbr-api
         roombapy
+        venstarcolortouch
         zeroconf
       ];
       # `/var/lib` is harder to write to declaratively :/
@@ -28,15 +29,19 @@
       config = {
         # https://www.home-assistant.io/integrations/default_config/
         default_config = { };
+        zeroconf = { };
         recorder.db_url = "postgresql://@/hass";
         http = {
           server_host = "::1";
           trusted_proxies = [ "::1" ];
           use_x_forwarded_for = true;
         };
+        prometheus = { };
         homeassistant = {
-          unit_system = "metric";
-          temperature_unit = "C";
+          external_url = "https://home.${flake.lib.hostname}";
+          # TODO: be less imperial swine :)
+          # unit_system = "metric";
+          # temperature_unit = "C";
           # longitude = 0;
           # latitude = 0;
         };
@@ -112,7 +117,6 @@
         ensureDBOwnership = true;
       }];
     };
-
   };
 
   # this thing tries to symlink to `/etc/home-assistant`
