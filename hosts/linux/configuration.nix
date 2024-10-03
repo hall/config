@@ -19,9 +19,15 @@
     };
   };
 
-  age.secrets.luks = {
-    rekeyFile = ./luks.age;
-    owner = flake.lib.username;
+  age.secrets = {
+    luks = {
+      rekeyFile = ./luks.age;
+      owner = flake.lib.username;
+    };
+    grafana = {
+      rekeyFile = ./grafana.age;
+      owner = flake.lib.username;
+    };
   };
 
   security = {

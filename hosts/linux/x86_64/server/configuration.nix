@@ -45,6 +45,7 @@
     ./home.nix
     ./media.nix
     ./kodi.nix
+    ./monitoring.nix
     flake.inputs.hardware.nixosModules.intel-nuc-8i7beh
   ];
 
@@ -180,10 +181,17 @@
           ];
         };
         filtering = {
-          rewrites = [{
-            domain = "*.${flake.lib.hostname}";
-            answer = "192.168.86.2";
-          }];
+          rewrites = [
+            {
+              # NOTE: this is just for split DNS, actual record in namecheap
+              domain = "grafana.${flake.lib.hostname}";
+              answer = "thehalls.grafana.net";
+            }
+            {
+              domain = "*.${flake.lib.hostname}";
+              answer = "192.168.86.2";
+            }
+          ];
         };
         dhcp = {
           enabled = false;
