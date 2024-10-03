@@ -208,7 +208,6 @@
 
     nginx = {
       enable = true;
-      logError = "stderr debug";
       # recommendedGzipSettings = true;
       # recommendedOptimisation = true;
       recommendedProxySettings = true;
