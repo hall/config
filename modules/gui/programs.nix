@@ -1,33 +1,6 @@
-{ pkgs, flake, ... }: {
+{ pkgs, ... }: {
   vscode = import ./vscode.nix pkgs;
   firefox = import ./firefox pkgs;
-
-  ssh = {
-    enable = true;
-    matchBlocks = {
-      gitlab = {
-        host = "gitlab.com";
-        user = "git";
-      };
-      github = {
-        host = "github.com";
-        user = "git";
-      };
-    };
-  };
-
-  git = {
-    enable = true;
-    userName = flake.lib.name;
-    userEmail = flake.lib.email;
-    # difftastic.enable = true;
-    lfs.enable = true;
-    extraConfig = {
-      init.defaultBranch = "main";
-      pull.rebase = false;
-      commit.verbose = true;
-    };
-  };
 
   swaylock = {
     enable = true;
@@ -95,52 +68,6 @@
     '';
   };
 
-
-  direnv = {
-    enable = true;
-    nix-direnv.enable = true;
-  };
-
-  fzf.enable = true;
-  ripgrep.enable = true;
-
-  gh = {
-    enable = true;
-    settings.git_protocol = "ssh";
-  };
-  htop = { enable = true; };
-  jq = { enable = true; };
-  # obs-studio = { enable = true; };
-  # font
-  # keychain
-
-  bash = {
-    enable = true;
-    shellAliases = {
-      cd = "z";
-      awsp = ''export AWS_PROFILE=$(sed -n "s/\[profile \(.*\)\]/\1/gp" ~/.aws/config | ${pkgs.fzf}/bin/fzf)'';
-    };
-    # initExtra = ''
-    #   set -o vi
-    # '';
-  };
-
-  readline = {
-    enable = true;
-    extraConfig = ''
-      set editing-mode vi
-    '';
-  };
-
-  starship.enable = true;
-
-  zoxide.enable = true;
-
-  yazi = {
-    enable = true;
-    enableBashIntegration = true;
-  };
-
   k9s.enable = true;
 
   foot = {
@@ -148,17 +75,5 @@
     settings.mouse.hide-when-typing = "yes";
   };
 
-  tmux = {
-    enable = true;
-    shortcut = "a";
-    escapeTime = 0;
-    keyMode = "vi";
-  };
-
-  neovim = {
-    enable = true;
-    viAlias = true;
-    vimAlias = true;
-  };
 }
  
