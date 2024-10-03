@@ -45,7 +45,6 @@
     ./home.nix
     ./media.nix
     ./kodi.nix
-    ./monitoring.nix
     flake.inputs.hardware.nixosModules.intel-nuc-8i7beh
   ];
 
