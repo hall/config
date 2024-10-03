@@ -9,16 +9,28 @@ loki.write "default" {
   }
 }
 
-loki.relabel "journal" {
-  forward_to = []
+loki.source.journal "default" {
+  forward_to    = [loki.write.default.receiver]
+  relabel_rules = discovery.relabel.journal.rules
+  labels        = { instance = constants.hostname }
+}
+
+discovery.relabel "journal" {
+  targets = []
   rule {
     source_labels = ["__journal__systemd_unit"]
     target_label  = "unit"
   }
-}
-
-loki.source.journal "default" {
-  forward_to    = [loki.write.default.receiver]
-  relabel_rules = loki.relabel.journal.rules
-  labels        = { instance = constants.hostname }
+  rule {
+    source_labels = ["__journal__boot_id"]
+    target_label  = "boot_id"
+  }
+  rule {
+    source_labels = ["__journal__transport"]
+    target_label  = "transport"
+  }
+  rule {
+    source_labels = ["__journal_priority_keyword"]
+    target_label  = "level"
+  }
 }
