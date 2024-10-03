@@ -2,5 +2,12 @@
     "files.exclude": {
         "**/.git": true,
         "**/.direnv": true
-    }
+    },
+    "cSpell.words": [
+        "agenix",
+        "direnv",
+        "disko",
+        "touchpad",
+        "tridactyl",
+    ]
 }
