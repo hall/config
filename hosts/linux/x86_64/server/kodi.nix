@@ -93,5 +93,28 @@ in
       '';
     };
   };
+
+  systemd.services.cec-toggle.serviceConfig = {
+    Type = "oneshot";
+    ExecStart = pkgs.writeShellScript "cec-toggle" ''
+      if ${pkgs.procps}/bin/pgrep kodi &> /dev/null 2>&1; then
+        ${pkgs.curl}/bin/curl --silent -X POST -H 'Content-Type: application/json' http://localhost:8080/jsonrpc -d '${builtins.toJSON {
+          id = 1;
+          jsonrpc = "2.0";
+          method = "Addons.ExecuteAddon";
+          params = {
+            addonid = "script.json-cec";
+            params.command = "toggle";
+          };
+        }}'
+      else
+        if echo pow 0 | ${pkgs.libcec}/bin/cec-client -s -d 1 | ${pkgs.gnugrep}/bin/grep -q "status: on"; then
+          COMMAND=standby
+        fi
+        echo ''${COMMAND:-on} 0 | ${pkgs.libcec}/bin/cec-client -s -d 1
+      fi
+    '';
+  };
+
 }
 
