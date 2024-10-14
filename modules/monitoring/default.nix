@@ -6,8 +6,7 @@ with lib; {
   config = {
     systemd.services.alloy.serviceConfig.EnvironmentFile = config.age.secrets.grafana.path;
     # changes done in the grafana cloud console
-    #  - /connections/add-new-connection/linux-node
-    #  - /connections/add-new-connection/hass
+    #  - connections: linux-node, postgres, hass
     services.alloy = {
       enable = true;
       extraFlags = [
