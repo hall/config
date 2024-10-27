@@ -24,6 +24,8 @@
     logseq
     rancher
     seabird
+
+    kubie
   ];
 
   age = {
