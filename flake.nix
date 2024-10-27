@@ -6,6 +6,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hardware.url = "github:nixos/nixos-hardware";
+    impermanence.url = "github:nix-community/impermanence";
     nur.url = "github:nix-community/NUR";
     agenix = {
       url = "github:ryantm/agenix";
@@ -62,6 +63,7 @@
           # musnix
           rekey
         ]) ++ [
+          impermanence.nixosModules.impermanence
           stylix.nixosModules.stylix
           nur.nixosModules.nur
           ({ ... }: {
@@ -102,7 +104,7 @@
             deploy-rs
             inputs.rekey.packages.${system}.default
             nixos-anywhere
-            # nixos-rebuild build "$@" && nvd diff /run/current-system result
+            # nixos-rebuild build --flake "$@" && nvd diff /run/current-system result
             nvd
           ];
         };

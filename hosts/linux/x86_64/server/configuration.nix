@@ -83,6 +83,37 @@
       "autovt@tty1".enable = false;
     };
   };
+  environment.persistence."/persist" = {
+    # hideMounts = true;
+    directories =
+      # config.services.restic.backups.remote.paths ++
+      [
+        "/var/lib/media"
+        "/var/lib/nixos" # uid/gid mappings
+
+        # TODO: transmissions doesn't start w/o this directory
+        "/var/lib/media/downloads/incomplete"
+
+        {
+          directory = "/etc/home-assistant";
+          user = "hass";
+          group = "hass";
+        }
+
+        # TODO: pull from restic
+        "/var/lib/kodi"
+        "/var/lib/sonarr"
+        "/var/lib/radarr"
+        "/var/lib/lidarr"
+        "/var/lib/prowlarr"
+        "/var/lib/jellyfin"
+        "/var/lib/jellyseerr"
+        "/var/lib/postgresql"
+      ];
+    # files = [
+    #   "/etc/home-assistant/automations.yaml"
+    # ];
+  };
 
   services = {
     stash = {
