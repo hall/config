@@ -69,8 +69,7 @@
     };
   };
 
-  # rekey.hostPubkey = (builtins.head config.nix.buildMachines).publicHostKey;
-  age.rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFt04Q7AY48Q5tJxFPxjJ3BZpBaR++R0jHRq7JVtBbkL";
+  age.rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGOxaUk80jfFnvezJw5J34OdAIC1/fBhZXFeaC/x9Bl1";
 
   systemd = {
     targets = {

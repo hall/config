@@ -23,7 +23,21 @@ A `configuration.nix` at any level applies to all hosts within its directory.
 
 Boot to the NixOS installer, set a `passwd` for SSH access then
 
-    nixos-anywhere -f '.#${hostname}' nixos@nixos
-    # set `age.rekey.hostPubKey`
-    ssh-keyscan nixos | grep ed25519 | wl-copy
-    agenix rekey
+    ssh nixos@nixos sudo mkdir /run/agenix
+    nixos-anywhere -f '.#${hostname}' \
+      --disk-encryption-keys /run/agenix/luks luks \
+    nixos@nixos
+    # update `nixosConfigurations.${hostname}.age.rekey.hostPubkey
+    ssh-keyscan -qt ed25519 ${hostname} | cut -d' ' -f2- | wl-copy
+    agenix rekey -a
+    deploy '.#${hostname}'
+    # update syncthing ID
+
+### custom
+
+> *NOTE*: WIP, needs automatic secret decryption (e.g., luks key)
+
+Build, flash, and boot to an installer:
+
+    nix build '.#nixosConfigurations.installer.config.system.build.isoImage'
+    dd if=result/iso/*.iso of=/dev/sda bs=4M status=progress conv=fdatasync
