@@ -9,6 +9,9 @@
     1716 # gsconnect
   ];
 
+  # TODO: remove after migrating to new btrfs config
+  imports = [ ../disks.ext4.nix ];
+
   services = {
     tailscale = {
       enable = true;

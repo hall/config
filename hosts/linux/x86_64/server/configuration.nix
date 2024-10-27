@@ -49,6 +49,7 @@
     ./gaming.nix
     ./networking
     flake.inputs.hardware.nixosModules.intel-nuc-8i7beh
+    ../disks.btrfs.nix
   ];
 
   networking = {

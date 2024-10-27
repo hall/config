@@ -5,6 +5,7 @@
     flake.inputs.hardware.nixosModules.lenovo-thinkpad-p1
     flake.inputs.hardware.nixosModules.common-gpu-nvidia
     ./nvidia.nix
+    ../disks.btrfs.nix
   ];
 
   services.tailscale = {

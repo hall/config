@@ -1,8 +1,4 @@
-{ pkgs, ... }:
-{
-  imports = [
-    ./disks.nix
-  ];
+{ pkgs, ... }: {
 
   boot = {
     consoleLogLevel = 0;
