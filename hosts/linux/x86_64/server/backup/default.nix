@@ -46,6 +46,7 @@
         "/var/lib/jellyfin"
         "/var/lib/jellyseerr"
         "/var/lib/postgresql"
+        "/etc/home-assistant"
       ];
     };
     prometheus.exporters = {
