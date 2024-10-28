@@ -1,16 +1,18 @@
 {
-    "files.exclude": {
-        "**/.git": true,
-        "**/.direnv": true
-    },
-    "cSpell.words": [
-        "agenix",
-        "direnv",
-        "disko",
-        "luks",
-        "nixos",
-        "otelcol",
-        "touchpad",
-        "tridactyl",
-    ]
+  "files.exclude": {
+    "**/.git": true,
+    "**/.direnv": true
+  },
+  "cSpell.words": [
+    "agenix",
+    "direnv",
+    "disko",
+    "luks",
+    "nixos",
+    "otelcol",
+    "Pubkey",
+    "syncthing",
+    "touchpad",
+    "tridactyl"
+  ]
 }

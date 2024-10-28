@@ -9,7 +9,6 @@
 , mkShell
 , freecad
   # , flake
-, poetry2nix
 , fetchFromGitHub
 , python3Packages
 , python3
