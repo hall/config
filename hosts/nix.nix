@@ -7,6 +7,7 @@
       "steam"
       "steam-original"
       "steam-run"
+      "steam-unwrapped"
       "vscode"
       "vscode-extension-github-copilot"
       "vscode-extension-github-copilot-chat"
@@ -46,8 +47,8 @@
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       ];
       trusted-substituters = [
-        "https://hydra.nixos.org"
         "https://cache.nixos.org"
+        "https://hydra.nixos.org"
         "https://nix-community.cachix.org"
       ];
     };
@@ -55,7 +56,8 @@
     distributedBuilds = true;
     buildMachines = with flake.nixosConfigurations.server.config; [{
       hostName = networking.hostName;
-      publicHostKey = age.rekey.hostPubkey;
+      # TODO: base64 encode
+      # publicHostKey = age.rekey.hostPubkey;
       sshUser = flake.lib.username;
       # TODO: sshKey = config.age.secrets.id_ed25519.path;
       sshKey = "/home/${flake.lib.username}/.ssh/id_ed25519";
