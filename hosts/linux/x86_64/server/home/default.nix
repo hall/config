@@ -1,4 +1,8 @@
 { flake, lib, ... }: {
+  imports = with builtins; (map (v: ./${v})
+    (filter (v: v != "default.nix")
+      (attrNames (readDir ./.))));
+
   services = {
     home-assistant = {
       enable = true;
@@ -19,6 +23,7 @@
         psycopg2
         pychromecast
         pyipp
+        pyschlage
         python-otbr-api
         roombapy
         venstarcolortouch
@@ -30,7 +35,6 @@
         # https://www.home-assistant.io/integrations/default_config/
         default_config = { };
         zeroconf = { };
-        recorder.db_url = "postgresql://@/hass";
         http = {
           server_host = "::1";
           trusted_proxies = [ "::1" ];
@@ -55,6 +59,11 @@
           };
         };
         frontend.themes = "!include_dir_merge_named themes";
+        sensor = {
+          platform = "worxlandroid";
+          host = "robotic-mower";
+          pin = "0121";
+        };
         notify = [{
           platform = "group";
           name = "phones";
@@ -109,31 +118,17 @@
       };
     };
 
-    mosquitto = {
-      enable = true;
-      listeners = [{
-        acl = [ "pattern readwrite #" ];
-        omitPasswordAuth = true;
-        settings.allow_anonymous = true;
-      }];
-    };
-
-    postgresql = {
-      enable = true;
-      ensureDatabases = [ "hass" ];
-      ensureUsers = [
-        { name = "hass"; ensureDBOwnership = true; }
-        { name = "alloy"; }
-      ];
-    };
   };
 
   # this thing tries to symlink to `/etc/home-assistant`
   systemd.services.home-assistant.preStart = lib.mkForce "";
 
+  # remove redundant logging https://community.home-assistant.io/t/disable-logging-to-file/79496
+  system.activationScripts.home-assistant-disable-logging = ''
+    ln -sf /dev/null /etc/home-assistant/home-assistant.log
+  '';
+
   environment.etc = lib.mapAttrs' (name: value: lib.nameValuePair "home-assistant/${name}" value) {
-    # remove redundant logging https://community.home-assistant.io/t/disable-logging-to-file/79496
-    "home-assistant.log".source = "/dev/null";
     "dashboards/media.yaml".text = builtins.toJSON {
       views = builtins.map
         (view: {
@@ -145,21 +140,6 @@
             url = "https://${view}.${flake.lib.hostname}";
           }];
         }) [ "player" "requests" "downloads" "movies" "shows" "music" "indexer" ];
-    };
-    "www/sidebar-config.json".text = builtins.toJSON {
-      sidebar_editable = false;
-      order = [
-        { item = "overview"; }
-        { item = "energy"; }
-        { item = "to-do lists"; }
-        { item = "hacs"; bottom = true; }
-        { item = "map"; bottom = true; }
-        { item = "developer tools"; bottom = true; }
-        { item = "settings"; bottom = true; }
-        { item = "media-browser"; hide = true; }
-        { item = "logbook"; hide = true; }
-        { item = "history"; hide = true; }
-      ];
     };
   };
 }

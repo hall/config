@@ -41,7 +41,7 @@
   };
 
   imports = [
-    ./home.nix
+    ./home
     ./media.nix
     ./kodi.nix
     ./backup
