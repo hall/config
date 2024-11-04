@@ -17,6 +17,7 @@ in
     age.secrets.wifi.rekeyFile = ./wifi.age;
     # TODO: fails for some reason
     systemd.services.NetworkManager-wait-online.enable = false;
+    systemd.services.NetworkManager-ensure-profiles.after = [ "NetworkManager-wait-online.service" ];
 
     networking.wireless.enable = false;
     networking.networkmanager = {
@@ -38,9 +39,7 @@ in
             id = "hall";
             type = "wifi";
           };
-          ipv4 = {
-            method = "auto";
-          };
+          ipv4.method = "auto";
           ipv6 = {
             addr-gen-mode = "stable-privacy";
             method = "auto";

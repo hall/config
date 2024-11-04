@@ -2,9 +2,7 @@
   gui.enable = true;
 
   imports = [
-    flake.inputs.hardware.nixosModules.lenovo-thinkpad-p1
-    flake.inputs.hardware.nixosModules.common-gpu-nvidia
-    ./nvidia.nix
+    # flake.inputs.hardware.nixosModules.lenovo-thinkpad-p1
     ../disks.btrfs.nix
   ];
 
@@ -30,7 +28,7 @@
   ];
 
   age = {
-    rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILHMMzIlTFJ050LOC+3G0gC65pxrHf1TvPtgvAApXiUq";
+    rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICtegsCCYeSRqG2DQ5TqQk9l1xzN/44owSFplc2NygN4";
     secrets.id_work = {
       rekeyFile = ./id_work.age;
       owner = flake.lib.username;
@@ -49,23 +47,20 @@
   # /TEMP
 
   home-manager.users.${flake.lib.username} = {
-    wayland.windowManager.sway = {
-      extraOptions = [ "--unsupported-gpu" ];
-      config = {
-        output = {
-          eDP-1.scale = "1.5";
-          DP-3.pos = "0 -1080";
-          DP-4 = {
-            pos = "-1080 -1080";
-            transform = "90";
-          };
+    wayland.windowManager.sway.config = {
+      output = {
+        eDP-1.scale = "1.5";
+        DP-3.pos = "0 -1080";
+        DP-4 = {
+          pos = "-1080 -1080";
+          transform = "90";
         };
-        workspaceOutputAssign = [
-          { workspace = "1"; output = "eDP-1"; }
-          { workspace = "2"; output = "DP-4"; }
-          { workspace = "3"; output = "DP-3"; }
-        ];
       };
+      workspaceOutputAssign = [
+        { workspace = "1"; output = "eDP-1"; }
+        { workspace = "2"; output = "DP-4"; }
+        { workspace = "3"; output = "DP-3"; }
+      ];
     };
 
     programs = {

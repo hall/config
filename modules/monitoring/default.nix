@@ -14,12 +14,39 @@ with lib; {
         "--disable-reporting"
       ];
     };
-    environment.etc = with builtins; listToAttrs (map
-      (path: {
-        name = "alloy/${path}";
-        value.source = ./alloy/${path};
-      })
-      (attrNames (readDir ./alloy))
-    );
+    environment.etc = with builtins; listToAttrs
+      (map
+        (path: {
+          name = "alloy/${path}";
+          value.source = ./alloy/${path};
+        })
+        (attrNames (readDir ./alloy))
+      ) // {
+      "alloy/nixos.alloy".text = ''
+        prometheus.scrape "nixos" {
+          forward_to = [prometheus.remote_write.default.receiver]
+          targets = [
+            ${concatStringsSep "" (map (exporter: ''
+              {"__address__" = "localhost:${toString exporter.port}"},
+            '')
+            (attrValues (lib.filterAttrs (k: v: v.enable) 
+            (removeAttrs config.services.prometheus.exporters ["assertions" "warnings" "minio" "unifi-poller"])
+            ))
+            )}
+          ]
+        }
+      '';
+    };
+    # services.prometheus.exporters = {
+    #   # zfs
+    #   # wireguard
+    #   # unifi
+    #   # systemd
+    #   # sql
+    #   # nut
+    #   # node
+    #   # nginx
+    #   # exportarr
+    # };
   };
 }
