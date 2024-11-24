@@ -35,6 +35,8 @@
     };
   };
 
+  # 
+  time.timeZone = lib.mkForce "UTC";
 
   # TEMP
   # virtualisation.libvirtd = {
