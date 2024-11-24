@@ -42,7 +42,7 @@
 
   imports = [
     ./home
-    ./media.nix
+    ./media
     ./kodi.nix
     ./backup
     ./gaming.nix
