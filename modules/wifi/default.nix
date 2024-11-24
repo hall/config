@@ -15,9 +15,8 @@ in
 
   config = mkIf cfg.enable {
     age.secrets.wifi.rekeyFile = ./wifi.age;
-    # TODO: fails for some reason
+    # TODO: https://github.com/NixOS/nixpkgs/issues/180175
     systemd.services.NetworkManager-wait-online.enable = false;
-    systemd.services.NetworkManager-ensure-profiles.after = [ "NetworkManager-wait-online.service" ];
 
     networking.wireless.enable = false;
     networking.networkmanager = {
