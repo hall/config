@@ -47,22 +47,6 @@
   # /TEMP
 
   home-manager.users.${flake.lib.username} = {
-    wayland.windowManager.sway.config = {
-      output = {
-        eDP-1.scale = "1.5";
-        DP-3.pos = "0 -1080";
-        DP-4 = {
-          pos = "-1080 -1080";
-          transform = "90";
-        };
-      };
-      workspaceOutputAssign = [
-        { workspace = "1"; output = "eDP-1"; }
-        { workspace = "2"; output = "DP-4"; }
-        { workspace = "3"; output = "DP-3"; }
-      ];
-    };
-
     programs = {
       bash.shellAliases = {
         k = "rancher kubectl";

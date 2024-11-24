@@ -132,13 +132,13 @@ in
           };
           workspaceOutputAssign = [
             { workspace = "1"; output = "eDP-1"; }
-            { workspace = "2"; output = "DP-6"; }
-            { workspace = "3"; output = "DP-5"; }
+            { workspace = "2"; output = "DP-8"; }
+            { workspace = "3"; output = "DP-7"; }
           ];
           output = {
             eDP-1.pos = "0 0";
-            DP-5.pos = "0 -1080";
-            DP-6 = {
+            DP-7.pos = "0 -1080";
+            DP-8 = {
               pos = "-1080 -1080";
               transform = "90";
             };
