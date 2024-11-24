@@ -30,7 +30,7 @@ with lib; {
               {"__address__" = "localhost:${toString exporter.port}"},
             '')
             (attrValues (lib.filterAttrs (k: v: v.enable) 
-            (removeAttrs config.services.prometheus.exporters ["assertions" "warnings" "minio" "unifi-poller"])
+            (removeAttrs config.services.prometheus.exporters ["assertions" "warnings" "minio" "unifi-poller" "tor"])
             ))
             )}
           ]
