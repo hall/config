@@ -22,8 +22,8 @@
         "--operator=${flake.lib.username}"
         "--ssh"
         # "--advertise-exit-node"
-        # "--exit-node-allow-lan-access"
-        # "--exit-node=us-nyc-wg-303.mullvad.ts.net."
+        "--exit-node-allow-lan-access"
+        "--exit-node=us-nyc-wg-604.mullvad.ts.net."
       ];
     };
 
