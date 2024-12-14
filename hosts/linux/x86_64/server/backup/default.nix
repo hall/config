@@ -1,8 +1,12 @@
-{ config, pkgs, lib, ... }: {
+{ config, flake, lib, ... }: {
   age.secrets = {
-    restic.rekeyFile = ./restic.age;
+    restic = {
+      rekeyFile = ./restic.age;
+      owner = flake.lib.username;
+    };
     gcp = {
       rekeyFile = ./gcp.age;
+      owner = flake.lib.username;
       # group = config.services.prometheus.exporters.restic.group;
     };
   };
@@ -21,13 +25,14 @@
 
   services = {
     # manually trigger with: `systemctl start restic-backups-remote`
+    # TODO: add onprem location
     restic.backups.remote = {
       repository = "gs:hall-backups:/";
       initialize = true;
       passwordFile = config.age.secrets.restic.path;
-      # timerConfig.OnCalendar = "sunday 23:00";
+      timerConfig.OnCalendar = "sunday 23:00";
       pruneOpts = [
-        "--keep-daily 7"
+        # "--keep-daily 7"
         "--keep-weekly 4"
         "--keep-monthly 3"
         "--keep-yearly 1"
@@ -36,8 +41,9 @@
       paths = (builtins.filter (x: x != "/var/lib/stash") (lib.mapAttrsToList (name: folder: folder.path) config.services.syncthing.settings.folders)) ++ [
         "/var/lib/media/books"
         "/var/lib/media/music"
-        "/var/lib/media/movies"
-        "/var/lib/media/shows"
+        # TODO: backup only in onprem instead
+        # "/var/lib/media/movies"
+        # "/var/lib/media/shows"
         "/var/lib/private/kodi"
         "/var/lib/sonarr"
         "/var/lib/radarr"
