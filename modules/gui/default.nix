@@ -132,13 +132,13 @@ in
           };
           workspaceOutputAssign = [
             { workspace = "1"; output = "eDP-1"; }
-            { workspace = "2"; output = "DP-8"; }
-            { workspace = "3"; output = "DP-7"; }
+            { workspace = "2"; output = "Dell Inc. DELL S2721NX HLCBZ13"; }
+            { workspace = "3"; output = "Dell Inc. DELL S2721NX 9BZZC23"; }
           ];
           output = {
             eDP-1.pos = "0 0";
-            DP-7.pos = "0 -1080";
-            DP-8 = {
+            "Dell Inc. DELL S2721NX 9BZZC23".pos = "0 -1080";
+            "Dell Inc. DELL S2721NX HLCBZ13" = {
               pos = "-1080 -1080";
               transform = "90";
             };
