@@ -25,6 +25,7 @@
     seabird
 
     kubie
+    slack
   ];
 
   age = {
