@@ -96,23 +96,30 @@
         "browser.startup.homepage" = "about:blank";
         "browser.startup.page" = 3; # restore previous session
         "browser.tabs.drawInTitlebar" = false;
+        "browser.tabs.warnOnCloseOtherTabs" = false;
         "browser.toolbars.bookmarks.visibility" = "never";
         # use theme for browser content and toolbar
         "browser.theme.content-theme" = 0;
         "browser.theme.toolbar-theme" = 0;
         "browser.uidensity" = 1; # compact
+        "browser.ctrlTab.sortByRecentlyUsed" = true;
+
+        # auto-enable extensions
+        "extensions.autoDisableScopes" = 0;
         "extensions.pocket.enabled" = false;
+
         "geo.enabled" = false;
         "print.tab_modal.enabled" = false;
         "signon.rememberSignons" = false;
         "svg.context-properties.content.enabled" = true;
         "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
-        "browser.tabs.warnOnCloseOtherTabs" = false;
-        # auto-enable extensions
-        "extensions.autoDisableScopes" = 0;
+
         # don't allow sites to steal keyboard input
         # TODO: breaks tridactyl `esc` :/
         # "permissions.default.shortcuts" = 2;
+
+        # https://bugzilla.mozilla.org/show_bug.cgi?id=1818517#c1
+        "widget.gtk.ignore-bogus-leave-notify" = 1;
       };
     };
 }
