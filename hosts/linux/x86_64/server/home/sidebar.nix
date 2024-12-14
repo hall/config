@@ -1,18 +1,21 @@
 { config, ... }: {
   services.home-assistant.config.frontend.extra_module_url = [
-    "/hacsfiles/custom-sidebar/custom-sidebar-json.js?v1.0.0"
+    "/hacsfiles/custom-sidebar/custom-sidebar-json.js?v6.5.0"
   ];
-  environment.etc."${config.services.home-assistant.configDir}/www/sidebar-config.json".text = builtins.toJSON {
+  environment.etc."home-assistant/www/sidebar-config.json".text = builtins.toJSON {
     sidebar_editable = false;
     order = [
       { item = "overview"; }
+      { item = "lovelace-media"; match = "data-panel"; }
+      { item = "to-do"; name = "TODO"; }
       { item = "energy"; }
-      { item = "to-do lists"; }
+
       { item = "hacs"; bottom = true; }
-      { item = "map"; bottom = true; }
-      { item = "developer tools"; bottom = true; }
+      { item = "Developer tools"; bottom = true; }
       { item = "settings"; bottom = true; }
-      { item = "media-browser"; hide = true; }
+
+      { item = "map"; bottom = true; hide = true; }
+      { item = "media-browser"; hide = true; match = "data-panel"; }
       { item = "logbook"; hide = true; }
       { item = "history"; hide = true; }
     ];
