@@ -1,4 +1,4 @@
-{ lib, ... }: {
+{ flake, lib, ... }: {
   services.home-assistant.config.lovelace = {
     mode = "yaml";
     dashboards.lovelace-media = {
