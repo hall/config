@@ -87,52 +87,6 @@
             { action = "mobile_app_pixel_8_pro"; }
           ];
         }];
-        "automation ui" = "!include automations.yaml";
-        "automation manual" = [
-          {
-            alias = "notify of new media";
-            trigger = [{
-              platform = "webhook";
-              webhook_id = "media";
-              allowed_methods = [ "POST" ];
-              local_only = true;
-            }];
-            action = [{
-              service = "notify.phones";
-              data = {
-                title = "{{ trigger.json.title }}";
-                message = "{{ trigger.json.message }}";
-              };
-            }];
-          }
-          {
-            alias = "vacuum schedule";
-            mode = "single";
-            triggers = [{
-              trigger = "time";
-              at = "10:00";
-            }];
-            conditions = [{
-              condition = "time";
-              weekday = [ "mon" "thu" ];
-            }];
-            actions = [{
-              action = "vacuum.start";
-              target.entity_id = "vacuum.roomba";
-            }];
-          }
-          {
-            alias = "set default theme";
-            trigger = {
-              platform = "homeassistant";
-              event = "start";
-            };
-            action = {
-              service = "frontend.set_theme";
-              data.name = "midnight";
-            };
-          }
-        ];
       };
     };
 
