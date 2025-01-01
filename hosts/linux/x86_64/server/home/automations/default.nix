@@ -1,5 +1,5 @@
-{}: {
+{ ... }: {
   services.home-assistant.config.automation = with builtins;
-    map (x: import ./automations/${x} { })
-      (attrNames (readDir ./automations));
+    map (x: import ./${x} { }) (attrNames
+      (removeAttrs (readDir ./.) [ "default.nix" ]));
 }

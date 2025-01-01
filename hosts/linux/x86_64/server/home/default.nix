@@ -16,10 +16,12 @@
         aiogithubapi
         androidtvremote2
         brother
+        elgato
         govee-ble
         gtts
         ibeacon-ble
         ical
+        kegtron-ble
         psycopg2
         pychromecast
         pyipp
@@ -27,67 +29,11 @@
         python-otbr-api
         roombapy
         venstarcolortouch
+        wyoming
         zeroconf
       ];
       # `/var/lib` is harder to write to declaratively :/
       configDir = "/etc/home-assistant";
-      config = {
-        # https://www.home-assistant.io/integrations/default_config/
-        default_config = { };
-        zeroconf = { };
-        http = {
-          server_host = "::1";
-          trusted_proxies = [ "::1" ];
-          use_x_forwarded_for = true;
-        };
-        prometheus = { };
-        homeassistant = {
-          external_url = "https://home.${flake.lib.hostname}";
-          # TODO: be less imperial swine :)
-          # unit_system = "metric";
-          # temperature_unit = "C";
-          # longitude = 0;
-          # latitude = 0;
-        };
-        lovelace = {
-          mode = "yaml";
-          dashboards.lovelace-media = {
-            mode = "yaml";
-            filename = "dashboards/media.yaml";
-            title = "Media";
-            icon = "mdi:bookshelf";
-          };
-          dashboards.lovelace-admin = {
-            mode = "yaml";
-            filename = "dashboards/admin.yaml";
-            title = "Admin";
-            icon = "mdi:tune";
-          };
-        };
-        frontend.themes = "!include_dir_merge_named themes";
-        circadian_lighting = {
-          min_colortemp = 2906; # for elgato key light
-        };
-        switch = [{
-          platform = "circadian_lighting";
-          lights_ct = [
-            "light.key"
-          ];
-        }];
-        sensor = {
-          platform = "worxlandroid";
-          host = "robotic-mower";
-          pin = "0121";
-        };
-        notify = [{
-          platform = "group";
-          name = "phones";
-          services = [
-            { action = "mobile_app_phone"; }
-            { action = "mobile_app_pixel_8_pro"; }
-          ];
-        }];
-      };
     };
 
     nginx.virtualHosts."home.${flake.lib.hostname}" = {
@@ -111,53 +57,4 @@
   system.activationScripts.home-assistant-disable-logging = ''
     ln -sf /dev/null /etc/home-assistant/home-assistant.log
   '';
-
-  environment.etc = lib.mapAttrs' (name: value: lib.nameValuePair "home-assistant/${name}" value) {
-    "ui-lovelace.yaml".text = builtins.toJSON {
-      title = "Home";
-      views = [{
-        path = "default_view";
-        title = "Home";
-        badges = [
-          {
-            entity = "switch.circadian_lighting_circadian_lighting";
-            name = "Circadian";
-            tap_action.action = "toggle";
-            hold_action.action = "more-info";
-          }
-          # { entity = "alarm_control_panel.home"; }
-          # { entity = "weather.home"; }
-        ];
-        cards = [{
-          type = "custom:floorplan-card";
-          config = "/local/floorplan/config.yaml";
-          full_height = true;
-        }];
-      }];
-    };
-    "dashboards/media.yaml".text = builtins.toJSON {
-      views = builtins.map
-        (view: {
-          title = view;
-          path = view;
-          panel = true;
-          cards = [{
-            type = "iframe";
-            url = "https://${view}.${flake.lib.hostname}";
-          }];
-        }) [ "player" "requests" "downloads" "movies" "shows" "music" "books" "indexer" ];
-    };
-    "dashboards/admin.yaml".text = builtins.toJSON {
-      views = builtins.map
-        (view: {
-          title = view;
-          path = view;
-          panel = true;
-          cards = [{
-            type = "iframe";
-            url = "https://${view}.${flake.lib.hostname}";
-          }];
-        }) [ "esphome" "zigbee" ];
-    };
-  };
 }
