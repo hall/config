@@ -57,6 +57,12 @@
             title = "Media";
             icon = "mdi:bookshelf";
           };
+          dashboards.lovelace-admin = {
+            mode = "yaml";
+            filename = "dashboards/admin.yaml";
+            title = "Admin";
+            icon = "mdi:tune";
+          };
         };
         frontend.themes = "!include_dir_merge_named themes";
         sensor = {
@@ -161,7 +167,19 @@
             type = "iframe";
             url = "https://${view}.${flake.lib.hostname}";
           }];
-        }) [ "player" "requests" "downloads" "movies" "shows" "music" "indexer" ];
+        }) [ "player" "requests" "downloads" "movies" "shows" "music" "books" "indexer" ];
+    };
+    "dashboards/admin.yaml".text = builtins.toJSON {
+      views = builtins.map
+        (view: {
+          title = view;
+          path = view;
+          panel = true;
+          cards = [{
+            type = "iframe";
+            url = "https://${view}.${flake.lib.hostname}";
+          }];
+        }) [ "esphome" "zigbee" ];
     };
   };
 }

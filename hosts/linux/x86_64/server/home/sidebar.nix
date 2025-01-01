@@ -1,4 +1,4 @@
-{ config, ... }: {
+{ ... }: {
   services.home-assistant.config.frontend.extra_module_url = [
     "/hacsfiles/custom-sidebar/custom-sidebar-json.js?v6.5.0"
   ];
@@ -11,9 +11,10 @@
       { item = "energy"; }
 
       { item = "hacs"; bottom = true; }
-      { item = "Developer tools"; bottom = true; }
+      { item = "lovelace-admin"; bottom = true; match = "data-panel"; }
       { item = "settings"; bottom = true; }
 
+      { item = "Developer tools"; bottom = true; hide = true; }
       { item = "map"; bottom = true; hide = true; }
       { item = "media-browser"; hide = true; match = "data-panel"; }
       { item = "logbook"; hide = true; }
