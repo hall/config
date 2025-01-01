@@ -65,7 +65,7 @@
         ]) ++ [
           impermanence.nixosModules.impermanence
           stylix.nixosModules.stylix
-          nur.nixosModules.nur
+          nur.modules.nixos.default
           ({ ... }: {
             nixpkgs.overlays = (map (o: o.overlays.default) [
               rekey
