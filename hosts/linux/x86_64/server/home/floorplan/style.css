@@ -1,0 +1,29 @@
+/* SVG size */
+
+#floorplan  {
+  padding: 10px;
+}
+
+#floorplan > svg {
+  max-width: 700px;
+}
+
+path {
+  /* increase click area */
+  stroke-width: 3px !important;
+}
+
+
+/* TODO: color objects based on state */
+
+.error {
+  color: red;
+}
+
+.warning {
+  color: yellow;
+}
+
+.normal {
+  color: black;
+}
