@@ -65,6 +65,15 @@
           };
         };
         frontend.themes = "!include_dir_merge_named themes";
+        circadian_lighting = {
+          min_colortemp = 2906; # for elgato key light
+        };
+        switch = [{
+          platform = "circadian_lighting";
+          lights_ct = [
+            "light.key"
+          ];
+        }];
         sensor = {
           platform = "worxlandroid";
           host = "robotic-mower";
@@ -139,7 +148,6 @@
         proxyWebsockets = true;
       };
     };
-
   };
 
   # this thing tries to symlink to `/etc/home-assistant`
