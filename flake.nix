@@ -85,8 +85,8 @@
 
       packages = with builtins; eachSystem (pkgs:
         (pkgs.lib.trivial.pipe
-          # remove accessory files
-          (filter (name: !elem name [ "README.md" ])
+          # remove "disabled" packages
+          (filter (name: !pkgs.lib.hasPrefix "." name)
             (attrNames (readDir ./packages))) [
           (map (name: {
             inherit name;

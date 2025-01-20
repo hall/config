@@ -28,3 +28,9 @@ Inspect the evaluated config with
 Managed with [agenix-rekey](https://github.com/oddlama/agenix-rekey).
 
     agenix edit ${secret}
+
+## packages
+
+Build a [package](./packages) directly with
+
+    nix build '.#${package}'
