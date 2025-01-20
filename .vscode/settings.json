@@ -7,12 +7,17 @@
     "agenix",
     "direnv",
     "disko",
+    "esphome",
+    "floorplan",
     "luks",
     "nixos",
     "otelcol",
     "Pubkey",
+    "roomba",
     "syncthing",
     "touchpad",
-    "tridactyl"
+    "tridactyl",
+    "tubeszb",
+    "zigbee"
   ]
 }
