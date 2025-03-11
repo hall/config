@@ -36,7 +36,7 @@
         owner = "MrOtherGuy";
         repo = "firefox-csshacks";
         rev = "master";
-        hash = "sha256-O31wh4w/2OEbzkvUN+6lHYtLOTnz9Z/rHj659UzOtzg=";
+        hash = "sha256-eufeXtt/SDcnb+yMMxijRssQr9zeBZQWRLihnxIF49M=";
       };
     in
     {
@@ -102,7 +102,7 @@
         "browser.theme.content-theme" = 0;
         "browser.theme.toolbar-theme" = 0;
         "browser.uidensity" = 1; # compact
-        "browser.ctrlTab.sortByRecentlyUsed" = true;
+        "browser.ctrlTab.sortByRecentlyUsed" = false;
 
         # auto-enable extensions
         "extensions.autoDisableScopes" = 0;
