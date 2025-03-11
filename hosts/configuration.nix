@@ -81,6 +81,7 @@
       ];
       group = "users";
       extraGroups = [
+        "adbusers"
         "audio"
         "video"
         "input"
