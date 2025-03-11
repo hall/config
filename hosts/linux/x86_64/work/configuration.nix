@@ -16,16 +16,14 @@
   };
 
   environment.systemPackages = with pkgs; [
-    _1password-gui
     awscli2
     # gpclient
     gpauth
-    logseq
+    obsidian
     rancher
     seabird
 
     kubie
-    slack
   ];
 
   age = {
@@ -52,7 +50,7 @@
   home-manager.users.${flake.lib.username} = {
     programs = {
       bash.shellAliases = {
-        k = "rancher kubectl";
+        k = "kubectl";
         r = "rancher";
       };
 
@@ -79,33 +77,40 @@
         contents.user.email = "bhall@rigetti.com";
       }];
 
-      firefox.profiles.default.extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+      firefox.profiles.default.extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
         onepassword-password-manager
       ];
 
       vscode = {
-        userSettings = {
-          "gitlab.customQueries" = [
-            { name = "merges"; type = "merge_requests"; }
-            { name = "issues"; type = "issues"; }
+        package = pkgs.windsurf;
+        profiles.default = {
+          userSettings = {
+            "gitlab.customQueries" = [
+              { name = "merges"; type = "merge_requests"; }
+              { name = "issues"; type = "issues"; }
+            ];
+            "gitlens.plusFeatures.enabled" = false;
+          };
+          extensions = (with pkgs.vscode-extensions; [
+            gitlab.gitlab-workflow
+            hashicorp.terraform
+            ms-kubernetes-tools.vscode-kubernetes-tools
+            redhat.vscode-yaml
+            tamasfe.even-better-toml
+            ms-vsliveshare.vsliveshare
+          ]) ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+            {
+              name = "hcl";
+              publisher = "hashicorp";
+              version = "0.3.2";
+              sha256 = "cxF3knYY29PvT3rkRS8SGxMn9vzt56wwBXpk2PqO0mo=";
+            }
           ];
-          "gitlens.plusFeatures.enabled" = false;
         };
-        extensions = (with pkgs.vscode-extensions; [
-          gitlab.gitlab-workflow
-          hashicorp.terraform
-          ms-kubernetes-tools.vscode-kubernetes-tools
-          redhat.vscode-yaml
-          tamasfe.even-better-toml
-          ms-vsliveshare.vsliveshare
-        ]) ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
-          {
-            name = "hcl";
-            publisher = "hashicorp";
-            version = "0.3.2";
-            sha256 = "cxF3knYY29PvT3rkRS8SGxMn9vzt56wwBXpk2PqO0mo=";
-          }
-        ];
+      };
+
+      k9s = {
+        enable = true;
       };
     };
   };

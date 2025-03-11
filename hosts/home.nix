@@ -22,7 +22,6 @@
           "+I" = "xxh-shell-bash";
         };
       });
-      # file.logseq".source = flake.nixosConfigurations.${}.lib.file.mkOutOfStoreSymlink "/home/${flake.lib.username}/notes/data";
       programs = {
         readline = {
           enable = true;

@@ -21,7 +21,6 @@ in
 
     stylix = {
       enable = true;
-      image = config.lib.stylix.pixel "base0E";
       base16Scheme.palette = {
         base00 = "#2b303b";
         base01 = "#343d46"; # TODO: secondary bg color, needs to be a little less green?
@@ -48,7 +47,10 @@ in
           name = "Hack";
         };
       };
-      targets.logseq.path = "notes";
+      #targets = {
+      #  vscode.profileNames = [ "Default" ];
+      #  firefox.profileNames = [ "default" ];
+      #};
     };
 
     home-manager.users.${flake.lib.username} = {
@@ -57,11 +59,24 @@ in
         mako = {
           enable = true;
           # settings = { };
+          layer = "overlay";
         };
         wlsunset = {
           enable = true;
           sunrise = "08:00";
           sunset = "20:00";
+        };
+        swayidle = {
+          # enable = true;
+          events = [
+            { event = "before-sleep"; command = "${pkgs.swaylock}/bin/swaylock -fF"; }
+            { event = "lock"; command = "lock"; }
+          ];
+          timeouts = [
+            { timeout = 600; command = "${pkgs.swaylock}/bin/swaylock -fF"; }
+            { timeout = 900; command = "${pkgs.systemd}/bin/systemctl suspend"; }
+          ];
+
         };
       };
       home = {
@@ -122,11 +137,11 @@ in
           startup = [
             { command = "waybar"; }
             { command = "code"; }
-            { command = "logseq"; }
+            { command = "obsidian"; }
             { command = "firefox"; }
           ];
           assigns = {
-            "1" = [{ app_id = "Logseq"; }];
+            "1" = [{ app_id = "obsidian"; }];
             "2" = [{ app_id = "firefox"; }];
             "3" = [{ app_id = "^code"; }];
           };
@@ -148,9 +163,9 @@ in
 
     };
 
-
     xdg.portal = {
       enable = true;
+      xdgOpenUsePortal = true;
       wlr = {
         enable = true;
         settings = {
@@ -166,7 +181,6 @@ in
         xdg-desktop-portal-wlr
         xdg-desktop-portal-gtk
       ];
-      xdgOpenUsePortal = true;
     };
 
     programs = {

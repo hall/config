@@ -53,12 +53,25 @@
   };
 
   home-manager.users.${flake.lib.username} = {
+
+    programs.obs-studio = {
+      # enable = true;
+      plugins = with pkgs.obs-studio-plugins; [
+        obs-replay-source
+      ];
+    };
+
     home.packages = with pkgs; [
       alsa-utils
       # comms
       element-desktop
-      logseq
+      vlc
+      obsidian
       xournalpp
+
+      nextcloud-client
+
+      unzip
 
       # design
       blender
@@ -78,7 +91,6 @@
       # transmission_4-gtk
       youtube-music
       boatswain
-      obs-studio
       sonic-pi
       supercollider
     ];
