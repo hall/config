@@ -34,6 +34,13 @@
     };
     stylix = {
       url = "github:danth/stylix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "home";
+      };
+    };
+    vscode = {
+      url = "github:nix-community/nix-vscode-extensions";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -70,6 +77,7 @@
             nixpkgs.overlays = (map (o: o.overlays.default) [
               rekey
               self
+              vscode
             ]);
           })
         ] ++ (with builtins; map (x: ./modules/${x}) (attrNames (readDir ./modules)));
