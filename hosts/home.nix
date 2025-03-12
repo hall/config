@@ -85,9 +85,9 @@
             cd = "z";
             awsp = ''export AWS_PROFILE=$(sed -n "s/\[profile \(.*\)\]/\1/gp" ~/.aws/config | ${pkgs.fzf}/bin/fzf)'';
           };
-          # initExtra = ''
-          #   set -o vi
-          # '';
+          bashrcExtra = ''
+            shopt -s histappend
+          '';
         };
 
         zoxide.enable = true;
