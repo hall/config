@@ -1,33 +1,20 @@
 { lib, pkgs, flake, ... }: {
-  nixpkgs.config = {
-    # TODO: required by `install-iso` image build for zfs-kernel
-    allowBroken = true;
-    allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-      "1password"
-      "slack"
-      "steam"
-      "steam-original"
-      "steam-run"
-      "steam-unwrapped"
-      "vscode"
-      "vscode-extension-github-copilot"
-      "vscode-extension-github-copilot-chat"
-      "vscode-extension-ms-toolsai-jupyter"
-      "vscode-extension-ms-vscode-cpptools"
-      "vscode-extension-ms-vsliveshare-vsliveshare"
-      "vscode-extension-ms-vscode-remote-remote-containers"
-      "onepassword-password-manager"
-      "nvidia-x11"
-      "nvidia-settings"
-      "nvidia-persistenced"
-    ];
-
-    permittedInsecurePackages = [
-      "electron-27.3.11"
-      "dotnet-sdk-6.0.428" # sonarr
-      "aspnetcore-runtime-6.0.36" # sonarr
-    ];
-  };
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "obsidian"
+    "onepassword-password-manager"
+    "steam"
+    "steam-original"
+    "steam-run"
+    "steam-unwrapped"
+    "vscode"
+    "vscode-extension-github-copilot"
+    "vscode-extension-github-copilot-chat"
+    "vscode-extension-ms-toolsai-jupyter"
+    "vscode-extension-ms-vscode-cpptools"
+    "vscode-extension-ms-vscode-remote-remote-containers"
+    "vscode-extension-ms-vsliveshare-vsliveshare"
+    "windsurf"
+  ];
 
   nix = {
     package = pkgs.nixVersions.latest;
