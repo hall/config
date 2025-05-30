@@ -239,7 +239,8 @@ binary_sensor:
         pullup: true
     name: Volume Up
     on_click:
-      - media_player.volume_up: luxe_out
+      - media_player.volume_up:
+          id: luxe_out
   - platform: gpio
     pin:
       number: GPIO32
@@ -249,7 +250,8 @@ binary_sensor:
         pullup: true
     name: Volume Down
     on_click:
-      - media_player.volume_down: luxe_out
+      - media_player.volume_down:
+          id: luxe_out
   - platform: gpio
     pin:
       number: GPIO12
