@@ -527,12 +527,12 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:window-width="960"
-     inkscape:window-height="1253"
+     inkscape:window-height="1080"
      id="namedview428"
      showgrid="false"
      inkscape:zoom="3.6203867"
-     inkscape:cx="143.49296"
-     inkscape:cy="108.27573"
+     inkscape:cx="57.866747"
+     inkscape:cy="148.74102"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="0"
@@ -826,4 +826,64 @@
        y="0"
        xlink:href="#light.office_light_switch"
        id="light.livingroom_light_switch"
-       transform="translate(-11.256084,151.87377)" /></g></svg>
+       transform="translate(-11.256084,151.87377)" /><g
+       id="switch.circadian_lighting_circadian_lighting"
+       transform="matrix(0.28717956,0,0,0.28717956,13.853232,241.38302)"
+       inkscape:label="switch.circadian_lighting_circadian_lighting">
+	<circle
+   fill-rule="evenodd"
+   clip-rule="evenodd"
+   fill="#231f20"
+   cx="32.002998"
+   cy="32.005001"
+   r="16.000999"
+   id="circle1" />
+	<path
+   fill-rule="evenodd"
+   clip-rule="evenodd"
+   fill="#231f20"
+   d="m 12.001,31.997 c 0,-2.211 -1.789,-4 -4,-4 H 4 c -2.211,0 -4,1.789 -4,4 0,2.211 1.789,4 4,4 h 4 c 2.212,0 4.001,-1.789 4.001,-4 z"
+   id="path1" />
+	<path
+   fill-rule="evenodd"
+   clip-rule="evenodd"
+   fill="#231f20"
+   d="m 12.204,46.139 -2.832,2.833 c -1.563,1.562 -1.563,4.094 0,5.656 1.562,1.562 4.094,1.562 5.657,0 l 2.833,-2.832 c 1.562,-1.562 1.562,-4.095 0,-5.657 -1.564,-1.563 -4.095,-1.563 -5.658,0 z"
+   id="path2" />
+	<path
+   fill-rule="evenodd"
+   clip-rule="evenodd"
+   fill="#231f20"
+   d="m 32.003,51.999 c -2.211,0 -4,1.789 -4,4 V 60 c 0,2.211 1.789,4 4,4 2.211,0 4,-1.789 4,-4 l -0.004,-4.001 c 0.004,-2.211 -1.789,-4 -3.996,-4 z"
+   id="path3" />
+	<path
+   fill-rule="evenodd"
+   clip-rule="evenodd"
+   fill="#231f20"
+   d="m 51.798,46.143 c -1.559,-1.566 -4.091,-1.566 -5.653,-0.004 -1.562,1.562 -1.562,4.095 0,5.657 l 2.829,2.828 c 1.562,1.57 4.094,1.562 5.656,0 1.562,-1.562 1.566,-4.09 0,-5.656 z"
+   id="path4" />
+	<path
+   fill-rule="evenodd"
+   clip-rule="evenodd"
+   fill="#231f20"
+   d="m 60.006,27.997 -4.009,0.008 c -2.203,-0.008 -3.992,1.781 -3.992,3.992 -0.008,2.211 1.789,4 3.992,4 h 4.001 c 2.219,0.008 4,-1.789 4,-4 0.004,-2.207 -1.781,-4 -3.992,-4 z"
+   id="path5" />
+	<path
+   fill-rule="evenodd"
+   clip-rule="evenodd"
+   fill="#231f20"
+   d="m 51.798,17.859 2.828,-2.829 c 1.574,-1.566 1.562,-4.094 0,-5.657 -1.559,-1.567 -4.09,-1.567 -5.652,-0.004 l -2.829,2.836 c -1.562,1.555 -1.562,4.086 0,5.649 1.554,1.572 4.094,1.564 5.653,0.005 z"
+   id="path6" />
+	<path
+   fill-rule="evenodd"
+   clip-rule="evenodd"
+   fill="#231f20"
+   d="m 32.003,11.995 c 2.207,0.016 4,-1.789 4,-3.992 v -4 c 0,-2.219 -1.789,-4 -4,-4 -2.211,-0.008 -4,1.781 -4,3.993 l 0.008,4.008 c -0.008,2.202 1.781,3.991 3.992,3.991 z"
+   id="path7" />
+	<path
+   fill-rule="evenodd"
+   clip-rule="evenodd"
+   fill="#231f20"
+   d="m 12.212,17.855 c 1.555,1.562 4.079,1.562 5.646,-0.004 1.574,-1.551 1.566,-4.09 0.008,-5.649 L 15.037,9.374 c -1.57,-1.571 -4.094,-1.559 -5.657,0 -1.575,1.559 -1.575,4.09 -0.012,5.653 z"
+   id="path8" />
+</g></g></svg>

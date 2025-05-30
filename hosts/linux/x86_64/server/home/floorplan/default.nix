@@ -48,13 +48,20 @@
       }
 
       {
-        # inverse: tap to toggle
         entities = [
           "switch.printer_power_relay"
           # "switch.christmas_tree_power_relay"
+          "switch.circadian_lighting_circadian_lighting"
         ];
         tap_action = "toggle";
         hold_action = "more-info";
+        state_action = [{
+          action = "call-service";
+          service = "floorplan.style_set";
+          service_data.style = ''
+            fill: ''${ entity.state === 'on' ? 'white' : 'black' };
+          '';
+        }];
       }
 
       {
@@ -63,11 +70,10 @@
           action = "call-service";
           service = "floorplan.class_set";
           service_data = ''
-            var color = 'black';
-
+            >
             if (entities["binary_sensor.roomba_bin_full"].state === 'on') {
                 return 'error';
-            else if (entities["binary_sensor.roomba_battery_level"].state < 30) {
+            } else if (entities["binary_sensor.roomba_battery_level"].state < 30) {
                 return 'warning';
             }
 
@@ -77,9 +83,6 @@
       }
 
       {
-        ###
-        # text
-        ###
         entities = [
           # "sensor.office_temperature"
           # "sensor.office_humidity"
@@ -94,10 +97,9 @@
       }
 
       {
-        ###
-        # lights
-        ###
         entities = [
+          # "light.guest"
+          "light.guest_light_switch"
           # "light.office"
           "light.office_light_switch"
           "light.key"
@@ -129,7 +131,8 @@
               else if (entity.attributes.color_temp) {
                 rgb = util.color.miredToRGB(entity.attributes.color_temp);
               }
-                color = `rgb(''${rgb.join(", ")})`;
+
+              color = `rgb(''${rgb.join(", ")})`;
             }
 
             return `fill: ''${color};`;
