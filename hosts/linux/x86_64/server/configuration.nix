@@ -46,6 +46,7 @@
     ./kodi.nix
     ./backup
     ./gaming.nix
+    ./stash.nix
     ./networking
     ./cloud
     flake.inputs.hardware.nixosModules.intel-nuc-8i7beh
@@ -116,12 +117,4 @@
     # ];
   };
 
-  services = {
-    stash = {
-      enable = true;
-      user = flake.lib.username;
-      group = "syncthing";
-    };
-    syncthing.settings.folders.stash.path = lib.mkForce "/var/lib/stash";
-  };
 }
