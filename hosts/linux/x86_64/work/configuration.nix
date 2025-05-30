@@ -34,9 +34,6 @@
     };
   };
 
-  # 
-  time.timeZone = lib.mkForce "UTC";
-
   # TEMP
   # virtualisation.libvirtd = {
   #   enable = true;
@@ -49,6 +46,7 @@
 
   home-manager.users.${flake.lib.username} = {
     programs = {
+      starship.settings.kubernetes.disabled = false;
       bash.shellAliases = {
         k = "kubectl";
         r = "rancher";
