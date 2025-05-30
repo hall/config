@@ -68,6 +68,8 @@
       vlc
       obsidian
       xournalpp
+      webcamoid
+      mpv
 
       nextcloud-client
 
