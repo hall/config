@@ -23,20 +23,24 @@ flake.lib.recursiveMergeAttrs [
     { name = "sonarr"; domain = "shows"; port = 8989; }
     { name = "lidarr"; domain = "music"; port = 8686; }
     { name = "radarr"; domain = "movies"; port = 7878; }
+    { name = "readarr"; domain = "books"; port = 8787; }
     { name = "prowlarr"; domain = "indexer"; port = 9696; }
   ])
   {
+    systemd.services.jellyseerr.environment.LOG_LEVEL = "warning";
     services = {
       transmission = {
         package = pkgs.transmission_4;
-        webHome = pkgs.flood;
+        webHome = pkgs.flood-for-transmission;
         # https://github.com/transmission/transmission/blob/main/docs/Editing-Configuration-Files.md
         settings = rec {
           download-dir = "/var/lib/media/downloads";
           incomplete-dir = "${download-dir}/incomplete";
           rpc-host-whitelist = "downloads.${flake.lib.hostname}";
+          idle-seeding-limit-enabled = true;
+          # idle-seeding-limit = 30;
           ratio-limit-enabled = true;
-          ratio-limit = 5.0;
+          # ratio-limit = 2.0;
         };
       };
     };

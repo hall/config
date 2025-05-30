@@ -20,7 +20,7 @@
     vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
   };
   hardware = {
-    xpadneo.enable = true;
+    # xpadneo.enable = true;
     steam-hardware.enable = true;
     graphics = {
       enable = true;
@@ -36,8 +36,8 @@
   };
   environment.sessionVariables = {
     # Force intel-media-driver
-    LIBVA_DRIVER_NAME = "iHD";
-    # KODI_AE_SINK = "PULSE";
+    # LIBVA_DRIVER_NAME = "iHD";
+    # KODI_AE_SINK = "ALSA";
   };
 
   imports = [
@@ -59,14 +59,12 @@
         80 # http redirect
         443 # https
         53 # dns fallback
-        8080 # kodi
         5900 # vnc
       ];
       allowedUDPPorts = [
         53 # dns
         67 # dhcp
         68 # dhcp
-        9777 # kodi event server
       ];
     };
   };
