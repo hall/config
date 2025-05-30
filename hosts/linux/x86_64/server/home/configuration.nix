@@ -12,6 +12,7 @@
     prometheus = { };
     homeassistant = {
       external_url = "https://home.${flake.lib.hostname}";
+      internal_url = "https://home.${flake.lib.hostname}";
       # TODO: be less imperial swine :)
       # unit_system = "metric";
       # temperature_unit = "C";
@@ -41,5 +42,8 @@
         { action = "mobile_app_pixel_8_pro"; }
       ];
     }];
+    "automation ui" = "!include automations.yaml";
+    "script ui" = "!include scripts.yaml";
+    "scene ui" = "!include scenes.yaml";
   };
 }
