@@ -1,4 +1,8 @@
 { flake, ... }: {
+  networking.firewall.allowedTCPPorts = [
+    1883 # mqtt
+    8080 # zigbee2mqtt
+  ];
   services = {
     mosquitto = {
       enable = true;
@@ -12,6 +16,7 @@
         };
       }];
     };
+
     nginx.virtualHosts."mqtt.${flake.lib.hostname}" = {
       useACMEHost = flake.lib.hostname;
       acmeRoot = null;
@@ -26,13 +31,18 @@
     };
 
     zigbee2mqtt = {
-      enable = true;
+      # enable = true;
       settings = {
         frontend = true;
         home-assistant = true;
         serial = {
           # TODO: centralize static addresses
           port = "tcp://192.168.86.11:6638";
+        };
+        advanced = {
+          log_level = "warning";
+          # don't log to a file
+          log_output = [ "console" ];
         };
       };
     };
