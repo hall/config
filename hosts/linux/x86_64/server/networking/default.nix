@@ -18,12 +18,13 @@
     tailscale = {
       enable = true;
       useRoutingFeatures = "both";
-      extraSetFlags = [
+      extraUpFlags = [
         "--operator=${flake.lib.username}"
         "--ssh"
         # "--advertise-exit-node"
         "--exit-node-allow-lan-access"
-        "--exit-node=us-nyc-wg-604.mullvad.ts.net."
+        "--exit-node=us-nyc-wg-604.mullvad.ts.net"
+        "--advertise-routes=192.168.86.0/24"
       ];
     };
 
@@ -66,6 +67,8 @@
       };
     };
 
+    syncthing.guiAddress = "0.0.0.0:8384";
+
     nginx = {
       enable = true;
       # recommendedGzipSettings = true;
@@ -86,6 +89,11 @@
           forceSSL = true;
           locations."/".proxyPass = "http://${builtins.toString config.services.syncthing.guiAddress}";
           extraConfig = ''
+            proxy_set_header        Host localhost;
+            proxy_set_header        X-Real-IP $remote_addr;
+            proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header        X-Forwarded-Proto $scheme;
+          
             proxy_read_timeout      600s;
             proxy_send_timeout      600s;
           '';
@@ -94,7 +102,10 @@
           useACMEHost = flake.lib.hostname;
           acmeRoot = null;
           forceSSL = true;
-          locations."/".proxyPass = "http://127.0.0.1:${builtins.toString config.services.stash.port}";
+          locations."/" = {
+            proxyPass = "http://127.0.0.1:${builtins.toString config.services.stash.settings.port}";
+            proxyWebsockets = true;
+          };
           extraConfig = ''
             proxy_http_version 1.1;
             proxy_set_header Upgrade $http_upgrade;
