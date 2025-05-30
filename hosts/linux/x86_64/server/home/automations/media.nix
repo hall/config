@@ -9,8 +9,8 @@
   action = [{
     service = "notify.phones";
     data = {
-      title = "{{ trigger.json.title }}";
-      message = "{{ trigger.json.message }}";
+      title = "new media";
+      message = "{{ trigger.json.get('Name', 'Unknown') }}";
     };
   }];
 }
