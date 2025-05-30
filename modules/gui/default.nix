@@ -47,10 +47,6 @@ in
           name = "Hack";
         };
       };
-      #targets = {
-      #  vscode.profileNames = [ "Default" ];
-      #  firefox.profileNames = [ "default" ];
-      #};
     };
 
     home-manager.users.${flake.lib.username} = {
@@ -58,8 +54,7 @@ in
       services = {
         mako = {
           enable = true;
-          # settings = { };
-          layer = "overlay";
+          # settings.layer = "overlay";
         };
         wlsunset = {
           enable = true;
@@ -94,7 +89,13 @@ in
           MOZ_ENABLE_WAYLAND = "1";
         };
       };
-      stylix.enable = true;
+      stylix = {
+        enable = true;
+        targets = {
+          vscode.profileNames = [ "Default" ];
+          firefox.profileNames = [ "default" ];
+        };
+      };
 
       # TODO: why?
       qt.enable = true;
