@@ -8,6 +8,7 @@
       rekeyFile = ./gcp.age;
       owner = flake.lib.username;
       # group = config.services.prometheus.exporters.restic.group;
+      # mode = "0440";
     };
   };
 
@@ -53,11 +54,12 @@
         "/var/lib/private/jellyseerr"
         "/var/lib/postgresql"
         "/etc/home-assistant"
+        "/var/lib/nextcloud"
       ];
     };
     prometheus.exporters = {
       restic = with config.services.restic.backups.remote; {
-        enable = true;
+        # enable = true;
         inherit repository passwordFile user;
       };
     };
