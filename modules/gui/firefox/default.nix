@@ -36,7 +36,7 @@
         owner = "MrOtherGuy";
         repo = "firefox-csshacks";
         rev = "master";
-        hash = "sha256-eufeXtt/SDcnb+yMMxijRssQr9zeBZQWRLihnxIF49M=";
+        hash = "sha256-Rcu2WI5t5iv5dJEZ1hQ9S8/R+3Yv+fNkETLny6+BfZM=";
       };
     in
     {
@@ -48,7 +48,7 @@
       ];
       userContent = builtins.readFile ./userContent.css;
       search = {
-        default = "DuckDuckGo";
+        default = "ddg";
         force = true; # prevent ff from overwriting
       };
       containersForce = true;
