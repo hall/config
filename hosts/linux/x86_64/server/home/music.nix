@@ -1,4 +1,12 @@
 { flake, ... }: {
+  networking.firewall = {
+    allowedTCPPorts = [
+      8097 # music-assistant
+    ];
+    # allowedUDPPorts = [
+    #   8097 # music-assistant
+    # ];
+  };
   services = {
     nginx.virtualHosts."music-assistant.${flake.lib.hostname}" = {
       useACMEHost = flake.lib.hostname;

@@ -22,6 +22,7 @@
         ibeacon-ble
         ical
         kegtron-ble
+        music-assistant-client
         psycopg2
         pychromecast
         pyipp
