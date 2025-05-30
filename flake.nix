@@ -1,13 +1,17 @@
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    stable.url = "github:nixos/nixpkgs/nixos-24.11";
     home = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hardware.url = "github:nixos/nixos-hardware";
     impermanence.url = "github:nix-community/impermanence";
-    nur.url = "github:nix-community/NUR";
+    nur = {
+      url = "github:nix-community/nur";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     agenix = {
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -78,6 +82,13 @@
               rekey
               self
               vscode
+            ] ++ [
+              (final: _: {
+                stable = import inputs.stable {
+                  inherit (final.stdenv.hostPlatform) system;
+                  inherit (final) config;
+                };
+              })
             ]);
           })
         ] ++ (with builtins; map (x: ./modules/${x}) (attrNames (readDir ./modules)));
