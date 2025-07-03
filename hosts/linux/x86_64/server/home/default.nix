@@ -28,6 +28,7 @@
         pyipp
         pyschlage
         python-otbr-api
+        pylitterbot
         roombapy
         venstarcolortouch
         wyoming
