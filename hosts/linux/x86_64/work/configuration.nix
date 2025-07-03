@@ -87,7 +87,7 @@
               { name = "merges"; type = "merge_requests"; }
               { name = "issues"; type = "issues"; }
             ];
-            "gitlens.plusFeatures.enabled" = false;
+            "gitlens.plusFeatures.enabled" = true;
           };
           extensions = (with pkgs.vscode-extensions; [
             gitlab.gitlab-workflow
