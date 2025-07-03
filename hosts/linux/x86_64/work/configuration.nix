@@ -96,14 +96,8 @@
             redhat.vscode-yaml
             tamasfe.even-better-toml
             ms-vsliveshare.vsliveshare
-          ]) ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
-            {
-              name = "hcl";
-              publisher = "hashicorp";
-              version = "0.3.2";
-              sha256 = "cxF3knYY29PvT3rkRS8SGxMn9vzt56wwBXpk2PqO0mo=";
-            }
-          ];
+            hashicorp.hcl
+          ]);
         };
       };
 
