@@ -137,14 +137,14 @@ in
           };
           startup = [
             { command = "waybar"; }
-            { command = "code"; }
+            { command = config.home-manager.users.${flake.lib.username}.programs.vscode.package.executableName; }
             { command = "obsidian"; }
             { command = "firefox"; }
           ];
           assigns = {
             "1" = [{ app_id = "obsidian"; }];
             "2" = [{ app_id = "firefox"; }];
-            "3" = [{ app_id = "^code"; }];
+            "3" = [{ app_id = config.home-manager.users.${flake.lib.username}.programs.vscode.package.executableName; }];
           };
           workspaceOutputAssign = [
             { workspace = "1"; output = "eDP-1"; }
