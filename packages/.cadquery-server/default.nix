@@ -1,9 +1,8 @@
-{ python310Packages
-, rustPlatform
+{ python313Packages
 , fetchFromGitHub
 , ...
 }:
-with python310Packages;
+with python313Packages;
 buildPythonPackage rec {
   pname = "cadquery-server";
   version = "0.4.1";
