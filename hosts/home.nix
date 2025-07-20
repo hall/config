@@ -66,6 +66,7 @@
             init.defaultBranch = "main";
             pull.rebase = false;
             commit.verbose = true;
+            push.autoSetupRemote = true;
           };
         };
 
