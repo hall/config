@@ -46,7 +46,7 @@
     ./kodi.nix
     ./backup
     ./gaming.nix
-    ./stash.nix
+    ./stash
     ./networking
     ./cloud
     flake.inputs.hardware.nixosModules.intel-nuc-8i7beh

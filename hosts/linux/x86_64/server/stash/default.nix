@@ -1,4 +1,12 @@
 { lib, config, pkgs, ... }: {
+  # age.secrets.stash = {
+  #   rekeyFile = config.age.secrets.luks.rekeyFile;
+  #   # rekeyFile = ./stash.age;
+  #   owner = "stash";
+  # };
+  systemd.tmpfiles.rules = [
+    "L+ ${config.services.stash.dataDir}/custom.css - - - - ${./custom.css}"
+  ];
   services = {
     syncthing.settings.folders.stash.path = lib.mkForce "/var/lib/stash";
 
@@ -8,7 +16,8 @@
       group = "syncthing";
 
       username = "hall";
-      passwordFile = config.age.secrets.luks.path;
+      # passwordFile = config.age.secrets.stash.path;
+      passwordFile = pkgs.writeText "password" "";
 
       # TODO: why are these needed?
       jwtSecretKeyFile = pkgs.writeText "jwt_secret_key" "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
@@ -17,8 +26,11 @@
       mutableSettings = false;
       settings = {
         stash = [{ path = "${config.services.stash.dataDir}/content"; }];
-
         ui.frontPageContent = [ ];
+        database = "${config.services.stash.dataDir}/stash-go.sqlite";
+        # username = "hall";
+        # password = "";
+        cssenabled = true;
       };
 
       mutablePlugins = false;
@@ -27,8 +39,8 @@
           src = pkgs.fetchFromGitHub {
             owner = "stashapp";
             repo = "CommunityScripts";
-            rev = "9b6fac4934c2fac2ef0859ea68ebee5111fc5be5";
-            hash = "sha256-PO3J15vaA7SD4r/LyHlXjnpaeYAN9Q++O94bIWdz7OA=";
+            rev = "05b0e72fc13fdafa0009079c174558a565fa6842";
+            hash = "sha256-24XQqcZtd33qmCvJWg8dRx9ECQNYgXYtJX09wwsHP2Y";
           };
         in
         [
@@ -36,9 +48,9 @@
             mkdir -p $out/plugins
             cp -r $src/plugins/stashNotes $out/plugins/stashNotes
           '')
-          (pkgs.runCommand "Theme-Plex" { inherit src; } ''
+          (pkgs.runCommand "Theme-Minimal" { inherit src; } ''
             mkdir -p $out/plugins
-            cp -r $src/themes/Theme-Plex $out/plugins/Theme-Plex
+            cp -r $src/themes/Theme-Minimal $out/plugins/Theme-Minimal
           '')
         ];
 
