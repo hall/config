@@ -64,7 +64,7 @@
           tasks
           memories
           previewgenerator
-          recognize
+          # recognize
           ;
       };
     };

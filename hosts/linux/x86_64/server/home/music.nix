@@ -21,7 +21,7 @@
       };
     };
     music-assistant = {
-      enable = true;
+      # enable = true;
       providers = [
         "spotify"
         "hass"

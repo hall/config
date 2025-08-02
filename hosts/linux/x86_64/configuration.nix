@@ -19,5 +19,9 @@
   # powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   hardware.cpu.intel.updateMicrocode = true;
 
-  systemd.services.tailscaled.after = [ "NetworkManager-wait-online.service" ];
+  systemd.services.NetworkManager-wait-online.enable = false;
+  systemd.services.tailscaled.after = [
+    "NetworkManager-wait-online.service"
+    "systemd-networkd-wait-online.service"
+  ];
 }

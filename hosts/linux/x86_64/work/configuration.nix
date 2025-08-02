@@ -21,7 +21,7 @@
     gpauth
     obsidian
     rancher
-    seabird
+    # seabird
 
     kubie
   ];
@@ -67,6 +67,10 @@
             identityFile = "~/.ssh/infra-shared.pem";
             extraOptions.PubkeyAcceptedKeyTypes = "+ssh-rsa";
           };
+          # coder = {
+          #   host = "*.coder.rigetti.com";
+          #   userKnownHostsFile = "/dev/null";
+          # };
         };
       };
 
@@ -97,6 +101,7 @@
             tamasfe.even-better-toml
             ms-vsliveshare.vsliveshare
             hashicorp.hcl
+            coder.coder-remote
           ]);
         };
       };
