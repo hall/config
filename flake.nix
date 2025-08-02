@@ -38,10 +38,7 @@
     };
     stylix = {
       url = "github:danth/stylix";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        home-manager.follows = "home";
-      };
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     vscode = {
       url = "github:nix-community/nix-vscode-extensions";
@@ -142,8 +139,8 @@
         self.nixosConfigurations;
 
       agenix-rekey = inputs.rekey.configure {
+        inherit (self) nixosConfigurations;
         userFlake = self;
-        nodes = self.nixosConfigurations;
       };
 
     };
