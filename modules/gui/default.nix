@@ -9,6 +9,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    environment.pathsToLink = [ "/share/xdg-desktop-portal" "/share/applications" ];
     hardware = {
       graphics.enable = true;
       bluetooth.enable = true;
@@ -92,12 +93,12 @@ in
       stylix = {
         enable = true;
         targets = {
-          vscode.profileNames = [ "Default" ];
+          vscode.profileNames = [ "default" ];
           firefox.profileNames = [ "default" ];
         };
       };
 
-      # TODO: why?
+      # TODO: why? (for krita debug)
       qt.enable = true;
       gtk.enable = true;
       wayland.windowManager.sway = {
