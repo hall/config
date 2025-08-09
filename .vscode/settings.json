@@ -26,6 +26,7 @@
     "nixpkgs",
     "NOPASSWD",
     "ntfy",
+    "optimise",
     "otelcol",
     "pipewire",
     "pkgs",

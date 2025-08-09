@@ -19,9 +19,10 @@
   nix = {
     package = pkgs.nixVersions.latest;
     gc = {
-      automatic = false;
+      automatic = true;
       options = "--delete-older-than 30d";
     };
+    optimise.automatic = true;
     extraOptions = ''
       # https://github.com/nix-community/nix-direnv#installation
       keep-outputs = true
