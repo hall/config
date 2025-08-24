@@ -47,7 +47,7 @@
 
     distributedBuilds = true;
     buildMachines = with flake.nixosConfigurations.server.config; [{
-      hostName = networking.hostName;
+      hostName = "server"; #networking.hostName;
       # TODO: base64 encode
       # publicHostKey = age.rekey.hostPubkey;
       sshUser = flake.lib.username;
