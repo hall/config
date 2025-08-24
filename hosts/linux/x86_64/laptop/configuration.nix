@@ -7,6 +7,7 @@
 
   networking.firewall.allowedTCPPorts = [
     1716 # gsconnect
+    8081 # expo / react-native
   ];
 
   # TODO: remove after migrating to new btrfs config
@@ -93,8 +94,9 @@
       # transmission_4-gtk
       youtube-music
       boatswain
-      sonic-pi
+      # sonic-pi
       supercollider
+      devenv
     ];
 
     programs.ssh.matchBlocks = {
