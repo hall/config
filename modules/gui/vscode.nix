@@ -73,6 +73,18 @@
 
       "update.mode" = "none";
 
+      "vim.useCtrlKeys" = true;
+      "vim.normalModeKeyBindingsNonRecursive" = [
+        {
+          "before" = [ "u" ];
+          "commands" = [ "undo" ];
+        }
+        {
+          "before" = [ "<C-r>" ];
+          "commands" = [ "redo" ];
+        }
+      ];
+
       "window.autoDetectColorScheme" = true;
       "window.menuBarVisibility" = "toggle";
       "window.titleBarStyle" = "native";
@@ -95,9 +107,7 @@
 
       naumovs.color-highlight
       eamodio.gitlens
-      esbenp.prettier-vscode
-      github.copilot
-      github.copilot-chat
+      #esbenp.prettier-vscode
       github.vscode-github-actions
       gruntfuggly.todo-tree
       humao.rest-client
@@ -118,7 +128,12 @@
       # glen-anderson.vscode-faust
       # evilz.vscode-reveal
 
-    ] ++ (lib.optionals (pkgs.system != "aarch64-linux") [
+    ] ++ (with pkgs.vscode-extensions; [
+      # copilot must be kept in sync with vscode version (not "latest" from marketplace)
+      github.copilot
+      github.copilot-chat
+
+    ]) ++ (lib.optionals (pkgs.system != "aarch64-linux") [
       ms-python.python # unsupported
     ]));
     keybindings = [
