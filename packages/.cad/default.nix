@@ -6,10 +6,6 @@
 , zlib
 , writeShellScriptBin
 , lib
-, mkShell
-, freecad
-  # , flake
-, fetchFromGitHub
 , python3Packages
 , python3
 , ...
@@ -47,17 +43,23 @@ in
 
   # TODO: do betta
 with python3Packages; buildPythonPackage {
-  name = "cad";
-  src = ./.;
-  buildInputs = [
-    (python3.withPackages (p: with p; [
-      autopep8
-    ]))
-    pip
-    (writeShellScriptBin "cad" ''
-      cq-server run --ui-theme dark $@
-    '')
-  ];
+  name = "cad-query";
+  version = "TODO";
+  # src = ./.;
+  src = fetchPypi {
+    inherit pname version;
+    sha256 = ""; # TODO
+  };
+
+  # buildInputs = [
+  #   (python3.withPackages (p: with p; [
+  #     autopep8
+  #   ]))
+  #   pip
+  #   (writeShellScriptBin "cad" ''
+  #     cq-server run --ui-theme dark $@
+  #   '')
+  # ];
   shellHook = ''
     # Tells pip to put packages into $PIP_PREFIX instead of the usual locations.
     # See https://pip.pypa.io/en/stable/user_guide/#environment-variables.
