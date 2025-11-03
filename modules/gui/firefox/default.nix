@@ -26,7 +26,7 @@
     NoDefaultBookmarks = true;
     PasswordManagerEnabled = false;
     ShowHomeButton = false;
-    DisableFirefoxAccounts = true;
+    #DisableFirefoxAccounts = true;
     DisableSetDesktopBackground = true;
     DisablePocket = true;
   };
@@ -36,7 +36,7 @@
         owner = "MrOtherGuy";
         repo = "firefox-csshacks";
         rev = "master";
-        hash = "sha256-ViNyXKkAKn4XPYqqa65rkji23WxowCO2P045PToQBEs=";
+        hash = "sha256-ktPOQ5z+8oy4JtOUxDx+ynsNHjxnisrNAiV6UW1bGqE=";
       };
     in
     {
@@ -109,6 +109,10 @@
         "extensions.pocket.enabled" = false;
 
         "geo.enabled" = false;
+
+        # Camera and microphone permissions
+        "media.navigator.enabled" = true;
+        "media.peerconnection.enabled" = true;
         "print.tab_modal.enabled" = false;
         "signon.rememberSignons" = false;
         "svg.context-properties.content.enabled" = true;
