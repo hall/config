@@ -2,7 +2,7 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    backupFileExtension = "backup";
+    # backupFileExtension = "backup";
     extraSpecialArgs = specialArgs;
     users.${flake.lib.username} = {
       home = {
@@ -44,7 +44,20 @@
         };
         ssh = {
           enable = true;
+          enableDefaultConfig = false;
           matchBlocks = {
+            "*" = {
+              forwardAgent = false;
+              addKeysToAgent = "no";
+              compression = false;
+              serverAliveInterval = 0;
+              serverAliveCountMax = 3;
+              hashKnownHosts = false;
+              userKnownHostsFile = "~/.ssh/known_hosts";
+              controlMaster = "no";
+              controlPath = "~/.ssh/master-%r@%n:%p";
+              controlPersist = "no";
+            };
             gitlab = {
               host = "gitlab.com";
               user = "git";
@@ -58,16 +71,18 @@
 
         git = {
           enable = true;
-          userName = flake.lib.name;
-          userEmail = flake.lib.email;
-          # difftastic.enable = true;
-          lfs.enable = true;
-          extraConfig = {
+          settings = {
+            user = {
+              name = flake.lib.name;
+              email = flake.lib.email;
+            };
             init.defaultBranch = "main";
             pull.rebase = false;
             commit.verbose = true;
             push.autoSetupRemote = true;
           };
+          # difftastic.enable = true;
+          lfs.enable = true;
         };
 
         fzf.enable = true;

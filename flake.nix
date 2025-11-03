@@ -44,11 +44,12 @@
       url = "github:nix-community/nix-vscode-extensions";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    vpn.url = "github:Maroka-chan/VPN-Confinement";
   };
   outputs = inputs@{ self, systems, ... }:
     let
       eachSystem = f: inputs.nixpkgs.lib.genAttrs (import systems)
-        (system: f (import inputs.nixpkgs { inherit system; }));
+        (system: f (import inputs.nixpkgs { inherit system; config.allowUnfree = true; }));
     in
     rec {
 
@@ -70,6 +71,7 @@
           home
           # musnix
           rekey
+          vpn
         ]) ++ [
           impermanence.nixosModules.impermanence
           stylix.nixosModules.stylix
@@ -109,7 +111,7 @@
             value = pkgs.callPackage ./packages/${name} { };
           }))
           # remove unsupported packages
-          (filter (x: elem pkgs.system x.value.meta.platforms))
+          (filter (x: elem pkgs.stdenv.hostPlatform.system x.value.meta.platforms))
           listToAttrs
         ])
       );
@@ -118,10 +120,11 @@
         default = with pkgs; mkShell {
           buildInputs = [
             deploy-rs
-            inputs.rekey.packages.${system}.default
+            inputs.rekey.packages.${stdenv.hostPlatform.system}.default
             nixos-anywhere
             # nixos-rebuild build --flake "$@" && nvd diff /run/current-system result
             nvd
+            claude-code
           ];
         };
       });
@@ -133,7 +136,7 @@
           inherit hostname;
           profiles.system = {
             user = "root";
-            path = inputs.deploy.lib.${config.pkgs.system}.activate.nixos config;
+            path = inputs.deploy.lib.${config.pkgs.stdenv.hostPlatform.system}.activate.nixos config;
           };
         })
         self.nixosConfigurations;

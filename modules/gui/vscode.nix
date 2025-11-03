@@ -134,7 +134,7 @@
       github.copilot
       github.copilot-chat
 
-    ]) ++ (lib.optionals (pkgs.system != "aarch64-linux") [
+    ]) ++ (lib.optionals (pkgs.stdenv.hostPlatform.system != "aarch64-linux") [
       ms-python.python # unsupported
     ]));
     keybindings = [

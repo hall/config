@@ -27,38 +27,35 @@ let
   ));
 in
 {
-  services = {
-    syncthing = {
-      # if host has an id
-      enable = builtins.elem config.networking.hostName (builtins.attrNames ids);
-      user = flake.lib.username;
-      openDefaultPorts = true;
-      dataDir = home;
+  services.syncthing = {
+    # if host has an id
+    enable = builtins.elem config.networking.hostName (builtins.attrNames ids);
+    user = flake.lib.username;
+    openDefaultPorts = true;
+    dataDir = home;
 
-      settings = {
-        devices = builtins.listToAttrs (builtins.map
-          (device: {
-            name = device;
-            value.id = ids.${device};
-          })
-          (builtins.attrNames ids)
-          # (shared "devices")
-        );
+    settings = {
+      devices = builtins.listToAttrs (builtins.map
+        (device: {
+          name = device;
+          value.id = ids.${device};
+        })
+        (builtins.attrNames ids)
+        # (shared "devices")
+      );
 
-        folders = builtins.listToAttrs (builtins.map
-          (folder: {
-            name = folder;
-            value = {
-              path = "${home}/${folder}";
-              devices = builtins.concatMap (group: group.devices)
-                (builtins.filter (group: builtins.elem folder group.folders)
-                  (builtins.attrValues groups));
-            };
-          })
-          (shared "folders")
-        );
-      };
-
+      folders = builtins.listToAttrs (builtins.map
+        (folder: {
+          name = folder;
+          value = {
+            path = "${home}/${folder}";
+            devices = builtins.concatMap (group: group.devices)
+              (builtins.filter (group: builtins.elem folder group.folders)
+                (builtins.attrValues groups));
+          };
+        })
+        (shared "folders")
+      );
     };
   };
 }

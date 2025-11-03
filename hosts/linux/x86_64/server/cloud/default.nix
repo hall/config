@@ -1,16 +1,16 @@
 { config, lib, pkgs, flake, ... }: {
-  age.secrets.nextcloud = {
-    rekeyFile = ./nextcloud.age;
-    owner = config.services.nextcloud.config.dbuser;
-  };
-  age.secrets.postgresql-nextcloud = {
-    rekeyFile = ./postgresql.age;
-    owner = config.services.nextcloud.config.dbuser;
-  };
+  # age.secrets.nextcloud = {
+  #   rekeyFile = ./nextcloud.age;
+  #   owner = config.services.nextcloud.config.dbuser;
+  # };
+  # age.secrets.postgresql-nextcloud = {
+  #   rekeyFile = ./postgresql.age;
+  #   owner = config.services.nextcloud.config.dbuser;
+  # };
 
   services = {
     nextcloud = {
-      enable = true;
+      # enable = true;
       package = pkgs.nextcloud31;
       https = true;
       hostName = "cloud.${flake.lib.hostname}";

@@ -15,25 +15,27 @@
     blacklistedKernelModules = [ "hid-nintendo" ];
   };
 
-  nixpkgs.config.packageOverrides = pkgs: {
-    intel-vaapi-driver = pkgs.intel-vaapi-driver.override { enableHybridCodec = true; };
-    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
-  };
-  hardware = {
-    # xpadneo.enable = true;
-    steam-hardware.enable = true;
-    graphics = {
-      enable = true;
-      extraPackages = with pkgs; [
-        intel-media-driver # LIBVA_DRIVER_NAME=iHD
-        vaapiVdpau
-        intel-compute-runtime
-        vpl-gpu-rt
-        libvdpau-va-gl
-        vpl-gpu-rt
-      ];
-    };
-  };
+  services.thermald.enable = true;
+
+  # nixpkgs.config.packageOverrides = pkgs: {
+  #   intel-vaapi-driver = pkgs.intel-vaapi-driver.override { enableHybridCodec = true; };
+  #   vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
+  # };
+  # hardware = {
+  #   # xpadneo.enable = true;
+  #   steam-hardware.enable = true;
+  #   graphics = {
+  #     enable = true;
+  #     extraPackages = with pkgs; [
+  #       intel-media-driver # LIBVA_DRIVER_NAME=iHD
+  #       vaapiVdpau
+  #       intel-compute-runtime
+  #       vpl-gpu-rt
+  #       libvdpau-va-gl
+  #       vpl-gpu-rt
+  #     ];
+  #   };
+  # };
   environment.sessionVariables = {
     # Force intel-media-driver
     # LIBVA_DRIVER_NAME = "iHD";

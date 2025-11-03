@@ -1,161 +1,328 @@
 { pkgs, flake, lib, ... }:
 let
   kodi = pkgs.kodi.withPackages (p: with p; [
-    # artic: zephyr - reloaded
-    # netflix
-    # flake.packages.hulu
-    # disney+
-    # crunchyroll
     jellyfin
-    # joystick
+    inputstream-adaptive
+    netflix
+    # crunchyroll
     # youtube
-    steam-library
-    (steam-launcher.overrideAttrs (old: {
-      version = "3.7.11";
-      src = pkgs.fetchFromGitHub rec {
-        owner = "teeedubb";
-        repo = owner + "-xbmc-repo";
-        rev = "8d0972909c3f1d0cd9e435e77f8b1f59314d52f0";
-        sha256 = "sha256-IYxl6X20qcnr1D/pNMOKBW9FfH9cXYon4Qi+wd7EvtI=";
-      };
-      postInstall = with pkgs; old.postInstall + ''
-        substituteInPlace $out/share/kodi/addons/script.steam.launcher/resources/scripts/steam-launcher.sh \
-          --replace "wmctrl" "${wmctrl}/bin/wmctrl"
-      '';
-    }))
-    libretro
+    # steam-library # or steam-launcher?
+    # steam-controller # ? or joystick
+    # sendtokodi
+    # libretro # and friends
   ]);
 in
 {
+  boot.kernelParams = [
+    "video=DP-2:1920x1080@60"
+    # "drm.edid_firmware=DP-2:edid/edid.bin"  # Temporarily disabled
+    # "drm.edid_firmware=DP-2:disable" # Force disable EDID override
+    # "intel_iommu=off"  # Temporarily removed - may affect audio routing
+    "i915.force_probe=*"
+    "drm.debug=0x1f" # Enable debug logging
+    "log_level=3"
+    # Intel HDMI audio fixes - RELIABLE HDMI
+    "snd_hda_intel.power_save=0"
+    # "snd_hda_intel.probe_mask=3"  # Temporarily removed - assumes codec exists
+    "snd_hda_intel.jackpoll_ms=5000"
+    "snd_hda_intel.debug=1" # Enable audio debug logging
+    # Force HDMI presence detection on actual connected port
+    "drm_kms_helper.edid_firmware=DP-2:force"
+  ];
 
-  environment.etc."/xdg/openbox/autostart".text = ''
-    xset -dpms     # Disable DPMS (Energy Star) features
-    xset s off     # Disable screensaver
-    xset s noblank # Don't blank video device
+  # hardware.display.edid.packages = [
+  #   (pkgs.runCommand "edid-custom" { } ''
+  #     mkdir -p "$out/lib/firmware/edid"
+  #     base64 -d > "$out/lib/firmware/edid/edid.bin" <<-EOF
+  #     AP///////wBMLRdwAA4AAQEeAQOApV14Cqgzq1BFpScNSEi974BxT4HAgQCBgJUAqcCzANHACOgAMPJwWoCwWIoAUB10AAAeVl4AoKCgKVAwIDUAUB10AAAaAAAA/ABTQU1TVU5HCiAgICAgAAAA/QAYSw+HPAAKICAgICAgASACAzvxUpAfBBMFFCAhIl1eX2JkBxYDEikJBwcVB1A9B8CDAQAAbgMMACEAgB4oAIABAgME4wXDAeIATwI6gBhxOC1AWCxFAFAddAAAHgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAeA==
+  #     EOF
+  #   '')
+  # ];
+
+
+  environment.systemPackages = with pkgs; [
+    xorg.xrandr # kodi uses
+    steam
+    libcec
+    alsa-utils
+    alsa-tools
+    ncpamixer
+    gd
+    pulseaudio
+    pavucontrol
+    edid-decode
+  ] ++ [ kodi ];
+
+  # environment.etc."wireplumber/policy/51-hdmi-default.conf".text = ''
+  #   {
+  #     "rules": [
+  #       {
+  #         "matches": [
+  #           {
+  #             "node.name": "matches:alsa_output.*HDMI*"
+  #           }
+  #         ],
+  #         "actions": {
+  #           "update-props": {
+  #             "priority.session": 100,
+  #             "priority.driver": 100,
+  #             "node.autoconnect": true,
+  #             "node.disabled": false,
+  #             "node.description": "HDMI Output"
+  #           }
+  #         }
+  #       }
+  #     ]
+  #   }
+  # '';
+
+  environment.etc."X11/xorg.conf.d/10-disable.conf".text = ''
+    Section "Monitor"
+        Identifier "DP-1"
+        Option "Ignore" "true"
+    EndSection
+
+    Section "Monitor"
+        Identifier "DP-2"
+        Option "Primary" "true"
+        Option "PreferredMode" "1920x1080"
+    EndSection
+
+    Section "Monitor"
+        Identifier "DP-3"
+        Option "Ignore" "true"
+    EndSection
+
+    Section "Monitor"
+        Identifier "DP-4"
+        Option "Ignore" "true"
+    EndSection
+
+    Section "Monitor"
+        Identifier "HDMI-1"
+        Option "Ignore" "true"
+    EndSection
   '';
 
+
   services.pipewire = {
-    # socketActivation = false;
-    wireplumber.extraConfig.av = {
-      "session.suspend-timeout-seconds" = 0;
-      "node.pause-on-idle" = false;
+    enable = true;
+    alsa.enable = true;
+    pulse.enable = true;
+    wireplumber.enable = true;
+    wireplumber.extraConfig = {
+      av = {
+        "session.suspend-timeout-seconds" = 0;
+        "node.pause-on-idle" = false;
+        "session.suspend-on-idle" = false;
+      };
+      # Ensure HDMI audio devices are available
+      "hdmi-audio" = {
+        "monitor.alsa.rules" = [
+          {
+            "matches" = [
+              { "device.name" = "~alsa_card.pci-0000_00_1f.3"; }
+            ];
+            "actions" = {
+              "update-props" = {
+                "device.disabled" = false;
+                "alsa.use-acp" = false;
+              };
+            };
+          }
+        ];
+      };
     };
   };
-  # Start WirePlumber (with PipeWire) at boot.
-  systemd.user.services.wireplumber.wantedBy = [ "default.target" ];
-  users.users.${flake.lib.username}.linger = true; # keep user services running
+
+  users.users.${flake.lib.username}.linger = true;
 
   networking.firewall = {
     allowedTCPPorts = [
-      8081 # web server
-      9090 # jsonrpc
+      8080 # Kodi web server/JSON-RPC
+      8081
+      9090
     ];
-    allowedUDPPorts = [
-      9777 # event server
-    ];
+    allowedUDPPorts = [ 9777 ];
   };
 
-  environment.systemPackages = with pkgs; [
-    # useful for directing specific application audio to different output devices (television vs ceiling speakers)
-    ncpamixer
-    gdb # for stacktraces
-  ];
-
-  systemd.user.services.kodi = {
-    description = "kodi as systemd service";
-    wantedBy = [ "graphical-session.target" ];
-    partOf = [ "graphical-session.target" ];
-
-    serviceConfig = {
-      ExecStart = "${kodi}/bin/kodi --standalone";
-      Restart = "on-failure";
-    };
-    environment.KODI_AE_SINK = "ALSA";
-  };
-
-  home-manager.users.${flake.lib.username}.programs.kodi = {
-    enable = true;
-    package = kodi;
-    addonSettings = {
-      # https://github.com/teeedubb/teeedubb-xbmc-repo/blob/master/script.steam.launcher/resources/settings.xml
-      "script.steam.launcher" = {
-        SteamLinux = "${pkgs.steam}/bin/steam";
-        KodiLinux = "${kodi}/bin/kodi";
-        # don't modify kodi
-        QuitKodi = "2";
-      };
-      # https://github.com/aanderse/plugin.program.steam.library/blob/master/resources/settings.xml
-      "plugin.program.steam.library" = {
-        steam-id = "76561199225094946";
-        # TODO: move to 
-        steam-key = "37913698D54C745129CA9195AFC6D243";
-        steam-exe = "${pkgs.steam}/bin/steam";
-        steam-path = "~/.steam";
-        steam-args = "-bigpicture -fullscreen";
-      };
-    };
-
-    # settings = {
-    #   # addons managed by nix
-    #   general = {
-    #     addonupdates = "2";
-    #     addonnotifications = "false";
-    #   };
-    #   locale = {
-    #     timezonecountry = "United States";
-    #     timezone = "America/New_York";
-    #   };
-    #   lookandfeel = {
-    #     # some kids media requires CJK font
-    #     font = "CJK - Spoqa + Inter";
-    #   };
-    #   services = {
-    #     devicename = config.networking.hostName;
-    #     webserver = "true";
-    #     webserverport = "8080";
-    #     webserverauthentication = "false";
-    #     webserverusername = "kodi";
-    #     webserverpassword = "";
-    #     webserverssl = "false";
-    #   };
-    # };
-  };
 
   services.upower.enable = true;
-  hardware.bluetooth.enable = true;
 
-  services.xserver = {
-    enable = true;
-    # a basic window manager to keep things simple
-    windowManager.openbox.enable = true;
-    # prevent the screen from ever going blank - turn the tv off when you're done using it
-    extraConfig = ''
-      Section "Extensions"
-        Option "DPMS" "false"
-      EndSection
-    '';
-    serverFlagsSection = ''
-      Option "BlankTime" "0"
-      Option "StandbyTime" "0"
-      Option "SuspendTime" "0"
-      Option "OffTime" "0"
-    '';
+  # HDMI AUDIO DETECTION AND ACTIVATION SERVICE
+  systemd.services.hdmi-audio-setup = {
+    description = "HDMI Audio Detection and Setup";
+    wants = [ "sound.target" ];
+    wantedBy = [ "multi-user.target" ];
+    after = [ "sound.target" "display-manager.service" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      ExecStart = pkgs.writeShellScript "hdmi-audio-setup" ''
+        # Wait for audio and display system initialization
+        sleep 10
+
+        echo "=== HDMI Audio Detection ==="
+
+        # Check available audio devices
+        echo "Available audio devices:"
+        ${pkgs.alsa-utils}/bin/aplay -l || true
+
+        # Check if HDMI codec exists
+        if [ -e "/dev/snd/hwC0D2" ]; then
+          echo "✓ HDMI codec detected at /dev/snd/hwC0D2"
+        else
+          echo "✗ HDMI codec not detected"
+          exit 1
+        fi
+
+        # Configure digital audio controls
+        echo "Configuring digital audio controls..."
+        ${pkgs.alsa-utils}/bin/amixer -c 0 sset Master 80% unmute || true
+
+        # Enable all available IEC958 (digital) controls
+        for i in 0 1 2 3; do
+          if ${pkgs.alsa-utils}/bin/amixer -c 0 scontrols | grep -q "IEC958.*,$i"; then
+            echo "Enabling IEC958,$i..."
+            ${pkgs.alsa-utils}/bin/amixer -c 0 sset "IEC958,$i" on || true
+          fi
+        done
+
+        # Skip audio test during boot (may conflict with Kodi startup)
+        echo "HDMI audio configuration complete (skipping test during boot)"
+
+        echo "=== HDMI Audio Setup Complete ==="
+      '';
+    };
   };
 
-  # ensure the mouse cursor stays hidden
-  # services.unclutter.enable = true;
+  # Add a manual HDMI audio test service for debugging
+  systemd.services.hdmi-audio-test = {
+    description = "Manual HDMI Audio Test";
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = pkgs.writeShellScript "hdmi-audio-test" ''
+        echo "=== Manual HDMI Audio Test ==="
+        
+        # Stop any processes that might be using audio
+        ${pkgs.procps}/bin/pkill -f kodi || true
+        sleep 2
+        
+        # Test HDMI audio
+        if timeout 5 ${pkgs.alsa-utils}/bin/speaker-test -c 2 -t wav -D hw:0,3 -l 2 2>/dev/null; then
+          echo "✓ HDMI audio test successful"
+        else
+          echo "✗ HDMI audio test failed"
+          exit 1
+        fi
+      '';
+    };
+  };
 
-  # TODO: https://github.com/xbmc/xbmc/issues/26122#issuecomment-2557393968
-  systemd.user.services.pipewire.environment.PIPEWIRE_DEBUG = "W,pw.*:I,spa.audioadapter:X";
+  # Periodic HDMI audio keepalive service - TEMPORARILY DISABLED FOR DEBUGGING
+  # systemd.services.hdmi-audio-keepalive = {
+  #   description = "HDMI Audio Keepalive";
+  #   serviceConfig = {
+  #     Type = "oneshot";
+  #     ExecStart = pkgs.writeShellScript "hdmi-keepalive" ''
+  #       # Check if HDMI codec exists first
+  #       if [ -e "/dev/snd/hwC0D2" ]; then
+  #         # Check if HDMI pin is still enabled
+  #         PIN_STATUS=$(${pkgs.alsa-tools}/bin/hda-verb /dev/snd/hwC0D2 0x06 0xf07 0x00 2>/dev/null | grep -o "0x[0-9a-f]*" | tail -1 || echo "0x00")
+  #         
+  #         if [[ "$PIN_STATUS" != "0x40" ]]; then
+  #           echo "HDMI pin disabled, re-enabling..."
+  #           ${pkgs.alsa-tools}/bin/hda-verb /dev/snd/hwC0D2 0x06 0x707 0x40 2>/dev/null || true
+  #           ${pkgs.alsa-tools}/bin/hda-verb /dev/snd/hwC0D2 0x06 0x3b0 0x00 2>/dev/null || true
+  #         fi
+  #       else
+  #         echo "HDMI codec not found at /dev/snd/hwC0D2 - audio hardware may not be properly detected"
+  #       fi
+  #       
+  #       # Check if IEC958 control exists before trying to use it
+  #       if ${pkgs.alsa-utils}/bin/amixer -c 0 scontrols | grep -q "IEC958"; then
+  #         ${pkgs.alsa-utils}/bin/amixer -c 0 sget IEC958 | grep -q "off" && {
+  #           ${pkgs.alsa-utils}/bin/amixer -c 0 sset IEC958 on
+  #         } || true
+  #       else
+  #         echo "IEC958 control not available - HDMI audio may not be properly configured"
+  #       fi
+  #     '';
+  #   };
+  # };
 
-  # lightdm didn't work out of the box inside an nspawn container so prefer sddm
-  services.displayManager = {
-    sddm.enable = true;
-    defaultSession = "none+openbox";
-    autoLogin = {
+  # systemd.timers.hdmi-audio-keepalive = {
+  #   description = "HDMI Audio Keepalive Timer";
+  #   wantedBy = [ "timers.target" ];
+  #   timerConfig = {
+  #     OnBootSec = "2min";
+  #     OnUnitActiveSec = "30s";
+  #   };
+  # };
+
+  hardware.bluetooth.enable = true;
+
+  services = {
+    displayManager.autoLogin = {
       enable = true;
       user = flake.lib.username;
     };
+    xserver = {
+      enable = true;
+      windowManager.openbox.enable = true;
+      displayManager.lightdm.enable = true;
+      # videoDrivers = [ "intel" "modesetting" ];
+    };
   };
-}
 
+  services.logind.settings.Login = {
+    HandleSuspendKey = "ignore";
+    HandleLidSwitch = "ignore";
+    HandleHibernateKey = "ignore";
+  };
+
+
+  home-manager.users.${flake.lib.username} = {
+    # programs.kodi = {
+    #   enable = true;
+    #   package = kodi;
+    # };
+
+    xdg.configFile."openbox/autostart".text = ''
+      xset -dpms
+      xset s off
+      xset s noblank
+      sleep 5
+      ${kodi}/bin/kodi --fullscreen &
+    '';
+
+    home.file.".kodi/userdata/peripheral_data/usb_2548_1002_CEC_Adapter.xml" = {
+      force = true;
+      text = ''
+        <settings>
+          <setting id="enabled" value="1"/>
+          <setting id="activate_source" value="0"/>
+          <setting id="cec_hdmi_port" value="1"/>
+          <setting id="standby_tv_on_pc_standby" value="0"/>
+          <setting id="send_inactive_source" value="1"/>
+          <setting id="device_name" value="Kodi"/>
+          <setting id="device_type" value="36048"/>
+          <setting id="physical_address" value="0"/>
+          <setting id="connected_device" value="36038"/>
+          <setting id="wake_devices" value="36038"/>
+          <setting id="standby_devices" value="36036"/>
+          <setting id="cec_standby_screensaver" value="0"/>
+          <setting id="cec_wake_screensaver" value="0"/>
+          <setting id="pause_or_stop_playback_on_deactivate" value="36045"/>
+          <setting id="button_release_delay_ms" value="0"/>
+          <setting id="button_repeat_rate_ms" value="0"/>
+          <setting id="double_tap_timeout_ms" value="300"/>
+          <setting id="use_tv_menu_language" value="1"/>
+          <setting id="tv_vendor" value="0"/>
+          <setting id="power_avr_on_as" value="1"/>
+        </settings>
+      '';
+    };
+  };
+
+}
