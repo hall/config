@@ -99,6 +99,7 @@
 
       "zenMode.centerLayout" = false;
 
+      "geminicodeassist.project" = "practical-ring-398523";
     };
     extensions = (with pkgs.vscode-marketplace; [
       # james-yu.latex-workshop
