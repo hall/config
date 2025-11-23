@@ -139,7 +139,7 @@ in
             eDP-1.pos = "0 0";
             "Dell Inc. DELL S2721NX 9BZZC23".pos = "0 -1080";
             "Dell Inc. DELL S2721NX HLCBZ13" = {
-              pos = "-1080 -1080";
+              pos = "1920 -1080";
               transform = "90";
             };
           };
