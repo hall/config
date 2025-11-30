@@ -119,13 +119,15 @@
       devShells = eachSystem (pkgs: {
         default = with pkgs; mkShell {
           buildInputs = [
-            deploy-rs
-            inputs.rekey.packages.${stdenv.hostPlatform.system}.default
             nixos-anywhere
             # nixos-rebuild build --flake "$@" && nvd diff /run/current-system result
             nvd
             claude-code
-          ];
+            gemini-cli
+          ] ++ (map (i: i.packages.${stdenv.hostPlatform.system}.default) [
+            inputs.deploy
+            inputs.rekey
+          ]);
         };
       });
 
