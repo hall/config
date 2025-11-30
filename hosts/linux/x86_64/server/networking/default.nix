@@ -31,6 +31,7 @@
     adguardhome = {
       enable = true;
       mutableSettings = false;
+      openFirewall = true;
       settings = {
         dns = {
           bind_host = "127.0.0.1";
@@ -47,15 +48,17 @@
               # NOTE: this is just for split DNS, actual record in namecheap
               domain = "grafana.${flake.lib.hostname}";
               answer = "thehalls.grafana.net";
+              enabled = true;
             }
             {
               domain = "*.${flake.lib.hostname}";
               answer = "192.168.86.2";
+              enabled = true;
             }
           ];
         };
         dhcp = {
-          enabled = false;
+          enabled = true;
           interface_name = "wlo1";
           dhcpv4 = {
             gateway_ip = "192.168.86.1";
