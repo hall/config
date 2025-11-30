@@ -86,7 +86,7 @@ in
       gtk.enable = true;
       wayland.windowManager.sway = {
         enable = true;
-        xwayland = false;
+        systemd.enable = true;
         config = rec {
           modifier = "Mod4"; # GUI key
           bars = [ ]; # replace w/ waybar
