@@ -13,6 +13,16 @@
     stash = {
       # https://github.com/NixOS/nixpkgs/pull/380462
       enable = true;
+      package = pkgs.stash.overrideAttrs (oldAttrs: rec {
+        version = "0.29.3";
+        src = pkgs.fetchFromGitHub {
+          owner = "stashapp";
+          repo = "stash";
+          rev = "v${version}";
+          hash = "sha256-FCF3BzBi1gGngz8Z7J94KajGaJafzGrEnfcqVs2rCws=";
+        };
+        # vendorHash = ""; # Uncomment and run to get the hash if needed
+      });
       group = "syncthing";
 
       username = "hall";
