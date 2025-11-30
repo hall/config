@@ -1,4 +1,10 @@
-{ config, lib, pkgs, flake, ... }: {
+{ config, lib, pkgs, flake, ... }:
+let
+  systemParts = lib.splitString "-" pkgs.stdenv.hostPlatform.system;
+  arch = lib.elemAt systemParts 0;
+  platform = lib.elemAt systemParts 1;
+in
+{
   # https://nixos.org/manual/nixos/stable/release-notes.html
   # https://nix-community.github.io/home-manager/release-notes.xhtml
   system.stateVersion = "24.05";
@@ -13,7 +19,7 @@
     # force secrets to be copied to remote host
     derivation = flake.nixosConfigurations.${config.networking.hostName}.config.age.rekey.derivation;
     storageMode = "local";
-    localStorageDir = ./. + "/linux/x86_64/${config.networking.hostName}/.secrets";
+    localStorageDir = ./. + "/${platform}/${arch}/${config.networking.hostName}/.secrets";
   };
 
   security.sudo.execWheelOnly = true;
