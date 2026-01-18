@@ -8,15 +8,7 @@
   ];
 
   boot = {
-    loader = {
-      grub.enable = false;
-      generic-extlinux-compatible.enable = true;
-    };
-
-    # Enable required modules for routing
     kernelModules = [ "nf_nat" "nf_conntrack" ];
-
-    # Optimize for router usage
     kernel.sysctl = {
       # Enable IP forwarding
       "net.ipv4.ip_forward" = 1;
