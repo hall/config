@@ -51,7 +51,6 @@
     ./stash
     ./networking
     ./cloud
-    flake.inputs.hardware.nixosModules.intel-nuc-8i7beh
     ../disks.btrfs.nix
   ];
 
