@@ -101,6 +101,19 @@
         (attrNames (readDir ./overlays))
       );
 
+      images = builtins.mapAttrs
+        (name: config:
+          let
+            arch = builtins.head (builtins.split "-" config.pkgs.stdenv.hostPlatform.system);
+            imageType = {
+              "aarch64" = { module = inputs.nixos-generators.nixosModules.sd-aarch64; output = "sdImage"; };
+              "x86_64" = { module = inputs.nixos-generators.nixosModules.iso; output = "isoImage"; };
+            }.${arch};
+          in
+          (config.extendModules { modules = [ imageType.module ]; }).config.system.build.${imageType.output}
+        )
+        nixosConfigurations;
+
       packages = with builtins; eachSystem (pkgs:
         (pkgs.lib.trivial.pipe
           # remove "disabled" packages
@@ -147,6 +160,46 @@
         inherit (self) nixosConfigurations;
         userFlake = self;
       };
+
+      apps = eachSystem (pkgs: {
+        flash = {
+          type = "app";
+          program = toString (pkgs.writeShellScript "flash" ''
+            set -euo pipefail
+
+            echo "Select a host:"
+            host=$(echo "${builtins.concatStringsSep "\n" (builtins.attrNames nixosConfigurations)}" | ${pkgs.gum}/bin/gum choose)
+            if [ -z "$host" ]; then
+              echo "No host selected"
+              exit 1
+            fi
+
+            echo "Select a device:"
+            device=$(${pkgs.util-linux}/bin/lsblk -d -n -p -o NAME | ${pkgs.gum}/bin/gum choose)
+            if [ -z "$device" ]; then
+              echo "No device selected"
+              exit 1
+            fi
+
+            size=$(${pkgs.util-linux}/bin/lsblk -d -n -o SIZE "$device")
+            model=$(${pkgs.util-linux}/bin/lsblk -d -n -o MODEL "$device")
+            ${pkgs.gum}/bin/gum confirm "Flash $host to $device ($size $model)?" || exit 1
+
+            echo "Building image for $host..."
+            imagePath=$(${pkgs.nix}/bin/nix build ".#images.$host" --no-link --print-out-paths)
+            imageFile=$(find "$imagePath" -name '*.img.zst' -o -name '*.img' -o -name '*.iso' 2>/dev/null | head -n1)
+
+            echo "Flashing $imageFile to $device..."
+            if [[ "$imageFile" == *.zst ]]; then
+              ${pkgs.zstd}/bin/zstdcat "$imageFile" | sudo ${pkgs.coreutils}/bin/dd of="$device" bs=4M status=progress conv=fsync
+            else
+              sudo ${pkgs.coreutils}/bin/dd if="$imageFile" of="$device" bs=4M status=progress conv=fsync
+            fi
+            sudo ${pkgs.coreutils}/bin/sync
+            echo "Done!"
+          '');
+        };
+      });
 
     };
 }
