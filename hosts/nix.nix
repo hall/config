@@ -14,6 +14,7 @@
     "vscode-extension-ms-vscode-remote-remote-containers"
     "vscode-extension-ms-vsliveshare-vsliveshare"
     "windsurf"
+    "google-chrome"
   ];
 
   nix = {
@@ -54,7 +55,7 @@
       # TODO: sshKey = config.age.secrets.id_ed25519.path;
       sshKey = "/home/${flake.lib.username}/.ssh/id_ed25519";
       # TODO: dynamically generate based on fs heirarchy
-      systems = [ "x86_64-linux" ];
+      systems = [ "x86_64-linux" "aarch64-linux" ];
       maxJobs = 8;
       supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
     }];

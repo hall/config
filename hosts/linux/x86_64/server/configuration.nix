@@ -9,8 +9,7 @@
 #   - mailbox?
 { lib, pkgs, flake, config, ... }: {
   boot = {
-    # TODO: remove? no longer have any aarch64 targets
-    # binfmt.emulatedSystems = [ "aarch64-linux" ];
+    binfmt.emulatedSystems = [ "aarch64-linux" ];
     # for 8bitdo pro 2 in switch mode
     blacklistedKernelModules = [ "hid-nintendo" ];
   };
