@@ -49,7 +49,11 @@
   outputs = inputs@{ self, systems, ... }:
     let
       eachSystem = f: inputs.nixpkgs.lib.genAttrs (import systems)
-        (system: f (import inputs.nixpkgs { inherit system; config.allowUnfree = true; }));
+        (system: f (import inputs.nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+          overlays = [ self.overlays.default ];
+        }));
     in
     rec {
 
@@ -137,8 +141,8 @@
             nvd
             claude-code
             gemini-cli
+            deploy-rs
           ] ++ (map (i: i.packages.${stdenv.hostPlatform.system}.default) [
-            inputs.deploy
             inputs.rekey
           ]);
         };
