@@ -22,6 +22,7 @@
     obsidian
     rancher
     # seabird
+    devenv
 
     kubie
   ];
