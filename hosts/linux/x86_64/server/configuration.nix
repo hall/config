@@ -55,16 +55,6 @@
   ];
 
   networking = {
-    interfaces.wlo1 = {
-      useDHCP = false;
-      ipv4.addresses = [{
-        address = "192.168.86.2";
-        prefixLength = 24;
-      }];
-    };
-    defaultGateway = "192.168.86.1";
-    nameservers = [ "127.0.0.1" ]; # Use local AdGuard Home
-
     firewall = {
       allowedTCPPorts = [
         80 # http redirect

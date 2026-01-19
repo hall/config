@@ -13,8 +13,6 @@
   };
 
   services = {
-    wifi.enable = true;
-
     tailscale = {
       enable = true;
       useRoutingFeatures = "both";
@@ -23,51 +21,12 @@
         "--ssh"
         # "--advertise-exit-node"
         "--exit-node-allow-lan-access"
-        "--exit-node=us-nyc-wg-604.mullvad.ts.net"
-        "--advertise-routes=192.168.86.0/24"
+        #"--exit-node=us-nyc-wg-604.mullvad.ts.net"
+        "--advertise-routes=192.168.1.0/24"
       ];
-    };
-
-    adguardhome = {
-      enable = true;
-      mutableSettings = false;
-      openFirewall = true;
-      settings = {
-        dns = {
-          bind_host = "127.0.0.1";
-          bootstrap_dns = [
-            "9.9.9.10"
-            "149.112.112.10"
-            "2620:fe::10"
-            "2620:fe::fe:10"
-          ];
-        };
-        filtering = {
-          rewrites = [
-            {
-              # NOTE: this is just for split DNS, actual record in namecheap
-              domain = "grafana.${flake.lib.hostname}";
-              answer = "thehalls.grafana.net";
-              enabled = true;
-            }
-            {
-              domain = "*.${flake.lib.hostname}";
-              answer = "192.168.86.2";
-              enabled = true;
-            }
-          ];
-        };
-        dhcp = {
-          enabled = true;
-          interface_name = "wlo1";
-          dhcpv4 = {
-            gateway_ip = "192.168.86.1";
-            subnet_mask = "255.255.255.0";
-            range_start = "192.168.86.10";
-            range_end = "192.168.86.254";
-          };
-        };
-      };
+      extraSetFlags = [
+        "--advertise-connector"
+      ];
     };
 
     syncthing.guiAddress = "0.0.0.0:8384";
@@ -84,7 +43,7 @@
           useACMEHost = flake.lib.hostname;
           acmeRoot = null;
           forceSSL = true;
-          locations."/".proxyPass = "http://127.0.0.1:3000";
+          locations."/".proxyPass = "http://192.168.1.1:3000";
         };
         "sync.${flake.lib.hostname}" = {
           useACMEHost = flake.lib.hostname;
@@ -100,6 +59,18 @@
             proxy_read_timeout      600s;
             proxy_send_timeout      600s;
           '';
+        };
+        "home.${flake.lib.hostname}" = {
+          useACMEHost = flake.lib.hostname;
+          acmeRoot = null;
+          forceSSL = true;
+          extraConfig = ''
+            proxy_buffering off;
+          '';
+          locations."/" = {
+            proxyPass = "http://homeassistant.lan:8123";
+            proxyWebsockets = true;
+          };
         };
         "stash.${flake.lib.hostname}" = {
           useACMEHost = flake.lib.hostname;
