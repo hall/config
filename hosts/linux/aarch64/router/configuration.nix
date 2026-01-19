@@ -53,18 +53,7 @@
     conntrack-tools
   ];
 
-  age.rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK5GE00lbpN9pcEP4TDTY1KCneDgCeycaszbEYvona7j";
-  age.secrets.ssh_host_ed25519_key = {
-    rekeyFile = ./ssh_host_ed25519_key.age;
-    mode = "600";
-    owner = "root";
-    group = "root";
-  };
-
-  services.openssh.hostKeys = [{
-    path = config.age.secrets.ssh_host_ed25519_key.path;
-    type = "ed25519";
-  }];
+  age.rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH6DSDGDvYlysCDsQ6mSBTXclxtd2aCE+LlM6Y+CxOdr";
 
   # better performance on limited RAM
   zramSwap = {
