@@ -43,14 +43,13 @@
           lease_duration = 86400; # 24 hours
         };
 
-        # Static DHCP leases (optional)
-        # dhcp_static_leases = [
-        #   {
-        #     mac = "aa:bb:cc:dd:ee:ff";
-        #     ip = "192.168.1.10";
-        #     hostname = "mydevice";
-        #   }
-        # ];
+        dhcp_static_leases = [
+          {
+            mac = "88:ae:dd:05:c9:46";
+            ip = "192.168.1.10";
+            hostname = "server";
+          }
+        ];
       };
 
       filtering = {
@@ -58,13 +57,14 @@
         filtering_enabled = true;
 
         rewrites = [
-          # {
-          #   domain = "router.lan";
-          #   answer = "192.168.1.1";
-          # }
+          {
+            domain = "router.lan";
+            answer = "192.168.1.1";
+            enabled = true;
+          }
           {
             domain = "*.${flake.lib.hostname}";
-            answer = "192.168.1.1";
+            answer = "192.168.1.10";
             enabled = true;
           }
           {
