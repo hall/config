@@ -7,7 +7,7 @@ in
 {
   # https://nixos.org/manual/nixos/stable/release-notes.html
   # https://nix-community.github.io/home-manager/release-notes.xhtml
-  system.stateVersion = "24.05";
+  system.stateVersion = "24.11";
 
   imports = [
     ./nix.nix
