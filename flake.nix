@@ -45,6 +45,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     vpn.url = "github:Maroka-chan/VPN-Confinement";
+    nixos-generators = {
+      url = "github:nix-community/nixos-generators";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs = inputs@{ self, systems, ... }:
     let
