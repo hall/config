@@ -3,12 +3,16 @@
   hardware.sensor.iio.enable = true; # autorotate
 
   # musnix.enable = true;
-  programs.adb.enable = true;
+  # programs.adb.enable = true;
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
-  networking.firewall.allowedTCPPorts = [
-    1716 # gsconnect
-    8081 # expo / react-native
-  ];
+  networking = {
+    search = [ "lan" ];
+    firewall.allowedTCPPorts = [
+      1716 # gsconnect
+      8081 # expo / react-native
+    ];
+  };
 
   # TODO: remove after migrating to new btrfs config
   imports = [ ../disks.ext4.nix ];
