@@ -14,7 +14,7 @@
     initrd.availableKernelModules = [
       "usbhid"
       "usb_storage"
-      "uas"           # USB Attached SCSI for better SSD performance
+      "uas" # USB Attached SCSI for better SSD performance
       "vc4"
       "bcm2835_dma"
       "i2c_bcm2835"
@@ -30,12 +30,12 @@
 
     # USB Ethernet adapter support
     kernelModules = [
-      "r8152"         # Realtek USB Ethernet (common)
-      "asix"          # ASIX USB Ethernet
-      "ax88179_178a"  # ASIX AX88179
-      "cdc_ether"     # Generic CDC Ethernet
+      "r8152" # Realtek USB Ethernet (common)
+      "asix" # ASIX USB Ethernet
+      "ax88179_178a" # ASIX AX88179
+      "cdc_ether" # Generic CDC Ethernet
       "cdc_ncm"
-      "smsc95xx"      # Built-in ethernet on Pi
+      "smsc95xx" # Built-in ethernet on Pi
     ];
   };
 
@@ -43,6 +43,4 @@
     enable = true;
     interval = "weekly";
   };
-
-  nixpkgs.hostPlatform = "aarch64-linux";
 }
