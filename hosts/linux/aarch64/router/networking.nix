@@ -1,14 +1,9 @@
-# Router Networking Configuration
-# WAN: USB Ethernet adapter (wan0)
-# LAN: Built-in Ethernet (lan0)
 { flake, ... }: {
   imports = [
     ./adguard.nix
   ];
 
   networking = {
-    hostName = "router";
-
     # Use systemd-networkd for better control
     useNetworkd = true;
     useDHCP = false;
@@ -16,7 +11,6 @@
     # Disable default interface configuration
     interfaces = { };
 
-    # NAT configuration
     nat = {
       enable = true;
       externalInterface = "wan0"; # WAN interface (USB Ethernet)
@@ -24,7 +18,6 @@
       internalIPs = [ "192.168.1.0/24" ];
     };
 
-    # Firewall configuration
     firewall = {
       enable = true;
 
@@ -32,9 +25,7 @@
       interfaces.lan0 = {
         allowedTCPPorts = [
           53 # DNS
-          80 # HTTP (for AdGuard Home web interface)
-          443 # HTTPS
-          3000 # AdGuard Home alternative port
+          3000 # AdGuard Home
         ];
         allowedUDPPorts = [
           53 # DNS
@@ -49,7 +40,6 @@
         allowedUDPPorts = [ ];
       };
 
-      # Allow ping
       allowPing = true;
 
       # Extra commands for advanced routing
@@ -65,7 +55,6 @@
       '';
     };
 
-    # DNS configuration
     nameservers = [
       "127.0.0.1" # Local AdGuard Home
       "1.1.1.1" # Cloudflare fallback
@@ -99,25 +88,17 @@
     # WAN interface (USB Ethernet adapter)
     # Matches any USB ethernet device
     links."10-wan" = {
-      matchConfig = {
-        # Match USB ethernet adapters by common drivers
-        Driver = "r8152 asix ax88179_178a cdc_ether cdc_ncm";
-      };
-      linkConfig = {
-        Name = "wan0";
-      };
+      # Match USB ethernet adapters by common drivers
+      matchConfig.Driver = "r8152 asix ax88179_178a cdc_ether cdc_ncm";
+      linkConfig.Name = "wan0";
     };
 
     # LAN interface (Built-in Ethernet)
     # Matches the built-in ethernet by path or driver
     links."20-lan" = {
-      matchConfig = {
-        # Raspberry Pi 4 built-in ethernet uses this driver
-        Driver = "bcmgenet";
-      };
-      linkConfig = {
-        Name = "lan0";
-      };
+      # Raspberry Pi 4 built-in ethernet uses this driver
+      matchConfig.Driver = "bcmgenet";
+      linkConfig.Name = "lan0";
     };
 
     # Configure WAN interface to get DHCP from ISP
@@ -127,9 +108,7 @@
         DHCP = "ipv4";
         IPv6AcceptRA = true;
       };
-      dhcpV4Config = {
-        UseDNS = false; # Use our own DNS (AdGuard Home)
-      };
+      dhcpV4Config.UseDNS = false; # Use our own DNS (AdGuard Home)
     };
 
     # Configure LAN interface with static IP
@@ -138,7 +117,19 @@
       networkConfig = {
         Address = "192.168.1.1/24";
         DHCPServer = false; # AdGuard Home handles DHCP
+        IPv6SendRA = true;
       };
+      addresses = [
+        { Address = "fd00::1/64"; } # ULA for internal IPv6
+      ];
+      ipv6SendRAConfig = {
+        Managed = false; # SLAAC, not DHCPv6
+        OtherInformation = false;
+        DNS = "fd00::1"; # Advertise router as DNS server
+      };
+      ipv6Prefixes = [
+        { Prefix = "fd00::/64"; }
+      ];
     };
   };
 }

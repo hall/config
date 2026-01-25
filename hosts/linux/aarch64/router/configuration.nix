@@ -1,4 +1,3 @@
-# Raspberry Pi 4
 # WAN: USB Ethernet (wan0) - DHCP from ISP
 # LAN: Built-in Ethernet (lan0) - 192.168.1.1/24
 { pkgs, config, ... }: {
@@ -6,6 +5,8 @@
     ./hardware.nix
     ./networking.nix
   ];
+
+  hardware.rpi4.enable = true;
 
   boot = {
     kernelModules = [ "nf_nat" "nf_conntrack" ];
@@ -32,20 +33,6 @@
     };
   };
 
-  # Optimize for headless router
-  systemd = {
-    targets = {
-      sleep.enable = false;
-      suspend.enable = false;
-      hibernate.enable = false;
-      hybrid-sleep.enable = false;
-    };
-    services = {
-      "getty@tty1".enable = false;
-      "autovt@tty1".enable = false;
-    };
-  };
-
   environment.systemPackages = with pkgs; [
     ethtool
     iperf3
@@ -54,10 +41,4 @@
   ];
 
   age.rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH6DSDGDvYlysCDsQ6mSBTXclxtd2aCE+LlM6Y+CxOdr";
-
-  # better performance on limited RAM
-  zramSwap = {
-    enable = true;
-    memoryPercent = 50;
-  };
 }

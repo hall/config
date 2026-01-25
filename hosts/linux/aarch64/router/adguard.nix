@@ -5,7 +5,7 @@
     openFirewall = true;
     settings = {
       dns = {
-        bind_hosts = [ "192.168.1.1" ];
+        bind_hosts = [ "192.168.1.1" "fd00::1" ];
         port = 53;
 
         bootstrap_dns = [
@@ -64,7 +64,8 @@
           }
           {
             domain = "*.${flake.lib.hostname}";
-            answer = "192.168.1.10";
+            # nginx runs here
+            answer = "server";
             enabled = true;
           }
           {
