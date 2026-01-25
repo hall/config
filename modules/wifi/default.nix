@@ -3,6 +3,7 @@ with lib;
 let
   name = "wifi";
   cfg = config.services.${name};
+  envFile = "/run/wifi-psk.env";
 in
 {
   options.services.${name} = {
@@ -18,6 +19,21 @@ in
     # TODO: https://github.com/NixOS/nixpkgs/issues/180175
     systemd.services.NetworkManager-wait-online.enable = false;
 
+    # Generate PSK= prefixed env file from raw password
+    systemd.services.wifi-env = {
+      description = "Generate WiFi PSK environment file";
+      wantedBy = [ "NetworkManager.service" ];
+      before = [ "NetworkManager.service" ];
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+      };
+      script = ''
+        echo "PSK=$(cat ${config.age.secrets.wifi.path})" > ${envFile}
+        chmod 600 ${envFile}
+      '';
+    };
+
     networking.networkmanager = {
       enable = true;
 
@@ -31,7 +47,7 @@ in
       }];
 
       ensureProfiles = {
-        environmentFiles = [ config.age.secrets.wifi.path ];
+        environmentFiles = [ envFile ];
         profiles.hall = {
           connection = {
             id = "hall";
