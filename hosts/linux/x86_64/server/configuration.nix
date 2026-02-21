@@ -51,6 +51,7 @@
     ./networking
     ./cloud
     ../disks.btrfs.nix
+    ./nvr.nix
   ];
 
   networking = {
