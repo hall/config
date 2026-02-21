@@ -1,12 +1,29 @@
 # WAN: USB Ethernet (wan0) - DHCP from ISP
 # LAN: Built-in Ethernet (lan0) - 192.168.1.1/24
-{ pkgs, config, ... }: {
+{ pkgs, config, flake, ... }: {
   imports = [
+    flake.inputs.hardware.nixosModules.raspberry-pi-4
     ./hardware.nix
     ./networking.nix
   ];
 
-  hardware.rpi4.enable = true;
+  zramSwap = {
+    enable = true;
+    memoryPercent = 50;
+  };
+
+  systemd = {
+    targets = {
+      sleep.enable = false;
+      suspend.enable = false;
+      hibernate.enable = false;
+      hybrid-sleep.enable = false;
+    };
+    services = {
+      "getty@tty1".enable = false;
+      "autovt@tty1".enable = false;
+    };
+  };
 
   boot = {
     kernelModules = [ "nf_nat" "nf_conntrack" ];

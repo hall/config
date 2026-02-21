@@ -1,4 +1,4 @@
-{ flake, lib, ... }: {
+{ lib, ... }: {
   fileSystems = {
     "/" = {
       device = "/dev/disk/by-label/NIXOS_SD";
@@ -10,10 +10,13 @@
 
   boot = {
     initrd.availableKernelModules = [ "xhci_pci" ];
-    loader = {
-      grub.enable = false;
-      generic-extlinux-compatible.enable = true;
-    };
+    initrd.services.lvm.enable = false;
+    kernelParams = [ "rootwait" ];
+  };
+
+  services.fstrim = {
+    enable = true;
+    interval = "weekly";
   };
 
   # https://github.com/NixOS/nixpkgs/issues/126755
