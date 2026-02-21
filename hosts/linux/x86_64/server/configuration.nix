@@ -58,13 +58,6 @@
       allowedTCPPorts = [
         80 # http redirect
         443 # https
-        53 # dns fallback
-        5900 # vnc
-      ];
-      allowedUDPPorts = [
-        53 # dns
-        67 # dhcp
-        68 # dhcp
       ];
     };
   };
