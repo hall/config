@@ -3,6 +3,9 @@
     ./adguard.nix
   ];
 
+  # Disable systemd-resolved - AdGuard Home handles DNS
+  services.resolved.enable = false;
+
   networking = {
     # Use systemd-networkd for better control
     useNetworkd = true;
@@ -50,8 +53,9 @@
         # Allow all from LAN
         iptables -A INPUT -i lan0 -j ACCEPT
 
-        # Log dropped packets (optional, comment out if too verbose)
-        # iptables -A INPUT -j LOG --log-prefix "DROPPED: "
+        # Drop all incoming traffic from WAN
+        iptables -A INPUT -i wan0 -j DROP
+        ip6tables -A INPUT -i wan0 -j DROP
       '';
     };
 
