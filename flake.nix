@@ -42,7 +42,10 @@
       url = "github:nix-community/nix-vscode-extensions";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    vpn.url = "github:Maroka-chan/VPN-Confinement";
+    vpn = {
+      url = "github:Maroka-chan/VPN-Confinement";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixos-generators = {
       url = "github:nix-community/nixos-generators";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -138,7 +141,6 @@
       devShells = eachSystem (pkgs: {
         default = with pkgs; mkShell {
           buildInputs = [
-            nixos-anywhere
             # nixos-rebuild build --flake "$@" && nvd diff /run/current-system result
             nvd
             claude-code
