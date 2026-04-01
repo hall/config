@@ -103,26 +103,13 @@
     };
     extensions = (with pkgs.vscode-marketplace; [
       # james-yu.latex-workshop
-      ms-vscode-remote.remote-containers
-      ms-azuretools.vscode-docker
-
-      naumovs.color-highlight
-      eamodio.gitlens
+      # ms-vscode-remote.remote-containers
       #esbenp.prettier-vscode
-      github.vscode-github-actions
-      gruntfuggly.todo-tree
-      humao.rest-client
-      jnoortheen.nix-ide
-      jock.svg
-      mkhl.direnv
-      ms-toolsai.jupyter
-      ryu1kn.partial-diff
-      streetsidesoftware.code-spell-checker
-      vscodevim.vim
-      yzhang.markdown-all-in-one
+      # github.vscode-github-actions
+      #gruntfuggly.todo-tree
+      #humao.rest-client
 
-      grafana.grafana-alloy
-      bbenoist.qml
+      #bbenoist.qml
       # to generate conf hosts task list
       augustocdias.tasks-shell-input
 
@@ -133,6 +120,19 @@
       # copilot must be kept in sync with vscode version (not "latest" from marketplace)
       github.copilot
       github.copilot-chat
+
+      # moved from marketplace to avoid DNS issues during build
+      eamodio.gitlens
+      jnoortheen.nix-ide
+      jock.svg
+      mkhl.direnv
+      ms-azuretools.vscode-docker
+      ms-toolsai.jupyter
+      naumovs.color-highlight
+      ryu1kn.partial-diff
+      streetsidesoftware.code-spell-checker
+      vscodevim.vim
+      yzhang.markdown-all-in-one
 
     ]) ++ (lib.optionals (pkgs.stdenv.hostPlatform.system != "aarch64-linux") [
       ms-python.python # unsupported

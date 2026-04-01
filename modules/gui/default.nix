@@ -22,6 +22,7 @@ in
 
     stylix = {
       enable = true;
+      enableReleaseChecks = false;
       base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-frappe.yaml";
       fonts = {
         serif = config.stylix.fonts.monospace;
@@ -87,6 +88,9 @@ in
       wayland.windowManager.sway = {
         enable = true;
         systemd.enable = true;
+        extraConfig = ''
+          exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+        '';
         config = rec {
           modifier = "Mod4"; # GUI key
           bars = [ ]; # replace w/ waybar
@@ -170,12 +174,9 @@ in
 
     programs = {
       dconf.enable = true;
-      light = {
-        enable = true;
-        brightnessKeys.enable = true;
-      };
     };
     services = {
+      illum.enable = true;
       wifi.enable = true;
       acpid.enable = true;
       # use FDE as password

@@ -1,6 +1,6 @@
-{ pkgs, ... }: {
-  vscode = import ./vscode.nix pkgs;
-  firefox = import ./firefox pkgs;
+{ pkgs, lib, ... }@args: {
+  vscode = import ./vscode.nix args;
+  firefox = import ./firefox args;
 
   swaylock = {
     enable = true;
