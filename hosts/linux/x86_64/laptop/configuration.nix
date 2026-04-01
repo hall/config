@@ -60,7 +60,7 @@
   home-manager.users.${flake.lib.username} = {
 
     programs.obs-studio = {
-      # enable = true;
+      enable = true;
       plugins = with pkgs.obs-studio-plugins; [
         obs-replay-source
       ];
@@ -69,14 +69,10 @@
     home.packages = with pkgs; [
       alsa-utils
       # comms
-      element-desktop
-      vlc
       obsidian
       xournalpp
       webcamoid
       mpv
-
-      nextcloud-client
 
       unzip
 
@@ -89,14 +85,13 @@
       # music
       ardour
       # flake.packages.effects
-      guitarix
+      # guitarix
       musescore
       pianobooster
       qjackctl
 
       # media
       # transmission_4-gtk
-      youtube-music
       boatswain
       # sonic-pi
       supercollider
@@ -106,6 +101,11 @@
     programs.ssh.matchBlocks = {
       gitlab.identityFile = config.age.secrets.gitlab.path;
       github.identityFile = config.age.secrets.github.path;
+      networkGear = {
+        user = "root";
+        host = "switch ap1 ap2 server";
+        # options = [ "PQCAlgorithms none" ];
+      };
     };
   };
 
