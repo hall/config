@@ -47,17 +47,5 @@
     };
 
     distributedBuilds = true;
-    buildMachines = with flake.nixosConfigurations.server.config; [{
-      hostName = "server"; #networking.hostName;
-      # TODO: base64 encode
-      # publicHostKey = age.rekey.hostPubkey;
-      sshUser = flake.lib.username;
-      # TODO: sshKey = config.age.secrets.id_ed25519.path;
-      sshKey = "/home/${flake.lib.username}/.ssh/id_ed25519";
-      # TODO: dynamically generate based on fs heirarchy
-      systems = [ "x86_64-linux" "aarch64-linux" ];
-      maxJobs = 8;
-      supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
-    }];
   };
 }
