@@ -1,11 +1,17 @@
 { flake, ... }: {
+  # Ensure network is fully configured before AdGuard starts
+  systemd.services.adguardhome = {
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+  };
+
   services.adguardhome = {
     enable = true;
     mutableSettings = false;
     openFirewall = true;
     settings = {
       dns = {
-        bind_hosts = [ "192.168.1.1" "fd00::1" ];
+        bind_hosts = [ "192.168.1.1" ];
         port = 53;
 
         bootstrap_dns = [
@@ -25,6 +31,10 @@
         cache_ttl_max = 86400;
 
         enable_dnssec = true;
+
+        # Resolve reverse DNS for local addresses from DHCP leases
+        use_private_ptr_resolvers = true;
+        local_ptr_upstreams = [ ];
 
         # Performance
         all_servers = false;
@@ -49,6 +59,17 @@
             ip = "192.168.1.10";
             hostname = "server";
           }
+          {
+            mac = "88:15:44:60:14:88";
+            ip = "192.168.1.2";
+            hostname = "switch";
+          }
+          # {
+          #   # prevent wan0 DHCP discovers from creating dynamic leases
+          #   mac = "5c:85:7e:31:64:25";
+          #   ip = "192.168.1.1";
+          #   hostname = "router";
+          # }
         ];
       };
 
@@ -63,8 +84,13 @@
             enabled = true;
           }
           {
+            domain = "server";
+            answer = "192.168.1.10";
+            enabled = true;
+          }
+          {
             domain = "*.${flake.lib.hostname}";
-            # nginx runs here
+            # nginx runs here - resolves via "server" rewrite above
             answer = "server";
             enabled = true;
           }
