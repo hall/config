@@ -18,8 +18,11 @@
   hardware.cpu.intel.updateMicrocode = true;
 
   systemd.services.NetworkManager-wait-online.enable = false;
-  systemd.services.tailscaled.after = [
-    "NetworkManager-wait-online.service"
-    "systemd-networkd-wait-online.service"
-  ];
+  systemd.services.tailscaled = {
+    serviceConfig.LogLevelMax = "notice";
+    after = [
+      "NetworkManager-wait-online.service"
+      "systemd-networkd-wait-online.service"
+    ];
+  };
 }
