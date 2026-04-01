@@ -36,7 +36,7 @@
         owner = "MrOtherGuy";
         repo = "firefox-csshacks";
         rev = "master";
-        hash = "sha256-rDuTVA5WvHwYsZTk4GOPQ0zvpynVU0TeuVGeg5ihndE=";
+        hash = "sha256-TCbdj6ZedgPSDQWJWFBPzDlLdgRcnsby3DWNHxmQ+b4=";
       };
     in
     {
