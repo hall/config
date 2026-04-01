@@ -3,6 +3,7 @@
 , qmk
 , rsync
 , bash
+, python3Packages
 }:
 let
   keymap = "hall";
@@ -18,6 +19,8 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-BoeBX00JHX+Vf7d0PtA0G2cilh57Mg3um2PbBSmdUic=";
     fetchSubmodules = true;
   };
+
+  nativeBuildInputs = [ python3Packages.appdirs ];
 
   patches = [ ./keyboards ];
   patchPhase = ''
