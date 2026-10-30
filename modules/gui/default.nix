@@ -10,6 +10,7 @@ in
 
   config = lib.mkIf cfg.enable {
     environment.pathsToLink = [ "/share/xdg-desktop-portal" "/share/applications" ];
+    environment.systemPackages = [ pkgs.xdg-utils ];
     hardware = {
       graphics.enable = true;
       bluetooth.enable = true;
