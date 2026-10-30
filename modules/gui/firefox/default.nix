@@ -1,6 +1,7 @@
 { lib, pkgs, ... }: {
   enable = true;
   policies = {
+    DefaultSerialGuardSetting = 3; # allow webserial for midi.academy
     ExtensionSettings = (builtins.mapAttrs
       (name: value: {
         installation_mode = "force_installed";
@@ -35,8 +36,10 @@
       csshacks = pkgs.fetchFromGitHub {
         owner = "MrOtherGuy";
         repo = "firefox-csshacks";
-        rev = "master";
-        hash = "sha256-TCbdj6ZedgPSDQWJWFBPzDlLdgRcnsby3DWNHxmQ+b4=";
+        # pin to a commit, not "master" — a branch ref silently moves and
+        # breaks this fixed-output derivation's hash on every upstream push
+        rev = "4869329f67522f17cd86bf504a552089d07261d5";
+        hash = "sha256-iIuUfNjQ6miVHrKm3ZBafCRNXEVnHDu0QSiR81PwLdE=";
       };
     in
     {
