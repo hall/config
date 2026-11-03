@@ -141,7 +141,6 @@
             # nixos-rebuild build --flake "$@" && nvd diff /run/current-system result
             nvd
             claude-code
-            gemini-cli
             deploy-rs
           ] ++ (map (i: i.packages.${stdenv.hostPlatform.system}.default) [
             inputs.rekey

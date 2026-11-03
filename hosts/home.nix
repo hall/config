@@ -38,10 +38,6 @@
           '';
         };
         starship.enable = true;
-        direnv = {
-          enable = true;
-          nix-direnv.enable = true;
-        };
         ssh = {
           enable = true;
           enableDefaultConfig = false;

@@ -1,7 +1,6 @@
 {
   "files.exclude": {
     "**/.git": true,
-    "**/.direnv": true
   },
   "cSpell.words": [
     "agenix",
@@ -10,7 +9,6 @@
     "bryton",
     "csshacks",
     "ddccontrol",
-    "direnv",
     "disko",
     "elif",
     "esphome",
