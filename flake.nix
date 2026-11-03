@@ -1,6 +1,7 @@
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    systems.url = "github:nix-systems/default";
     home = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -133,9 +134,12 @@
 
       formatter = eachSystem (pkgs: pkgs.nixfmt-tree);
 
-      checks = builtins.mapAttrs (
-        _system: deployLib: deployLib.deployChecks self.deploy
-      ) inputs.deploy.lib;
+      # only for systems with hosts to deploy
+      checks =
+        with builtins;
+        inputs.nixpkgs.lib.genAttrs (inputs.nixpkgs.lib.unique (
+          map (config: config.pkgs.stdenv.hostPlatform.system) (attrValues nixosConfigurations)
+        )) (system: inputs.deploy.lib.${system}.deployChecks self.deploy);
 
       deploy.nodes = builtins.mapAttrs (hostname: config: {
         inherit hostname;
