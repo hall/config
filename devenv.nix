@@ -1,4 +1,5 @@
-{ pkgs, inputs, ... }: {
+{ pkgs, inputs, ... }:
+{
   packages = with pkgs; [
     # nixos-rebuild build --flake "$@" && nvd diff /run/current-system result
     nvd
@@ -6,4 +7,10 @@
     deploy-rs
     inputs.rekey.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
+
+  git-hooks.hooks = {
+    nixfmt.enable = true;
+    statix.enable = true;
+    deadnix.enable = true;
+  };
 }
