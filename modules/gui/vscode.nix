@@ -1,6 +1,12 @@
-{ pkgs, lib, ... }: {
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
+{
   enable = true;
-  # mutableExtensionsDir = true;
+  mutableExtensionsDir = false;
   profiles.default = {
     userSettings = {
       "3dpreview.hideControlsOnStart" = true;
@@ -10,18 +16,32 @@
 
       "draw.directory" = "assets";
 
+      # stylix sets just the monospace font; append font-awesome as a fallback
+      # so icon glyphs (e.g. in waybar config) render instead of boxes
+      "editor.fontFamily" =
+        lib.mkForce "'${config.stylix.fonts.monospace.name}', 'Font Awesome 7 Free', 'Font Awesome 7 Brands'";
       "editor.formatOnSave" = true;
 
-      "autoReveal" = false;
+      # extensions come from nix; marketplace updates install unpatched binaries
+      "extensions.autoUpdate" = false;
+      "extensions.autoCheckUpdates" = false;
+
+      "explorer.autoReveal" = false;
       "explorer.confirmDelete" = false;
       "explorer.confirmDragAndDrop" = false;
 
+      "git.blame.editorDecoration.enabled" = true;
+      "git.blame.statusBarItem.enabled" = true;
       "git.confirmSync" = false;
       "git.pruneOnFetch" = true;
+      "git.autoRefresh" = true;
 
       "jupyter.askForKernelRestart" = false;
       "jupyter.themeMatplotlibPlots" = true;
-      "jupyter.widgetScriptSources" = [ "jsdelivr.com" "unpkg.com" ];
+      "jupyter.widgetScriptSources" = [
+        "jsdelivr.com"
+        "unpkg.com"
+      ];
 
       "latex-workshop.view.pdf.invert" = 0.88;
       "latex-workshop.view.pdf.invertMode.enabled" = "auto";
@@ -34,10 +54,8 @@
       "nix.enableLanguageServer" = true;
       "nix.serverPath" = "${pkgs.nil}/bin/nil";
       "nix.serverSettings" = {
-        nil.formatting.command = [ "${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt" ];
+        nil.formatting.command = [ "${pkgs.nixfmt}/bin/nixfmt" ];
       };
-
-      "redhat.telemetry.enabled" = false;
 
       "rest-client.enableTelemetry" = false;
       "rest-client.previewResponseInUntitledDocument" = true;
@@ -85,58 +103,52 @@
         }
       ];
 
-      "window.autoDetectColorScheme" = true;
       "window.menuBarVisibility" = "toggle";
       "window.titleBarStyle" = "native";
-      "window.customTitleBarVisibility" = "never";
 
-      # "workbench.experimental.sidePanel.enabled" = true;
-      # "workbench.experimental.panel.alignment" = "left";
-      "workbench.colorTheme" = "Stylix";
-      "workbench.preferredDarkColorTheme" = "Stylix";
-      "workbench.preferredLightColorTheme" = "Stylix";
       "workbench.layoutControl.enabled" = false;
 
       "zenMode.centerLayout" = false;
 
-      "geminicodeassist.project" = "practical-ring-398523";
     };
-    extensions = (with pkgs.vscode-marketplace; [
-      # james-yu.latex-workshop
-      # ms-vscode-remote.remote-containers
-      #esbenp.prettier-vscode
-      # github.vscode-github-actions
-      #gruntfuggly.todo-tree
-      #humao.rest-client
+    extensions = (
+      with pkgs.vscode-marketplace;
+      [
+        # james-yu.latex-workshop
+        # ms-vscode-remote.remote-containers
+        #esbenp.prettier-vscode
+        # github.vscode-github-actions
+        #gruntfuggly.todo-tree
+        #humao.rest-client
 
-      #bbenoist.qml
-      # to generate conf hosts task list
-      augustocdias.tasks-shell-input
+        #bbenoist.qml
+        # to generate conf hosts task list
+        # replace?
+        augustocdias.tasks-shell-input
 
-      # glen-anderson.vscode-faust
-      # evilz.vscode-reveal
+        # glen-anderson.vscode-faust
+        # evilz.vscode-reveal
 
-    ] ++ (with pkgs.vscode-extensions; [
-      # copilot must be kept in sync with vscode version (not "latest" from marketplace)
-      github.copilot
-      github.copilot-chat
+      ]
+      ++ (with pkgs.vscode-extensions; [
+        # nixpkgs autoPatchelfs the bundled native binary
+        anthropic.claude-code
+        datakurre.devenv
+        jnoortheen.nix-ide
+        jock.svg
+        ms-azuretools.vscode-docker
+        ms-toolsai.jupyter
+        naumovs.color-highlight
+        ryu1kn.partial-diff
+        streetsidesoftware.code-spell-checker
+        vscodevim.vim
+        yzhang.markdown-all-in-one
 
-      # moved from marketplace to avoid DNS issues during build
-      eamodio.gitlens
-      jnoortheen.nix-ide
-      jock.svg
-      mkhl.direnv
-      ms-azuretools.vscode-docker
-      ms-toolsai.jupyter
-      naumovs.color-highlight
-      ryu1kn.partial-diff
-      streetsidesoftware.code-spell-checker
-      vscodevim.vim
-      yzhang.markdown-all-in-one
-
-    ]) ++ (lib.optionals (pkgs.stdenv.hostPlatform.system != "aarch64-linux") [
-      ms-python.python # unsupported
-    ]));
+      ])
+      ++ (lib.optionals (pkgs.stdenv.hostPlatform.system != "aarch64-linux") [
+        ms-python.python # unsupported
+      ])
+    );
     keybindings = [
       {
         key = "meta+Escape"; # stylus tail button
@@ -184,16 +196,6 @@
       }
 
       # readline
-      {
-        key = "ctrl+n";
-        command = "cursorLineStart";
-        when = "terminalFocus";
-      }
-      {
-        key = "ctrl+e";
-        command = "cursorLineEnd";
-        when = "terminalFocus";
-      }
       {
         key = "ctrl+l";
         command = "workbench.action.terminal.clear";

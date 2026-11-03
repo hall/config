@@ -80,6 +80,7 @@ in
           gnome-sound-recorder
           ddcutil
           gtop
+          claude-code
         ];
 
         sessionVariables = {
