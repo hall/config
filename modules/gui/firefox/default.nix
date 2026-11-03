@@ -13,7 +13,6 @@
       {
         # about:debugging#/runtime/this-firefox
         "{446900e4-71c2-419f-a6a7-df9c091e268b}" = "bitwarden-password-manager";
-        "{278b0ae0-da9d-4cc6-be81-5aa7f3202672}" = "re-enable-right-click";
         "{c607c8df-14a7-4f28-894f-29e8722976af}" = "temporary-containers";
         "uBlock0@raymondhill.net" = "ublock-origin";
         "addon@darkreader.org" = "darkreader";
@@ -25,7 +24,16 @@
     ShowHomeButton = false;
     #DisableFirefoxAccounts = true;
     DisableSetDesktopBackground = true;
-    DisablePocket = true;
+    DisableTelemetry = true;
+    DisableFirefoxStudies = true;
+    DontCheckDefaultBrowser = true;
+    UserMessaging = {
+      ExtensionRecommendations = false;
+      FeatureRecommendations = false;
+      MoreFromMozilla = false;
+      SkipOnboarding = true;
+      Locked = true;
+    };
   };
   profiles.default =
     let
@@ -80,10 +88,9 @@
         "browser.aboutConfig.showWarning" = false;
         "browser.display.use_system_colors" = true;
         "browser.newtabpage.enabled" = false;
-        "browser.search.defaultenginename" = "duckduckgo";
+        "browser.ml.chat.enabled" = false;
         "browser.startup.homepage" = "about:blank";
         "browser.startup.page" = 3; # restore previous session
-        "browser.tabs.drawInTitlebar" = false;
         "browser.tabs.warnOnCloseOtherTabs" = false;
         "browser.toolbars.bookmarks.visibility" = "never";
         # use theme for browser content and toolbar
@@ -98,15 +105,12 @@
 
         # auto-enable extensions
         "extensions.autoDisableScopes" = 0;
-        "extensions.pocket.enabled" = false;
 
         "geo.enabled" = false;
 
         # Camera and microphone permissions
-        "media.navigator.enabled" = true;
-        "media.peerconnection.enabled" = true;
+        "media.webrtc.camera.allow-pipewire" = true;
         "print.tab_modal.enabled" = false;
-        "signon.rememberSignons" = false;
         "svg.context-properties.content.enabled" = true;
         "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
 
