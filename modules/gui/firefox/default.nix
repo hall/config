@@ -4,9 +4,9 @@
   configPath = ".mozilla/firefox";
   policies = {
     DefaultSerialGuardSetting = 3; # allow webserial for midi.academy
-    ExtensionSettings = (
+    ExtensionSettings =
       builtins.mapAttrs
-        (name: value: {
+        (_name: value: {
           installation_mode = "force_installed";
           install_url = "https://addons.mozilla.org/firefox/downloads/latest/${value}/latest.xpi";
           default_area = "menupanel";
@@ -19,8 +19,7 @@
           "addon@darkreader.org" = "darkreader";
           "tridactyl.vim@cmcaine.co.uk" = "tridactyl-vim";
           "@testpilot-containers" = "multi-account-containers";
-        }
-    );
+        };
     NoDefaultBookmarks = true;
     PasswordManagerEnabled = false;
     ShowHomeButton = false;

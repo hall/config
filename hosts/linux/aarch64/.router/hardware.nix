@@ -1,5 +1,5 @@
 # Raspberry Pi 4 Router Hardware Configuration
-{ ... }: {
+_: {
   boot.kernelModules = [
     # USB Ethernet adapter support
     "r8152" # Realtek USB Ethernet (common)

@@ -23,12 +23,12 @@
           xxh
         ];
       };
-      xdg.configFile."xxh/config.xxhc".text = builtins.toJSON ({
+      xdg.configFile."xxh/config.xxhc".text = builtins.toJSON {
         hosts.".*" = {
           "+s" = "bash";
           "+I" = "xxh-shell-bash";
         };
-      });
+      };
       programs = {
         readline = {
           enable = true;

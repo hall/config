@@ -2,7 +2,6 @@
   config,
   pkgs,
   flake,
-  lib,
   ...
 }:
 {
@@ -129,20 +128,17 @@
             ];
             "gitlens.plusFeatures.enabled" = true;
           };
-          extensions = (
-            with pkgs.vscode-extensions;
-            [
-              gitlab.gitlab-workflow
-              hashicorp.terraform
-              ms-kubernetes-tools.vscode-kubernetes-tools
-              redhat.vscode-yaml
-              tamasfe.even-better-toml
-              ms-vscode-remote.remote-containers
-              ms-vsliveshare.vsliveshare
-              hashicorp.hcl
-              coder.coder-remote
-            ]
-          );
+          extensions = with pkgs.vscode-extensions; [
+            gitlab.gitlab-workflow
+            hashicorp.terraform
+            ms-kubernetes-tools.vscode-kubernetes-tools
+            redhat.vscode-yaml
+            tamasfe.even-better-toml
+            ms-vscode-remote.remote-containers
+            ms-vsliveshare.vsliveshare
+            hashicorp.hcl
+            coder.coder-remote
+          ];
         };
       };
 

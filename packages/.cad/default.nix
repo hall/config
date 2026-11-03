@@ -5,7 +5,6 @@
   libGL,
   expat,
   zlib,
-  writeShellScriptBin,
   lib,
   python3Packages,
   python3,

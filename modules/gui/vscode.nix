@@ -111,7 +111,7 @@
       "zenMode.centerLayout" = false;
 
     };
-    extensions = (
+    extensions =
       with pkgs.vscode-marketplace;
       [
         # james-yu.latex-workshop
@@ -147,8 +147,7 @@
       ])
       ++ (lib.optionals (pkgs.stdenv.hostPlatform.system != "aarch64-linux") [
         ms-python.python # unsupported
-      ])
-    );
+      ]);
     keybindings = [
       {
         key = "meta+Escape"; # stylus tail button

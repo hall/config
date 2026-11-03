@@ -1,6 +1,6 @@
 final: prev:
 prev.kodiPackages.extend (
-  final': prev': {
+  _final': prev': {
     steam-launcher = prev'.steam-launcher.overrideAttrs (old: {
       version = "3.7.11";
       src = final.fetchFromGitHub rec {

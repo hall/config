@@ -1,5 +1,4 @@
-{ pkgs, lib, ... }@args:
-{
+args: {
   vscode = import ./vscode.nix args;
   firefox = import ./firefox args;
 

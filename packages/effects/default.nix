@@ -11,14 +11,14 @@ let
   titleCase =
     str:
     let
-      first = (builtins.substring 0 1 str);
-      rest = (builtins.substring 1 (builtins.stringLength str) str);
+      first = builtins.substring 0 1 str;
+      rest = builtins.substring 1 (builtins.stringLength str) str;
     in
     "${(lib.strings.toUpper first)}${rest}";
 
   name = "effects";
   desktop = makeDesktopItem {
-    name = name;
+    inherit name;
     exec = name;
     desktopName = titleCase name;
     icon = ./${name}.svg;

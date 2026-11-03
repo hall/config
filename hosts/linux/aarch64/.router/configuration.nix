@@ -2,7 +2,6 @@
 # LAN: Built-in Ethernet (lan0) - 192.168.1.1/24
 {
   pkgs,
-  config,
   flake,
   ...
 }:

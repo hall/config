@@ -12,7 +12,6 @@ let
   mkHost =
     {
       self,
-      lib,
       modules,
       platform,
       arch,
@@ -34,7 +33,7 @@ let
           modules
           ++ [
             # TODO: not sure why the hostname gets set to `nixos`
-            ({ ... }: { config.networking.hostName = name; })
+            (_: { config.networking.hostName = name; })
           ]
           ++ (with builtins; filter pathExists (map (path: path + /configuration.nix) paths));
         specialArgs = {
@@ -47,11 +46,7 @@ let
     };
 in
 
-args@{
-  self,
-  lib,
-  modules,
-}:
+args:
 with builtins;
 listToAttrs (
   concatMap (

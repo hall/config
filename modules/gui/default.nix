@@ -96,20 +96,22 @@ in
         # satty's --output-filename needs this to already exist
         file."Pictures/Screenshots/.keep".text = "";
       };
-      xdg.mimeApps = {
-        enable = true;
-        defaultApplications = {
-          "text/html" = "firefox.desktop";
-          "x-scheme-handler/http" = "firefox.desktop";
-          "x-scheme-handler/https" = "firefox.desktop";
-          "x-scheme-handler/about" = "firefox.desktop";
-          "x-scheme-handler/unknown" = "firefox.desktop";
+      xdg = {
+        mimeApps = {
+          enable = true;
+          defaultApplications = {
+            "text/html" = "firefox.desktop";
+            "x-scheme-handler/http" = "firefox.desktop";
+            "x-scheme-handler/https" = "firefox.desktop";
+            "x-scheme-handler/about" = "firefox.desktop";
+            "x-scheme-handler/unknown" = "firefox.desktop";
+          };
         };
+        # force: pre-existing mimeapps.list files (written imperatively by
+        # apps like Chrome) would otherwise block activation
+        configFile."mimeapps.list".force = true;
+        dataFile."applications/mimeapps.list".force = true;
       };
-      # force: pre-existing mimeapps.list files (written imperatively by
-      # apps like Chrome) would otherwise block activation
-      xdg.configFile."mimeapps.list".force = true;
-      xdg.dataFile."applications/mimeapps.list".force = true;
       stylix = {
         enable = true;
         targets = {

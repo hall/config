@@ -92,25 +92,27 @@
       linkConfig.Name = "eth0";
     };
 
-    networks."30-eth" = {
-      matchConfig.Name = "eth0";
-      networkConfig.Bridge = "br0";
-    };
+    networks = {
+      "30-eth" = {
+        matchConfig.Name = "eth0";
+        networkConfig.Bridge = "br0";
+      };
 
-    networks."40-wlan0" = {
-      matchConfig.Name = "wlan0";
-      networkConfig.Bridge = "br0";
-    };
+      "40-wlan0" = {
+        matchConfig.Name = "wlan0";
+        networkConfig.Bridge = "br0";
+      };
 
-    networks."41-wlan1" = {
-      matchConfig.Name = "wlan1";
-      networkConfig.Bridge = "br0";
-    };
+      "41-wlan1" = {
+        matchConfig.Name = "wlan1";
+        networkConfig.Bridge = "br0";
+      };
 
-    networks."50-br0" = {
-      matchConfig.Name = "br0";
-      networkConfig.DHCP = "ipv4";
-      linkConfig.RequiredForOnline = "routable";
+      "50-br0" = {
+        matchConfig.Name = "br0";
+        networkConfig.DHCP = "ipv4";
+        linkConfig.RequiredForOnline = "routable";
+      };
     };
   };
 }

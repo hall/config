@@ -77,7 +77,7 @@
       };
 
       nixosConfigurations = import ./hosts {
-        inherit self lib;
+        inherit self;
         modules =
           with inputs;
           (map (i: i.nixosModules.default) [
@@ -92,8 +92,8 @@
             impermanence.nixosModules.impermanence
             stylix.nixosModules.stylix
             nur.modules.nixos.default
-            ({ ... }: {
-              nixpkgs.overlays = (
+            (_: {
+              nixpkgs.overlays =
                 map (o: o.overlays.default) [
                   rekey
                   self
@@ -106,8 +106,7 @@
                       inherit (final) config;
                     };
                   })
-                ]
-              );
+                ];
             })
           ]
           ++ (with builtins; map (x: ./modules/${x}) (attrNames (readDir ./modules)));
@@ -124,7 +123,7 @@
         );
 
       images = builtins.mapAttrs (
-        name: config:
+        _name: config:
         let
           arch = builtins.head (builtins.split "-" config.pkgs.stdenv.hostPlatform.system);
           imageType =
@@ -165,7 +164,7 @@
       formatter = eachSystem (pkgs: pkgs.nixfmt-tree);
 
       checks = builtins.mapAttrs (
-        system: deployLib: deployLib.deployChecks self.deploy
+        _system: deployLib: deployLib.deployChecks self.deploy
       ) inputs.deploy.lib;
 
       deploy.nodes = builtins.mapAttrs (hostname: config: {
