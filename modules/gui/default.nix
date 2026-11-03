@@ -5,6 +5,7 @@ let
 in
 {
   imports = [
+    ./brightness-sync.nix
     ./sway.nix
   ];
 
