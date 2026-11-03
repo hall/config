@@ -86,7 +86,8 @@
             awsp = ''export AWS_PROFILE=$(sed -n "s/\[profile \(.*\)\]/\1/gp" ~/.aws/config | ${pkgs.fzf}/bin/fzf)'';
           };
           bashrcExtra = ''
-            shopt -s histappend
+                  eval "$(devenv hook bash)"
+
           '';
         };
 

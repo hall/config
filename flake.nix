@@ -135,19 +135,6 @@
         ])
       );
 
-      devShells = eachSystem (pkgs: {
-        default = with pkgs; mkShell {
-          buildInputs = [
-            # nixos-rebuild build --flake "$@" && nvd diff /run/current-system result
-            nvd
-            claude-code
-            deploy-rs
-          ] ++ (map (i: i.packages.${stdenv.hostPlatform.system}.default) [
-            inputs.rekey
-          ]);
-        };
-      });
-
       checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) inputs.deploy.lib;
 
       deploy.nodes = builtins.mapAttrs

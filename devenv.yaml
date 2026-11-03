@@ -1,0 +1,9 @@
+allowUnfree: true # claude-code
+inputs:
+  nixpkgs:
+    url: github:nixos/nixpkgs/nixos-unstable
+  rekey:
+    url: github:oddlama/agenix-rekey
+    inputs:
+      nixpkgs:
+        follows: nixpkgs
