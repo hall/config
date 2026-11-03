@@ -32,7 +32,7 @@ in
               # re-bind to circumvent swaynag
               "${modifier}+Shift+e" = "exec sway exit";
               "${modifier}+p" =
-                "exec ${grim}/bin/grim -g \"$(${slurp}/bin/slurp)\" - | ${satty}/bin/satty --filename - --output-filename ~/Pictures/Screenshots/$(${coreutils}/bin/date +%Y-%m-%d_%H-%M-%S).png";
+                "exec ${grim}/bin/grim -g \"$(${slurp}/bin/slurp)\" - | ${lib.getExe hm.programs.satty.package} --filename -";
               "${modifier}+Escape" = "exec ${swaylock}/bin/swaylock -fF";
               "${modifier}+Shift+b" = "exec ${hm.programs.waybar.settings.default.bluetooth.on-click}";
 
@@ -104,6 +104,30 @@ in
         swaylock = {
           enable = true;
           settings.no-unlock-indicator = true;
+        };
+
+        satty = {
+          enable = true;
+          settings = {
+            general = {
+              output-filename = "~/Pictures/Screenshots/%Y-%m-%d_%H-%M-%S.png";
+              copy-command = "${pkgs.wl-clipboard}/bin/wl-copy";
+              early-exit = true;
+              no-window-decoration = true;
+            };
+            font.family = hm.stylix.fonts.sansSerif.name;
+            # stylix has no satty target
+            color-palette.palette = with hm.lib.stylix.colors.withHashtag; [
+              base08
+              base09
+              base0A
+              base0B
+              base0D
+              base0E
+              base05
+              base00
+            ];
+          };
         };
 
         tofi = {
