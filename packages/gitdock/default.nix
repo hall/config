@@ -1,4 +1,8 @@
-{ buildNpmPackage, fetchFromGitLab, playwright-driver }:
+{
+  buildNpmPackage,
+  fetchFromGitLab,
+  playwright-driver,
+}:
 buildNpmPackage rec {
   pname = "gitdock";
   version = "0.1.30";

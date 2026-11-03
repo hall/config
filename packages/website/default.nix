@@ -1,6 +1,7 @@
-{ stdenv
-, hugo
-, fetchFromGitHub
+{
+  stdenv,
+  hugo,
+  fetchFromGitHub,
 }:
 stdenv.mkDerivation rec {
   name = "website";
@@ -9,7 +10,7 @@ stdenv.mkDerivation rec {
   theme = fetchFromGitHub {
     owner = "luizdepra";
     repo = "hugo-coder";
-    rev = "d336b3c"; #"main";
+    rev = "d336b3c"; # "main";
     sha256 = "SPYTWx9H0Y16ZEuoJcHXrq7Owe7QaR4/NmcOKx6kFYk=";
   };
 
@@ -30,5 +31,8 @@ stdenv.mkDerivation rec {
     cp -r ./public $out
   '';
 
-  meta.platforms = [ "x86_64-linux" "aarch64-linux" ];
+  meta.platforms = [
+    "x86_64-linux"
+    "aarch64-linux"
+  ];
 }

@@ -1,4 +1,10 @@
-{ lib, config, pkgs, flake, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  flake,
+  ...
+}:
 with lib;
 let
   name = "effects";

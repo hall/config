@@ -1,4 +1,10 @@
-{ lib, config, flake, pkgs, ... }:
+{
+  lib,
+  config,
+  flake,
+  pkgs,
+  ...
+}:
 with lib;
 let
   name = "wifi";
@@ -37,14 +43,16 @@ in
     networking.networkmanager = {
       enable = true;
 
-      dispatcherScripts = with pkgs; [{
-        source = writeText "upHook" ''
-          if [ "$1" = "hall" ]; then
-            [ "$2" = "up" ] && setting=false
-            ${sudo}/bin/sudo -u ${flake.lib.username} ${dbus}/bin/dbus-launch ${glib}/bin/gsettings set org.gnome.desktop.screensaver lock-enabled ''${setting:-true}
-          fi
-        '';
-      }];
+      dispatcherScripts = with pkgs; [
+        {
+          source = writeText "upHook" ''
+            if [ "$1" = "hall" ]; then
+              [ "$2" = "up" ] && setting=false
+              ${sudo}/bin/sudo -u ${flake.lib.username} ${dbus}/bin/dbus-launch ${glib}/bin/gsettings set org.gnome.desktop.screensaver lock-enabled ''${setting:-true}
+            fi
+          '';
+        }
+      ];
 
       ensureProfiles = {
         environmentFiles = [ envFile ];

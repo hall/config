@@ -36,10 +36,17 @@
       swaylock = { };
     };
     rtkit.enable = true;
-    sudo.extraRules = [{
-      users = [ flake.lib.username ];
-      commands = [{ command = "ALL"; options = [ "NOPASSWD" ]; }];
-    }];
+    sudo.extraRules = [
+      {
+        users = [ flake.lib.username ];
+        commands = [
+          {
+            command = "ALL";
+            options = [ "NOPASSWD" ];
+          }
+        ];
+      }
+    ];
   };
 
 }

@@ -1,4 +1,11 @@
-{ config, flake, pkgs, specialArgs, ... }: {
+{
+  config,
+  flake,
+  pkgs,
+  specialArgs,
+  ...
+}:
+{
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
@@ -70,8 +77,12 @@
           enable = true;
           settings.git_protocol = "ssh";
         };
-        htop = { enable = true; };
-        jq = { enable = true; };
+        htop = {
+          enable = true;
+        };
+        jq = {
+          enable = true;
+        };
 
         bash = {
           enable = true;

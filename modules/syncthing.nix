@@ -10,8 +10,18 @@ let
   # only share with those in your group (names are arbitrary)
   groups = {
     personal = {
-      devices = [ "laptop" "phone" "server" ];
-      folders = [ "drawings" "notes" "library" "sessions" "stash" ];
+      devices = [
+        "laptop"
+        "phone"
+        "server"
+      ];
+      folders = [
+        "drawings"
+        "notes"
+        "library"
+        "sessions"
+        "stash"
+      ];
     };
     work = {
       devices = [ "work" ];
@@ -21,10 +31,13 @@ let
 
   home = config.users.users.${flake.lib.username}.home;
   # all resources which contain the current host
-  shared = resource: (builtins.concatMap (group: group.${resource}) (builtins.filter
-    (group: builtins.elem config.networking.hostName group.devices)
-    (builtins.attrValues groups)
-  ));
+  shared =
+    resource:
+    (builtins.concatMap (group: group.${resource}) (
+      builtins.filter (group: builtins.elem config.networking.hostName group.devices) (
+        builtins.attrValues groups
+      )
+    ));
 in
 {
   services.syncthing = {
@@ -35,26 +48,24 @@ in
     dataDir = home;
 
     settings = {
-      devices = builtins.listToAttrs (builtins.map
-        (device: {
+      devices = builtins.listToAttrs (
+        builtins.map (device: {
           name = device;
           value.id = ids.${device};
-        })
-        (builtins.attrNames ids)
+        }) (builtins.attrNames ids)
         # (shared "devices")
       );
 
-      folders = builtins.listToAttrs (builtins.map
-        (folder: {
+      folders = builtins.listToAttrs (
+        builtins.map (folder: {
           name = folder;
           value = {
             path = "${home}/${folder}";
-            devices = builtins.concatMap (group: group.devices)
-              (builtins.filter (group: builtins.elem folder group.folders)
-                (builtins.attrValues groups));
+            devices = builtins.concatMap (group: group.devices) (
+              builtins.filter (group: builtins.elem folder group.folders) (builtins.attrValues groups)
+            );
           };
-        })
-        (shared "folders")
+        }) (shared "folders")
       );
     };
   };

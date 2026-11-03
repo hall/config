@@ -1,6 +1,12 @@
 # WAN: USB Ethernet (wan0) - DHCP from ISP
 # LAN: Built-in Ethernet (lan0) - 192.168.1.1/24
-{ pkgs, config, flake, ... }: {
+{
+  pkgs,
+  config,
+  flake,
+  ...
+}:
+{
   imports = [
     flake.inputs.hardware.nixosModules.raspberry-pi-4
     ./hardware.nix
@@ -26,7 +32,10 @@
   };
 
   boot = {
-    kernelModules = [ "nf_nat" "nf_conntrack" ];
+    kernelModules = [
+      "nf_nat"
+      "nf_conntrack"
+    ];
     kernel.sysctl = {
       # Enable IP forwarding
       "net.ipv4.ip_forward" = 1;

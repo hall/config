@@ -1,4 +1,11 @@
-{ config, lib, pkgs, flake, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  flake,
+  ...
+}:
+{
   # mergeable list of unfree packages (per-host additions append to this)
   options.allowedUnfree = lib.mkOption {
     type = with lib.types; listOf str;
@@ -25,7 +32,10 @@
       };
       optimise.automatic = true;
       settings = {
-        experimental-features = [ "nix-command" "flakes" ];
+        experimental-features = [
+          "nix-command"
+          "flakes"
+        ];
         trusted-users = [ flake.lib.username ];
         substituters = [ "https://nix-community.cachix.org" ];
         trusted-public-keys = [

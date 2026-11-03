@@ -1,13 +1,23 @@
 let
   # create list of directories at path
-  readDirNames = with builtins; path:
+  readDirNames =
+    with builtins;
+    path:
     let
       files = readDir path;
       isDirectory = name: (files."${name}" == "directory") && (substring 0 1 name != ".");
     in
     filter isDirectory (attrNames files);
 
-  mkHost = { self, lib, modules, platform, arch }: name:
+  mkHost =
+    {
+      self,
+      lib,
+      modules,
+      platform,
+      arch,
+    }:
+    name:
     let
       paths = [
         ./.
@@ -20,10 +30,13 @@ let
       inherit name;
       value = self.inputs.nixpkgs.lib.nixosSystem {
         system = "${arch}-${platform}";
-        modules = modules ++ [
-          # TODO: not sure why the hostname gets set to `nixos`
-          ({ ... }: { config.networking.hostName = name; })
-        ] ++ (with builtins; filter pathExists (map (path: path + /configuration.nix) paths));
+        modules =
+          modules
+          ++ [
+            # TODO: not sure why the hostname gets set to `nixos`
+            ({ ... }: { config.networking.hostName = name; })
+          ]
+          ++ (with builtins; filter pathExists (map (path: path + /configuration.nix) paths));
         specialArgs = {
           hostPath = ./${platform}/${arch}/${name};
           flake = self // {
@@ -34,14 +47,17 @@ let
     };
 in
 
-args@{ self, lib, modules }: with builtins;
-listToAttrs (concatMap
-  (platform: concatMap
-    (arch: map
-      (mkHost (args // { inherit platform arch; }))
-      (readDirNames ./${platform}/${arch})
-    )
-    (readDirNames ./${platform})
-  )
-  (readDirNames ./.)
+args@{
+  self,
+  lib,
+  modules,
+}:
+with builtins;
+listToAttrs (
+  concatMap (
+    platform:
+    concatMap (
+      arch: map (mkHost (args // { inherit platform arch; })) (readDirNames ./${platform}/${arch})
+    ) (readDirNames ./${platform})
+  ) (readDirNames ./.)
 )

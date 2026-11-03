@@ -1,4 +1,10 @@
-{ config, lib, flake, ... }: {
+{
+  config,
+  lib,
+  flake,
+  ...
+}:
+{
   options.stylix.targets.darkreader = {
     enable = config.lib.stylix.mkEnableTarget "darkreader" true;
   };

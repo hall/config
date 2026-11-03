@@ -1,11 +1,22 @@
-{ flake, config, lib, pkgs, ... }:
+{
+  flake,
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   # mirror the internal panel's backlight (as a percentage) onto every
   # external monitor via DDC/CI; re-applies on hotplug so newly
   # connected monitors pick up the current level
   brightness-sync = pkgs.writeShellApplication {
     name = "brightness-sync";
-    runtimeInputs = with pkgs; [ ddcutil systemd coreutils gawk ];
+    runtimeInputs = with pkgs; [
+      ddcutil
+      systemd
+      coreutils
+      gawk
+    ];
     text = ''
       backlight=$(find /sys/class/backlight -mindepth 1 -maxdepth 1 | head -n1)
       [ -n "$backlight" ] || { echo "no backlight device" >&2; exit 1; }

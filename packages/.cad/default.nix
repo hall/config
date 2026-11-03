@@ -1,14 +1,15 @@
-{ stdenv
-, gfortran
-, xorg
-, libGL
-, expat
-, zlib
-, writeShellScriptBin
-, lib
-, python3Packages
-, python3
-, ...
+{
+  stdenv,
+  gfortran,
+  xorg,
+  libGL,
+  expat,
+  zlib,
+  writeShellScriptBin,
+  lib,
+  python3Packages,
+  python3,
+  ...
 }:
 let
   libs = [
@@ -21,28 +22,29 @@ let
   ];
 in
 # poetry2nix.mkPoetryApplication {
-  #   projectDir = fetchFromGitHub {
-  #     repo = "cadquery-server";
-  #     owner = "roipoussiere";
-  #     rev = "0.4.1";
-  #     sha256 = "hFfJt5LDjp1MEgrwLepoUAdAKrziBKfi44tgmnvdcAU=";
-  #   };
-  # }
+#   projectDir = fetchFromGitHub {
+#     repo = "cadquery-server";
+#     owner = "roipoussiere";
+#     rev = "0.4.1";
+#     sha256 = "hFfJt5LDjp1MEgrwLepoUAdAKrziBKfi44tgmnvdcAU=";
+#   };
+# }
 
-  # (import flake.inputs.mach {
-  #   inherit (flake.inputs.nixpkgs.legacyPackages.x86_64-linux) pkgs;
-  #   python = "python39";
-  #   pypiDataRev = "master";
-  #   pypiDataSha256 = "0dmfbnd17j69vhkdxjfp0dd87nj0bx6b4v0lpwnj6n7g4ibvmyr0";
-  # }).mkPython {
-  #   requirements = ''
-  #     # cadquery-server[cadquery]
-  #     cadquery-ocp==7.6.3
-  #   '';
-  # }
+# (import flake.inputs.mach {
+#   inherit (flake.inputs.nixpkgs.legacyPackages.x86_64-linux) pkgs;
+#   python = "python39";
+#   pypiDataRev = "master";
+#   pypiDataSha256 = "0dmfbnd17j69vhkdxjfp0dd87nj0bx6b4v0lpwnj6n7g4ibvmyr0";
+# }).mkPython {
+#   requirements = ''
+#     # cadquery-server[cadquery]
+#     cadquery-ocp==7.6.3
+#   '';
+# }
 
-  # TODO: do betta
-with python3Packages; buildPythonPackage {
+# TODO: do betta
+with python3Packages;
+buildPythonPackage {
   name = "cad-query";
   version = "TODO";
   # src = ./.;

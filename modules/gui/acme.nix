@@ -1,4 +1,10 @@
-{ flake, config, lib, pkgs, ... }:
+{
+  flake,
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   # self-reference: this home-manager user's own stylix palette,
   # so acme's hardcoded C colors track whatever base16Scheme is active
@@ -65,7 +71,10 @@ in
 {
   config = lib.mkIf config.gui.enable {
     home-manager.users.${flake.lib.username}.home = {
-      packages = [ acme-custom acme-wrapped ];
+      packages = [
+        acme-custom
+        acme-wrapped
+      ];
 
       file."lib/plumbing".text = ''
         # video/audio go to mpv

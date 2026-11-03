@@ -20,7 +20,11 @@
       countryCode = "US";
       wifi4 = {
         enable = true;
-        capabilities = [ "HT40+" "SHORT-GI-20" "SHORT-GI-40" ];
+        capabilities = [
+          "HT40+"
+          "SHORT-GI-20"
+          "SHORT-GI-40"
+        ];
       };
       networks.wlan0 = {
         ssid = "hall";
@@ -37,11 +41,18 @@
       countryCode = "US";
       wifi4 = {
         enable = true;
-        capabilities = [ "HT40+" "SHORT-GI-20" "SHORT-GI-40" ];
+        capabilities = [
+          "HT40+"
+          "SHORT-GI-20"
+          "SHORT-GI-40"
+        ];
       };
       wifi5 = {
         enable = true;
-        capabilities = [ "SHORT-GI-80" "SU-BEAMFORMEE" ];
+        capabilities = [
+          "SHORT-GI-80"
+          "SU-BEAMFORMEE"
+        ];
         operatingChannelWidth = "80";
       };
       networks.wlan1 = {

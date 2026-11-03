@@ -1,13 +1,15 @@
-{ lib
-, stdenv
-, faust2jaqt
-, qt5
-, pkg-config
-, libmicrohttpd
-, makeDesktopItem
+{
+  lib,
+  stdenv,
+  faust2jaqt,
+  qt5,
+  pkg-config,
+  libmicrohttpd,
+  makeDesktopItem,
 }:
 let
-  titleCase = str:
+  titleCase =
+    str:
     let
       first = (builtins.substring 0 1 str);
       rest = (builtins.substring 1 (builtins.stringLength str) str);
@@ -64,6 +66,9 @@ stdenv.mkDerivation rec {
     #   homepage = "";
     #   license = licenses.gpl3Plus;
     #   maintainers = with maintainers; [  ];
-    platforms = [ "x86_64-linux" "aarch64-linux" ];
+    platforms = [
+      "x86_64-linux"
+      "aarch64-linux"
+    ];
   };
 }

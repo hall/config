@@ -1,9 +1,10 @@
-{ stdenv
-, fetchFromGitHub
-, qmk
-, rsync
-, bash
-, python3Packages
+{
+  stdenv,
+  fetchFromGitHub,
+  qmk,
+  rsync,
+  bash,
+  python3Packages,
 }:
 let
   keymap = "hall";

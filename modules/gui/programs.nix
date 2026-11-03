@@ -1,4 +1,5 @@
-{ pkgs, lib, ... }@args: {
+{ pkgs, lib, ... }@args:
+{
   vscode = import ./vscode.nix args;
   firefox = import ./firefox args;
 
@@ -15,4 +16,3 @@
   };
 
 }
- 

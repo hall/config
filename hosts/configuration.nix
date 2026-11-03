@@ -1,4 +1,10 @@
-{ config, lib, pkgs, flake, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  flake,
+  ...
+}:
 let
   systemParts = lib.splitString "-" pkgs.stdenv.hostPlatform.system;
   arch = lib.elemAt systemParts 0;
@@ -25,10 +31,13 @@ in
   security.sudo.execWheelOnly = true;
 
   environment = {
-    defaultPackages = lib.mkForce (with pkgs; [
-      vim
-      tmux
-    ]);
+    defaultPackages = lib.mkForce (
+      with pkgs;
+      [
+        vim
+        tmux
+      ]
+    );
     sessionVariables = {
       EDITOR = "vim";
       NIXOS_OZONE_WL = "1";

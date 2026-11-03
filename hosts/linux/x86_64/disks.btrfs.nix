@@ -37,8 +37,15 @@
               '';
               content = {
                 type = "btrfs";
-                extraArgs = [ "-L" "nixos" "-f" ];
-                mountOptions = [ "compress=zstd" "noatime" ];
+                extraArgs = [
+                  "-L"
+                  "nixos"
+                  "-f"
+                ];
+                mountOptions = [
+                  "compress=zstd"
+                  "noatime"
+                ];
                 subvolumes = {
                   "/root".mountpoint = "/";
                   "/nix".mountpoint = "/nix";

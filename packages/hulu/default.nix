@@ -1,7 +1,8 @@
-{ lib
-, pkgs
+{
+  lib,
+  pkgs,
   # , buildKodiAddon
-, fetchFromGitHub
+  fetchFromGitHub,
   # , signals
   # , inputstream-adaptive
   # , inputstreamhelper
@@ -14,12 +15,14 @@ pkgs.kodiPackages.buildKodiAddon rec {
   namespace = "plugin.video.hulu";
   version = "0.4.3";
 
-  src = (fetchFromGitHub {
-    owner = "matthuisman";
-    repo = "slyguy.addons";
-    rev = "master";
-    hash = "sha256-d4V6TxV4aDtARdrpE8QNWJ6GzlJKVPzURWq0O/sfjGg=";
-  }) + /slyguy.hulu;
+  src =
+    (fetchFromGitHub {
+      owner = "matthuisman";
+      repo = "slyguy.addons";
+      rev = "master";
+      hash = "sha256-d4V6TxV4aDtARdrpE8QNWJ6GzlJKVPzURWq0O/sfjGg=";
+    })
+    + /slyguy.hulu;
 
   skipUnpack = true;
 

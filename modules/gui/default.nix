@@ -1,4 +1,10 @@
-{ flake, config, lib, pkgs, ... }:
+{
+  flake,
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   name = "gui";
   cfg = config.${name};
@@ -16,7 +22,10 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    environment.pathsToLink = [ "/share/xdg-desktop-portal" "/share/applications" ];
+    environment.pathsToLink = [
+      "/share/xdg-desktop-portal"
+      "/share/applications"
+    ];
     environment.systemPackages = [ pkgs.xdg-utils ];
     hardware = {
       graphics.enable = true;
@@ -44,7 +53,14 @@ in
     };
 
     home-manager.users.${flake.lib.username} = {
-      programs = import ./programs.nix { inherit pkgs flake config lib; };
+      programs = import ./programs.nix {
+        inherit
+          pkgs
+          flake
+          config
+          lib
+          ;
+      };
       services = {
         mako = {
           enable = true;
@@ -54,7 +70,10 @@ in
         gammastep = {
           enable = true;
           provider = "geoclue2";
-          temperature = { day = 6500; night = 4000; };
+          temperature = {
+            day = 6500;
+            night = 4000;
+          };
         };
       };
       home = {
@@ -135,7 +154,10 @@ in
       hardware.bolt.enable = true;
       geoclue2 = {
         enable = true;
-        appConfig.gammastep = { isAllowed = true; isSystem = false; };
+        appConfig.gammastep = {
+          isAllowed = true;
+          isSystem = false;
+        };
       };
       ddccontrol.enable = true;
       upower.enable = true;

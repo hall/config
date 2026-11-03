@@ -1,4 +1,10 @@
-{ flake, config, lib, pkgs, ... }:
+{
+  flake,
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   hm = config.home-manager.users.${flake.lib.username};
 in
@@ -20,21 +26,27 @@ in
             titlebar = false;
           };
           floating.titlebar = false;
-          keybindings = with pkgs; lib.mkOptionDefault {
-            # re-bind to circumvent swaynag
-            "${modifier}+Shift+e" = "exec sway exit";
-            "${modifier}+p" = "exec ${grim}/bin/grim -g \"$(${slurp}/bin/slurp)\" - | ${satty}/bin/satty --filename - --output-filename ~/Pictures/Screenshots/$(${coreutils}/bin/date +%Y-%m-%d_%H-%M-%S).png";
-            "${modifier}+Escape" = "exec ${swaylock}/bin/swaylock -fF";
-            "${modifier}+Shift+b" = "exec ${hm.programs.waybar.settings.default.bluetooth.on-click}";
+          keybindings =
+            with pkgs;
+            lib.mkOptionDefault {
+              # re-bind to circumvent swaynag
+              "${modifier}+Shift+e" = "exec sway exit";
+              "${modifier}+p" =
+                "exec ${grim}/bin/grim -g \"$(${slurp}/bin/slurp)\" - | ${satty}/bin/satty --filename - --output-filename ~/Pictures/Screenshots/$(${coreutils}/bin/date +%Y-%m-%d_%H-%M-%S).png";
+              "${modifier}+Escape" = "exec ${swaylock}/bin/swaylock -fF";
+              "${modifier}+Shift+b" = "exec ${hm.programs.waybar.settings.default.bluetooth.on-click}";
 
-            # media keys (--locked: also work while the screen is locked)
-            "--locked XF86MonBrightnessUp" = "exec ${brightnessctl}/bin/brightnessctl set 5%+";
-            "--locked XF86MonBrightnessDown" = "exec ${brightnessctl}/bin/brightnessctl set 5%-";
-            "--locked XF86AudioMute" = "exec ${wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
-            "--locked XF86AudioMicMute" = "exec ${wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
-            "--locked XF86AudioLowerVolume" = "exec ${wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
-            "--locked XF86AudioRaiseVolume" = "exec ${wireplumber}/bin/wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+";
-          };
+              # media keys (--locked: also work while the screen is locked)
+              "--locked XF86MonBrightnessUp" = "exec ${brightnessctl}/bin/brightnessctl set 5%+";
+              "--locked XF86MonBrightnessDown" = "exec ${brightnessctl}/bin/brightnessctl set 5%-";
+              "--locked XF86AudioMute" = "exec ${wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
+              "--locked XF86AudioMicMute" =
+                "exec ${wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
+              "--locked XF86AudioLowerVolume" =
+                "exec ${wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
+              "--locked XF86AudioRaiseVolume" =
+                "exec ${wireplumber}/bin/wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+";
+            };
           input = {
             "type:touch".map_to_output = "eDP-1";
             "*" = {
@@ -59,14 +71,23 @@ in
             { command = "firefox"; }
           ];
           assigns = {
-            "1" = [{ app_id = "obsidian"; }];
-            "2" = [{ app_id = "firefox"; }];
-            "3" = [{ app_id = hm.programs.vscode.package.executableName; }];
+            "1" = [ { app_id = "obsidian"; } ];
+            "2" = [ { app_id = "firefox"; } ];
+            "3" = [ { app_id = hm.programs.vscode.package.executableName; } ];
           };
           workspaceOutputAssign = [
-            { workspace = "1"; output = "eDP-1"; }
-            { workspace = "2"; output = "Dell Inc. DELL S2721NX HLCBZ13"; }
-            { workspace = "3"; output = "Dell Inc. DELL S2721NX 9BZZC23"; }
+            {
+              workspace = "1";
+              output = "eDP-1";
+            }
+            {
+              workspace = "2";
+              output = "Dell Inc. DELL S2721NX HLCBZ13";
+            }
+            {
+              workspace = "3";
+              output = "Dell Inc. DELL S2721NX 9BZZC23";
+            }
           ];
           output = {
             eDP-1.pos = "0 0";
@@ -112,9 +133,18 @@ in
             height = 20;
             output = [ "eDP-1" ];
             # layer = "top";
-            modules-left = [ "sway/workspaces" "sway/mode" ];
+            modules-left = [
+              "sway/workspaces"
+              "sway/mode"
+            ];
             modules-center = [ "sway/window" ];
-            modules-right = [ "battery" "custom/gammastep" "bluetooth" "wireplumber" "clock" ];
+            modules-right = [
+              "battery"
+              "custom/gammastep"
+              "bluetooth"
+              "wireplumber"
+              "clock"
+            ];
             # night light: click to start/stop the gammastep service (stopping
             # it restores normal gamma on all outputs)
             "custom/gammastep" =
@@ -125,28 +155,38 @@ in
                 return-type = "json";
                 interval = 30;
                 signal = 9;
-                exec = toString (pkgs.writeShellScript "gammastep-status" ''
-                  if ${systemctl} is-active -q gammastep; then
-                    printf '{"text":"%s","class":"on","tooltip":"night light: on"}\n' ''
-                  else
-                    printf '{"text":"%s","class":"off","tooltip":"night light: off"}\n' ''
-                  fi
-                '');
-                on-click = toString (pkgs.writeShellScript "gammastep-toggle" ''
-                  if ${systemctl} is-active -q gammastep; then
-                    ${systemctl} stop gammastep
-                  else
-                    ${systemctl} start gammastep
-                  fi
-                  ${pkgs.procps}/bin/pkill -RTMIN+9 waybar
-                '');
+                exec = toString (
+                  pkgs.writeShellScript "gammastep-status" ''
+                    if ${systemctl} is-active -q gammastep; then
+                      printf '{"text":"%s","class":"on","tooltip":"night light: on"}\n' ''
+                    else
+                      printf '{"text":"%s","class":"off","tooltip":"night light: off"}\n' ''
+                    fi
+                  ''
+                );
+                on-click = toString (
+                  pkgs.writeShellScript "gammastep-toggle" ''
+                    if ${systemctl} is-active -q gammastep; then
+                      ${systemctl} stop gammastep
+                    else
+                      ${systemctl} start gammastep
+                    fi
+                    ${pkgs.procps}/bin/pkill -RTMIN+9 waybar
+                  ''
+                );
               };
             "sway/window" = {
               max-length = 50;
             };
             battery = {
               format = "{icon}";
-              format-icons = [ "" "" "" "" "" ];
+              format-icons = [
+                ""
+                ""
+                ""
+                ""
+                ""
+              ];
             };
             clock = {
               format-alt = "{:%a, %d. %b  %H:%M}";
@@ -159,21 +199,27 @@ in
               tooltip-format-connected = "{device_enumerate}";
               tooltip-format-enumerate-connected = "{device_alias}";
               # toggle earbuds connection (also bound to a sway key above)
-              on-click = toString (pkgs.writeShellScript "buds-toggle" ''
-                mac=AC:3E:B1:84:FB:A7
-                bt=${pkgs.bluez}/bin/bluetoothctl
-                if $bt info $mac | grep -q "Connected: yes"; then
-                  $bt disconnect $mac
-                else
-                  $bt power on && $bt connect $mac
-                fi
-              '');
+              on-click = toString (
+                pkgs.writeShellScript "buds-toggle" ''
+                  mac=AC:3E:B1:84:FB:A7
+                  bt=${pkgs.bluez}/bin/bluetoothctl
+                  if $bt info $mac | grep -q "Connected: yes"; then
+                    $bt disconnect $mac
+                  else
+                    $bt power on && $bt connect $mac
+                  fi
+                ''
+              );
             };
             wireplumber = {
               format = "{icon}";
               format-muted = "";
               on-click = "helvum";
-              format-icons = [ "" "" "" ];
+              format-icons = [
+                ""
+                ""
+                ""
+              ];
             };
           };
           style = ''
@@ -198,12 +244,24 @@ in
       services.swayidle = {
         # enable = true;
         events = [
-          { event = "before-sleep"; command = "${pkgs.swaylock}/bin/swaylock -fF"; }
-          { event = "lock"; command = "lock"; }
+          {
+            event = "before-sleep";
+            command = "${pkgs.swaylock}/bin/swaylock -fF";
+          }
+          {
+            event = "lock";
+            command = "lock";
+          }
         ];
         timeouts = [
-          { timeout = 600; command = "${pkgs.swaylock}/bin/swaylock -fF"; }
-          { timeout = 900; command = "${pkgs.systemd}/bin/systemctl suspend"; }
+          {
+            timeout = 600;
+            command = "${pkgs.swaylock}/bin/swaylock -fF";
+          }
+          {
+            timeout = 900;
+            command = "${pkgs.systemd}/bin/systemctl suspend";
+          }
         ];
       };
     };

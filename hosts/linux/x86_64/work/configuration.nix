@@ -1,4 +1,11 @@
-{ config, pkgs, flake, lib, ... }: {
+{
+  config,
+  pkgs,
+  flake,
+  lib,
+  ...
+}:
+{
   gui.enable = true;
 
   allowedUnfree = [
@@ -96,10 +103,12 @@
         };
       };
 
-      git.includes = [{
-        condition = "gitdir:~/src/gitlab.com/rigetti/";
-        contents.user.email = "bhall@rigetti.com";
-      }];
+      git.includes = [
+        {
+          condition = "gitdir:~/src/gitlab.com/rigetti/";
+          contents.user.email = "bhall@rigetti.com";
+        }
+      ];
 
       firefox.profiles.default.extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
         onepassword-password-manager
@@ -109,22 +118,31 @@
         profiles.default = {
           userSettings = {
             "gitlab.customQueries" = [
-              { name = "merges"; type = "merge_requests"; }
-              { name = "issues"; type = "issues"; }
+              {
+                name = "merges";
+                type = "merge_requests";
+              }
+              {
+                name = "issues";
+                type = "issues";
+              }
             ];
             "gitlens.plusFeatures.enabled" = true;
           };
-          extensions = (with pkgs.vscode-extensions; [
-            gitlab.gitlab-workflow
-            hashicorp.terraform
-            ms-kubernetes-tools.vscode-kubernetes-tools
-            redhat.vscode-yaml
-            tamasfe.even-better-toml
-            ms-vscode-remote.remote-containers
-            ms-vsliveshare.vsliveshare
-            hashicorp.hcl
-            coder.coder-remote
-          ]);
+          extensions = (
+            with pkgs.vscode-extensions;
+            [
+              gitlab.gitlab-workflow
+              hashicorp.terraform
+              ms-kubernetes-tools.vscode-kubernetes-tools
+              redhat.vscode-yaml
+              tamasfe.even-better-toml
+              ms-vscode-remote.remote-containers
+              ms-vsliveshare.vsliveshare
+              hashicorp.hcl
+              coder.coder-remote
+            ]
+          );
         };
       };
 

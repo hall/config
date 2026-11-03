@@ -4,21 +4,23 @@
   configPath = ".mozilla/firefox";
   policies = {
     DefaultSerialGuardSetting = 3; # allow webserial for midi.academy
-    ExtensionSettings = (builtins.mapAttrs
-      (name: value: {
-        installation_mode = "force_installed";
-        install_url = "https://addons.mozilla.org/firefox/downloads/latest/${value}/latest.xpi";
-        default_area = "menupanel";
-      })
-      {
-        # about:debugging#/runtime/this-firefox
-        "{446900e4-71c2-419f-a6a7-df9c091e268b}" = "bitwarden-password-manager";
-        "{c607c8df-14a7-4f28-894f-29e8722976af}" = "temporary-containers";
-        "uBlock0@raymondhill.net" = "ublock-origin";
-        "addon@darkreader.org" = "darkreader";
-        "tridactyl.vim@cmcaine.co.uk" = "tridactyl-vim";
-        "@testpilot-containers" = "multi-account-containers";
-      });
+    ExtensionSettings = (
+      builtins.mapAttrs
+        (name: value: {
+          installation_mode = "force_installed";
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/${value}/latest.xpi";
+          default_area = "menupanel";
+        })
+        {
+          # about:debugging#/runtime/this-firefox
+          "{446900e4-71c2-419f-a6a7-df9c091e268b}" = "bitwarden-password-manager";
+          "{c607c8df-14a7-4f28-894f-29e8722976af}" = "temporary-containers";
+          "uBlock0@raymondhill.net" = "ublock-origin";
+          "addon@darkreader.org" = "darkreader";
+          "tridactyl.vim@cmcaine.co.uk" = "tridactyl-vim";
+          "@testpilot-containers" = "multi-account-containers";
+        }
+    );
     NoDefaultBookmarks = true;
     PasswordManagerEnabled = false;
     ShowHomeButton = false;
