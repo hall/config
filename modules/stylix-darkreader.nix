@@ -48,10 +48,6 @@
         activation = "18:00";
         deactivation = "9:00";
       };
-      location = {
-        latitude = null;
-        longitude = null;
-      };
       previewNewDesign = true;
       previewNewestDesign = true;
       enableForPDF = true;
