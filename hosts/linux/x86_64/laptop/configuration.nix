@@ -98,13 +98,12 @@
       devenv
     ];
 
-    programs.ssh.matchBlocks = {
-      gitlab.identityFile = config.age.secrets.gitlab.path;
-      github.identityFile = config.age.secrets.github.path;
-      networkGear = {
-        user = "root";
-        host = "switch ap1 ap2 server";
-        # options = [ "PQCAlgorithms none" ];
+    programs.ssh.settings = {
+      "gitlab.com".IdentityFile = config.age.secrets.gitlab.path;
+      "github.com".IdentityFile = config.age.secrets.github.path;
+      "router switch ap1 ap2 tower homeassistant" = {
+        User = "root";
+        SetEnv.TERM = "xterm-256color";
       };
     };
   };
