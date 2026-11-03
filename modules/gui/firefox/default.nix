@@ -4,7 +4,13 @@
   configPath = ".mozilla/firefox";
   policies = {
     DefaultSerialGuardSetting = 3; # allow webserial for midi.academy
-    ExtensionSettings =
+    ExtensionSettings = {
+      # block (and uninstall) anything not explicitly listed
+      "*".installation_mode = "blocked";
+      # installed by stylix (targets.firefox.colorTheme)
+      "FirefoxColor@mozilla.com".installation_mode = "allowed";
+    }
+    //
       builtins.mapAttrs
         (_name: value: {
           installation_mode = "force_installed";
@@ -54,6 +60,8 @@
         ./userChrome.css
       ];
       # userContent = builtins.readFile ./userContent.css;
+      # let stylix's colorTheme overwrite firefox-color's stored theme
+      extensions.settings."FirefoxColor@mozilla.com".force = true;
       search = {
         default = "ddg";
         force = true; # prevent ff from overwriting
@@ -101,6 +109,8 @@
         "browser.ctrlTab.sortByRecentlyUsed" = false;
 
         # native vertical tabs in an auto-hiding sidebar
+        # (both require the revamped sidebar)
+        "sidebar.revamp" = true;
         "sidebar.verticalTabs" = true;
         "sidebar.visibility" = "expand-on-hover";
 

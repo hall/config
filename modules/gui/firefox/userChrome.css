@@ -3,3 +3,12 @@
 menuitem[data-usercontextid][label^="tmp" i] {
   display: none !important;
 }
+
+/* hide "list all tabs", toolbar "open new tab", "expand sidebar",
+   and window close/min/max buttons */
+#alltabs-button,
+#new-tab-button,
+#sidebar-button,
+.titlebar-buttonbox-container {
+  display: none !important;
+}

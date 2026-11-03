@@ -114,7 +114,10 @@ in
         enable = true;
         targets = {
           vscode.profileNames = [ "default" ];
-          firefox.profileNames = [ "default" ];
+          firefox = {
+            profileNames = [ "default" ];
+            colorTheme.enable = true;
+          };
           obsidian.vaultNames = [ "notes" ];
         };
       };

@@ -112,6 +112,9 @@
       firefox.profiles.default.extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
         onepassword-password-manager
       ];
+      # exempt from the "*" block in modules/gui/firefox
+      firefox.policies.ExtensionSettings."{d634138d-c276-4fc8-924b-40a0ea21d284}".installation_mode =
+        "allowed";
 
       vscode = {
         profiles.default = {
