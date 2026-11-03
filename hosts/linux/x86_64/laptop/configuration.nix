@@ -1,10 +1,21 @@
-{ config, pkgs, flake, ... }: {
+{
+  config,
+  pkgs,
+  flake,
+  ...
+}:
+{
   gui.enable = true;
   hardware.sensor.iio.enable = true; # autorotate
+  hardware.graphics.extraPackages = [ pkgs.mesa ];
 
   # musnix.enable = true;
   # programs.adb.enable = true;
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;
+  };
 
   networking = {
     search = [ "lan" ];
@@ -59,6 +70,11 @@
 
   home-manager.users.${flake.lib.username} = {
 
+    services.nextcloud-client = {
+      enable = true;
+      startInBackground = true;
+    };
+
     programs.obs-studio = {
       enable = true;
       plugins = with pkgs.obs-studio-plugins; [
@@ -69,7 +85,6 @@
     home.packages = with pkgs; [
       alsa-utils
       # comms
-      obsidian
       xournalpp
       webcamoid
       mpv
@@ -96,6 +111,8 @@
       # sonic-pi
       supercollider
       devenv
+
+      nextcloud-client
     ];
 
     programs.ssh.settings = {
