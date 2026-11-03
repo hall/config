@@ -29,6 +29,7 @@
 
   waybar = {
     enable = true;
+    systemd.enable = true;
     settings.default = {
       height = 20;
       output = [ "eDP-1" ];
