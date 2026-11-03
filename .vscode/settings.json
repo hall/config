@@ -2,6 +2,23 @@
   "files.exclude": {
     "**/.git": true,
   },
+  // replaces the user-level nixd block, so formatting is repeated here
+  "nix.serverSettings": {
+    "nixd": {
+      "formatting": { "command": ["nixfmt"] },
+      "nixpkgs": {
+        "expr": "import (builtins.getFlake (builtins.toString ./.)).inputs.nixpkgs { }"
+      },
+      "options": {
+        "nixos": {
+          "expr": "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.laptop.options"
+        },
+        "home-manager": {
+          "expr": "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.laptop.options.home-manager.users.type.getSubOptions [ ]"
+        }
+      }
+    }
+  },
   "cSpell.words": [
     "agenix",
     "alsa",

@@ -59,7 +59,7 @@ in
       };
       home = {
         packages = with pkgs; [
-          nixpkgs-fmt
+          nixfmt
           wl-clipboard
           gnome-sound-recorder
           ddcutil

@@ -135,6 +135,8 @@
         ])
       );
 
+      formatter = eachSystem (pkgs: pkgs.nixfmt-tree);
+
       checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) inputs.deploy.lib;
 
       deploy.nodes = builtins.mapAttrs
