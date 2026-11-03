@@ -93,7 +93,8 @@
 
       # design
       blender
-      inkscape
+      # TODO: decrease cache misses
+      # inkscape
       krita
       prusa-slicer
 
