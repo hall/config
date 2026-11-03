@@ -1,51 +1,36 @@
-{ lib, pkgs, flake, ... }: {
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "obsidian"
-    "onepassword-password-manager"
-    "steam"
-    "steam-original"
-    "steam-run"
-    "steam-unwrapped"
-    "vscode"
-    "vscode-extension-github-copilot"
-    "vscode-extension-github-copilot-chat"
-    "vscode-extension-ms-toolsai-jupyter"
-    "vscode-extension-ms-vscode-cpptools"
-    "vscode-extension-ms-vscode-remote-remote-containers"
-    "vscode-extension-ms-vsliveshare-vsliveshare"
-    "windsurf"
-    "google-chrome"
-  ];
+{ config, lib, pkgs, flake, ... }: {
+  # mergeable list of unfree packages (per-host additions append to this)
+  options.allowedUnfree = lib.mkOption {
+    type = with lib.types; listOf str;
+    default = [ ];
+  };
 
-  nix = {
-    package = pkgs.nixVersions.latest;
-    gc = {
-      automatic = true;
-      options = "--delete-older-than 30d";
-    };
-    optimise.automatic = true;
-    extraOptions = ''
-      # https://github.com/nix-community/nix-direnv#installation
-      keep-outputs = true
-      keep-derivations = true
-      # useful when builder has faster network
-      builders-use-substitutes = true
-    '';
-    settings = {
-      experimental-features = [ "nix-command" "flakes" ];
-      trusted-users = [ "root" flake.lib.username ];
-      trusted-public-keys = [
-        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-        "hydra.nixos.org-1:CNHJZBh9K4tP3EKF6FkkgeVYsS3ohTl+oS0Qa8bezVs="
-        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      ];
-      trusted-substituters = [
-        "https://cache.nixos.org"
-        "https://hydra.nixos.org"
-        "https://nix-community.cachix.org"
-      ];
-    };
+  config = {
+    allowedUnfree = [
+      "obsidian"
+      "steam"
+      "steam-original"
+      "steam-run"
+      "steam-unwrapped"
+      "vscode"
+      "claude-code"
+    ];
+    nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) config.allowedUnfree;
 
-    distributedBuilds = true;
+    nix = {
+      gc = {
+        automatic = true;
+        options = "--delete-older-than 30d";
+      };
+      optimise.automatic = true;
+      settings = {
+        experimental-features = [ "nix-command" "flakes" ];
+        trusted-users = [ flake.lib.username ];
+        substituters = [ "https://nix-community.cachix.org" ];
+        trusted-public-keys = [
+          "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        ];
+      };
+    };
   };
 }

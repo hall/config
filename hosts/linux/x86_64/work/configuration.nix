@@ -1,6 +1,14 @@
 { config, pkgs, flake, lib, ... }: {
   gui.enable = true;
 
+  allowedUnfree = [
+    "onepassword-password-manager"
+    "vscode-extension-ms-toolsai-jupyter"
+    "vscode-extension-ms-vscode-cpptools"
+    "vscode-extension-ms-vscode-remote-remote-containers"
+    "vscode-extension-ms-vsliveshare-vsliveshare"
+  ];
+
   imports = [
     # flake.inputs.hardware.nixosModules.lenovo-thinkpad-p1
     ../disks.btrfs.nix
@@ -19,7 +27,6 @@
     awscli2
     # gpclient
     gpauth
-    obsidian
     rancher
     # seabird
     devenv
