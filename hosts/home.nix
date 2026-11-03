@@ -80,8 +80,15 @@
             awsp = ''export AWS_PROFILE=$(sed -n "s/\[profile \(.*\)\]/\1/gp" ~/.aws/config | ${pkgs.fzf}/bin/fzf)'';
           };
           bashrcExtra = ''
-                  eval "$(devenv hook bash)"
+            eval "$(devenv hook bash)"
 
+            shopt -s histappend
+            # save all lines of a multiline command together
+            shopt -s cmdhist
+            # embed newlines, not semicolons, in multiline commands
+            shopt -s lithist
+            # split multiline commands when flushed to history file
+            HISTTIMEFORMAT='%F %T '
           '';
         };
 
