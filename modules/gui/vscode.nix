@@ -23,7 +23,7 @@
       "editor.formatOnSave" = true;
 
       # extensions come from nix; marketplace updates install unpatched binaries
-      "extensions.autoUpdate" = false;
+      "extensions.autoUpdate" = "off";
       "extensions.autoCheckUpdates" = false;
 
       "explorer.autoReveal" = false;
