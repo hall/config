@@ -1,5 +1,7 @@
 { lib, pkgs, ... }: {
   enable = true;
+  # keep the legacy profile location (new default is ~/.config/mozilla/firefox)
+  configPath = ".mozilla/firefox";
   policies = {
     DefaultSerialGuardSetting = 3; # allow webserial for midi.academy
     ExtensionSettings = (builtins.mapAttrs
@@ -13,17 +15,11 @@
         "{446900e4-71c2-419f-a6a7-df9c091e268b}" = "bitwarden-password-manager";
         "{278b0ae0-da9d-4cc6-be81-5aa7f3202672}" = "re-enable-right-click";
         "{c607c8df-14a7-4f28-894f-29e8722976af}" = "temporary-containers";
-        "{3c078156-979c-498b-8990-85f7987dd929}" = "sidebery";
         "uBlock0@raymondhill.net" = "ublock-origin";
         "addon@darkreader.org" = "darkreader";
         "tridactyl.vim@cmcaine.co.uk" = "tridactyl-vim";
         "@testpilot-containers" = "multi-account-containers";
-        "firefox@tampermonkey.net" = "tampermonkey";
-        "jid1-KKzOGWgsW3Ao4Q@jetpack" = "i-dont-care-about-cookies";
       });
-    # "3rdparty".Extensions = {
-    #   "uBlock0@raymondhill.net".adminSettings = { };
-    # };
     NoDefaultBookmarks = true;
     PasswordManagerEnabled = false;
     ShowHomeButton = false;
@@ -44,12 +40,11 @@
     in
     {
       userChrome = lib.strings.concatMapStrings builtins.readFile [
-        (csshacks + /chrome/autohide_sidebar.css)
         (csshacks + /chrome/urlbar_info_icons_on_hover.css)
         (csshacks + /chrome/page_action_buttons_on_hover.css)
         ./userChrome.css
       ];
-      userContent = builtins.readFile ./userContent.css;
+      # userContent = builtins.readFile ./userContent.css;
       search = {
         default = "ddg";
         force = true; # prevent ff from overwriting
@@ -81,16 +76,6 @@
           icon = "circle";
         };
       };
-      # extensions = with config.nur.repos.rycee.firefox-addons; [
-      #   # anchors-reveal
-      #   # auto-tab-discard
-      #   buster-captcha-solver
-      #   # bypass-paywalls-clean
-      #   firefox-translations
-      #   gsconnect
-      #   i-dont-care-about-cookies
-      #   link-cleaner
-      # ];
       settings = {
         "browser.aboutConfig.showWarning" = false;
         "browser.display.use_system_colors" = true;
@@ -106,6 +91,10 @@
         "browser.theme.toolbar-theme" = 0;
         "browser.uidensity" = 1; # compact
         "browser.ctrlTab.sortByRecentlyUsed" = false;
+
+        # native vertical tabs in an auto-hiding sidebar
+        "sidebar.verticalTabs" = true;
+        "sidebar.visibility" = "expand-on-hover";
 
         # auto-enable extensions
         "extensions.autoDisableScopes" = 0;

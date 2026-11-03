@@ -1,28 +1,5 @@
-#TabsToolbar, /* native tabs */
-#sidebar-header,
-#userContext-icons /* container tab indicator */
-{
-  display: none;
+/* hide temporary-containers ("tmpNN") from native container menus
+   (new-tab long-press, "open link in new container tab", "reopen in container") */
+menuitem[data-usercontextid][label^="tmp" i] {
+  display: none !important;
 }
-
-/* swipe on touchpad or use tridactyl keys */
-/* #back-button,
-#forward-button,
-#reload-button, */
-
-/* #home-button,
-#customizableui-special-spring1, */
-/* (url bar) */
-/* #customizableui-special-spring2,
-#library-button,
-#sidebar-button,
-#fxa-toolbar-menu-button, */
-/* #PanelUI-menu-button */
-/* #PersonalToolbar
-{
-    display: none;
-}
-
-#urlbar {
-    padding: 0px 5px;
-} */
