@@ -1,2 +1,5 @@
 # treewide: format with nixfmt
 c0eea2d05c25c2c939c2e7bf96ae4a477d032ce3
+
+# treewide: fix statix and deadnix lints
+81aabd44617641fb6bf64730b657916e8a62d0cc
