@@ -4,6 +4,10 @@ let
   cfg = config.${name};
 in
 {
+  imports = [
+    ./sway.nix
+  ];
+
   options.${name} = {
     enable = lib.mkEnableOption "gui-specific settings like displays, styles, etc";
   };
@@ -86,71 +90,6 @@ in
       # TODO: why? (for krita debug)
       qt.enable = true;
       gtk.enable = true;
-      wayland.windowManager.sway = {
-        enable = true;
-        systemd.enable = true;
-        extraConfig = ''
-          exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
-        '';
-        config = rec {
-          modifier = "Mod4"; # GUI key
-          bars = [ ]; # replace w/ waybar
-          menu = "${pkgs.tofi}/bin/tofi-run | ${pkgs.findutils}/bin/xargs swaymsg exec --";
-          window = {
-            border = 0;
-            titlebar = false;
-          };
-          floating.titlebar = false;
-          keybindings = with pkgs; lib.mkOptionDefault {
-            # re-bind to circumvent swaynag
-            "${modifier}+Shift+e" = "exec sway exit";
-            "${modifier}+p" = "exec ${slurp}/bin/slurp | ${grim}/bin/grim -g - - | ${wl-clipboard}/bin/wl-copy";
-          };
-          input = {
-            "type:touch".map_to_output = "eDP-1";
-            "*" = {
-              xkb_layout = "us";
-              xkb_variant = "dvorak";
-
-              repeat_rate = "50";
-              repeat_delay = "200";
-
-              click_method = "clickfinger";
-              natural_scroll = "enabled";
-
-              tap = "enabled";
-              drag = "enabled";
-              drag_lock = "enabled";
-              dwt = "enabled"; # disable while typing
-            };
-          };
-          startup = [
-            { command = "waybar"; }
-            { command = config.home-manager.users.${flake.lib.username}.programs.vscode.package.executableName; }
-            { command = "obsidian"; }
-            { command = "firefox"; }
-          ];
-          assigns = {
-            "1" = [{ app_id = "obsidian"; }];
-            "2" = [{ app_id = "firefox"; }];
-            "3" = [{ app_id = config.home-manager.users.${flake.lib.username}.programs.vscode.package.executableName; }];
-          };
-          workspaceOutputAssign = [
-            { workspace = "1"; output = "eDP-1"; }
-            { workspace = "2"; output = "Dell Inc. DELL S2721NX HLCBZ13"; }
-            { workspace = "3"; output = "Dell Inc. DELL S2721NX 9BZZC23"; }
-          ];
-          output = {
-            eDP-1.pos = "0 0";
-            "Dell Inc. DELL S2721NX 9BZZC23".pos = "0 -1080";
-            "Dell Inc. DELL S2721NX HLCBZ13" = {
-              pos = "1920 -1080";
-              transform = "90";
-            };
-          };
-        };
-      };
-
     };
 
     xdg.portal = {
@@ -177,7 +116,6 @@ in
       dconf.enable = true;
     };
     services = {
-      illum.enable = true;
       wifi.enable = true;
       acpid.enable = true;
       # use FDE as password
