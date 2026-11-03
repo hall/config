@@ -44,33 +44,16 @@ in
 
     home-manager.users.${flake.lib.username} = {
       programs = import ./programs.nix { inherit pkgs flake config lib; };
-      # waybar's wireplumber module doesn't reconnect if pipewire restarts
-      # (e.g. on switch), leaving the volume indicator stale; restart with it
-      systemd.user.services.waybar.Unit = {
-        PartOf = [ "pipewire.service" ];
-        After = [ "pipewire.service" ];
-      };
       services = {
         mako = {
           enable = true;
           # settings.layer = "overlay";
         };
-        wlsunset = {
+        # sunrise/sunset follow the current location via geoclue
+        gammastep = {
           enable = true;
-          sunrise = "08:00";
-          sunset = "20:00";
-        };
-        swayidle = {
-          # enable = true;
-          events = [
-            { event = "before-sleep"; command = "${pkgs.swaylock}/bin/swaylock -fF"; }
-            { event = "lock"; command = "lock"; }
-          ];
-          timeouts = [
-            { timeout = 600; command = "${pkgs.swaylock}/bin/swaylock -fF"; }
-            { timeout = 900; command = "${pkgs.systemd}/bin/systemctl suspend"; }
-          ];
-
+          provider = "geoclue2";
+          temperature = { day = 6500; night = 4000; };
         };
       };
       home = {
@@ -149,7 +132,10 @@ in
       acpid.enable = true;
       fwupd.enable = true;
       hardware.bolt.enable = true;
-      geoclue2.enable = true;
+      geoclue2 = {
+        enable = true;
+        appConfig.gammastep = { isAllowed = true; isSystem = false; };
+      };
       ddccontrol.enable = true;
       upower.enable = true;
       libinput.touchpad.naturalScrolling = true;
