@@ -24,7 +24,7 @@
                 # dd if=/dev/random of=/dev/sda bs=2048 count=1
                 keyFile = "/dev/sda";
                 keyFileSize = 2048;
-                fallbackToPassword = true;
+                keyFileTimeout = 5;
                 allowDiscards = true;
               };
               # Use a postCreateHook to add the passphrase from a file

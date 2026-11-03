@@ -25,7 +25,7 @@
                 # dd if=/dev/random of=/dev/sda bs=2048 count=1
                 keyFile = "/dev/sda";
                 keyFileSize = 2048;
-                fallbackToPassword = true;
+                keyFileTimeout = 5;
               };
               content = {
                 type = "lvm_pv";
