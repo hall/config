@@ -31,6 +31,7 @@ in
       enable = true;
       enableReleaseChecks = false;
       base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-frappe.yaml";
+      polarity = "dark";
       fonts = {
         serif = config.stylix.fonts.monospace;
         sansSerif = config.stylix.fonts.monospace;
@@ -43,6 +44,12 @@ in
 
     home-manager.users.${flake.lib.username} = {
       programs = import ./programs.nix { inherit pkgs flake config lib; };
+      # waybar's wireplumber module doesn't reconnect if pipewire restarts
+      # (e.g. on switch), leaving the volume indicator stale; restart with it
+      systemd.user.services.waybar.Unit = {
+        PartOf = [ "pipewire.service" ];
+        After = [ "pipewire.service" ];
+      };
       services = {
         mako = {
           enable = true;
@@ -79,13 +86,32 @@ in
           MOZ_USE_XINPUT2 = "1";
           # run firefox natively on wayland
           MOZ_ENABLE_WAYLAND = "1";
+          BROWSER = "firefox";
+        };
+
+        # satty's --output-filename needs this to already exist
+        file."Pictures/Screenshots/.keep".text = "";
+      };
+      xdg.mimeApps = {
+        enable = true;
+        defaultApplications = {
+          "text/html" = "firefox.desktop";
+          "x-scheme-handler/http" = "firefox.desktop";
+          "x-scheme-handler/https" = "firefox.desktop";
+          "x-scheme-handler/about" = "firefox.desktop";
+          "x-scheme-handler/unknown" = "firefox.desktop";
         };
       };
+      # force: pre-existing mimeapps.list files (written imperatively by
+      # apps like Chrome) would otherwise block activation
+      xdg.configFile."mimeapps.list".force = true;
+      xdg.dataFile."applications/mimeapps.list".force = true;
       stylix = {
         enable = true;
         targets = {
           vscode.profileNames = [ "default" ];
           firefox.profileNames = [ "default" ];
+          obsidian.vaultNames = [ "notes" ];
         };
       };
 

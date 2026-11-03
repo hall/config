@@ -36,7 +36,33 @@
       # layer = "top";
       modules-left = [ "sway/workspaces" "sway/mode" ];
       modules-center = [ "sway/window" ];
-      modules-right = [ "battery" "wireplumber" "clock" ];
+      modules-right = [ "battery" "custom/wlsunset" "bluetooth" "wireplumber" "clock" ];
+      # night light: click to start/stop the wlsunset service (stopping
+      # it restores normal gamma on all outputs)
+      "custom/wlsunset" =
+        let
+          systemctl = "${pkgs.systemd}/bin/systemctl --user";
+        in
+        {
+          return-type = "json";
+          interval = 30;
+          signal = 9;
+          exec = toString (pkgs.writeShellScript "wlsunset-status" ''
+            if ${systemctl} is-active -q wlsunset; then
+              printf '{"text":"%s","class":"on","tooltip":"night light: on"}\n' ''
+            else
+              printf '{"text":"%s","class":"off","tooltip":"night light: off"}\n' ''
+            fi
+          '');
+          on-click = toString (pkgs.writeShellScript "wlsunset-toggle" ''
+            if ${systemctl} is-active -q wlsunset; then
+              ${systemctl} stop wlsunset
+            else
+              ${systemctl} start wlsunset
+            fi
+            ${pkgs.procps}/bin/pkill -RTMIN+9 waybar
+          '');
+        };
       "sway/window" = {
         max-length = 50;
       };
@@ -54,6 +80,24 @@
       clock = {
         format-alt = "{:%a, %d. %b  %H:%M}";
       };
+      bluetooth = {
+        format = "";
+        format-connected = "";
+        format-off = "";
+        format-disabled = "";
+        tooltip-format-connected = "{device_enumerate}";
+        tooltip-format-enumerate-connected = "{device_alias}";
+        # toggle earbuds connection (also bound in sway.nix)
+        on-click = toString (pkgs.writeShellScript "buds-toggle" ''
+          mac=AC:3E:B1:84:FB:A7
+          bt=${pkgs.bluez}/bin/bluetoothctl
+          if $bt info $mac | grep -q "Connected: yes"; then
+            $bt disconnect $mac
+          else
+            $bt power on && $bt connect $mac
+          fi
+        '');
+      };
       wireplumber = {
         format = "{icon}";
         format-muted = "";
@@ -66,7 +110,15 @@
         font-size: 12px;
         min-height: 0;
       }
+      #bluetooth.off, #bluetooth.disabled, #custom-wlsunset.off {
+        opacity: 0.4;
+      }
     '';
+  };
+
+  obsidian = {
+    enable = true;
+    vaults.notes.target = "notes";
   };
 
   k9s.enable = true;
