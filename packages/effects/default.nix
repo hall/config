@@ -1,6 +1,7 @@
 { lib
 , stdenv
-, faust2jack
+, faust2jaqt
+, qt5
 , pkg-config
 , libmicrohttpd
 , makeDesktopItem
@@ -35,7 +36,7 @@ stdenv.mkDerivation rec {
   '';
 
   buildPhase = ''
-    faust2jack -httpd -osc main.dsp
+    faust2jaqt -httpd -osc main.dsp
   '';
 
   installPhase = ''
@@ -54,7 +55,8 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [
     pkg-config
     libmicrohttpd
-    faust2jack
+    faust2jaqt
+    qt5.wrapQtAppsHook
   ];
 
   meta = with lib; {
