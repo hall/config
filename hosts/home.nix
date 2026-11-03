@@ -41,15 +41,9 @@
         ssh = {
           enable = true;
           enableDefaultConfig = false;
-          matchBlocks = {
-            gitlab = {
-              host = "gitlab.com";
-              user = "git";
-            };
-            github = {
-              host = "github.com";
-              user = "git";
-            };
+          settings = {
+            "gitlab.com".User = "git";
+            "github.com".User = "git";
           };
         };
 
@@ -96,12 +90,15 @@
         yazi = {
           enable = true;
           enableBashIntegration = true;
+          shellWrapperName = "y";
         };
 
         neovim = {
           enable = true;
           viAlias = true;
           vimAlias = true;
+          withRuby = false;
+          withPython3 = false;
         };
         tmux = {
           enable = true;
