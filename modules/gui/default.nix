@@ -6,6 +6,7 @@ in
 {
   imports = [
     ./brightness-sync.nix
+    ./login.nix
     ./sway.nix
   ];
 
@@ -119,25 +120,9 @@ in
     services = {
       wifi.enable = true;
       acpid.enable = true;
-      # use FDE as password
-      getty.autologinUser = flake.lib.username;
       fwupd.enable = true;
       hardware.bolt.enable = true;
       geoclue2.enable = true;
-      gnome.gnome-keyring.enable = true;
-      actkbd = {
-        enable = true;
-        bindings =
-          let
-            wpctl = cmd: "${pkgs.sudo}/bin/sudo -u ${flake.lib.username} env XDG_RUNTIME_DIR=/run/user/1000 ${pkgs.busybox}/bin/sh -c '${pkgs.wireplumber}/bin/wpctl ${cmd}'";
-          in
-          [
-            { keys = [ 190 ]; events = [ "key" ]; command = wpctl "set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
-            { keys = [ 113 ]; events = [ "key" ]; command = wpctl "set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
-            { keys = [ 114 ]; events = [ "key" "rep" ]; command = wpctl "set-volume @DEFAULT_AUDIO_SINK@ 5%- -l 0.0"; }
-            { keys = [ 115 ]; events = [ "key" "rep" ]; command = wpctl "set-volume @DEFAULT_AUDIO_SINK@ 5%+ -l 1.0"; }
-          ];
-      };
       ddccontrol.enable = true;
       upower.enable = true;
       libinput.touchpad.naturalScrolling = true;
