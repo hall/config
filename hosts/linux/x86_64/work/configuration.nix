@@ -23,8 +23,11 @@
     rancher
     # seabird
     devenv
+    direnv
 
     kubie
+    glab
+    gcx
   ];
 
   age = {
@@ -52,21 +55,32 @@
         k = "kubectl";
         r = "rancher";
       };
+      # direnv is only installed on this host
+      bash.bashrcExtra = ''
+        eval "$(direnv hook bash)"
+      '';
 
       ssh = {
         extraOptionOverrides = {
           CanonicalizeHostname = "yes";
-          CanonicalDomains = "lab.rigetti.com";
+          CanonicalDomains = "lab.rigetti.com outpost.rigetti.com";
         };
 
-        matchBlocks = {
-          gitlab.identityFile = lib.mkForce config.age.secrets.id_work.path;
-          github.identityFile = lib.mkForce config.age.secrets.id_work.path;
-          lab = {
-            host = "*.lab.rigetti.com";
-            user = "ansible";
-            identityFile = "~/.ssh/infra-shared.pem";
-            extraOptions.PubkeyAcceptedKeyTypes = "+ssh-rsa";
+        # the coder vscode extension rewrites ~/.ssh/config to add this
+        # include; declaring it here keeps coder hosts working without that
+        includes = [ "~/.local/share/coder.coder-remote/ssh/*.conf" ];
+
+        settings = {
+          "gitlab.com".IdentityFile = config.age.secrets.id_work.path;
+          "github.com".IdentityFile = config.age.secrets.id_work.path;
+          "*.lab.rigetti.com" = {
+            User = "ansible";
+            IdentityFile = "~/.ssh/infra-shared.pem";
+            PubkeyAcceptedKeyTypes = "+ssh-rsa";
+          };
+          "*.outpost.rigetti.com" = {
+            User = "ubuntu";
+            IdentityFile = "~/.ssh/infra-shared.pem";
           };
           # coder = {
           #   host = "*.coder.rigetti.com";
@@ -85,7 +99,6 @@
       ];
 
       vscode = {
-        package = pkgs.windsurf;
         profiles.default = {
           userSettings = {
             "gitlab.customQueries" = [
