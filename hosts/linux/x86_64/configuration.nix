@@ -8,7 +8,6 @@
     initrd = {
       availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usbhid" "ahci" "rtsx_pci_sdmmc" ];
       kernelModules = [ "dm-snapshot" "usb_storage" ];
-      verbose = false;
     };
     kernelParams = [ "quiet" ]; #"udev.log_priority=3"
     kernelModules = [ "kvm-intel" ];
