@@ -65,6 +65,8 @@
             pull.rebase = false;
             commit.verbose = true;
             push.autoSetupRemote = true;
+            # `:(optional)` keeps blame working in repos without the file
+            blame.ignoreRevsFile = ":(optional).git-blame-ignore-revs";
           };
           # difftastic.enable = true;
           lfs.enable = true;
