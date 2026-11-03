@@ -9,7 +9,6 @@
   hardware.sensor.iio.enable = true; # autorotate
   hardware.graphics.extraPackages = [ pkgs.mesa ];
 
-  # musnix.enable = true;
   # programs.adb.enable = true;
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
   programs.steam = {

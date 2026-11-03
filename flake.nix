@@ -1,13 +1,10 @@
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    stable.url = "github:nixos/nixpkgs/nixos-24.11";
     home = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hardware.url = "github:nixos/nixos-hardware";
-    impermanence.url = "github:nix-community/impermanence";
     nur = {
       url = "github:nix-community/nur";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -22,14 +19,6 @@
     };
     # don't follow nixpkgs to avoid unnecessary rebuilds
     deploy.url = "github:serokell/deploy-rs";
-    musnix = {
-      url = "github:musnix/musnix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    mobile = {
-      url = "github:nixos/mobile-nixos";
-      flake = false;
-    };
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -84,12 +73,10 @@
             agenix
             disko
             home
-            # musnix
             rekey
             vpn
           ])
           ++ [
-            impermanence.nixosModules.impermanence
             stylix.nixosModules.stylix
             nur.modules.nixos.default
             (_: {
