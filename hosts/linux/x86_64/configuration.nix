@@ -1,4 +1,10 @@
 _: {
+  # used by `nix run '.#flash'`
+  image.modules.iso.isoImage = {
+    makeEfiBootable = true;
+    makeUsbBootable = true;
+  };
+
   boot = {
     consoleLogLevel = 0;
     loader = {

@@ -32,10 +32,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     vpn.url = "github:Maroka-chan/VPN-Confinement";
-    nixos-generators = {
-      url = "github:nix-community/nixos-generators";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
   outputs =
     inputs@{ self, systems, ... }:
@@ -111,22 +107,9 @@
 
       images = builtins.mapAttrs (
         _name: config:
-        let
-          arch = builtins.head (builtins.split "-" config.pkgs.stdenv.hostPlatform.system);
-          imageType =
-            {
-              "aarch64" = {
-                module = inputs.nixos-generators.nixosModules.sd-aarch64;
-                output = "sdImage";
-              };
-              "x86_64" = {
-                module = inputs.nixos-generators.nixosModules.iso;
-                output = "isoImage";
-              };
-            }
-            .${arch};
-        in
-        (config.extendModules { modules = [ imageType.module ]; }).config.system.build.${imageType.output}
+        config.config.system.build.images.${
+          if config.pkgs.stdenv.hostPlatform.isAarch64 then "sd-card" else "iso"
+        }
       ) nixosConfigurations;
 
       packages =
