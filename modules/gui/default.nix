@@ -5,6 +5,7 @@ let
 in
 {
   imports = [
+    ./acme.nix
     ./brightness-sync.nix
     ./login.nix
     ./sway.nix
