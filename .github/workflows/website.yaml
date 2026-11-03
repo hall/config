@@ -12,28 +12,28 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v7
         with:
           submodules: true
           fetch-depth: 0
 
       - name: install nix
-        uses: cachix/install-nix-action@v20
+        uses: cachix/install-nix-action@v31
 
       - name: configure cache
-        uses: DeterminateSystems/magic-nix-cache-action@v1
+        uses: DeterminateSystems/magic-nix-cache-action@v15
 
       - name: build
         run: nix build '.#website'
 
       - name: upload
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v5
         with:
           path: './result'
 
       - name: deploy
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v5
 
 permissions:
   contents: read
