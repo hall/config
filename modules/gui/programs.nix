@@ -7,8 +7,6 @@ args: {
     vaults.notes.target = "notes";
   };
 
-  k9s.enable = true;
-
   foot = {
     enable = true;
     settings.mouse.hide-when-typing = "yes";

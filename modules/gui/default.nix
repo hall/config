@@ -78,12 +78,10 @@ in
       };
       home = {
         packages = with pkgs; [
-          nixfmt
           wl-clipboard
           gnome-sound-recorder
           ddcutil
           gtop
-          claude-code
         ];
 
         sessionVariables = {
