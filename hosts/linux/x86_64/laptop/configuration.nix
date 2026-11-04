@@ -74,11 +74,20 @@
       startInBackground = true;
     };
 
-    programs.obs-studio = {
-      enable = true;
-      plugins = with pkgs.obs-studio-plugins; [
-        obs-replay-source
-      ];
+    programs = {
+      obs-studio = {
+        enable = true;
+        plugins = with pkgs.obs-studio-plugins; [
+          obs-replay-source
+        ];
+      };
+      vscode = {
+        profiles.default = {
+          extensions = with pkgs.vscode-marketplace; [
+            datakurre.devenv
+          ];
+        };
+      };
     };
 
     home.packages = with pkgs; [

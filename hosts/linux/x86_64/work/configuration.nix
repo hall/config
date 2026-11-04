@@ -12,6 +12,7 @@
     "vscode-extension-ms-toolsai-jupyter"
     "vscode-extension-ms-vscode-cpptools"
     "vscode-extension-ms-vscode-remote-remote-containers"
+    "vscode-extension-ms-vscode-remote-remote-ssh"
     "vscode-extension-ms-vsliveshare-vsliveshare"
   ];
 
@@ -138,9 +139,11 @@
             redhat.vscode-yaml
             tamasfe.even-better-toml
             ms-vscode-remote.remote-containers
+            ms-vscode-remote.remote-ssh
             ms-vsliveshare.vsliveshare
             hashicorp.hcl
             coder.coder-remote
+            mkhl.direnv
           ];
         };
       };
