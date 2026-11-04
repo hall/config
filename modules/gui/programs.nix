@@ -1,6 +1,7 @@
 args: {
   vscode = import ./vscode.nix args;
   firefox = import ./firefox args;
+  claude-code.enable = true;
 
   obsidian = {
     enable = true;
@@ -11,5 +12,4 @@ args: {
     enable = true;
     settings.mouse.hide-when-typing = "yes";
   };
-
 }
