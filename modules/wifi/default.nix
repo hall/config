@@ -1,8 +1,6 @@
 {
   lib,
   config,
-  flake,
-  pkgs,
   ...
 }:
 with lib;
@@ -35,30 +33,19 @@ in
         RemainAfterExit = true;
       };
       script = ''
+        umask 077
         echo "PSK=$(cat ${config.age.secrets.wifi.path})" > ${envFile}
-        chmod 600 ${envFile}
       '';
     };
 
     networking.networkmanager = {
       enable = true;
 
-      dispatcherScripts = with pkgs; [
-        {
-          source = writeText "upHook" ''
-            if [ "$1" = "hall" ]; then
-              [ "$2" = "up" ] && setting=false
-              ${sudo}/bin/sudo -u ${flake.lib.username} ${dbus}/bin/dbus-launch ${glib}/bin/gsettings set org.gnome.desktop.screensaver lock-enabled ''${setting:-true}
-            fi
-          '';
-        }
-      ];
-
       ensureProfiles = {
         environmentFiles = [ envFile ];
-        profiles.hall = {
+        profiles.${cfg.ssid} = {
           connection = {
-            id = "hall";
+            id = cfg.ssid;
             type = "wifi";
           };
           ipv4.method = "auto";
@@ -68,7 +55,7 @@ in
           };
           wifi = {
             mode = "infrastructure";
-            ssid = "hall";
+            inherit ssid;
           };
           wifi-security = {
             auth-alg = "open";
