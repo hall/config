@@ -1,6 +1,6 @@
 { flake, lib, ... }: {
-  # don't wait to pick a boot entry (press enter to activate prompt)
-  boot.loader.timeout = lib.mkForce 0; # TODO: 0 waits forever?
+  # hide the boot menu (hold a key during boot to show it)
+  boot.loader.timeout = lib.mkForce 0;
   hardware = {
     i2c.enable = true; # TODO: move?
   };
@@ -17,15 +17,9 @@
     };
   };
 
-  age.secrets = {
-    luks = {
-      rekeyFile = ./luks.age;
-      owner = flake.lib.username;
-    };
-    grafana = {
-      rekeyFile = ./grafana.age;
-      owner = flake.lib.username;
-    };
+  age.secrets.luks = {
+    rekeyFile = ./luks.age;
+    owner = flake.lib.username;
   };
 
   security = {

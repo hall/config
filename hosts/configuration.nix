@@ -96,7 +96,6 @@ in
       ];
       group = "users";
       extraGroups = [
-        "adbusers"
         "audio"
         "video"
         "input"
@@ -105,8 +104,6 @@ in
         "i2c"
         "wheel"
         "networkmanager"
-
-        "libvirtd"
       ];
     };
   };

@@ -32,7 +32,7 @@ let
         modules =
           modules
           ++ [
-            # TODO: not sure why the hostname gets set to `nixos`
+            # networking.hostName defaults to `nixos`
             (_: { config.networking.hostName = name; })
           ]
           ++ (with builtins; filter pathExists (map (path: path + /configuration.nix) paths));
