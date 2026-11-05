@@ -93,8 +93,6 @@
             awsp = ''export AWS_PROFILE=$(sed -n "s/\[profile \(.*\)\]/\1/gp" ~/.aws/config | ${pkgs.fzf}/bin/fzf)'';
           };
           bashrcExtra = ''
-            eval "$(devenv hook bash)"
-
             shopt -s histappend
             # save all lines of a multiline command together
             shopt -s cmdhist
@@ -105,6 +103,7 @@
           '';
         };
 
+        devenv.enable = true;
         zoxide.enable = true;
 
         yazi = {

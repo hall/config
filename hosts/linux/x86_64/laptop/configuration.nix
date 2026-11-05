@@ -119,7 +119,6 @@
       boatswain
       # sonic-pi
       supercollider
-      devenv
 
       nextcloud-client
     ];

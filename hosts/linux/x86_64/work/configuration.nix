@@ -36,8 +36,6 @@
     gpauth
     rancher
     # seabird
-    devenv
-    direnv
 
     kubie
     glab
@@ -69,10 +67,7 @@
         k = "kubectl";
         r = "rancher";
       };
-      # direnv is only installed on this host
-      bash.bashrcExtra = ''
-        eval "$(direnv hook bash)"
-      '';
+      direnv.enable = true;
 
       ssh = {
         extraOptionOverrides = {
