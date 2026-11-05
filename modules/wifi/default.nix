@@ -55,7 +55,7 @@ in
           };
           wifi = {
             mode = "infrastructure";
-            inherit ssid;
+            inherit (cfg) ssid;
           };
           wifi-security = {
             auth-alg = "open";

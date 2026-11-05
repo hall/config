@@ -7,6 +7,7 @@
 }:
 let
   hm = config.home-manager.users.${flake.lib.username};
+  swaylock = lib.getExe hm.programs.swaylock.package;
 in
 {
   config = lib.mkIf config.gui.enable {
@@ -14,9 +15,6 @@ in
       wayland.windowManager.sway = {
         enable = true;
         systemd.enable = true;
-        extraConfig = ''
-          exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
-        '';
         config = rec {
           modifier = "Mod4"; # GUI key
           bars = [ ]; # replace w/ waybar
@@ -33,7 +31,7 @@ in
               "${modifier}+Shift+e" = "exec sway exit";
               "${modifier}+p" =
                 "exec ${grim}/bin/grim -g \"$(${slurp}/bin/slurp)\" - | ${lib.getExe hm.programs.satty.package} --filename -";
-              "${modifier}+Escape" = "exec ${swaylock}/bin/swaylock -fF";
+              "${modifier}+Escape" = "exec ${swaylock}";
               "${modifier}+Shift+b" = "exec ${hm.programs.waybar.settings.default.bluetooth.on-click}";
 
               # media keys (--locked: also work while the screen is locked)
@@ -104,7 +102,11 @@ in
       programs = {
         swaylock = {
           enable = true;
-          settings.no-unlock-indicator = true;
+          settings = {
+            daemonize = true;
+            show-failed-attempts = true;
+            no-unlock-indicator = true;
+          };
         };
 
         satty = {
@@ -266,29 +268,43 @@ in
         After = [ "pipewire.service" ];
       };
 
-      services.swayidle = {
-        # enable = true;
-        events = [
-          {
-            event = "before-sleep";
-            command = "${pkgs.swaylock}/bin/swaylock -fF";
-          }
-          {
-            event = "lock";
-            command = "lock";
-          }
-        ];
-        timeouts = [
-          {
-            timeout = 600;
-            command = "${pkgs.swaylock}/bin/swaylock -fF";
-          }
-          {
-            timeout = 900;
-            command = "${pkgs.systemd}/bin/systemctl suspend";
-          }
-        ];
-      };
+      # never auto-lock at home (explicit locks still work); suspend anywhere
+      services.swayidle =
+        let
+          # run a command only when not connected to the home wifi
+          awayOnly =
+            name: command:
+            toString (
+              pkgs.writeShellScript name ''
+                ${config.networking.networkmanager.package}/bin/nmcli -t -f NAME connection show --active \
+                  | ${pkgs.gnugrep}/bin/grep -qx ${lib.escapeShellArg config.services.wifi.ssid} \
+                  || ${command}
+              ''
+            );
+        in
+        {
+          enable = true;
+          events = [
+            {
+              event = "before-sleep";
+              command = awayOnly "sleep-lock" swaylock;
+            }
+            {
+              event = "lock";
+              command = swaylock;
+            }
+          ];
+          timeouts = [
+            {
+              timeout = 600;
+              command = awayOnly "idle-lock" swaylock;
+            }
+            {
+              timeout = 900;
+              command = "${pkgs.systemd}/bin/systemctl suspend";
+            }
+          ];
+        };
     };
   };
 }
