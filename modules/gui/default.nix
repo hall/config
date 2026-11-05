@@ -84,12 +84,7 @@ in
           gtop
         ];
 
-        sessionVariables = {
-          MOZ_USE_XINPUT2 = "1";
-          # run firefox natively on wayland
-          MOZ_ENABLE_WAYLAND = "1";
-          BROWSER = "firefox";
-        };
+        sessionVariables.BROWSER = "firefox";
 
         # satty's --output-filename needs this to already exist
         file."Pictures/Screenshots/.keep".text = "";
