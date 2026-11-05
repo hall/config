@@ -37,7 +37,6 @@ let
           ]
           ++ (with builtins; filter pathExists (map (path: path + /configuration.nix) paths));
         specialArgs = {
-          hostPath = ./${platform}/${arch}/${name};
           flake = self // {
             packages = self.outputs.packages."${arch}-${platform}";
           };
