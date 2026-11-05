@@ -19,6 +19,16 @@ in
 
   options.${name} = {
     enable = lib.mkEnableOption "gui-specific settings like displays, styles, etc";
+    keyboard = lib.mkOption {
+      type = with lib.types; nullOr str;
+      default = null;
+      description = "by-path device of the built-in keyboard to apply caps2esc to";
+    };
+    firefoxExtensions = lib.mkOption {
+      type = with lib.types; listOf package;
+      default = [ ];
+      description = "host-specific firefox addons (from NUR) to force-install";
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -161,25 +171,17 @@ in
       upower.enable = true;
       libinput.touchpad.naturalScrolling = true;
 
-      interception-tools = {
-        enable = true; # TODO: device-specific activation
+      interception-tools = lib.mkIf (cfg.keyboard != null) {
+        enable = true;
         plugins = with pkgs.interception-tools-plugins; [
           caps2esc
         ];
         # https://github.com/NixOS/nixpkgs/issues/126681
         udevmonConfig = with pkgs; ''
-          # laptop
           - JOB: "${interception-tools}/bin/intercept -g $DEVNODE | ${interception-tools-plugins.caps2esc}/bin/caps2esc | ${interception-tools}/bin/uinput -d $DEVNODE"
             DEVICE:
               # only target built-in keyboard
-              LINK: /dev/input/by-path/pci-0000:00:14.0-usb-0:1:1.0-event-kbd
-              EVENTS:
-                EV_KEY: [KEY_CAPSLOCK, KEY_ESC]
-          # work
-          - JOB: "${interception-tools}/bin/intercept -g $DEVNODE | ${interception-tools-plugins.caps2esc}/bin/caps2esc | ${interception-tools}/bin/uinput -d $DEVNODE"
-            DEVICE:
-              # only target built-in keyboard
-              LINK: /dev/input/by-path/platform-i8042-serio-0-event-kbd
+              LINK: ${cfg.keyboard}
               EVENTS:
                 EV_KEY: [KEY_CAPSLOCK, KEY_ESC]
         '';

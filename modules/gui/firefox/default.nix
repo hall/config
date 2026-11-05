@@ -1,4 +1,10 @@
-{ lib, pkgs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
   enable = true;
   policies = {
     DefaultSerialGuardSetting = 3; # allow webserial for midi.academy
@@ -30,6 +36,7 @@
             tridactyl
             ublock-origin
           ]
+          ++ config.gui.firefoxExtensions
         )
     );
     NoDefaultBookmarks = true;

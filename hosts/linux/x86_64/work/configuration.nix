@@ -5,10 +5,13 @@
   ...
 }:
 {
-  gui.enable = true;
+  gui = {
+    enable = true;
+    keyboard = "/dev/input/by-path/platform-i8042-serio-0-event-kbd";
+    firefoxExtensions = [ pkgs.nur.repos.rycee.firefox-addons.onepassword-password-manager ];
+  };
 
   allowedUnfree = [
-    "onepassword-password-manager"
     "vscode-extension-ms-toolsai-jupyter"
     "vscode-extension-ms-vscode-cpptools"
     "vscode-extension-ms-vscode-remote-remote-containers"
@@ -49,16 +52,6 @@
       owner = flake.lib.username;
     };
   };
-
-  # TEMP
-  # virtualisation.libvirtd = {
-  #   enable = true;
-  #   allowedBridges = [ "tailscale0" "br0" ];
-  #   qemu.runAsRoot = true;
-  # };
-  # programs.virt-manager.enable = true;
-  # users.extraGroups.vboxusers.members = [ flake.lib.username ];
-  # /TEMP
 
   home-manager.users.${flake.lib.username} = {
     programs = {
@@ -104,13 +97,6 @@
           contents.user.email = "bhall@rigetti.com";
         }
       ];
-
-      firefox.profiles.default.extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
-        onepassword-password-manager
-      ];
-      # exempt from the "*" block in modules/gui/firefox
-      firefox.policies.ExtensionSettings."{d634138d-c276-4fc8-924b-40a0ea21d284}".installation_mode =
-        "allowed";
 
       vscode = {
         profiles.default = {

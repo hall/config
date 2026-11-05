@@ -5,7 +5,10 @@
   ...
 }:
 {
-  gui.enable = true;
+  gui = {
+    enable = true;
+    keyboard = "/dev/input/by-path/pci-0000:00:14.0-usb-0:1:1.0-event-kbd";
+  };
   hardware.sensor.iio.enable = true; # autorotate
   hardware.graphics.extraPackages = [ pkgs.mesa ];
 
