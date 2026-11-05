@@ -74,20 +74,11 @@
             stylix.nixosModules.stylix
             nur.modules.nixos.default
             (_: {
-              nixpkgs.overlays =
-                map (o: o.overlays.default) [
-                  rekey
-                  self
-                  vscode
-                ]
-                ++ [
-                  (final: _: {
-                    stable = import inputs.stable {
-                      inherit (final.stdenv.hostPlatform) system;
-                      inherit (final) config;
-                    };
-                  })
-                ];
+              nixpkgs.overlays = map (o: o.overlays.default) [
+                rekey
+                self
+                vscode
+              ];
             })
           ]
           ++ (with builtins; map (x: ./modules/${x}) (attrNames (readDir ./modules)));
