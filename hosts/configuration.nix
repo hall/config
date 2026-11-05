@@ -75,7 +75,7 @@ in
         layout = "us";
         variant = "dvorak";
       };
-      autoRepeatInterval = 100;
+      autoRepeatInterval = 20; # 50/s
       autoRepeatDelay = 200;
     };
   };

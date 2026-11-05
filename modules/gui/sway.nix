@@ -50,11 +50,12 @@ in
           input = {
             "type:touch".map_to_output = "eDP-1";
             "*" = {
-              xkb_layout = "us";
-              xkb_variant = "dvorak";
+              xkb_layout = config.services.xserver.xkb.layout;
+              xkb_variant = config.services.xserver.xkb.variant;
 
-              repeat_rate = "50";
-              repeat_delay = "200";
+              # xserver takes the interval between repeats (ms), sway the rate (Hz)
+              repeat_rate = toString (1000 / config.services.xserver.autoRepeatInterval);
+              repeat_delay = toString config.services.xserver.autoRepeatDelay;
 
               click_method = "clickfinger";
               natural_scroll = "enabled";
