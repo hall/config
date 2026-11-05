@@ -1,6 +1,6 @@
 # config
 
-An opinionated [flake](https://nixos.wiki/wiki/Flakes) to configure the world.
+An opinionated [flake](https://wiki.nixos.org/wiki/Flakes) to configure the world.
 
 - [hosts](./hosts) configuration
 - nixos [modules](./modules)
