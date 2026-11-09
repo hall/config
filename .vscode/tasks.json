@@ -6,8 +6,9 @@
         {
             "label": "Build System",
             "type": "shell",
-            "command": "deploy",
+            "command": "nix",
             "args": [
+                "run",
                 "'.#${input:host}'"
             ],
             "problemMatcher": [],

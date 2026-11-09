@@ -33,6 +33,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     vpn.url = "github:Maroka-chan/VPN-Confinement";
+    dewclaw = {
+      url = "github:MakiseKurisu/dewclaw";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs =
     inputs@{ self, systems, ... }:
@@ -57,6 +61,7 @@
         hostname = "${username}.io";
         name = "Bryton Hall";
         email = "email@${hostname}";
+        sshKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE/nxzI9MwJC1gMWCNDzdGUZsRvsCdNBqaH5iJwreqHc"; # /secrets/id_ed25519.age
       };
 
       nixosConfigurations = import ./hosts {
@@ -118,6 +123,14 @@
               listToAttrs
             ]
           )
+          // {
+            openwrt = pkgs.callPackage inputs.dewclaw {
+              configuration = {
+                imports = [ ./hosts/openwrt ];
+                _module.args.flake = self;
+              };
+            };
+          }
         );
 
       formatter = eachSystem (pkgs: pkgs.nixfmt-tree);
@@ -142,47 +155,66 @@
         userFlake = self;
       };
 
-      apps = eachSystem (pkgs: {
-        flash = {
+      apps = eachSystem (
+        pkgs:
+        {
+          flash = {
+            type = "app";
+            program = toString (
+              pkgs.writeShellScript "flash" ''
+                set -euo pipefail
+
+                echo "Select a host:"
+                host=$(echo "${builtins.concatStringsSep "\n" (builtins.attrNames nixosConfigurations)}" | ${pkgs.gum}/bin/gum choose)
+                if [ -z "$host" ]; then
+                  echo "No host selected"
+                  exit 1
+                fi
+
+                echo "Select a device:"
+                device=$(${pkgs.util-linux}/bin/lsblk -d -n -p -o NAME | ${pkgs.gum}/bin/gum choose)
+                if [ -z "$device" ]; then
+                  echo "No device selected"
+                  exit 1
+                fi
+
+                size=$(${pkgs.util-linux}/bin/lsblk -d -n -o SIZE "$device")
+                model=$(${pkgs.util-linux}/bin/lsblk -d -n -o MODEL "$device")
+                ${pkgs.gum}/bin/gum confirm "Flash $host to $device ($size $model)?" || exit 1
+
+                echo "Building image for $host..."
+                imagePath=$(${pkgs.nix}/bin/nix build ".#images.$host" --no-link --print-out-paths)
+                imageFile=$(find "$imagePath" -name '*.img.zst' -o -name '*.img' -o -name '*.iso' 2>/dev/null | head -n1)
+
+                echo "Flashing $imageFile to $device..."
+                if [[ "$imageFile" == *.zst ]]; then
+                  ${pkgs.zstd}/bin/zstdcat "$imageFile" | sudo ${pkgs.coreutils}/bin/dd of="$device" bs=4M status=progress conv=fsync
+                else
+                  sudo ${pkgs.coreutils}/bin/dd if="$imageFile" of="$device" bs=4M status=progress conv=fsync
+                fi
+                sudo ${pkgs.coreutils}/bin/sync
+                echo "Done!"
+              ''
+            );
+          };
+        }
+        # `nix run .#<host>` deploys any host, wrapping deploy-rs for nixos ...
+        // builtins.mapAttrs (name: _: {
           type = "app";
           program = toString (
-            pkgs.writeShellScript "flash" ''
-              set -euo pipefail
-
-              echo "Select a host:"
-              host=$(echo "${builtins.concatStringsSep "\n" (builtins.attrNames nixosConfigurations)}" | ${pkgs.gum}/bin/gum choose)
-              if [ -z "$host" ]; then
-                echo "No host selected"
-                exit 1
-              fi
-
-              echo "Select a device:"
-              device=$(${pkgs.util-linux}/bin/lsblk -d -n -p -o NAME | ${pkgs.gum}/bin/gum choose)
-              if [ -z "$device" ]; then
-                echo "No device selected"
-                exit 1
-              fi
-
-              size=$(${pkgs.util-linux}/bin/lsblk -d -n -o SIZE "$device")
-              model=$(${pkgs.util-linux}/bin/lsblk -d -n -o MODEL "$device")
-              ${pkgs.gum}/bin/gum confirm "Flash $host to $device ($size $model)?" || exit 1
-
-              echo "Building image for $host..."
-              imagePath=$(${pkgs.nix}/bin/nix build ".#images.$host" --no-link --print-out-paths)
-              imageFile=$(find "$imagePath" -name '*.img.zst' -o -name '*.img' -o -name '*.iso' 2>/dev/null | head -n1)
-
-              echo "Flashing $imageFile to $device..."
-              if [[ "$imageFile" == *.zst ]]; then
-                ${pkgs.zstd}/bin/zstdcat "$imageFile" | sudo ${pkgs.coreutils}/bin/dd of="$device" bs=4M status=progress conv=fsync
-              else
-                sudo ${pkgs.coreutils}/bin/dd if="$imageFile" of="$device" bs=4M status=progress conv=fsync
-              fi
-              sudo ${pkgs.coreutils}/bin/sync
-              echo "Done!"
+            pkgs.writeShellScript "deploy-${name}" ''
+              exec ${
+                pkgs.lib.getExe inputs.deploy.packages.${pkgs.stdenv.hostPlatform.system}.default
+              } ${self}#${name} "$@"
             ''
           );
-        };
-      });
+        }) self.deploy.nodes
+        # ... and dewclaw for openwrt, since deploy-rs needs nix on the target
+        // builtins.mapAttrs (_: target: {
+          type = "app";
+          program = pkgs.lib.getExe target;
+        }) self.packages.${pkgs.stdenv.hostPlatform.system}.openwrt.targets
+      );
 
     };
 }

@@ -91,9 +91,7 @@ in
       isNormalUser = true;
       uid = 1000;
       hashedPassword = "$y$j9T$fUivdhuwqeMf6/iNYRX92/$sbxbgkQRAoD0uB9bcmYYC/7gssMAu.ZRk.JLU4qfmpA"; # `mkpasswd`
-      openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE/nxzI9MwJC1gMWCNDzdGUZsRvsCdNBqaH5iJwreqHc" # /secrets/id_ed25519.age
-      ];
+      openssh.authorizedKeys.keys = [ flake.lib.sshKey ];
       group = "users";
       extraGroups = [
         "audio"

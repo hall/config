@@ -53,5 +53,6 @@ listToAttrs (
     concatMap (
       arch: map (mkHost (args // { inherit platform arch; })) (readDirNames ./${platform}/${arch})
     ) (readDirNames ./${platform})
-  ) (readDirNames ./.)
+    # openwrt devices are built by dewclaw, not nixosSystem
+  ) (filter (platform: platform != "openwrt") (readDirNames ./.))
 )
