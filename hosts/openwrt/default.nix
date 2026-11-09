@@ -35,7 +35,14 @@ let
         # by IP: names come from DHCP, so they vanish from DNS while a device reboots
         deploy.host = network.hosts.${name}.ip or network.lan.address;
         # keep using the known_hosts entries recorded under the device name
-        deploy.sshConfig.HostKeyAlias = name;
+        deploy.sshConfig = {
+          HostKeyAlias = name;
+          # a reboot only ends the session if the FIN arrives; when the deployer's
+          # own path drops (wifi via the AP being rebooted) ssh would wait forever.
+          # 60s rides out roaming to the other AP (same IP) mid-apply, e.g. a wpad swap
+          ServerAliveInterval = 5;
+          ServerAliveCountMax = 12;
+        };
 
         # secrets are a JSON object encrypted to the same key agenix-rekey uses
         secretsCommand = pkgs.writeShellScript "openwrt-secrets" ''
@@ -53,7 +60,7 @@ let
           priority = 95;
           apply = lib.concatMapStrings (svc: ''
             /etc/init.d/${svc} disable
-            /etc/init.d/${svc} stop || true
+            /etc/init.d/${svc} stop >/dev/null 2>&1 || true
           '') config.disabledServices;
         };
 
