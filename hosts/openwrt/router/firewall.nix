@@ -125,21 +125,8 @@ in
         family = "ipv6";
         target = "ACCEPT";
       }
-      {
-        name = "Allow-IPSec-ESP";
-        src = "wan";
-        dest = "lan";
-        proto = "esp";
-        target = "ACCEPT";
-      }
-      {
-        name = "Allow-ISAKMP";
-        src = "wan";
-        dest = "lan";
-        dest_port = 500;
-        proto = "udp";
-        target = "ACCEPT";
-      }
+      # the default Allow-IPSec-ESP/Allow-ISAKMP wan->lan rules are dropped:
+      # nothing on the lan terminates IPsec
     ];
     # 443 can't be limited to cloudflare ranges: jellyfin's record is dns-only
     # (cloudflare's terms don't allow proxying video); nginx on the server only

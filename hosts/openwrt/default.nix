@@ -12,23 +12,32 @@ let
       ...
     }:
     {
-      # anonymous sections are lists, which can't be overridden per key
-      options.system = lib.mkOption {
-        type =
-          with lib.types;
-          attrsOf (oneOf [
-            bool
-            int
-            str
-          ]);
-        description = "Options for the anonymous `system.@system[0]` section.";
-      };
+      options = {
+        # anonymous sections are lists, which can't be overridden per key
+        system = lib.mkOption {
+          type =
+            with lib.types;
+            attrsOf (oneOf [
+              bool
+              int
+              str
+            ]);
+          description = "Options for the anonymous `system.@system[0]` section.";
+        };
 
-      # dewclaw has no service toggles, and rc.d links aren't UCI so a reflash loses them
-      options.disabledServices = lib.mkOption {
-        type = with lib.types; listOf str;
-        default = [ ];
-        description = "Init scripts to disable and stop on every deploy.";
+        # dewclaw has no service toggles, and rc.d links aren't UCI so a reflash loses them
+        disabledServices = lib.mkOption {
+          type = with lib.types; listOf str;
+          default = [ ];
+          description = "Init scripts to disable and stop on every deploy.";
+        };
+
+        # `--reload` only restarts services that register a config trigger
+        restartServices = lib.mkOption {
+          type = with lib.types; listOf str;
+          default = [ ];
+          description = "Init scripts to restart on every deploy, for services that ignore reload_config.";
+        };
       };
 
       config = {
@@ -52,16 +61,27 @@ let
         # dewclaw writes with echo, which adds the trailing newline
         etc."dropbear/authorized_keys".text = flake.lib.sshKey;
         users.root.hashedPasswordSecret = "root_pw";
-        # dewclaw leaves the (world-readable) hash in /tmp
-        deploySteps.rootPassword.apply = lib.mkAfter "rm -f /tmp/root_hash";
 
-        deploySteps.disabledServices = lib.mkIf (config.disabledServices != [ ]) {
-          # after uciConfig (90), so nothing later re-enables them
-          priority = 95;
-          apply = lib.concatMapStrings (svc: ''
-            /etc/init.d/${svc} disable
-            /etc/init.d/${svc} stop >/dev/null 2>&1 || true
-          '') config.disabledServices;
+        deploySteps = {
+          # dewclaw leaves the (world-readable) hash in /tmp
+          rootPassword.apply = lib.mkAfter "rm -f /tmp/root_hash";
+
+          disabledServices = lib.mkIf (config.disabledServices != [ ]) {
+            # after uciConfig (90), so nothing later re-enables them
+            priority = 95;
+            apply = lib.concatMapStrings (svc: ''
+              /etc/init.d/${svc} disable
+              /etc/init.d/${svc} stop >/dev/null 2>&1 || true
+            '') config.disabledServices;
+          };
+
+          restartServices = lib.mkIf (config.restartServices != [ ]) {
+            # after uciConfig (90), which commits the new config
+            priority = 96;
+            apply = lib.concatMapStrings (svc: ''
+              /etc/init.d/${svc} restart
+            '') config.restartServices;
+          };
         };
 
         packages = [
@@ -76,7 +96,6 @@ let
           "rpcd"
           "ubootenv"
           "ucitrack"
-          "uhttpd"
         ];
 
         system = lib.mapAttrs (_: lib.mkDefault) {
@@ -105,6 +124,45 @@ let
             device = "lo";
             proto = "static";
             ipaddr = "127.0.0.1/8";
+          };
+
+          # LuCI, over HTTPS with each device's existing self-signed cert
+          uhttpd = {
+            uhttpd.main = {
+              listen_http = lib.mkDefault [
+                "0.0.0.0:80"
+                "[::]:80"
+              ];
+              listen_https = lib.mkDefault [
+                "0.0.0.0:443"
+                "[::]:443"
+              ];
+              redirect_https = true;
+              home = "/www";
+              rfc1918_filter = true;
+              max_requests = 3;
+              max_connections = 100;
+              cert = "/etc/uhttpd.crt";
+              key = "/etc/uhttpd.key";
+              cgi_prefix = "/cgi-bin";
+              lua_prefix = "/cgi-bin/luci=/usr/lib/lua/luci/sgi/uhttpd.lua";
+              script_timeout = 60;
+              network_timeout = 30;
+              http_keepalive = 20;
+              tcp_keepalive = true;
+              ubus_prefix = "/ubus";
+            };
+            # only used if the cert above is ever regenerated
+            cert.defaults = {
+              days = 397;
+              key_type = "ec";
+              bits = 2048;
+              ec_curve = "P-256";
+              country = "ZZ";
+              state = "Somewhere";
+              location = "Unknown";
+              commonname = name;
+            };
           };
 
           "prometheus-node-exporter-lua"."prometheus-node-exporter-lua".main = {

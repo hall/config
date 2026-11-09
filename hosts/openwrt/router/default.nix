@@ -24,7 +24,21 @@ in
   # rtw88 radio is present but unconfigured
   uci.retain = [ "wireless" ];
 
+  # neither picks up config changes on `--reload`, and https-dns-proxy starts
+  # with its package defaults when first installed
+  restartServices = [
+    "https-dns-proxy"
+    "adblock"
+  ];
+
   uci.settings = {
+    # admin services never listen on WAN, even if a firewall rule slips
+    dropbear.dropbear.main.Interface = "lan";
+    uhttpd.uhttpd.main = {
+      listen_http = [ "${network.lan.address}:80" ];
+      listen_https = [ "${network.lan.address}:443" ];
+    };
+
     network = {
       globals.globals = {
         dhcp_default_duid = "000485ddc75019f34072b4b41bf2a586368d";
