@@ -4,10 +4,10 @@
   qmk,
   rsync,
   bash,
-  python3Packages,
 }:
 let
   keymap = "hall";
+  # v1 shield was dropped upstream; definition is carried in ./keyboards
   keyboard = "bastardkb/charybdis/3x5/v1/elitec";
   # keyboard = "atreus";
 in
@@ -16,12 +16,10 @@ stdenv.mkDerivation rec {
   src = fetchFromGitHub {
     owner = "qmk";
     repo = "qmk_firmware";
-    rev = "0.19.10";
-    sha256 = "sha256-BoeBX00JHX+Vf7d0PtA0G2cilh57Mg3um2PbBSmdUic=";
+    rev = "0.34.7";
+    sha256 = "sha256-YKoFg2BDdALHhIktPPLLY7pUPzD2ydRmQ1nmwzhbiH8=";
     fetchSubmodules = true;
   };
-
-  nativeBuildInputs = [ python3Packages.appdirs ];
 
   patches = [ ./keyboards ];
   patchPhase = ''

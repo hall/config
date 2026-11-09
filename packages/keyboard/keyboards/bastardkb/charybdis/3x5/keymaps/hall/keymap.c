@@ -20,7 +20,7 @@ enum layers {
 };
 
 enum keycodes {
-  WS_LEFT = CHARYBDIS_SAFE_RANGE,
+  WS_LEFT = SAFE_RANGE,
   WS_RGHT,
   TB_LEFT,
   TB_RGHT,
@@ -37,27 +37,27 @@ enum keycodes {
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-  [LAYER_BASE] = LAYOUT_charybdis_3x5(
+  [LAYER_BASE] = LAYOUT(
     DV_QUOT, DV_COMM,  DV_DOT,    DV_P,    DV_Y,     DV_F,     DV_G,    DV_C,    DV_R,    DV_L,
     G(DV_A), A(DV_O), S(DV_E), C(DV_U),    DV_I,     DV_D,  C(DV_H), S(DV_T), A(DV_N), G(DV_S),
  P(DV_SCLN),    DV_Q,    DV_J,    DV_K,    DV_X,     DV_B,     DV_M,    DV_W,    DV_V, P(DV_Z),
                        KC_ESC, SPC_SYM, TAB_MED,   ENT_MED,  BSP_SYM),
-  [LAYER_SYMBOLS] = LAYOUT_charybdis_3x5(
+  [LAYER_SYMBOLS] = LAYOUT(
      DV_GRV,    KC_7,    KC_8,    KC_9, DV_LBRC,   DV_RBRC, XXXXXXX, DPI_MOD,DPI_RMOD, KC_F12,
     DV_MINS,    KC_4,    KC_5,    KC_6, KC_0,      XXXXXXX, KC_LCTL, KC_LSFT, KC_LALT, KC_LGUI,
      DV_EQL,    KC_1,    KC_2,    KC_3, DV_SLSH,   DV_BSLS, XXXXXXX, XXXXXXX, XXXXXXX, QK_BOOT,
                       XXXXXXX,  KC_DEL, XXXXXXX,   XXXXXXX, KC_DEL),
-  [LAYER_POINTER] = LAYOUT_charybdis_3x5( // mostly empty so auto-pointer layer falls through
+  [LAYER_POINTER] = LAYOUT( // mostly empty so auto-pointer layer falls through
     _______, _______, _______, _______, _______,   _______, _______, _______, _______, _______,
     _______, _______, _______, _______, _______,   _______, _______, _______, _______, _______,
-    _______, KC_BTN3, KC_BTN1, KC_BTN2, DRGSCRL,   DRGSCRL, KC_BTN2, KC_BTN1, KC_BTN3, _______,
+    _______, MS_BTN3, MS_BTN1, MS_BTN2, DRGSCRL,   DRGSCRL, MS_BTN2, MS_BTN1, MS_BTN3, _______,
                       _______, _______, _______,   _______,_______),
-  [LAYER_MEDIA] = LAYOUT_charybdis_3x5(
-    XXXXXXX, RGB_MOD, RGB_RMOD, RGB_TOG,  EXTRA,   XXXXXXX, XXXXXXX, KC_BRID, KC_BRIU, XXXXXXX,
+  [LAYER_MEDIA] = LAYOUT(
+    XXXXXXX, RM_NEXT, RM_PREV, RM_TOGG,  EXTRA,   XXXXXXX, XXXXXXX, KC_BRID, KC_BRIU, XXXXXXX,
     KC_LGUI, KC_LALT, KC_LSFT, KC_LCTL, XXXXXXX,   KC_MUTE, KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,   KC_MPLY, KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT,
                       XXXXXXX, XXXXXXX, _______,   _______, XXXXXXX),
-  [LAYER_EXTRA] = LAYOUT_charybdis_3x5(
+  [LAYER_EXTRA] = LAYOUT(
     WS_LEFT, XXXXXXX, XXXXXXX, WS_RGHT,   EXTRA,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
     KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT, XXXXXXX,   XXXXXXX, KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT,
     TB_LEFT, XXXXXXX, XXXXXXX, TB_RGHT, XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,

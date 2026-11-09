@@ -1,0 +1,47 @@
+{
+    "keyboard_name": "Charybdis Nano (3x5) Elite-C",
+    "build": {
+        "lto": true
+    },
+    "development_board": "elite_c",
+    "matrix_pins": {
+        "cols": [
+            "C7",
+            "F0",
+            "D7",
+            "E6",
+            "B4"
+        ],
+        "rows": [
+            "B7",
+            "C6",
+            "D4",
+            "B5"
+        ]
+    },
+    "split": {
+        "matrix_pins": {
+            "right": {
+                "cols": [
+                    "C7",
+                    "B7",
+                    "D7",
+                    "E6",
+                    "B4"
+                ],
+                "rows": [
+                    "F0",
+                    "C6",
+                    "D4",
+                    "B5"
+                ]
+            }
+        },
+        "serial": {
+            "pin": "D2"
+        }
+    },
+    "ws2812": {
+        "pin": "D3"
+    }
+}
